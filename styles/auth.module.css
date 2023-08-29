@@ -1,0 +1,135 @@
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(18, 18, 18, 0.65);
+  z-index: 100000;
+}
+
+.dn {
+  display: none;
+  transition: 0.2s linear;
+}
+
+.authent {
+  width: 1180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 10000;
+}
+
+.auth {
+  display: flex;
+  background: #fff;
+  gap: 1rem;
+  position: absolute;
+  border-radius: 20px;
+  z-index: 100000000;
+  flex-direction: column;
+  top: 10rem;
+  /* height: 500px; */
+  padding-bottom: 50px;
+  width: 531px;
+  align-items: center;
+}
+
+.close {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+  padding-top: 20px;
+  padding-right: 20px;
+}
+
+.title > h3 {
+  font-size: 25px;
+  color: #000;
+  font-weight: 700;
+}
+
+.authForm {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.authForm > input {
+  padding: 20px;
+  padding-left: 0px;
+  border: none;
+  border-bottom: 1px solid #888888;
+  outline: none;
+  font-size: 17px;
+}
+
+.forgotPass {
+  color: #e4b717;
+  font-size: 17px;
+  text-align: right;
+  margin-top: -10px;
+}
+
+.enter {
+    width: 100%;
+    padding: 15px 20px;
+    background: #e4b717;
+    border-radius: 2000px;
+    color: #fff;
+    font-size: 18px;
+    margin-top: 1rem;   
+    font-weight: 700;
+}
+
+.signUp {
+    margin-top: 2rem;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.auth > button {
+  font-size: 20px;
+  margin-top: 1rem;
+}
+
+@media screen and (max-width: 1180px) {
+  .authent {
+    width: 100%;
+  }
+}
+
+
+@media screen and (max-width: 530px) {
+  .authent {
+    width: 100%;
+  }
+
+  .auth {
+    width: 100%;
+  }
+}
+
+
+@media screen and (max-width: 500px) {
+  .authent {
+    width: 100%;
+  }
+
+  .auth {
+    width: 100%;
+  }
+
+  .authForm {
+    width: 300px;
+  }
+
+  .signUp {
+    margin-top: 1rem;
+  }
+}

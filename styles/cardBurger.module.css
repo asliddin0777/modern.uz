@@ -1,0 +1,103 @@
+.cardBurger {
+    position: absolute;
+    top: 43%;
+    background-color: #FFFFFF;
+    box-shadow: 0px 5px 20px 10px rgba(163, 162, 162, 0.19);
+    z-index: 999;
+    width: 250px;
+    border-radius: 20px;
+    padding-left: 12px;
+    padding-bottom: 15px;
+}
+.price {
+    box-shadow: 0px 5px 20px 10px rgba(184, 184, 184, 0.19);
+    margin-top: 19px;
+    padding: 15px;
+    width: 227px;
+    height: 124px;
+    background: #FFFFFF;
+    border-radius: 20px;
+}
+
+.priceTitle {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.manufacturer {
+    box-shadow: 0px 5px 20px 10px rgba(184, 184, 184, 0.19);
+    align-items: center;
+    justify-content: center;
+    margin-top: 19px;
+    padding: 15px;
+    width: 227px;
+    background: #FFFFFF;
+    border-radius: 20px;
+
+}
+
+.manufacturerTitle {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.radioInput {
+    margin-top: 5px;
+}
+
+.radioInput label {
+    padding-left: 13px;
+    font-weight: 450;
+    font-size: 17px;
+    line-height: 160%;
+    color: #8A8A8A;
+}
+
+.radioInput input {
+    width: 17px;
+    height: 17px;
+    color: #8A8A8A;
+    background-color: #8A8A8A;
+}
+
+.operative {
+    box-shadow: 0px 5px 20px 10px rgba(184, 184, 184, 0.19);
+    margin-top: 19px;
+    padding: 15px;
+    width: 227px;
+    background: #FFFFFF;
+    border-radius: 20px;
+}
+
+.operativeTitle {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.checkBoxInput label {
+    padding-left: 13px;
+    font-weight: 450;
+    font-size: 17px;
+    line-height: 160%;
+    color: #8A8A8A;
+}
+
+.checkBox input {
+    width: 17px;
+    height: 17px;
+}
+
+.close {
+    margin: 10px 1px;
+    margin-left: 200px;
+}
+
+.apply {
+    width: 227px;
+    height: 40px;
+    background-color: #E4B717;
+    color: #FFFFFF;
+    margin-top: 20px;
+    border-radius: 15px;
+    font-size: 18px;
+}

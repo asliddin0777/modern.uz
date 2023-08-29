@@ -1,0 +1,153 @@
+.aboutUsTitle {
+    display: flex;
+    width: 1180px;
+    padding: 10px 0;
+    margin: auto;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.aboutUsTitle h1 {
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.aboutUs {
+    align-items: center;
+    width: 1180px;
+    padding: 10px 10px;
+    margin: auto;
+}
+
+.businasswoman {
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.titleText {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 700;
+    width: 493px;
+    line-height: 160%;
+}
+
+.titleText span {
+    height: 258px;
+    padding-top: 12px;
+    color: #888;
+    font-size: 14px;
+    line-height: 140%;
+
+}
+
+.businassman {
+    cursor: pointer;
+    margin-top: 58px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+@media screen and (max-width: 1200px) {
+    .container {
+        width: 100%;
+       
+    }
+
+    .aboutUs {
+        width: 100%;
+    }
+
+    .aboutUsTitle {
+        padding: 0px, 20px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1180px) {
+    .container {
+        width: 100%;
+        padding: 0px, 20px;
+    }
+
+    .aboutUs {
+        width: 100%;
+    }
+
+    .aboutUsTitle {
+        padding: 0px, 20px;
+        width: 100%;
+    }
+}
+
+
+
+
+@media screen and (max-width: 1050px) {
+    .container {
+        width: 100%;
+        padding: 0px, 20px;
+    }
+
+    .aboutUs {
+        width: 100%;
+    }
+
+    .businasswoman {
+        gap: 20px;
+    }
+
+    .businassman {
+        gap: 20px;
+    }
+
+    .aboutUsTitle {
+        padding: 0px, 20px;
+        width: 100%;
+    }
+
+    .titleText {
+        width: 100%;
+    }
+
+}
+
+
+
+@media screen and (max-width: 900px) {
+    .container {
+        width: 100%;
+    }
+
+    .aboutUs {
+        width: 100%;
+    }
+
+    .aboutUsTitle {
+        width: 100%;
+    }
+
+    .businassman {
+        display: block;
+    }
+
+    .businasswoman img {
+        width: 100%;
+    }
+
+    .businasswoman {
+        display: block;
+    }
+
+    .businassman img {
+        width: 100%;
+        margin-top: 10px;
+    }
+}

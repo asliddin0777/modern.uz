@@ -1,0 +1,589 @@
+.cart {
+    display: flex;
+    width: 1180px;
+    padding: 10px 0;
+    margin: auto;
+}
+
+.card * h1 {
+    color: #000;
+}
+
+.DeliverySection {
+    gap: 12.5px;
+    display: flex;
+    width: 1180px;
+    padding: 10px 0;
+    margin: auto;
+}
+
+
+.card {
+    margin-top: 7px;
+    padding: 24px 37px;
+    width: 880px;
+    height: 157px;
+    background-color: #fff;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    line-height: 160%;
+}
+
+
+.count {
+    padding-top: 50px;
+}
+
+.input {
+    width: 21.47px;
+    height: 21.47px;
+}
+
+.countButton {
+    width: 111px;
+    height: 37px;
+    gap: 16px;
+    display: flex;
+    align-items: center;
+    background: #FAF8F8;
+    border-radius: 20px;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.countButton button {
+    color: #9B9B9B;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    font-size: 35px;
+    background: none;
+    border: none;
+}
+
+.remove {
+    align-items: center;
+    justify-content: flex-end;
+    display: flex;
+    gap: 7px;
+}
+
+.remove>p {
+    color: #9B9B9B;
+}
+
+
+.menu h1 {
+    color: #363636;
+    font-weight: 700;
+    font-size: 21px;
+}
+
+.menu label {
+    font-weight: 450;
+    font-size: 16px;
+    color: #B7AFAF;
+}
+
+.menu p {
+    font-weight: 450;
+    font-size: 16px;
+    color: #363636;
+}
+
+.countPrice h1 {
+    padding-top: 57px;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.allPrice {
+    margin-top: 7px;
+    width: 292px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 17px 28px;
+}
+
+.allPrice h1 {
+    font-weight: 700;
+    font-size: 21px;
+}
+
+.allPrice button {
+    cursor: pointer;
+    margin-top: 12px;
+    padding: 12px 84px;
+    background: none;
+    border: 1px solid #E4B717;
+    filter: drop-shadow(0px 1px 17px rgba(228, 183, 23, 0.25));
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 17px;
+    color: #E4B717;
+    transition: .5s ease;
+}
+
+.allPrice button:active {
+    transform: scale(1.1);
+}
+
+.allPrice label {
+    font-weight: 400;
+    font-size: 18px;
+    color: #888888;
+}
+
+
+.allPrice p {
+    font-weight: 400;
+    font-size: 18px;
+    color: #363636;
+
+}
+
+.card > img {
+    height: auto;
+    width: 90px;
+}
+
+.countButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@media screen and (max-width:1180px) {
+    .cart {
+        display: flex;
+        width: 100%;
+        padding: 10px 12px;
+    }
+
+    .DeliverySection {
+        display: flex;
+        gap: 100px;
+        width: 100%;
+        padding: 10px 12px;
+    }
+
+    .card {
+        width: 100%;
+    }
+}
+
+
+@media screen and (max-width:1200px) {
+    .cart {
+        display: flex;
+        width: 100%;
+        padding: 10px 12px;
+    }
+
+    .DeliverySection {
+        justify-content: space-between;
+        align-items: center;
+        display: block;
+    }
+
+
+    .menu p {
+        font-weight: 450;
+        font-size: 13px;
+        color: #363636;
+    }
+
+
+    .menu label {
+        font-weight: 450;
+        font-size: 15px;
+        color: #B7AFAF;
+    }
+
+
+    .menu h1 {
+        color: #363636;
+        font-weight: 700;
+        font-size: 19px;
+    }
+
+    .countPrice h1 {
+        padding-top: 57px;
+        font-size: 21px;
+        font-weight: 700;
+    }
+
+    .right {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
+}
+
+
+@media screen and (max-width:768px) {
+    .cart {
+        display: flex;
+        width: 100%;
+        padding: 10px 12px;
+    }
+
+    .DeliverySection {
+        justify-content: space-between;
+        align-items: center;
+        display: block;
+        width: 100%;
+        padding: 10px 12px;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+
+    .menu p {
+        font-weight: 450;
+        font-size: 13px;
+        color: #363636;
+    }
+
+
+    .menu label {
+        font-weight: 450;
+        font-size: 15px;
+        color: #B7AFAF;
+    }
+
+
+    .menu h1 {
+        color: #363636;
+        font-weight: 700;
+        font-size: 19px;
+    }
+
+    .countPrice h1 {
+        padding-top: 57px;
+        font-size: 21px;
+        font-weight: 700;
+    }
+
+
+}
+
+
+@media screen and (max-width:700px) {
+    .DeliverySection {
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .cart {
+        display: flex;
+        width: 100%;
+        padding: 10px 12px;
+    }
+
+
+    .menu p {
+        font-weight: 450;
+        font-size: 10px;
+        color: #363636;
+    }
+
+
+    .menu label {
+        font-weight: 450;
+        font-size: 12px;
+        color: #B7AFAF;
+    }
+
+
+    .menu h1 {
+        color: #363636;
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .countPrice h1 {
+        padding-top: 57px;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+
+    .count p:nth-child(1) {
+        display: none;
+    }
+
+    .DeliverySection h1 {
+        font-size: 18px;
+    }
+
+    .countPrice h1 {
+        font-size: 15px;
+    }
+
+    .countButton {
+        margin-top: -40px;
+        margin-left: 20px;
+        position: absolute;
+        font-size: 16px;
+    }
+
+}
+
+@media screen and (max-width:497px) {
+    .cart {
+        width: 100%;
+    }
+
+
+
+    .DeliverySection h1 {
+        font-size: 16px;
+    }
+
+    .countPrice h1 {
+        font-size: 12px;
+    }
+
+    .countButton {
+        margin-top: -40px;
+        position: absolute;
+        font-size: 14px;
+    }
+
+    .countButton {
+        width: 75px;
+        height: 30px;
+    }
+
+    .menu label {
+        font-weight: 450;
+        font-size: 9px;
+        color: #B7AFAF;
+    }
+
+    .menu h1 {
+        color: #363636;
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    .menu p {
+        font-weight: 450;
+        font-size: 9px;
+        color: #363636;
+    }
+
+    .allPrice {
+        margin-left: 6.5%;
+        display: block;
+    }
+
+    .input {
+        width: 20px;
+        height: 20px;
+    }
+
+}
+
+@media screen and (max-width:480px) {
+    .cart {
+        width: 100%;
+    }
+
+    .DeliverySection {
+        justify-content: space-between;
+        align-items: center;
+        display: block;
+        width: 100%;
+    }
+
+    .card {
+        margin-top: 7px;
+        padding: 24px 10px;
+        width: 100%;
+    }
+
+    .count p:nth-child(1) {
+        display: none;
+    }
+
+    .DeliverySection h1 {
+        font-size: 18px;
+    }
+
+    .countPrice h1 {
+        font-size: 15px;
+    }
+
+    .countButton {
+        margin-top: -40px;
+        margin-left: 20px;
+        position: absolute;
+        font-size: 16px;
+    }
+
+    .menu label {
+        font-weight: 450;
+        font-size: 12px;
+        color: #B7AFAF;
+    }
+
+    .menu h1 {
+        color: #363636;
+        font-weight: 700;
+        font-size: 19px;
+    }
+
+    .card > img {
+        width: 50px;
+        height: auto;
+    }
+
+    .countButton > button {
+        font-size: 25px !important;
+    }
+
+    .menu p {
+        font-weight: 450;
+        font-size: 12px;
+        color: #363636;
+    }
+
+    .allPriceBurgerg {
+        display: none;
+    }
+
+    .sectionLeft {
+        width: 100%;
+    }
+
+    .right {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .allPrice {
+        align-items: center;
+        justify-content: center;
+    }
+
+}
+
+@media screen and (max-width:403px) {
+    .cart {
+        width: 100%;
+    }
+
+    .DeliverySection h1 {
+        font-size: 16px;
+    }
+
+    .countPrice h1 {
+        font-size: 12px;
+    }
+
+    .countButton {
+        margin-top: -40px;
+        position: absolute;
+        font-size: 14px;
+    }
+
+    .countButton {
+        width: 75px;
+        height: 30px;
+    }
+
+    .menu label {
+        font-weight: 450;
+        font-size: 9px;
+        color: #B7AFAF;
+    }
+
+    .menu h1 {
+        color: #363636;
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    .menu p {
+        font-weight: 450;
+        font-size: 9px;
+        color: #363636;
+    }
+
+    .allPrice {
+        margin-left: 6.5%;
+        display: block;
+    }
+
+    .input {
+        width: 20px;
+        height: 20px;
+    }
+
+}
+
+
+@media screen and (max-width:380px) {
+    .cart {
+        width: 100%;
+    }
+
+
+
+    .DeliverySection h1 {
+        font-size: 16px;
+    }
+
+    .countPrice h1 {
+        font-size: 12px;
+    }
+
+    .countButton {
+        margin-top: -40px;
+        position: absolute;
+        font-size: 14px;
+    }
+
+    .countButton {
+        width: 75px;
+        height: 30px;
+    }
+
+    .menu label {
+        font-weight: 450;
+        font-size: 9px;
+        color: #B7AFAF;
+    }
+
+    .menu h1 {
+        color: #363636;
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    .menu p {
+        font-weight: 450;
+        font-size: 9px;
+        color: #363636;
+    }
+
+    .allPrice {
+        margin-left: 6.5%;
+        display: block;
+    }
+
+    .input {
+        width: 20px;
+        height: 20px;
+    }
+
+}

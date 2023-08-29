@@ -1,0 +1,212 @@
+.bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.chat {
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 1px 17px rgba(117, 117, 117, 0.25);
+  position: fixed;
+  background: #faf8f8;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.left {
+  width: 62%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.right {
+  width: 38%;
+  border-right: 1px solid rgba(138, 138, 138, 0.26);
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  background: #fff;
+  padding: 23px;
+  z-index: 1000;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.userTop {
+  display: flex;
+  justify-content: space-between;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  background: #fff;
+  padding: 23px;
+  width: 100%;
+}
+
+.mainChat {
+  padding: 10px;
+  height: 87%;
+  max-height: 86%;
+  overflow-y: scroll;
+}
+
+.message,
+.messageS {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+
+.messageS {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+}
+
+.message > p,
+.messageS > p {
+  max-width: 200px;
+  width: fit-content;
+  padding: 15px;
+  border-radius: 20px 20px 0 20px;
+  background: #e4b717;
+  color: #fff;
+  font-size: 17px;
+  box-shadow: 0px 1px 17px rgba(117, 117, 117, 0.04);
+}
+
+.messageS > p {
+  background: #179ae4;
+  border-radius: 20px 20px 20px 0;
+}
+
+.createdAt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #888888;
+  font-size: 11px;
+}
+
+.createdAt > img {
+  height: 15px;
+}
+
+.sendMessage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-bottom-left-radius: 20px;
+}
+
+.sendMessage > input:first-child {
+  outline: none;
+  border: none;
+  padding: 20px;
+  font-size: 16px;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.sendMessage > img {
+  position: relative;
+}
+
+.sendMessage > input:last-child {
+  position: relative;
+  width: 20px;
+  z-index: 1000;
+  left: -1rem;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.chatWith {
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.eachChat {
+  display: flex;
+  gap: 1rem;
+  padding: 10px;
+  border-radius: 20px;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.arrowLeft {
+    display: none;
+}
+.dn {
+    display: none;
+}
+
+.eachChat:hover {
+  box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.06);
+  background: #fff;
+}
+
+@media screen and (min-width: 1200px) {
+  .right {
+    width: 25%;
+  }
+  .left {
+    width: 75%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .chat {
+    width: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+    .right {
+        display: none;
+    }
+    .left {
+        width: 100%;
+    }
+    .top {
+        align-items: center;
+    }
+    .arrowLeft {
+        display: flex;
+        padding: 12px 12px;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #000;
+    }
+    .chats {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .chats > .chatWith {
+        padding: 6px 1%;
+    }
+}

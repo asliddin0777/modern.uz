@@ -1,0 +1,59 @@
+@import url('https://fonts.cdnfonts.com/css/futura-pt');
+
+
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Futura PT', sans-serif;
+}
+
+body, html, #__next {
+  background: #FAF8F8;
+  height: fit-content;
+  --form-control-color: #E4B71;
+  accent-color: #E4B717;
+  height: fit-content;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.swiper-button-next, .swiper-button-prev {
+  color: #E4B717 !important;
+}
+
+.swiper-button-next {
+  left: auto !important;
+}
+
+.swiper-pagination-bullet {
+  margin: 3px !important;
+  background: #fff !important;
+  height: 18px !important;
+  width: 18px !important;
+  color: transparent !important;
+  user-select: none;
+}
+
+.react-datepicker__input-container > input {
+  padding: 20px !important;
+  padding-left: 0px !important;
+  border: none !important;
+  border-bottom: 1px solid #888888 !important;
+  outline: none !important;
+  font-size: 17px !important;
+  width: 100% !important;
+}

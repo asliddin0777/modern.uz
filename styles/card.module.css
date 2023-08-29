@@ -1,0 +1,103 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    width: 23.725%;
+    height: 331px;
+    border-radius: 20px;
+    justify-content: center;
+    gap: 2px;
+    position: relative;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.imageOfCard > img {
+    width: auto;
+    border-radius: 12px;
+    height: 160px;
+}
+.somevalues {
+    width: 100%;
+}
+.card > a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1rem;
+    width: 100%;
+    height: 100%;
+}
+
+.imageOfCard > h3, .imageOfCard > p {
+    text-align: left;
+}
+
+.card * {
+    text-align: left !important;
+}
+
+.like {
+    position: absolute;
+    top: 5%;
+    left: 77%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card > img {
+    margin: auto;
+    width: 150px;
+    height: auto;
+    max-height: 180px;
+}
+
+.card h4 {
+    color: #D3D3D3;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.cart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.cart * {
+    color: #E4B717;
+}
+
+.box {
+    width: 46px;
+    height: 46px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    background-color: #E4B717 !important;
+}
+
+@media screen and (max-width: 1000px) {
+    .card {
+        width: 32.2%;
+        border-radius: 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .card {
+        width: 49.1%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .card {
+        width: 100%;
+    }
+}
