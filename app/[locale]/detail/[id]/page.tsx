@@ -11,11 +11,14 @@ import Card from "../../components/global/Card";
 import Reviews from "../../components/local/Reviews";
 import Chat from "../../components/local/Chat";
 import Order from "../../components/global/Order";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import axios from "axios";
 import Loader from "../../components/local/Loader";
 import { io } from "socket.io-client";
 import { uuid as uuidv4 } from 'uuidv4';
+import { userInfo } from "os";
+import useCookies from "react-cookie/cjs/useCookies";
+import socket from "../../components/local/socket";
 
 
 const Detail = () => {
@@ -32,13 +35,11 @@ const Detail = () => {
   const [selectedColor, setSelectedColor] = useState<string>("Gold");
   const [categories, setCategories] = useState<any[] | any>([])
   const [subCategories, setSubCategories] = useState<any[] | any>([])
-  const router = useRouter();
   const pathname = usePathname();
-  const URL = process.env.NEXT_PUBLIC_LOCAL_API;
   console.log(pathname)
 
-  // @ts-ignore
-  const socket = io(URL, { autoConnect: false });
+  const [cookie] = useCookies(["userInfo"])
+  const { userInfo } = cookie
   useEffect(() => {
     order !== true
       ? (document.body.style.overflow = "auto")
@@ -113,7 +114,7 @@ const Detail = () => {
 
   if (!load) {
     const selectedProduct =
-      data && data.find((product: any) => product.id === pathname.split("/")[2]);
+      data && data.find((product: any) => product.id === pathname.split("/")[pathname.split("/").length - 1]);
     console.log(selectedProduct)
     const storage = selectedProduct?.props.filter(
       (st: any) => st.prop.name === "Storage"
@@ -334,6 +335,14 @@ const Detail = () => {
                       onClick={() => {
                         setIsChatOpen(!isChatOpen);
                         socket.connect()
+                        axios.post("/chats/new", {
+                          author: selectedProduct.author,
+                          product: selectedProduct.id
+                        }, {
+                          headers: {
+                            Authorization: userInfo.userToken
+                          }
+                        })
                       }}
                       className={styles.cart}
                     >

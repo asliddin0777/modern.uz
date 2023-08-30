@@ -59,11 +59,13 @@
   height: 87%;
   max-height: 86%;
   overflow-y: scroll;
+  position: relative;
 }
 
 .message,
 .messageS {
   display: flex;
+  margin-top: 1rem;
   justify-content: space-between;
   flex-direction: column;
   align-items: flex-end;
@@ -80,8 +82,8 @@
 .messageS > p {
   max-width: 200px;
   width: fit-content;
-  padding: 15px;
-  border-radius: 20px 20px 0 20px;
+  padding: 10px;
+  border-radius: 15px 15px 0 15px;
   background: #e4b717;
   color: #fff;
   font-size: 17px;
@@ -92,7 +94,6 @@
   background: #179ae4;
   border-radius: 20px 20px 20px 0;
 }
-
 .createdAt {
   display: flex;
   justify-content: space-between;
@@ -162,6 +163,25 @@
 .eachChat:hover {
   box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.06);
   background: #fff;
+}
+
+.selectedCard {
+  margin-left: auto;
+  width: 225px;
+}
+
+.selectedCard > div {
+  width: 100%;
+}
+
+.selectedCard > div > a > svg {
+  background: #dfdfdfc5;
+  border-radius: 20px;
+  padding: 5px;
+}
+
+.selectedCard > div > a > div > div, .selectedCard > div > div {
+  display: none;
 }
 
 @media screen and (min-width: 1200px) {

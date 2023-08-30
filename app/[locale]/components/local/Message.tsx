@@ -4,46 +4,93 @@ import styles from "@/styles/chat.module.css"
 import axios from 'axios'
 import { uuid as uuidv4 } from 'uuidv4';
 import { io } from 'socket.io-client';
-
+import Card from '../global/Card';
+import socket from './socket';
+import { IMessage } from '@/interfaces/IMessage';
 interface UserInfo {
   userId: string;
   userToken: string;
   userPhoneNumber: number
 }
 
+interface SelectedProduct {
+  author: string
+  category: {
+    id: string
+    name: string
+  }
+  description: string
+  id: string
+  likes: string[]
+  media: {
+    name: string
+    fileId: string
+  }[]
+  price: {
+    price: number
+    oldPrice: number
+    qtyMax: number
+    qtyMin: number
+  }[]
+  props: {
+    id: string
+    prop: {
+      id: string
+      name: string
+      label: string
+    }
+    value: string
+  }[]
+  reviews: []
+  subcategory: {
+    name: string
+    id: string
+  }
+  name: string
+}
+
+
 interface ChatHandler {
   setChatListOpener: React.Dispatch<React.SetStateAction<boolean>>
   setIsChatOpen: React.Dispatch<React.SetStateAction<boolean>>
   chat: any
   userInfo: UserInfo
+  selectedProduct: SelectedProduct
 }
 
-const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo }: ChatHandler) => {
-  const URL = process.env.NEXT_PUBLIC_LOCAL_API;
-
-  // @ts-ignore
-  const socket = io(URL, { autoConnect: false });
-  const [messages, setMessages] = useState([])
+const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedProduct }: ChatHandler) => {
+  const [messages, setMessages] = useState<IMessage[] | undefined>([])
+  const image: string[] = ["jpg", "png", 'jpeg']
+  const video = ['mp4']
+  const serverURL = "http://192.168.0.111:3000"
   const [message, setMesage] = useState<string | undefined>("")
+  const [resive, setResive] = useState<IMessage>()
   const endRef = useRef<any>()
   useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/${chat.id}`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user/${chat.id}`, {
       headers: {
         Authorization: userInfo.userToken
       }
-    }).then(res => { setMessages(res.data.messages) }).catch(err => console.log(err))
+    }).then(res => {
+      setMessages(res.data.messages)
+      console.log(res.data);
+    }).catch(err => console.log(err))
 
   }, [chat])
-
+  console.log(messages);
   useEffect(() => {
     endRef.current.scrollIntoView({
       behavior: "smooth"
     });
-  }, [setMessages])
+  }, [messages])
+  useEffect(() => {
+    endRef.current.scrollIntoView({
+      behavior: "smooth"
+    });
+  }, [])
 
   const sendMessage = (msg: any) => {
-    // @ts-ignore
-    setMessages((prev) => [...prev, msg])
+    setMessages((prev: any) => [...prev, msg])
   }
 
   useEffect(() => {
@@ -55,7 +102,7 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo }: ChatHandl
 
   const handleFileSubmit = (e: any) => {
     const msg = {
-      reciever: chat.admin.id,
+      reciever: selectedProduct.author,
       sender: userInfo.userId,
       chat: chat.id,
       file: { buffer: e.target.files[0], type: e.target.files[0].type, originalName: e.target.files[0].name, },
@@ -101,9 +148,35 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo }: ChatHandl
         </button>
       </div>
       <div className={styles.mainChat}>
-        {messages && messages.map((m: any) => {
+      <div className={styles.selectedCard}>
+        {selectedProduct && <Card
+          isLiked={false}
+          setLikedObj={() => { }}
+          url={`${selectedProduct.id}`}
+          title={selectedProduct.name}
+          image={selectedProduct.media.length ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedProduct.media[0].name}` : undefined}
+          width={300}
+          height={300}
+          price={`${selectedProduct.price[0].price}`}
+          cat={selectedProduct.category.name}
+          key={uuidv4()}
+          animation=""
+        />}
+      </div>
+        {messages && messages?.map((m: IMessage) => {
           return <div key={uuidv4()} className={m.reciever !== userInfo.userId ? styles.message : styles.messageS}>
-            <p>{m.message}</p>
+           {m.message&&<p>{m.message}</p>}
+            {m.file && image.find(i => i === m.file.split('.')[1].toLocaleLowerCase()) && <img className='' style={{
+              width: 300,
+              height: "auto",
+              borderRadius: 15
+            }} src={serverURL + '/' + m.file} />}
+            {m.file && video.find(i => i === m.file.split('.')[1].toLocaleLowerCase()) && <video style={{
+              width: 300,
+              height: "auto",
+              borderRadius: 15
+            }} controls className='w-75'  >
+              <source src={serverURL + '/' + m.file} /></video>}
             <div className={styles.createdAt}>
               <Image
                 src={"/icons/date.svg"}

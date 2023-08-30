@@ -4,37 +4,62 @@ import Image from "next/image";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { headers } from "next/dist/client/components/headers";
-import { useRouter } from "next/router";
+import { useRouter, usePathname } from "next/navigation";
 import Message from "./Message";
 import { uuid as uuidv4 } from 'uuidv4';
-import { io } from "socket.io-client";
-
+import Card from "../global/Card";
+import socket from "./socket";
 
 interface SelectedProduct {
   author: string
+  category: {
+    id: string
+    name: string
+  }
+  description: string
+  id: string
+  likes: string[]
+  media: {
+    name: string
+    fileId: string
+  }[]
+  price: {
+    price: number
+    oldPrice: number
+    qtyMax: number
+    qtyMin: number
+  }[]
+  props: {
+    id: string
+    prop: {
+      id: string
+      name: string
+      label: string
+    }
+    value: string
+  }[]
+  reviews: []
+  subcategory: {
+    name: string
+    id: string
+  }
+  name: string
 }
 
 interface Chat {
-  setIsChatOpen:  React.Dispatch<React.SetStateAction<boolean>>;
+  setIsChatOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectedProduct: SelectedProduct
 }
-
 const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
+  const path = usePathname()
   const [chatListOpener, setChatListOpener] = useState<boolean>(false)
-  const [chats, setChats] = useState<any[]>([])
+  const [chats, setChats] = useState([])
   const [selectedChat, setSelectedChat] = useState<any | undefined>()
-
   const router = useRouter()
-
   const [cookie] = useCookies(["userInfo"])
-
   const { userInfo } = cookie
-  const URL = process.env.NEXT_PUBLIC_LOCAL_API;
-
-  // @ts-ignore
-  const socket = io(URL, { autoConnect: false });
   useEffect(() => {
-    axios.get("/chats/user", {
+    axios.get(`/chats/user`, {
       headers: {
         Authorization: userInfo.userToken
       }
@@ -42,7 +67,8 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
       setChats(res.data)
     }).catch(err => console.log(err))
   }, [])
-
+  console.log(chats);
+  console.log(selectedProduct);
   return (
     <>
       <div className={styles.chat}>
@@ -51,11 +77,11 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
             <h3>Сообщения</h3>
           </div>
           <div className={styles.chatWith}>
-            {chats.map((e) => {
+            {chats.map((e: any) => {
               return (
-                <div onClick={()=> {
+                <div onClick={() => {
                   socket.emit("chatSelected", e)
-                  router.push(`/detail/${router.query.id}?chat=${e.id}`)
+                  router.push(`/detail/${path.split("/")[path.split("/").length - 1]}?chat=${e.id}`)
                   setSelectedChat(e)
                 }} key={uuidv4()} className={styles.eachChat}>
                   <Image
@@ -76,28 +102,28 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
         <div className={!chatListOpener ? styles.left : styles.dn}>
           {!selectedChat ? <>
             <div className={styles.top}>
-        <button onClick={() => {
-          setChatListOpener(true)
-        }} className={styles.arrowLeft}>
-          <Image src={"/icons/arrowLeft.png"} width={20} height={20} alt="arrow left" />
-        </button>
-        <h3 /> 
-        <button
-          onClick={() => {
-            setIsChatOpen(false);
-            socket.disconnect()
-          }}
-        >
-          <Image
-            src={"/icons/close.svg"}
-            alt="close chat icon"
-            width={21}
-            height={21}
-          />
-        </button>
-      </div>
-      <p>Setartwefwefwe fw8eygf</p>
-          </> : <Message chat={selectedChat} userInfo={userInfo} setIsChatOpen={setIsChatOpen} setChatListOpener={setChatListOpener} />}
+              <button onClick={() => {
+                setChatListOpener(true)
+              }} className={styles.arrowLeft}>
+                <Image src={"/icons/arrowLeft.png"} width={20} height={20} alt="arrow left" />
+              </button>
+              <h3 />
+              <button
+                onClick={() => {
+                  setIsChatOpen(false);
+                  socket.disconnect()
+                }}
+              >
+                <Image
+                  src={"/icons/close.svg"}
+                  alt="close chat icon"
+                  width={21}
+                  height={21}
+                />
+              </button>
+            </div>
+            <p>Setartwefwefwe fw8eygf</p>
+          </> : <Message selectedProduct={selectedProduct} chat={selectedChat} userInfo={userInfo} setIsChatOpen={setIsChatOpen} setChatListOpener={setChatListOpener} />}
         </div>
         <div className={chatListOpener ? styles.chats : styles.dn}>
           <div className={styles.userTop}>
