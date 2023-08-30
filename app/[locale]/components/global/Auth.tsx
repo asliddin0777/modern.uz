@@ -172,7 +172,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
               : fromWhere === 2 ? "Регистрация" : queue === 2 ? "Введите код" : queue === 2.5 ? "Новый пароль" : ""}
           </h3>
         </div>
-        <form action={"#"} autoComplete="off" className={styles.authForm}>
+        <div className={styles.authForm}>
           {fromWhere === 1 ? (
             <>
               <input
@@ -279,7 +279,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
                   handleCreatePassword()
                 }} className={styles.enter}>Подтвердить</button>
               </> : ""}
-        </form>
+        </div>
         {fromWhere === 1 ? <button onClick={() => {
           setFromWhere(2)
         }}>Регистрация</button> : fromWhere === 2 ? <button onClick={() => {
