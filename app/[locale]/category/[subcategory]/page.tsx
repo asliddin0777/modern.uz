@@ -42,9 +42,9 @@ export default function Page() {
     setLoad(true);
     console.log(pathname);
     axios
-      .get(`${process.env.NEXT_PUBLIC_API}/api/products/${pathname.split('/')[pathname.split("/").length-1]}`, {
+      .get(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
         params: {
-          subcategory: pathname,
+          subcategory: pathname.split('/')[pathname.split("/").length-1],
         },
       })
       .then((res: any) => {
@@ -95,7 +95,7 @@ export default function Page() {
     axios
       .get<IProduct[]>(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
         params: {
-          subcategory: pathname,
+          subcategory: pathname.split('/')[pathname.split("/").length-1],
           props: selectedProps,
         },
       })
@@ -149,7 +149,7 @@ export default function Page() {
                   <Card
                     animation="fade-down"
                     // @ts-ignore
-                    cat={subcategory.id}
+                    // cat={subcategory.id}
                     url={e.id}
                     height={300}
                     width={300}
