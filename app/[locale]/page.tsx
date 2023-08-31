@@ -207,7 +207,7 @@ export default function Home() {
                           >
                             <Link
                               className={styles.categoryItem}
-                              href={"/category"}
+                              href={`/category/${val.id.toLocaleLowerCase()}`}
                             >
                               <div className={styles.categoriesTop}>
                                 <Image
