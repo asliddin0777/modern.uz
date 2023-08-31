@@ -109,7 +109,7 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
         </button>
       </div>
       <div className={styles.mainChat}>
-      {messages?.length ? "": <div className={styles.selectedCard}>
+      <div className={styles.selectedCard}>
         {selectedProduct && <Card
           isLiked={false}
           setLikedObj={() => { }}
@@ -123,7 +123,7 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
           key={uuidv4()}
           animation=""
         />}
-      </div>}
+      </div>
         {messages && messages?.map((m: IMessage) => {
           return <div key={uuidv4()} className={m.reciever !== userInfo.userId ? styles.message : styles.messageS}>
            {m.message&&<p>{m.message}</p>}

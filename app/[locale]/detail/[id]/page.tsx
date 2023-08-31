@@ -341,6 +341,7 @@ const Detail = () => {
                         if (userInfo !== undefined) {
                           setIsChatOpen(!isChatOpen);
                         socket.connect()
+                        socket.emit('newUser', JSON.stringify({id: userInfo.userId, fullName: `${localStorage.getItem("userName")} ${localStorage.getItem("lastName")}`}))
                         axios.post("/chats/new", {
                           author: selectedProduct.author,
                           product: selectedProduct.id
