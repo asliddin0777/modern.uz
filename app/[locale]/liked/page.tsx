@@ -12,7 +12,7 @@ import Card from "../components/global/Card";
 import { useRouter } from "next/router";
 import Loader from "../components/local/Loader";
 import { Cookies } from "react-cookie";
-import { v4 as uuidv4 } from "uuid"
+import { uuid as uuidv4 } from "uuidv4";
 import axios from "axios";
 
 interface Like {

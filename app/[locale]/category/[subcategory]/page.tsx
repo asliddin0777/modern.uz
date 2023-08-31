@@ -1,21 +1,22 @@
 "use client"
 import styles from "@/styles/category.module.css";
-import Header from "../components/global/Header";
+import Header from "../../components/global/Header";
 import Image from "next/image";
-import Card from "../components/global/Card";
-import Footer from "../components/global/Footer";
+import Card from "../../components/global/Card";
+import Footer from "../../components/global/Footer";
 import { useState, useEffect } from "react";
-import TopHeader from "../components/global/TopHeader";
-import Categories from "../components/global/Categories";
-import CardBurger from "../components/local/CardBurger";
+import TopHeader from "../../components/global/TopHeader";
+import Categories from "../../components/global/Categories";
+import CardBurger from "../../components/local/CardBurger";
 import axios from "axios";
-import Loader from "../components/local/Loader";
+import Loader from "../../components/local/Loader";
 import { usePathname, useRouter } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
-import CategoryProp from "../components/local/CategoryProp";
+import CategoryProp from "../../components/local/CategoryProp";
+import { validateConfig } from "next/dist/server/config-shared";
 
 
-export default function Categoriy() {
+export default function Page() {
   const [cardBurger, setCardBurger] = useState<boolean>(false);
   const [subcategor, setSubcategory] = useState<any[] | any>();
   const [load, setLoad] = useState<boolean>(true);
@@ -43,7 +44,7 @@ export default function Categoriy() {
     axios
       .get(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
         params: {
-          subcategory: pathname,
+          subcategory: pathname.split('/')[pathname.split("/").length-1],
         },
       })
       .then((res: any) => {
@@ -88,12 +89,13 @@ export default function Categoriy() {
     }
   }, []);
 
+
   const handlerFilter = () => {
     const p = new Set(selectedProps);
     axios
       .get<IProduct[]>(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
         params: {
-          subcategory: pathname,
+          subcategory: pathname.split('/')[pathname.split("/").length-1],
           props: selectedProps,
         },
       })
@@ -147,7 +149,7 @@ export default function Categoriy() {
                   <Card
                     animation="fade-down"
                     // @ts-ignore
-                    cat={subcategory.id}
+                    // cat={subcategory.id}
                     url={e.id}
                     height={300}
                     width={300}

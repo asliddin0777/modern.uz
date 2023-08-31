@@ -54,7 +54,7 @@ const SelectCategory = ({ categories, selected }: Categories) => {
         <div className={styles.categorRight}>
           <ul>
             {hovered !== "" && hovered.subcategories.map((e: any, index: number) => {
-              return <li key={index}><Link key={index} style={{ color: "#666565" }} href={`/category?subcategory=${e.id.toLocaleLowerCase()}`}>{e.name}</Link></li>
+              return <li key={index}><Link key={index} style={{ color: "#666565" }} href={`/category/${e.id.toLocaleLowerCase()}`}>{e.name}</Link></li>
             })}
           </ul>
         </div>
