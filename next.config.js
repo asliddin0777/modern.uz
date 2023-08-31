@@ -1,3 +1,4 @@
+require('dotenv').config();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
@@ -10,10 +11,15 @@ const nextConfig = {
         },
       ],
     },
+    serverRuntimeConfig: {
+      port: process.env.PORT,
+    },
+    publicRuntimeConfig: {
+      port: process.env.PORT,
+    },
   };
 
 const withNextIntl = require('next-intl/plugin')(
-    // This is the default (also the `src` folder is supported out of the box)
     './i18n.ts'
 );
 

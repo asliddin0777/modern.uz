@@ -12,6 +12,11 @@ export default interface IProduct {
   price: Array<IPrice>;
   media: Array<IProductMedia>;
   video: IProductMedia;
+  category: {
+    name: string
+    id: string
+  }
   props: Array<IProps>;
+  author: string
   review: Array<IReview>;
 }

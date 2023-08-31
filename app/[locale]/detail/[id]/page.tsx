@@ -19,6 +19,8 @@ import { uuid as uuidv4 } from 'uuidv4';
 import { userInfo } from "os";
 import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../../components/local/socket";
+import IProduct from "@/interfaces/Product/IProduct";
+import IReview from "@/interfaces/Review/IReview";
 
 
 const Detail = () => {
@@ -28,11 +30,12 @@ const Detail = () => {
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [order, setOrder] = useState<boolean>(false);
   const [load, setLoad] = useState<boolean>(true);
+  const [selectedImage, setSelectedImage] = useState<string>("")
   const [textLength, setTextLength] = useState<number>(1000);
   const [data, setData] = useState<any | any[]>([]);
   const [props, setProps] = useState<any | any[]>([]);
-  const [selectedMemory, setSelectedMemory] = useState<string>("256GB");
-  const [selectedColor, setSelectedColor] = useState<string>("Gold");
+  const [selectedMemory, setSelectedMemory] = useState<string>("");
+  const [selectedColor, setSelectedColor] = useState<string>("");
   const [categories, setCategories] = useState<any[] | any>([])
   const [subCategories, setSubCategories] = useState<any[] | any>([])
   const pathname = usePathname();
@@ -52,7 +55,7 @@ const Detail = () => {
   }, [isChatOpen]);
 
 
-  useEffect(()=> {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const req1 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/products`)
@@ -113,22 +116,22 @@ const Detail = () => {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ";
 
   if (!load) {
-    const selectedProduct =
+    const selectedProduct: IProduct =
       data && data.find((product: any) => product.id === pathname.split("/")[pathname.split("/").length - 1]);
     console.log(selectedProduct)
     const storage = selectedProduct?.props.filter(
       (st: any) => st.prop.name === "Storage"
     );
-    const colors = selectedProduct?.props.filter(
+    const colors: any = selectedProduct?.props.filter(
       (st: any) => st.prop.name === "Color"
     );
-    const warranty = selectedProduct?.props.find(
+    const warranty: any = selectedProduct?.props.find(
       (wr: any) => wr.prop.name === "Warranty"
     );
-    const manif = selectedProduct?.props.find(
+    const manif: any = selectedProduct?.props.find(
       (mf: any) => mf.prop.name === "Manufacturer"
     );
-    const wtRs = selectedProduct?.props.find(
+    const wtRs: any = selectedProduct?.props.find(
       (wtrs: any) => wtrs.prop.name === "Water Resistance"
     );
     let checkWtRs;
@@ -163,34 +166,40 @@ const Detail = () => {
                   <button className={styles.selectedImage}>
                     <Image
                       src={
-                        selectedProduct
-                          ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedProduct?.media[2]?.name}`
-                          : "/images/14.png"
+                        selectedProduct && selectedProduct?.media.length
+                          ? selectedImage === "" ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedProduct?.media[0]?.name}` : `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedImage}`
+                          : "/images/bag.png"
                       }
+                      style={{
+                        borderRadius: 15
+                      }}
                       alt="iphone 14"
                       width={353}
                       height={460}
                     />
                   </button>
                   <div className={styles.imagesToSelect}>
-                    {[0, 1, 2].map((e: number) => {
+                    {selectedProduct?.media.map((e, index) => {
                       return (
                         <div
                           key={uuidv4()}
                           className={styles.imageToSelect}
                           style={
-                            e == 0
+                            e.name === selectedImage
                               ? {
-                                  boxShadow:
-                                    "0px 1px 17px rgba(228, 183, 23, 0.3)",
-                                }
+                                boxShadow:
+                                  "0px 1px 17px rgba(228, 183, 23, 0.3)",
+                              }
                               : {}
                           }
+                          onClick={()=> {
+                            setSelectedImage(e.name)
+                          }}
                         >
                           <Image
                             src={
                               selectedProduct
-                                ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedProduct.media[e]?.name}`
+                                ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.name}`
                                 : "/images/smphone.png"
                             }
                             alt={
@@ -216,28 +225,18 @@ const Detail = () => {
                   <div className={styles.character}>
                     <div className={styles.characterInfo}>
                       <div className={styles.characterInfoLeft}>
-                        <p>Экран......................................</p>
-                        <p>Модель процессора.............</p>
-                        <p>Встроенная память................</p>
-                        <p>Оперативная память.............</p>
-                        <p>Разрешение камеры.............</p>
                         {warranty && (
                           <p>Гарантия.................................</p>
                         )}
                         {manif && <p>Производитель......................</p>}
                         {wtRs && <p>Водонепроницаемый...........</p>}
-                        <p>Цвет.........................................</p>
+                        {selectedColor !== "" && <p>Цвет.........................................</p>}
                       </div>
                       <div className={styles.characterInfoRight}>
-                        <p>6.8</p>
-                        <p>Snapdragon 8 Gen 2</p>
-                        <p>{selectedMemory}</p>
-                        <p>12 Гб</p>
-                        <p>12 Мп, 10/10 Мп, 200 Мп</p>
                         {warranty && <p>{warranty.value}</p>}
                         {manif && <p>{manif.value}</p>}
                         {wtRs && <p>{checkWtRs ? "Да" : "Нет"}</p>}
-                        <p>{selectedColor}</p>
+                        {selectedColor !== "" && <p>{selectedColor}</p>}
                       </div>
                     </div>
                     {isChatOpen && <Chat selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
@@ -277,7 +276,11 @@ const Detail = () => {
                               }
                               onClick={() => {
                                 setControllerM(index);
-                                setSelectedMemory(e.value);
+                                if (e.value === selectedMemory) {
+                                  setSelectedMemory("")
+                                } else {
+                                  setSelectedMemory(e.value);
+                                }
                               }}
                             >
                               {e.value}
@@ -292,15 +295,15 @@ const Detail = () => {
                     <div className={styles.cost}>
                       {selectedProduct && selectedProduct.price.map((price: any) => {
                         return <div className={styles.costP} key={uuidv4()}>
-                        <h3>{price.price} $</h3>
-                        <h4
-                          style={{
-                            textDecoration: "line-through",
-                          }}
-                        >
-                          {price.oldPrice}
-                        </h4>
-                      </div>
+                          <h3>{price.price} $</h3>
+                          <h4
+                            style={{
+                              textDecoration: "line-through",
+                            }}
+                          >
+                            {price.oldPrice}
+                          </h4>
+                        </div>
                       })}
                       <div className={styles.imageLike}>
                         <Image
@@ -402,34 +405,18 @@ const Detail = () => {
                   <div className={styles.detailS}>
                     <div className={styles.characterInfo}>
                       <div className={styles.characterInfoLeft}>
-                        <p>Экран......................................</p>
-                        <p>Модель процессора.............</p>
-                        <p>Встроенная память................</p>
-                        <p>Оперативная память.............</p>
-                        <p>Разрешение камеры.............</p>
+                        {warranty && (
+                          <p>Гарантия.................................</p>
+                        )}
+                        {manif && <p>Производитель......................</p>}
+                        {wtRs && <p>Водонепроницаемый...........</p>}
+                        {selectedColor !== "" && <p>Цвет.........................................</p>}
                       </div>
                       <div className={styles.characterInfoRight}>
-                        <p>6.8</p>
-                        <p>Snapdragon 8 Gen 2</p>
-                        <p>{selectedMemory}</p>
-                        <p>12 Гб</p>
-                        <p>12 Мп, 10/10 Мп, 200 Мп</p>
-                      </div>
-                    </div>
-                    <div className={styles.characterInfo}>
-                      <div className={styles.characterInfoLeft}>
-                        <p>Экран......................................</p>
-                        <p>Модель процессора.............</p>
-                        <p>Встроенная память................</p>
-                        <p>Оперативная память.............</p>
-                        <p>Разрешение камеры.............</p>
-                      </div>
-                      <div className={styles.characterInfoRight}>
-                        <p>6.8</p>
-                        <p>Snapdragon 8 Gen 2</p>
-                        <p>{selectedMemory}</p>
-                        <p>12 Гб</p>
-                        <p>12 Мп, 10/10 Мп, 200 Мп</p>
+                        {warranty && <p>{warranty.value}</p>}
+                        {manif && <p>{manif.value}</p>}
+                        {wtRs && <p>{checkWtRs ? "Да" : "Нет"}</p>}
+                        {selectedColor !== "" && <p>{selectedColor}</p>}
                       </div>
                     </div>
                   </div>
@@ -444,7 +431,7 @@ const Detail = () => {
                         ? selectedProduct.description.substring(0, textLength)
                         : desc.substring(0, textLength)}{" "}
                       {selectedProduct &&
-                      selectedProduct.description.length > 1000 ? (
+                        selectedProduct.description.length > 1000 ? (
                         <button
                           onClick={() => {
                             setTextLength(selectedProduct?.description.length);
@@ -452,12 +439,12 @@ const Detail = () => {
                           style={
                             textLength !== selectedProduct?.description.length
                               ? {
-                                  color: "#179AE4",
-                                  fontWeight: 700,
-                                }
+                                color: "#179AE4",
+                                fontWeight: 700,
+                              }
                               : {
-                                  display: "none",
-                                }
+                                display: "none",
+                              }
                           }
                         >
                           [read more]
@@ -470,12 +457,12 @@ const Detail = () => {
                           style={
                             textLength !== desc.length
                               ? {
-                                  color: "#179AE4",
-                                  fontWeight: 700,
-                                }
+                                color: "#179AE4",
+                                fontWeight: 700,
+                              }
                               : {
-                                  display: "none",
-                                }
+                                display: "none",
+                              }
                           }
                         >
                           [read more]
@@ -486,7 +473,11 @@ const Detail = () => {
                 </>
               ) : (
                 <div className={styles.reviewsWrapper}>
-                  {[1, 2, 3, 4].map((e: number) => {
+                  <form className={styles.postReview}>
+                    <h3>Оставить отзыв</h3>
+                    <input required type="text" />
+                  </form>
+                  {selectedProduct && selectedProduct?.review?.map((e:IReview) => {
                     return <Reviews key={uuidv4()} />;
                   })}
                 </div>

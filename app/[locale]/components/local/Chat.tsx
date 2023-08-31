@@ -9,46 +9,11 @@ import Message from "./Message";
 import { uuid as uuidv4 } from 'uuidv4';
 import Card from "../global/Card";
 import socket from "./socket";
-
-interface SelectedProduct {
-  author: string
-  category: {
-    id: string
-    name: string
-  }
-  description: string
-  id: string
-  likes: string[]
-  media: {
-    name: string
-    fileId: string
-  }[]
-  price: {
-    price: number
-    oldPrice: number
-    qtyMax: number
-    qtyMin: number
-  }[]
-  props: {
-    id: string
-    prop: {
-      id: string
-      name: string
-      label: string
-    }
-    value: string
-  }[]
-  reviews: []
-  subcategory: {
-    name: string
-    id: string
-  }
-  name: string
-}
+import IProduct from "@/interfaces/Product/IProduct";
 
 interface Chat {
   setIsChatOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedProduct: SelectedProduct
+  selectedProduct: IProduct
 }
 const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
   const path = usePathname()

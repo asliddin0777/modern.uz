@@ -3,7 +3,7 @@ export default interface IProps {
   options: [IOption];
   label: string;
 }
-interface IOption {
+export interface IOption {
   label: string;
   value: string;
 }

@@ -7,55 +7,18 @@ import { io } from 'socket.io-client';
 import Card from '../global/Card';
 import socket from './socket';
 import { IMessage } from '@/interfaces/IMessage';
+import IProduct from '@/interfaces/Product/IProduct';
 interface UserInfo {
   userId: string;
   userToken: string;
   userPhoneNumber: number
 }
-
-interface SelectedProduct {
-  author: string
-  category: {
-    id: string
-    name: string
-  }
-  description: string
-  id: string
-  likes: string[]
-  media: {
-    name: string
-    fileId: string
-  }[]
-  price: {
-    price: number
-    oldPrice: number
-    qtyMax: number
-    qtyMin: number
-  }[]
-  props: {
-    id: string
-    prop: {
-      id: string
-      name: string
-      label: string
-    }
-    value: string
-  }[]
-  reviews: []
-  subcategory: {
-    name: string
-    id: string
-  }
-  name: string
-}
-
-
 interface ChatHandler {
   setChatListOpener: React.Dispatch<React.SetStateAction<boolean>>
   setIsChatOpen: React.Dispatch<React.SetStateAction<boolean>>
   chat: any
   userInfo: UserInfo
-  selectedProduct: SelectedProduct
+  selectedProduct: IProduct
 }
 
 const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedProduct }: ChatHandler) => {
@@ -148,7 +111,7 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
         </button>
       </div>
       <div className={styles.mainChat}>
-      <div className={styles.selectedCard}>
+      {messages?.length ? "": <div className={styles.selectedCard}>
         {selectedProduct && <Card
           isLiked={false}
           setLikedObj={() => { }}
@@ -162,7 +125,7 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
           key={uuidv4()}
           animation=""
         />}
-      </div>
+      </div>}
         {messages && messages?.map((m: IMessage) => {
           return <div key={uuidv4()} className={m.reciever !== userInfo.userId ? styles.message : styles.messageS}>
            {m.message&&<p>{m.message}</p>}
