@@ -21,6 +21,7 @@ import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../../components/local/socket";
 import IProduct from "@/interfaces/Product/IProduct";
 import IReview from "@/interfaces/Review/IReview";
+import Auth from "../../components/global/Auth";
 
 
 const Detail = () => {
@@ -38,8 +39,9 @@ const Detail = () => {
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [categories, setCategories] = useState<any[] | any>([])
   const [subCategories, setSubCategories] = useState<any[] | any>([])
+  const [auth, setAuth] = useState<boolean>(false)
+  const [fromWhere, setFromWhere] = useState<number>(0)
   const pathname = usePathname();
-  console.log(pathname)
 
   const [cookie] = useCookies(["userInfo"])
   const { userInfo } = cookie
@@ -118,7 +120,6 @@ const Detail = () => {
   if (!load) {
     const selectedProduct: IProduct =
       data && data.find((product: any) => product.id === pathname.split("/")[pathname.split("/").length - 1]);
-    console.log(selectedProduct)
     const storage = selectedProduct?.props.filter(
       (st: any) => st.prop.name === "Storage"
     );
@@ -239,7 +240,8 @@ const Detail = () => {
                         {selectedColor !== "" && <p>{selectedColor}</p>}
                       </div>
                     </div>
-                    {isChatOpen && <Chat selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
+                    {isChatOpen === true && <Chat selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
+                    {auth === true && <Auth setIsAuthOpen={setAuth} fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} />}
                     <div className={styles.selectMemory}>
                       {colors &&
                         colors.map((e: any, index: number) => {
@@ -336,7 +338,8 @@ const Detail = () => {
                   <div className={styles.cartBottom}>
                     <button
                       onClick={() => {
-                        setIsChatOpen(!isChatOpen);
+                        if (userInfo !== undefined) {
+                          setIsChatOpen(!isChatOpen);
                         socket.connect()
                         axios.post("/chats/new", {
                           author: selectedProduct.author,
@@ -346,6 +349,10 @@ const Detail = () => {
                             Authorization: userInfo.userToken
                           }
                         })
+                        } else {
+                          setAuth(!auth)
+                          setFromWhere(2)
+                        }
                       }}
                       className={styles.cart}
                     >

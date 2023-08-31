@@ -81,7 +81,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
           headers: {
             "Content-Type": "application/json"
           }
-        }).then((res) => console.log(res)).catch(err => console.log(err))
+        }).catch(err => console.log(err))
         setFromWhere(0)
         setQueue(2)
         sessionStorage.setItem("userPhoneNumber", `998${numRef.current.value}`)
@@ -127,7 +127,6 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
             Authorization: cookie.userInfo.userToken
           }
         }).then((res) => {
-          console.log(res);
           setCookie("userInfo", {
             userPhoneNumber: res.data.phoneNumber,
             userId: res.data.id,

@@ -55,7 +55,7 @@ const Contact = () => {
     axios({
         method: "post",
         url: `https://api.telegram.org/bot6306734073:AAHd8DekE-bnRW1yv2bJrBUAU8dH6nUziLw/sendMessage?chat_id=5356847426&text=${send}`
-    }).then(res => console.log(res.data)).catch(err => console.log(err))
+    }).catch(err => console.log(err))
 }
 
   
