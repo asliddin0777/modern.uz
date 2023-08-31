@@ -2,28 +2,16 @@
 import React, { useEffect, useState } from "react";
 import styles from "@/styles/liked.module.css";
 import Header from "../components/global/Header";
-import Buy from "@/public/images/Buy.png";
-import Link from "next/link";
-import Image from "next/image";
 import Footer from "../components/global/Footer";
 import TopHeader from "../components/global/TopHeader";
 import Categories from "../components/global/Categories";
 import Card from "../components/global/Card";
-import { useRouter } from "next/router";
 import Loader from "../components/local/Loader";
-import { Cookies } from "react-cookie";
 import { uuid as uuidv4 } from "uuidv4";
 import axios from "axios";
-
-interface Like {
-  like: any;
-  setLike: Function
-}
-
-const cookies = new Cookies()
-const Liked = ({like, setLike}: Like) => {
+export default function Liked() {
   const [likedObj, setLikedObj] = useState<any[] | any>([]);
-  const [categories, setCategories] = useState<any[] | any>([]);
+  const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true)
   useEffect(() => {
@@ -84,5 +72,3 @@ const Liked = ({like, setLike}: Like) => {
     return <Loader />;
   }
 };
-
-export default Liked;

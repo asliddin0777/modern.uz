@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import styles from "@/styles/categories.module.css";
 import Image from "next/image";
@@ -7,14 +7,13 @@ import SelectCategory from "./SelectCategory";
 import axios, { AxiosError } from "axios";
 import Loader from "../local/Loader";
 
-
+import { v4 as uuid } from "uuid";
 interface ISelectCategory {
   categories: any[];
   subcategories: any[];
 }
 
 const Categories = ({ categories, subcategories }: ISelectCategory) => {
-  const { v4: uuid } = require('uuidv4');
   const [mouseOver, setMouseOver] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>("");
   const [isCategoryOpen, setCategoryOpen] = useState<boolean>(false);
@@ -27,8 +26,12 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
     setLoad(true);
     const getData = async () => {
       try {
-        const req1 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`);
-        const req2 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`);
+        const req1 = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/categories`
+        );
+        const req2 = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/subcategories`
+        );
         const [res1, res2] = await axios.all([req1, req2]);
         setData(res2.data);
       } catch (error) {
@@ -79,7 +82,7 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
                     return (
                       <li
                         className={styles.selectItem}
-                        // key={uuid()}
+                        key={uuid()}
                         onMouseOver={() => {
                           setMouseOver(true);
                           setSelected(e.name);
