@@ -149,7 +149,7 @@ export default function Page() {
                   <Card
                     animation="fade-down"
                     // @ts-ignore
-                    // cat={subcategory.id}
+                    // cat={subcategory}
                     url={e.id}
                     height={300}
                     width={300}
