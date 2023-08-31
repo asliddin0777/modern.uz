@@ -36,11 +36,9 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
       }
     }).then(res => {
       setMessages(res.data.messages)
-      console.log(res.data);
     }).catch(err => console.log(err))
 
   }, [chat])
-  console.log(messages);
   useEffect(() => {
     endRef.current.scrollIntoView({
       behavior: "smooth"

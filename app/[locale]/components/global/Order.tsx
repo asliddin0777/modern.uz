@@ -52,7 +52,6 @@ const Order = ({ setOrder, order, selectedProduct }: Order) => {
           userId: res.data.id,
           userToken: userInfo ? userInfo.userToken  : aboutUser ? res.data.token : ""
         }, { path: "/" })
-        console.log(res.data);
       }).catch(err => console.log(err))
   }
 

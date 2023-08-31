@@ -32,8 +32,6 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
       setChats(res.data)
     }).catch(err => console.log(err))
   }, [])
-  console.log(chats);
-  console.log(selectedProduct);
   return (
     <>
       <div className={styles.chat}>
