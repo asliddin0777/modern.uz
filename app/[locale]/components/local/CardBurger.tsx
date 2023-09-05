@@ -30,7 +30,7 @@ const CardBurger = ({
       >
         <Image
           className={styles.close}
-          src={"icons/close.svg"}
+          src={"/icons/close.svg"}
           width={24}
           height={24}
           alt="close"

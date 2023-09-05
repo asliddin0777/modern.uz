@@ -117,6 +117,8 @@ export default function Home() {
     },
   };
 
+  
+
   if (load === true) {
     return <Loader />;
   } else {
