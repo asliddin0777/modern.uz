@@ -247,17 +247,17 @@
         gap: 2%;
         row-gap: 1rem;
     }
-
+/* 
     .sectionRight a {
         width: 32%;
     }
 
     .carusel {
         width: 100%;
-    }   
+    }    */
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1016px) {
 
     .cardSection {
         width: 100%;
@@ -269,7 +269,7 @@
     }
 }
 
-@media screen and (max-width:950px) {
+@media screen and (max-width:1016px) {
     .cardSection {
         width: 100%;
         display: block;
@@ -283,6 +283,7 @@
         width: 100%;
         gap: 40px;
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
     }
 
