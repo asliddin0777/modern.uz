@@ -78,21 +78,7 @@ const Card = ({
         </div>
       </Link>
       <div
-        className={styles.like}
-        onClick={() => {
-          likedObj?.push({
-            price,
-            title,
-            width,
-            height,
-            image,
-            cat,
-            animation,
-            url
-          })
-          setCookie("likedObj", likedObj, { path: "/" })
-        }}
-      >
+        className={styles.like}>
         <Image
           onClick={() => {
             setLike(!like);

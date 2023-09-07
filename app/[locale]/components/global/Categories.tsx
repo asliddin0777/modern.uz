@@ -27,8 +27,7 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
     const getData = async () => {
       try {
         const req1 = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}/api/categories`
-        );
+          `${process.env.NEXT_PUBLIC_API}/api/categories`);
         const req2 = await axios.get(
           `${process.env.NEXT_PUBLIC_API}/api/subcategories`
         );
@@ -92,7 +91,7 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
                           setSelected("");
                         }}
                       >
-                        <h3>{e.name}</h3>
+                        <Link href={`/category/${e.id.toLocaleLowerCase()}`}>{e.name}</Link>
                         <Image
                           className={
                             selected === e.name ? styles.animated : styles.just

@@ -93,6 +93,16 @@
   transition: 0.4s linear;
 }
 
+.selectItem a {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.selectItem a:hover {
+  color: #e4b717;
+  transition: 0.4s linear;
+}
+
 
 @media screen and (max-width: 1200px) {
   .container { 

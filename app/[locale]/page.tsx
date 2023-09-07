@@ -133,7 +133,7 @@ export default function Home() {
         <main className={styles.home}>
           <TopHeader />
           <Header />
-          <Categories categories={categories} subcategories={subCategories} />
+          <Categories  categories={categories} subcategories={subCategories} />
           <div className={styles.container}>
             <HeaderTabs
               setButtonColor={setButtonColor}
@@ -395,7 +395,9 @@ export default function Home() {
               </>
             )}
           </div>
+          <div style={{marginTop: -200}}>
           <Footer />
+          </div>
         </main>
       </>
     );

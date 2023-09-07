@@ -46,43 +46,6 @@ const ChanchePassword = ({ setIsChangePassOpen }: ChangePass) => {
         </button>
         {!queue ? (
           <form action={"#"} autoComplete="off">
-            <h1>Введите код отправленный на ваш телефон</h1>
-            <div className={styles.ChangeInput}>
-              <p>Код</p>
-              <input type="text" maxLength={8} required autoComplete="false" />
-            </div>
-            <button
-              className={styles.Changebutton}
-              onClick={() => {
-                queue === 1 ? setQueue(1.1) : setQueue(2.1);
-              }}
-            >
-              Подтвердить
-            </button>
-          </form>
-        ) : queue === 2.1 ? (
-          <form action={"#"} autoComplete="off">
-            <h1>Введите код отправленный на ваш телефон</h1>
-            <div className={styles.ChangeInput}>
-              <p>Код</p>
-              <input
-                type="password"
-                maxLength={8}
-                required
-                autoComplete="false"
-              />
-            </div>
-            <button
-              className={styles.Changebutton}
-              onClick={() => {
-                setQueue(2.2);
-              }}
-            >
-              Подтвердить
-            </button>
-          </form>
-        ) : queue === 2.2 ? (
-          <form action={"#"} autoComplete="off">
             <div className={styles.ChangeInput}>
               <p>Новый пароль</p>
               <input
@@ -101,7 +64,7 @@ const ChanchePassword = ({ setIsChangePassOpen }: ChangePass) => {
                 autoComplete="false"
               />
             </div>
-            <Link href="/allCategoriy">
+            <Link href="/">
               <button className={styles.Changebutton}>Подтвердить</button>
             </Link>
           </form>

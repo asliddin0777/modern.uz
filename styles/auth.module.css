@@ -13,6 +13,8 @@
   transition: 0.2s linear;
 }
 
+
+
 .authent {
   width: 100%;
   display: flex;
@@ -49,7 +51,7 @@
   padding-right: 20px;
 }
 
-.title > h3 {
+.title>h3 {
   font-size: 25px;
   color: #000;
   font-weight: 700;
@@ -63,7 +65,7 @@
   gap: 0.5rem;
 }
 
-.authForm > input {
+.authForm>input {
   padding: 20px;
   padding-left: 0px;
   border: none;
@@ -80,23 +82,23 @@
 }
 
 .enter {
-    width: 100%;
-    padding: 15px 20px;
-    background: #e4b717;
-    border-radius: 2000px;
-    color: #fff;
-    font-size: 18px;
-    margin-top: 1rem;   
-    font-weight: 700;
+  width: 100%;
+  padding: 15px 20px;
+  background: #e4b717;
+  border-radius: 2000px;
+  color: #fff !important;
+  font-size: 18px;
+  margin-top: 1rem;
+  font-weight: 700;
 }
 
 .signUp {
-    margin-top: 2rem;
-    font-size: 18px;
-    font-weight: 700;
+  margin-top: 2rem;
+  font-size: 18px;
+  font-weight: 700;
 }
 
-.auth > button {
+.auth>button {
   font-size: 20px;
   margin-top: 1rem;
 }

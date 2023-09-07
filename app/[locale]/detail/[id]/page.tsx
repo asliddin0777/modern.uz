@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import TopHeader from "../../components/global/TopHeader";
@@ -15,14 +15,13 @@ import { usePathname } from "next/navigation";
 import axios from "axios";
 import Loader from "../../components/local/Loader";
 import { io } from "socket.io-client";
-import { uuid as uuidv4 } from 'uuidv4';
+import { uuid as uuidv4 } from "uuidv4";
 import { userInfo } from "os";
 import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../../components/local/socket";
 import IProduct from "@/interfaces/Product/IProduct";
 import IReview from "@/interfaces/Review/IReview";
 import Auth from "../../components/global/Auth";
-
 
 const Detail = () => {
   const [likedObj, setLikedObj] = useState<any | any[]>([]);
@@ -31,20 +30,20 @@ const Detail = () => {
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [order, setOrder] = useState<boolean>(false);
   const [load, setLoad] = useState<boolean>(true);
-  const [selectedImage, setSelectedImage] = useState<string>("")
+  const [selectedImage, setSelectedImage] = useState<string>("");
   const [textLength, setTextLength] = useState<number>(1000);
   const [data, setData] = useState<any | any[]>([]);
   const [props, setProps] = useState<any | any[]>([]);
   const [selectedMemory, setSelectedMemory] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<string>("");
-  const [categories, setCategories] = useState<any[] | any>([])
-  const [subCategories, setSubCategories] = useState<any[] | any>([])
-  const [auth, setAuth] = useState<boolean>(false)
-  const [fromWhere, setFromWhere] = useState<number>(0)
+  const [categories, setCategories] = useState<any[] | any>([]);
+  const [subCategories, setSubCategories] = useState<any[] | any>([]);
+  const [auth, setAuth] = useState<boolean>(false);
+  const [fromWhere, setFromWhere] = useState<number>(0);
   const pathname = usePathname();
 
-  const [cookie] = useCookies(["userInfo"])
-  const { userInfo } = cookie
+  const [cookie] = useCookies(["userInfo"]);
+  const { userInfo } = cookie;
   useEffect(() => {
     order !== true
       ? (document.body.style.overflow = "auto")
@@ -56,27 +55,39 @@ const Detail = () => {
       : (document.body.style.overflow = "hidden");
   }, [isChatOpen]);
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const req1 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/products`)
-        const req2 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/props`)
-        const req3 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`)
-        const req4 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`)
-        const [res1, res2, res3, res4] = await axios.all([req1, req2, req3, req4])
-        setData(res1.data.products)
-        setProps(res2.data)
-        setCategories(res3.data)
-        setSubCategories(res4.data)
+        const req1 = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/products`
+        );
+        const req2 = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/props`
+        );
+        const req3 = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/categories`
+        );
+        const req4 = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/subcategories`
+        );
+        const [res1, res2, res3, res4] = await axios.all([
+          req1,
+          req2,
+          req3,
+          req4,
+        ]);
+        setData(res1.data.products);
+        setProps(res2.data);
+        setCategories(res3.data);
+        setSubCategories(res4.data);
       } catch (err) {
-        console.error(err)
+        console.error(err);
       } finally {
-        setLoad(false)
+        setLoad(false);
       }
-    }
-    fetchData()
-  }, [])
+    };
+    fetchData();
+  }, []);
 
   const cardObj = [
     {
@@ -119,7 +130,11 @@ const Detail = () => {
 
   if (!load) {
     const selectedProduct: IProduct =
-      data && data.find((product: any) => product.id === pathname.split("/")[pathname.split("/").length - 1]);
+      data &&
+      data.find(
+        (product: any) =>
+          product.id === pathname.split("/")[pathname.split("/").length - 1]
+      );
     const storage = selectedProduct?.props.filter(
       (st: any) => st.prop.name === "Storage"
     );
@@ -168,11 +183,13 @@ const Detail = () => {
                     <Image
                       src={
                         selectedProduct && selectedProduct?.media.length
-                          ? selectedImage === "" ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedProduct?.media[0]?.name}` : `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedImage}`
+                          ? selectedImage === ""
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedProduct?.media[0]?.name}`
+                            : `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedImage}`
                           : "/images/bag.png"
                       }
                       style={{
-                        borderRadius: 15
+                        borderRadius: 15,
                       }}
                       alt="iphone 14"
                       width={353}
@@ -188,13 +205,13 @@ const Detail = () => {
                           style={
                             e.name === selectedImage
                               ? {
-                                boxShadow:
-                                  "0px 1px 17px rgba(228, 183, 23, 0.3)",
-                              }
+                                  boxShadow:
+                                    "0px 1px 17px rgba(228, 183, 23, 0.3)",
+                                }
                               : {}
                           }
-                          onClick={()=> {
-                            setSelectedImage(e.name)
+                          onClick={() => {
+                            setSelectedImage(e.name);
                           }}
                         >
                           <Image
@@ -231,7 +248,9 @@ const Detail = () => {
                         )}
                         {manif && <p>Производитель......................</p>}
                         {wtRs && <p>Водонепроницаемый...........</p>}
-                        {selectedColor !== "" && <p>Цвет.........................................</p>}
+                        {selectedColor !== "" && (
+                          <p>Цвет.........................................</p>
+                        )}
                       </div>
                       <div className={styles.characterInfoRight}>
                         {warranty && <p>{warranty.value}</p>}
@@ -240,8 +259,20 @@ const Detail = () => {
                         {selectedColor !== "" && <p>{selectedColor}</p>}
                       </div>
                     </div>
-                    {isChatOpen === true && <Chat selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
-                    {auth === true && <Auth setIsAuthOpen={setAuth} fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} />}
+                    {isChatOpen === true && (
+                      <Chat
+                        selectedProduct={selectedProduct}
+                        setIsChatOpen={setIsChatOpen}
+                      />
+                    )}
+                    {auth === true && (
+                      <Auth
+                        setIsAuthOpen={setAuth}
+                        fromWhere={fromWhere}
+                        isAuthOpen={auth}
+                        setFromWhere={setFromWhere}
+                      />
+                    )}
                     <div className={styles.selectMemory}>
                       {colors &&
                         colors.map((e: any, index: number) => {
@@ -279,7 +310,7 @@ const Detail = () => {
                               onClick={() => {
                                 setControllerM(index);
                                 if (e.value === selectedMemory) {
-                                  setSelectedMemory("")
+                                  setSelectedMemory("");
                                 } else {
                                   setSelectedMemory(e.value);
                                 }
@@ -295,18 +326,21 @@ const Detail = () => {
                 <div className={styles.costSide}>
                   <div className={styles.costTop}>
                     <div className={styles.cost}>
-                      {selectedProduct && selectedProduct.price.map((price: any) => {
-                        return <div className={styles.costP} key={uuidv4()}>
-                          <h3>{price.price} $</h3>
-                          <h4
-                            style={{
-                              textDecoration: "line-through",
-                            }}
-                          >
-                            {price.oldPrice}
-                          </h4>
-                        </div>
-                      })}
+                      {selectedProduct &&
+                        selectedProduct.price.map((price: any) => {
+                          return (
+                            <div className={styles.costP} key={uuidv4()}>
+                              <h3>{price.price} $</h3>
+                              <h4
+                                style={{
+                                  textDecoration: "line-through",
+                                }}
+                              >
+                                {price.oldPrice}
+                              </h4>
+                            </div>
+                          );
+                        })}
                       <div className={styles.imageLike}>
                         <Image
                           src="/icons/liked.svg"
@@ -340,19 +374,31 @@ const Detail = () => {
                       onClick={() => {
                         if (userInfo !== undefined) {
                           setIsChatOpen(!isChatOpen);
-                        socket.connect()
-                        socket.emit('newUser', JSON.stringify({id: userInfo.userId, fullName: `${localStorage.getItem("userName")} ${localStorage.getItem("lastName")}`}))
-                        axios.post("/chats/new", {
-                          author: selectedProduct.author,
-                          product: selectedProduct.id
-                        }, {
-                          headers: {
-                            Authorization: userInfo.userToken
-                          }
-                        })
+                          socket.connect();
+                          socket.emit(
+                            "newUser",
+                            JSON.stringify({
+                              id: userInfo.userId,
+                              fullName: `${localStorage.getItem(
+                                "userName"
+                              )} ${localStorage.getItem("lastName")}`,
+                            })
+                          );
+                          axios.post(
+                            "/chats/new",
+                            {
+                              author: selectedProduct.author,
+                              product: selectedProduct.id,
+                            },
+                            {
+                              headers: {
+                                Authorization: userInfo.userToken,
+                              },
+                            }
+                          );
                         } else {
-                          setAuth(!auth)
-                          setFromWhere(2)
+                          setAuth(!auth);
+                          setFromWhere(2);
                         }
                       }}
                       className={styles.cart}
@@ -418,7 +464,9 @@ const Detail = () => {
                         )}
                         {manif && <p>Производитель......................</p>}
                         {wtRs && <p>Водонепроницаемый...........</p>}
-                        {selectedColor !== "" && <p>Цвет.........................................</p>}
+                        {selectedColor !== "" && (
+                          <p>Цвет.........................................</p>
+                        )}
                       </div>
                       <div className={styles.characterInfoRight}>
                         {warranty && <p>{warranty.value}</p>}
@@ -439,7 +487,7 @@ const Detail = () => {
                         ? selectedProduct.description.substring(0, textLength)
                         : desc.substring(0, textLength)}{" "}
                       {selectedProduct &&
-                        selectedProduct.description.length > 1000 ? (
+                      selectedProduct.description.length > 1000 ? (
                         <button
                           onClick={() => {
                             setTextLength(selectedProduct?.description.length);
@@ -447,12 +495,12 @@ const Detail = () => {
                           style={
                             textLength !== selectedProduct?.description.length
                               ? {
-                                color: "#179AE4",
-                                fontWeight: 700,
-                              }
+                                  color: "#179AE4",
+                                  fontWeight: 700,
+                                }
                               : {
-                                display: "none",
-                              }
+                                  display: "none",
+                                }
                           }
                         >
                           [read more]
@@ -465,12 +513,12 @@ const Detail = () => {
                           style={
                             textLength !== desc.length
                               ? {
-                                color: "#179AE4",
-                                fontWeight: 700,
-                              }
+                                  color: "#179AE4",
+                                  fontWeight: 700,
+                                }
                               : {
-                                display: "none",
-                              }
+                                  display: "none",
+                                }
                           }
                         >
                           [read more]
@@ -485,9 +533,10 @@ const Detail = () => {
                     <h3>Оставить отзыв</h3>
                     <input required type="text" />
                   </form>
-                  {selectedProduct && selectedProduct?.review?.map((e:IReview) => {
-                    return <Reviews key={uuidv4()} />;
-                  })}
+                  {selectedProduct &&
+                    selectedProduct?.review?.map((e: IReview) => {
+                      return <Reviews key={uuidv4()} />;
+                    })}
                 </div>
               )}
             </section>
@@ -533,7 +582,9 @@ const Detail = () => {
               </div>
             </section>
           </div>
-          <Footer />
+          <div style={{marginTop: -200}}>
+            <Footer />
+          </div>
         </main>
       </>
     );
