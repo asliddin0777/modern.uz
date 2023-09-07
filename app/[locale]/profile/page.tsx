@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import styles from "@/styles/profile.module.css";
 import Footer from "../components/global/Footer";
 import Image from "next/image";
@@ -193,7 +193,7 @@ const Profile = () => {
                         height={16.47}
                         alt="circle"
                       />
-                      </div>
+                    </div>
                   </div>
                   <div className={styles.inputSection}>
                     <div className={styles.input}>
@@ -297,88 +297,98 @@ const Profile = () => {
                 </section>
                 <section className={styles.order}>
                   <h3 className={styles.orderTitle}>Мои заказы</h3>
-                  <div className={styles.cardOrder}>
-                    <div className={styles.orderNumber}>
-                      <p>Товары</p>
-                      <div className={styles.orderButton}>
-                        <p>Статус: На рассмотрении</p>
-                        <button>Заказ № 13</button>
-                      </div>
-                    </div>
-                    <div className={styles.orderSection}>
-                      <div>
-                        {selectedCard &&
-                          selectedCard.map(
-                            (
-                              e: {
-                                media: any;
-                                product: {
-                                  name: string;
-                                  price: {
-                                    price: number;
-                                  }[];
-                                  media: {
-                                    name: string;
-                                    fileId: string;
-                                  }[];
-                                };
-                              },
-                              index: number
-                            ) => {
-                              return (
-                                <div key={uuidv4()}>
-                                  {" "}
-                                  <div key={index} className={styles.cart}>
-                                    <Image
-                                      src={
-                                        e.media?.length
-                                          ?  `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
-                                          : "/images/14.png"
-                                      }
-                                      width={58}
-                                      height={58}
-                                      alt="hello"
-                                      style={{
-                                        width: "auto",
-                                        height: 58,
-                                      }}
-                                    />
-                                    <div className={styles.cartTitle}>
-                                      <h3>{e.product.name}</h3>
-                                      <div className={styles.const}>
-                                        <div className={styles.constTag}>
-                                          <p>Кол-во:</p>
-                                          <p>{2}</p>
-                                        </div>
-                                        <div className={styles.priceTitle}>
-                                          <p>Стоимость:</p>
-                                          <p>{e.product.price[0].price}</p>
+                  {selectedCard ? (
+                    <>
+                      <div className={styles.cardOrder}>
+                        <div className={styles.orderNumber}>
+                          <p>Товары</p>
+                          <div className={styles.orderButton}>
+                            <p>Статус: На рассмотрении</p>
+                            <button>Заказ № 13</button>
+                          </div>
+                        </div>
+                        <div className={styles.orderSection}>
+                          <div>
+                            {selectedCard &&
+                              selectedCard.map(
+                                (
+                                  e: {
+                                    media: any;
+                                    product: {
+                                      name: string;
+                                      price: {
+                                        price: number;
+                                      }[];
+                                      media: {
+                                        name: string;
+                                        fileId: string;
+                                      }[];
+                                    };
+                                  },
+                                  index: number
+                                ) => {
+                                  return (
+                                    <div key={uuidv4()}>
+                                      {" "}
+                                      <div key={index} className={styles.cart}>
+                                        <Image
+                                          src={
+                                            e.media?.length
+                                              ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
+                                              : "/images/14.png"
+                                          }
+                                          width={58}
+                                          height={58}
+                                          alt="hello"
+                                          style={{
+                                            width: "auto",
+                                            height: 58,
+                                          }}
+                                        />
+                                        <div className={styles.cartTitle}>
+                                          <h3>{e.product.name}</h3>
+                                          <div className={styles.const}>
+                                            <div className={styles.constTag}>
+                                              <p>Кол-во:</p>
+                                              <p>{2}</p>
+                                            </div>
+                                            <div className={styles.priceTitle}>
+                                              <p>Стоимость:</p>
+                                              <p>{e.product.price[0].price}</p>
+                                            </div>
+                                          </div>
                                         </div>
                                       </div>
+                                      <div className={styles.line}></div>
                                     </div>
-                                  </div>
-                                  <div className={styles.line}></div>
-                                </div>
-                              );
-                            }
-                          )}
-                      </div>
-                      <div className={styles.rightOrder}>
-                        <div className={styles.total}>
-                          <h4>Итого:</h4>
-                          <h5>72.000.000 сум</h5>
+                                  );
+                                }
+                              )}
+                          </div>
+                          <div className={styles.rightOrder}>
+                            <div className={styles.total}>
+                              <h4>Итого:</h4>
+                              <h5>72.000.000 сум</h5>
+                            </div>
+                            <div className={styles.button}>
+                              <button>Связаться с продавцом</button>
+                            </div>
+                          </div>
                         </div>
-                        <div className={styles.button}>
-                          <button>Связаться с продавцом</button>
-                        </div>
                       </div>
-                    </div>
-                  </div>
+                    </>
+                  ) : (
+                    <>
+                      <h1 style={{textAlign: "center"}}>You don't have products</h1>
+                    </>
+                  )}
                 </section>
               </section>
             </>
           )}
-          <Footer />
+          <div style={{ marginTop: -300 }}>
+            <Footer />
+          </div>
         </div>
       );
     } else {
@@ -501,7 +511,7 @@ const Profile = () => {
                         alt="user"
                       />
                       <p>Личные данные</p>
-                      </div>
+                    </div>
                     <div
                       className={styles.profileOrder}
                       style={

@@ -2,7 +2,7 @@
     padding: 10px 5px;
     position: absolute;
     display: flex;
-    top: 175px;
+    top: 190px;
     width: 1180px;
     background-color: #ffffff;
     border-radius: 20px;
@@ -44,7 +44,8 @@
     margin-left: 1rem;
 }
 
-.categorLeft h1{
+.categorLeft a{
+    width: 100%;
     font-size: 17px;
     font-weight: 600;
     padding: 10px 12px;
@@ -52,12 +53,19 @@
     background: none;
 }
 
+
 .categorLeft div:hover {
     cursor: pointer;
     color: #FFFFFF;
     background-color: #E4B717;
     border-radius: 15px;
     width: 100%;
+    transition: 0.2s linear;
+}
+
+.categorLeft div a:hover {
+    cursor: pointer;
+    color: #FFFFFF;
     transition: 0.2s linear;
 }
 

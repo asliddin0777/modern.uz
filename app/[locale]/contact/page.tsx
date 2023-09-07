@@ -122,7 +122,9 @@ const Contact = () => {
               <textarea name="message" maxLength={250} className={styles.input} />
             </div>
           </div>
-          <button>Отправить</button>
+          <button onClick={() => {
+            alert('we will contact you soon')
+          }}>Отправить</button>
         </form>
       </div>
       <div style={{ marginTop: "11rem" }}>

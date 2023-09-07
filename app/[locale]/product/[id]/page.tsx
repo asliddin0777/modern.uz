@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import TopHeader from "../../components/global/TopHeader";
@@ -15,7 +15,7 @@ import { usePathname } from "next/navigation";
 import axios from "axios";
 import Loader from "../../components/local/Loader";
 import { io } from "socket.io-client";
-import { uuid as uuidv4 } from 'uuidv4';
+import { uuid as uuidv4 } from "uuidv4";
 import { userInfo } from "os";
 import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../../components/local/socket";
@@ -24,7 +24,6 @@ import IReview from "@/interfaces/Review/IReview";
 import Auth from "../../components/global/Auth";
 import IFormatedProps from "@/interfaces/Product/IFormatedProps";
 
-
 const Detail = () => {
   const [likedObj, setLikedObj] = useState<any | any[]>([]);
   const [controllerC, setControllerC] = useState<number>(0);
@@ -32,20 +31,20 @@ const Detail = () => {
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [order, setOrder] = useState<boolean>(false);
   const [load, setLoad] = useState<boolean>(true);
-  const [selectedImage, setSelectedImage] = useState<string>("")
+  const [selectedImage, setSelectedImage] = useState<string>("");
   const [textLength, setTextLength] = useState<number>(1000);
   const [data, setData] = useState<IProduct>();
   const [props, setProps] = useState<any | any[]>([]);
   const [selectedMemory, setSelectedMemory] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<string>("");
-  const [categories, setCategories] = useState<any[] | any>([])
-  const [subCategories, setSubCategories] = useState<any[] | any>([])
-  const [auth, setAuth] = useState<boolean>(false)
-  const [fromWhere, setFromWhere] = useState<number>(0)
+  const [categories, setCategories] = useState<any[] | any>([]);
+  const [subCategories, setSubCategories] = useState<any[] | any>([]);
+  const [auth, setAuth] = useState<boolean>(false);
+  const [fromWhere, setFromWhere] = useState<number>(0);
   const pathname = usePathname();
 
-  const [cookie] = useCookies(["userInfo"])
-  const { userInfo } = cookie
+  const [cookie] = useCookies(["userInfo"]);
+  const { userInfo } = cookie;
   useEffect(() => {
     order !== true
       ? (document.body.style.overflow = "auto")
@@ -56,7 +55,6 @@ const Detail = () => {
       ? (document.body.style.overflow = "auto")
       : (document.body.style.overflow = "hidden");
   }, [isChatOpen]);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,9 +69,9 @@ const Detail = () => {
         setCategories(res3.data)
         setSubCategories(res4.data)
       } catch (err) {
-        console.error(err)
+        console.error(err);
       } finally {
-        setLoad(false)
+        setLoad(false);
       }
     }
     fetchData()
@@ -170,11 +168,13 @@ const Detail = () => {
                     <Image
                       src={
                         selectedProduct && selectedProduct?.media.length
-                          ? selectedImage === "" ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedProduct?.media[0]?.name}` : `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedImage}`
+                          ? selectedImage === ""
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedProduct?.media[0]?.name}`
+                            : `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedImage}`
                           : "/images/bag.png"
                       }
                       style={{
-                        borderRadius: 15
+                        borderRadius: 15,
                       }}
                       alt="iphone 14"
                       width={353}
@@ -190,9 +190,9 @@ const Detail = () => {
                           style={
                             e.name === selectedImage
                               ? {
-                                boxShadow:
-                                  "0px 1px 17px rgba(228, 183, 23, 0.3)",
-                              }
+                                  boxShadow:
+                                    "0px 1px 17px rgba(228, 183, 23, 0.3)",
+                                }
                               : {}
                           }
                           onClick={() => {
@@ -233,7 +233,9 @@ const Detail = () => {
                         )}
                         {manif && <p>Производитель......................</p>}
                         {wtRs && <p>Водонепроницаемый...........</p>}
-                        {selectedColor !== "" && <p>Цвет.........................................</p>}
+                        {selectedColor !== "" && (
+                          <p>Цвет.........................................</p>
+                        )}
                       </div>
                       <div className={styles.characterInfoRight}>
                         {warranty && <p>{warranty.value}</p>}
@@ -281,7 +283,7 @@ const Detail = () => {
                               onClick={() => {
                                 setControllerM(index);
                                 if (e.value === selectedMemory) {
-                                  setSelectedMemory("")
+                                  setSelectedMemory("");
                                 } else {
                                   setSelectedMemory(e.value);
                                 }
@@ -308,18 +310,21 @@ const Detail = () => {
                 <div className={styles.costSide}>
                   <div className={styles.costTop}>
                     <div className={styles.cost}>
-                      {selectedProduct && selectedProduct.price.map((price: any) => {
-                        return <div className={styles.costP} key={uuidv4()}>
-                          <h3>{price.price} $</h3>
-                          <h4
-                            style={{
-                              textDecoration: "line-through",
-                            }}
-                          >
-                            {price.oldPrice}
-                          </h4>
-                        </div>
-                      })}
+                      {selectedProduct &&
+                        selectedProduct.price.map((price: any) => {
+                          return (
+                            <div className={styles.costP} key={uuidv4()}>
+                              <h3>{price.price} $</h3>
+                              <h4
+                                style={{
+                                  textDecoration: "line-through",
+                                }}
+                              >
+                                {price.oldPrice}
+                              </h4>
+                            </div>
+                          );
+                        })}
                       <div className={styles.imageLike}>
                         <Image
                           src="/icons/liked.svg"
@@ -364,8 +369,8 @@ const Detail = () => {
                             }
                           })
                         } else {
-                          setAuth(!auth)
-                          setFromWhere(2)
+                          setAuth(!auth);
+                          setFromWhere(2);
                         }
                       }}
                       className={styles.cart}
@@ -431,7 +436,9 @@ const Detail = () => {
                         )}
                         {manif && <p>Производитель......................</p>}
                         {wtRs && <p>Водонепроницаемый...........</p>}
-                        {selectedColor !== "" && <p>Цвет.........................................</p>}
+                        {selectedColor !== "" && (
+                          <p>Цвет.........................................</p>
+                        )}
                       </div>
                       <div className={styles.characterInfoRight}>
                         {warranty && <p>{warranty.value}</p>}
@@ -452,7 +459,7 @@ const Detail = () => {
                         ? selectedProduct.description.substring(0, textLength)
                         : desc.substring(0, textLength)}{" "}
                       {selectedProduct &&
-                        selectedProduct.description.length > 1000 ? (
+                      selectedProduct.description.length > 1000 ? (
                         <button
                           onClick={() => {
                             setTextLength(selectedProduct?.description.length);
@@ -460,12 +467,12 @@ const Detail = () => {
                           style={
                             textLength !== selectedProduct?.description.length
                               ? {
-                                color: "#179AE4",
-                                fontWeight: 700,
-                              }
+                                  color: "#179AE4",
+                                  fontWeight: 700,
+                                }
                               : {
-                                display: "none",
-                              }
+                                  display: "none",
+                                }
                           }
                         >
                           [read more]
@@ -478,12 +485,12 @@ const Detail = () => {
                           style={
                             textLength !== desc.length
                               ? {
-                                color: "#179AE4",
-                                fontWeight: 700,
-                              }
+                                  color: "#179AE4",
+                                  fontWeight: 700,
+                                }
                               : {
-                                display: "none",
-                              }
+                                  display: "none",
+                                }
                           }
                         >
                           [read more]
@@ -547,7 +554,9 @@ const Detail = () => {
               </div> */}
             </section>
           </div>
-          <Footer />
+          <div style={{marginTop: -200}}>
+            <Footer />
+          </div>
         </main>
       </>
     );

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import styles from "@/styles/category.module.css";
 import Header from "../components/global/Header";
 import Image from "next/image";
@@ -14,8 +14,7 @@ import { usePathname, useRouter } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
 import CategoryProp from "../components/local/CategoryProp";
 
-
-export default function Categoriy() {
+export default function Page() {
   const [cardBurger, setCardBurger] = useState<boolean>(false);
   const [subcategor, setSubcategory] = useState<any[] | any>();
   const [load, setLoad] = useState<boolean>(true);
@@ -34,8 +33,7 @@ export default function Categoriy() {
   const router = useRouter();
 
   const pathname = usePathname();
-  console.log(pathname)
-
+  console.log(pathname);
 
   useEffect(() => {
     setLoad(true);
@@ -43,7 +41,7 @@ export default function Categoriy() {
     axios
       .get(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
         params: {
-          subcategory: pathname,
+          category: pathname.split("/")[pathname.split("/").length - 1],
         },
       })
       .then((res: any) => {
@@ -56,36 +54,53 @@ export default function Categoriy() {
   }, []);
 
   useEffect(() => {
-    setLoad(true)
+    setLoad(true);
+    console.log(pathname);
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
+        params: {
+          subcategory: pathname.split("/")[pathname.split("/").length - 1],
+        },
+      })
+      .then((res: any) => {
+        setSelectedProduct(res.data);
+      })
+      .catch((e: string) => console.log(e))
+      .finally(() => {
+        setLoad(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    setLoad(true);
     const fetchData = async () => {
       try {
-        const categories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`)
-        const subCategories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`)
-        const [res1, res2] = await axios.all([categories, subCategories])
-        setCategories(res1.data)
-        setSubCategories(res2.data)
+        const categories = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/categories`
+        );
+        const subCategories = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/subcategories`
+        );
+        const subCategory = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/subcategories/${
+            pathname.split("/")[pathname.split("/").length - 1]
+          }`
+        );
+        const [res1, res2, res3] = await axios.all([
+          categories,
+          subCategories,
+          subCategory,
+        ]);
+        setCategories(res1.data);
+        setSubCategories(res2.data);
+        setSubcategory(res3.data)
       } catch (err) {
         console.log(err);
       } finally {
-        setLoad(false)
+        setLoad(false);
       }
-    }
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    if (pathname) {
-      axios
-        .get(`${process.env.NEXT_PUBLIC_API}/api/subcategories/${pathname.split('/')[pathname.split("/").length-1]}`)
-        .then((res: any) => {
-          console.log(res.data);
-          setSubcategory(res.data);
-        })
-        .catch((e: string) => console.log(e))
-        .finally(() => {
-          setLoad(false);
-        });
-    }
+    };
+    fetchData();
   }, []);
 
   const handlerFilter = () => {
@@ -93,7 +108,7 @@ export default function Categoriy() {
     axios
       .get<IProduct[]>(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
         params: {
-          subcategory: pathname,
+          subcategory: pathname.split("/")[pathname.split("/").length - 1],
           props: selectedProps,
         },
       })
@@ -105,6 +120,7 @@ export default function Categoriy() {
         setLoad(false);
       });
   };
+
   if (!load && selectedProps) {
     return (
       <>
@@ -135,25 +151,26 @@ export default function Categoriy() {
                 subcategor={subcategor}
               />
             )}
+
             <CategoryProp
               selectedProps={selectedProps}
               setSelectedProps={setSelectedProps}
               handlerFilter={handlerFilter}
               subcategor={subcategor}
+              selectedProduct={selectedProduct}
             />
+
             <section className={styles.sectionRight}>
               {selectedProduct &&
                 selectedProduct.products.map((e, index: number) => (
                   <Card
                     animation="fade-down"
-                    // @ts-ignore
-                    cat={subcategory.id}
                     url={e.id}
                     height={300}
                     width={300}
                     image={
                       e.media.length
-                        ?  `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
+                        ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
                         : "/images/14.png"
                     }
                     title={e.name}
@@ -186,7 +203,9 @@ export default function Categoriy() {
             <p>...</p>
             <p>5</p>
           </div>
-          <Footer />
+          <div style={{ marginTop: -300 }}>
+            <Footer />
+          </div>
         </div>
       </>
     );
