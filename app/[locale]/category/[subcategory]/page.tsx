@@ -40,9 +40,8 @@ export default function Page() {
 
   useEffect(() => {
     setLoad(true);
-    console.log(pathname);
     axios
-      .get(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
+      .get(`${process.env.NEXT_PUBLIC_API}/api/products`, {
         params: {
           subcategory: pathname.split('/')[pathname.split("/").length-1],
         },

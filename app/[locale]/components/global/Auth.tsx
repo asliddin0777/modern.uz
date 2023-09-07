@@ -46,10 +46,6 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
   const passRef2 = useRef<HTMLInputElement | any>()
   const userNameRef = useRef<HTMLInputElement | any>()
   const lastNameRef = useRef<HTMLInputElement | any>()
-  const [startDate, setStartDate] = useState(new Date());
-
-  const [] = useState<string>()
-
   const [cookie, setCookie] = useCookies(['userInfo'])
   const handleCheckUserAtLogin = () => {
     if (passwordRef && numberRef) {
@@ -259,16 +255,18 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
                   autoComplete="false"
                 />
                 <input
-                  type="text"
-                  maxLength={8}
+                  type="password"
+                  minLength={8}
+                  maxLength={36}
                   placeholder="Новый пароль"
                   required
                   ref={passRef}
                   autoComplete="false"
                 />
                 <input
-                  type="text"
-                  maxLength={8}
+                  type="password"
+                  minLength={8}
+                  maxLength={36}
                   placeholder="Подтвердите пароль"
                   required
                   ref={passRef2}

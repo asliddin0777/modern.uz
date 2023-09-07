@@ -13,6 +13,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import Loader from "../components/local/Loader";
 import { uuid as uuidv4 } from 'uuidv4';
+import IUser from "@/interfaces/IUser";
 const Profile = () => {
   const [isChangePassOpen, setIsChangePassOpen] = useState(false);
   const [profileBurger, setProfileBurger] = useState(false);
@@ -54,15 +55,22 @@ const Profile = () => {
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true);
+  const [user, setUser] = useState<IUser>()
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
       try {
         const categories = await axios.get("/categories");
         const subCategories = await axios.get("/subcategories");
-        const [res1, res2] = await axios.all([categories, subCategories]);
+        const user = await axios.get("/users/current", {
+          headers: {
+            Authorization: userInfo !== undefined && userInfo.userToken
+          }
+        })
+        const [res1, res2, res3] = await axios.all([categories, subCategories, user]);
         setCategories(res1.data);
         setSubCategories(res2.data);
+        setUser(res3.data)
       } catch (err) {
         console.log(err);
       } finally {
@@ -76,9 +84,11 @@ const Profile = () => {
     const username: any = localStorage.getItem("userName");
     const password: any = localStorage.getItem("password");
     const lastname: any = localStorage.getItem("lastname");
+    const userProfile: string[] | undefined = user?.fullName.split(" ")
+    console.log(userProfile);
     if (userInfo) {
       return (
-        <div className={styles.Profile}>
+        <div className={styles.profile}>
           {isChangePassOpen && (
             <ChangePassword setIsChangePassOpen={setIsChangePassOpen} />
           )}
@@ -124,8 +134,8 @@ const Profile = () => {
                       <Image
                         src={
                           !buttonColor
-                            ? "icons/user.svg"
-                            : "icons/userWhite.svg"
+                            ? "/icons/user.svg"
+                            : "/icons/userWhite.svg"
                         }
                         width={16}
                         height={21}
@@ -148,8 +158,8 @@ const Profile = () => {
                       <Image
                         src={
                           !buttonColor
-                            ? "icons/book.svg"
-                            : "icons/bookWhite.svg"
+                            ? "/icons/book.svg"
+                            : "/icons/bookWhite.svg"
                         }
                         width={17.29}
                         height={21}
@@ -159,7 +169,7 @@ const Profile = () => {
                     </div>
                     <div className={styles.profileClose}>
                       <Image
-                        src={"icons/logout.svg"}
+                        src={"/icons/logout.svg"}
                         width={19}
                         height={19}
                         alt="close"
@@ -189,11 +199,11 @@ const Profile = () => {
                     <div className={styles.input}>
                       <div>
                         <p>Имя</p>
-                        <input disabled value={username} type="text" />
+                        <input disabled value={username ? username : userProfile && userProfile[0]} type="text" />
                       </div>
                       <div>
                         <p>Фамилия</p>
-                        <input disabled value={lastname} type="text" />
+                        <input disabled value={lastname ? lastname : userProfile && userProfile[1]} type="text" />
                       </div>
                     </div>
                     <div className={styles.input}>
@@ -205,10 +215,6 @@ const Profile = () => {
                           placeholder="+998 "
                           type="text"
                         />
-                      </div>
-                      <div>
-                        <p>Пароль</p>
-                        <input value={password} type="password" disabled />
                       </div>
                     </div>
                   </div>
@@ -246,8 +252,8 @@ const Profile = () => {
                       <Image
                         src={
                           !buttonColor
-                            ? "icons/userWhite.svg"
-                            : "icons/user.svg"
+                            ? "/icons/userWhite.svg"
+                            : "/icons/user.svg"
                         }
                         width={16}
                         height={21}
@@ -269,8 +275,8 @@ const Profile = () => {
                       <Image
                         src={
                           !buttonColor
-                            ? "icons/book.svg"
-                            : "icons/bookWhite.svg"
+                            ? "/icons/book.svg"
+                            : "/icons/bookWhite.svg"
                         }
                         width={17.29}
                         height={21}
@@ -280,7 +286,7 @@ const Profile = () => {
                     </div>
                     <div className={styles.profileClose}>
                       <Image
-                        src={"icons/logout.svg"}
+                        src={"/icons/logout.svg"}
                         width={19}
                         height={19}
                         alt="close"

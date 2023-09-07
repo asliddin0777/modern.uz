@@ -9,4 +9,5 @@ export interface IMessage {
     chat?: IChat["id"];
     file: string;
     createdAt: string
+    viewed: boolean
   }

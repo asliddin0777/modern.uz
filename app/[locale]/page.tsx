@@ -19,11 +19,12 @@ import "swiper/css/pagination";
 import axios from "axios";
 import { uuid as uuidv4 } from "uuidv4";
 import Loader from "./components/local/Loader";
+import { IPage } from "@/interfaces/IPage";
 
 export default function Home() {
   const [buttonColor, setButtonColor] = useState<number>(0);
   const [slidesPerView, setSlidesPerView] = useState<number>(4);
-  const [data, setData] = useState<any[] | any>([]);
+  const [data, setData] = useState<IPage>();
   const [popularProducts, setPopularProducts] = useState<any[] | any>([]);
   const [slides, setSlides] = useState<any[] | any>([]);
   const [isLiked, setIsLiked] = useState<any[] | any>([]);
@@ -61,11 +62,13 @@ export default function Home() {
     },
   ];
 
+  const [refetch, setRefetch] = useState(false)
+
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
       try {
-        const req1 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/products`);
+        const req1 = axios.get<IPage>(`${process.env.NEXT_PUBLIC_API}/api/products`);
         const req2 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`);
         const req3 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/slides`);
         const req4 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/products?popularProducts=true`);
@@ -95,19 +98,40 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (refetch === true) {
+      setData({page:1, products: [], totalCount:3})
+      setPopularProducts({})
+      const refetchData = async () => {
+        try {
+          const prod = axios.get<IPage>(`${process.env.NEXT_PUBLIC_API}/api/products`);
+          const pop = axios.get(`${process.env.NEXT_PUBLIC_API}/api/products?popularProducts=true`);
+          const [product, popular] = await axios.all([prod, pop])
+          setData(product.data)
+          setPopularProducts(popular.data)
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      refetchData()
+      setRefetch(false)
+    }
+  }, [refetch])
+
+
+  useEffect(() => {
     document.body.offsetWidth < 680 && document.body.offsetWidth > 460
       ? setSlidesPerView(3)
       : document.body.offsetWidth < 460
-      ? setSlidesPerView(2)
-      : setSlidesPerView(4);
+        ? setSlidesPerView(2)
+        : setSlidesPerView(4);
   }, []);
 
   useEffect(() => {
     document.body.offsetWidth < 680 && document.body.offsetWidth > 460
       ? setSlidesPerView(3)
       : document.body.offsetWidth < 460
-      ? setSlidesPerView(2)
-      : setSlidesPerView(4);
+        ? setSlidesPerView(2)
+        : setSlidesPerView(4);
   }, []);
 
   const pagination: object = {
@@ -117,7 +141,7 @@ export default function Home() {
     },
   };
 
-  if (load === true) {
+  if (load === true && !data) {
     return <Loader />;
   } else {
     return (
@@ -231,14 +255,16 @@ export default function Home() {
                       data?.products?.map((e: any, index: number) => {
                         return (
                           <Card
+                            setData={setRefetch}
+                            card={e}
                             animation="fade-down"
-                            cat={"e.subcategory.name"}
+                            cat={e.subcategory.name}
                             url={e.id}
                             height={300}
                             width={300}
                             image={
                               e.media.length
-                                ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
+                                ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0]?.name}`
                                 : "/images/14.png"
                             }
                             title={e.name}
@@ -274,6 +300,8 @@ export default function Home() {
                                 price={card.price[0].price}
                                 key={uuidv4()}
                                 isLiked
+                                setData={setRefetch}
+                                card={card}
                                 likedObj={likedObj}
                                 setLikedObj={setLikedObj}
                               />
@@ -337,6 +365,8 @@ export default function Home() {
                           {objCard.map((e: any, index: number) => {
                             return (
                               <Card
+                                setData={setRefetch}
+                                card={e}
                                 title={e.name}
                                 image={e.image}
                                 width={e.width}

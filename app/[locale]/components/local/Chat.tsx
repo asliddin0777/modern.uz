@@ -44,7 +44,7 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
               return (
                 <div onClick={() => {
                   socket.emit("chatSelected", e)
-                  router.push(`/detail/${path.split("/")[path.split("/").length - 1]}?chat=${e.id}`)
+                  router.push(`/product/${path.split("/")[path.split("/").length - 1]}?chat=${e.id}`)
                   setSelectedChat(e)
                 }} key={uuidv4()} className={styles.eachChat}>
                   <Image

@@ -74,6 +74,8 @@
 }
 
 .box {
+    top: 100%;
+    margin-top: -60px;
     width: 46px;
     height: 46px;
     display: flex;

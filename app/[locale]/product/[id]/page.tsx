@@ -22,6 +22,7 @@ import socket from "../../components/local/socket";
 import IProduct from "@/interfaces/Product/IProduct";
 import IReview from "@/interfaces/Review/IReview";
 import Auth from "../../components/global/Auth";
+import IFormatedProps from "@/interfaces/Product/IFormatedProps";
 
 
 const Detail = () => {
@@ -33,7 +34,7 @@ const Detail = () => {
   const [load, setLoad] = useState<boolean>(true);
   const [selectedImage, setSelectedImage] = useState<string>("")
   const [textLength, setTextLength] = useState<number>(1000);
-  const [data, setData] = useState<any | any[]>([]);
+  const [data, setData] = useState<IProduct>();
   const [props, setProps] = useState<any | any[]>([]);
   const [selectedMemory, setSelectedMemory] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<string>("");
@@ -60,12 +61,12 @@ const Detail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const req1 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/products`)
+        const req1 = await axios.get<IProduct>(`${process.env.NEXT_PUBLIC_API}/api/products/${pathname.split("/")[pathname.split("/").length - 1]}`)
         const req2 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/props`)
         const req3 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`)
         const req4 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`)
         const [res1, res2, res3, res4] = await axios.all([req1, req2, req3, req4])
-        setData(res1.data.products)
+        setData(req1.data)
         setProps(res2.data)
         setCategories(res3.data)
         setSubCategories(res4.data)
@@ -77,7 +78,7 @@ const Detail = () => {
     }
     fetchData()
   }, [])
-
+  console.log(pathname.split("/")[pathname.split("/").length - 1]);
   const cardObj = [
     {
       image: "/images/productPhone.png",
@@ -117,29 +118,30 @@ const Detail = () => {
   const desc =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ";
 
-  if (!load) {
-    const selectedProduct: IProduct =
-      data && data.find((product: any) => product.id === pathname.split("/")[pathname.split("/").length - 1]);
-    const storage = selectedProduct?.props.filter(
-      (st: any) => st.prop.name === "Storage"
-    );
-    const colors: any = selectedProduct?.props.filter(
-      (st: any) => st.prop.name === "Color"
-    );
-    const warranty: any = selectedProduct?.props.find(
-      (wr: any) => wr.prop.name === "Warranty"
-    );
-    const manif: any = selectedProduct?.props.find(
-      (mf: any) => mf.prop.name === "Manufacturer"
-    );
-    const wtRs: any = selectedProduct?.props.find(
-      (wtrs: any) => wtrs.prop.name === "Water Resistance"
-    );
-    let checkWtRs;
-    if (wtRs) {
-      let checkWtR = Boolean(wtRs?.value);
-      checkWtRs = checkWtR;
-    }
+  console.log(data);
+  if (!load && data) {
+    const selectedProduct = data
+    // console.log(selectedProduct);
+    // const storage = selectedProduct?.props.filter(
+    //   (st: any) => st.prop.name === "Storage"
+    // );
+    // const colors: any = selectedProduct?.props.filter(
+    //   (st: any) => st.prop.name === "Color"
+    // );
+    // const warranty: any = selectedProduct?.props.find(
+    //   (wr: any) => wr.prop.name === "Warranty"
+    // );
+    // const manif: any = selectedProduct?.props.find(
+    //   (mf: any) => mf.prop.name === "Manufacturer"
+    // );
+    // const wtRs: any = selectedProduct?.props.find(
+    //   (wtrs: any) => wtrs.prop.name === "Water Resistance"
+    // );
+    // let checkWtRs;
+    // if (wtRs) {
+    //   let checkWtR = Boolean(wtRs?.value);
+    //   checkWtRs = checkWtR;
+    // }
     return (
       <>
         <Head>
@@ -180,7 +182,7 @@ const Detail = () => {
                     />
                   </button>
                   <div className={styles.imagesToSelect}>
-                    {selectedProduct?.media.map((e, index) => {
+                    {selectedProduct?.media.map((e: any, index: number) => {
                       return (
                         <div
                           key={uuidv4()}
@@ -193,7 +195,7 @@ const Detail = () => {
                               }
                               : {}
                           }
-                          onClick={()=> {
+                          onClick={() => {
                             setSelectedImage(e.name)
                           }}
                         >
@@ -222,7 +224,7 @@ const Detail = () => {
                   order={order}
                   setOrder={setOrder}
                 />
-                <div className={styles.characterSide}>
+                {/* <div className={styles.characterSide}>
                   <div className={styles.character}>
                     <div className={styles.characterInfo}>
                       <div className={styles.characterInfoLeft}>
@@ -240,7 +242,7 @@ const Detail = () => {
                         {selectedColor !== "" && <p>{selectedColor}</p>}
                       </div>
                     </div>
-                    {isChatOpen === true && <Chat selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
+                    
                     {auth === true && <Auth setIsAuthOpen={setAuth} fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} />}
                     <div className={styles.selectMemory}>
                       {colors &&
@@ -291,6 +293,17 @@ const Detail = () => {
                         })}
                     </div>
                   </div>
+                </div> */}
+                {isChatOpen === true && <Chat selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
+                <div className={styles.characterSide}>
+                  {
+                    data && data?.props.map(prop => {
+                      return <div className={styles.characterInfo} key={prop.id}>
+                        <h4>{prop.name}</h4>
+                        {prop.label === "select" ?<div></div> : <div></div>}
+                      </div>
+                    })
+                  }
                 </div>
                 <div className={styles.costSide}>
                   <div className={styles.costTop}>
@@ -340,16 +353,16 @@ const Detail = () => {
                       onClick={() => {
                         if (userInfo !== undefined) {
                           setIsChatOpen(!isChatOpen);
-                        socket.connect()
-                        socket.emit('newUser', JSON.stringify({id: userInfo.userId, fullName: `${localStorage.getItem("userName")} ${localStorage.getItem("lastName")}`}))
-                        axios.post("/chats/new", {
-                          author: selectedProduct.author,
-                          product: selectedProduct.id
-                        }, {
-                          headers: {
-                            Authorization: userInfo.userToken
-                          }
-                        })
+                          socket.connect()
+                          socket.emit('newUser', JSON.stringify({ id: userInfo.userId, fullName: `${localStorage.getItem("userName")} ${localStorage.getItem("lastName")}` }))
+                          axios.post("/chats/new", {
+                            author: data.author,
+                            product: data.id
+                          }, {
+                            headers: {
+                              Authorization: userInfo.userToken
+                            }
+                          })
                         } else {
                           setAuth(!auth)
                           setFromWhere(2)
@@ -410,7 +423,7 @@ const Detail = () => {
             <section className={styles.detailSelected}>
               {controllerC === 0 ? (
                 <>
-                  <div className={styles.detailS}>
+                  {/* <div className={styles.detailS}>
                     <div className={styles.characterInfo}>
                       <div className={styles.characterInfoLeft}>
                         {warranty && (
@@ -427,7 +440,7 @@ const Detail = () => {
                         {selectedColor !== "" && <p>{selectedColor}</p>}
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className={styles.info}>
                     <p
                       style={{
@@ -485,18 +498,19 @@ const Detail = () => {
                     <h3>Оставить отзыв</h3>
                     <input required type="text" />
                   </form>
-                  {selectedProduct && selectedProduct?.review?.map((e:IReview) => {
+                  {selectedProduct && selectedProduct?.review?.map((e: IReview) => {
                     return <Reviews key={uuidv4()} />;
                   })}
                 </div>
               )}
             </section>
             <section className={styles.similarProducts}>
-              <h3>Похожие товары</h3>
+              {/* <h3>Похожие товары</h3>
               <div className={styles.productWrapper}>
                 {cardObj.map((card, index) => {
                   return (
                     <Card
+                    setData={setData} card={card}
                       isLiked={false}
                       likedObj={likedObj}
                       setLikedObj={setLikedObj}
@@ -530,7 +544,7 @@ const Detail = () => {
                     height={20}
                   />
                 </button>
-              </div>
+              </div> */}
             </section>
           </div>
           <Footer />
