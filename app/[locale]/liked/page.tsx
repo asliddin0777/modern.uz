@@ -43,24 +43,6 @@ export default function Liked() {
         </div>
         <section className={styles.likedSection}>
           <div className={styles.newProductsWrapper}>
-            {likedObj.map((card:any, index:any) => {
-              return (
-                <Card
-                  url={index}
-                  title={card.title}
-                  image={card.image}
-                  width={card.width}
-                  height={card.height}
-                  price={card.price}
-                  cat={card.cat}
-                  key={uuidv4()}
-                  animation=""
-                  likedObj={likedObj}
-                  setLikedObj={setLikedObj}
-                  isLiked
-                />
-              );
-            })}
           </div>
         </section>
         <div style={{ marginTop: "11rem" }}>
