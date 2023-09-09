@@ -184,6 +184,16 @@
   display: none;
 }
 
+.view {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.view > svg {
+  width: 22px;
+  height: auto;
+}
+
 @media screen and (min-width: 1200px) {
   .right {
     width: 25%;

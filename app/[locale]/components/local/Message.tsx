@@ -40,8 +40,10 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
     }).then(res => {
       setMessages(res.data.messages)
     }).catch(err => console.log(err))
-
   }, [chat])
+  useEffect(()=> {
+    document.body.style.overflow = "hidden"
+  },[])
   useEffect(() => {
     endRef.current.scrollIntoView({
       behavior: "smooth"
