@@ -23,6 +23,7 @@ import IProduct from "@/interfaces/Product/IProduct";
 import IReview from "@/interfaces/Review/IReview";
 import Auth from "../../components/global/Auth";
 import IFormatedProps from "@/interfaces/Product/IFormatedProps";
+import StorageButton from "../../components/local/StorageButton";
 
 const Detail = () => {
   const [likedObj, setLikedObj] = useState<any | any[]>([]);
@@ -36,7 +37,7 @@ const Detail = () => {
   const [data, setData] = useState<IProduct>();
   const [props, setProps] = useState<any | any[]>([]);
   const [selectedMemory, setSelectedMemory] = useState<string>("");
-  const [selectedColor, setSelectedColor] = useState<string>("");
+  const [selectedColor] = useState<string>("");
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [auth, setAuth] = useState<boolean>(false);
@@ -77,40 +78,6 @@ const Detail = () => {
     fetchData()
   }, [])
   console.log(pathname.split("/")[pathname.split("/").length - 1]);
-  const cardObj = [
-    {
-      image: "/images/productPhone.png",
-      w: 144,
-      h: 167,
-      title: "Iphone 14 PRO",
-      price: "13.000.000 сум",
-      cat: "Телефоны",
-    },
-    {
-      image: "/images/xboxController.png",
-      w: 181,
-      h: 192,
-      title: "Xbox",
-      price: "7.000.000 сум",
-      cat: "Приставки",
-    },
-    {
-      image: "/images/headPhone.png",
-      w: 179,
-      h: 190,
-      title: "Наушники SONY",
-      price: "300.000 сум",
-      cat: "Аксессуары",
-    },
-    {
-      image: "/images/smphone.png",
-      w: 160,
-      h: 173,
-      title: "Samsung M53",
-      price: "4.000.000 сум",
-      cat: "Телефоны",
-    },
-  ];
   const videoRef = useRef<HTMLVideoElement | any>();
 
   const desc =
@@ -182,7 +149,7 @@ const Detail = () => {
                     />
                   </button>
                   <div className={styles.imagesToSelect}>
-                    {selectedProduct?.media.map((e: any, index: number) => {
+                    {selectedProduct?.media.map((e: any) => {
                       return (
                         <div
                           key={uuidv4()}
@@ -190,9 +157,9 @@ const Detail = () => {
                           style={
                             e.name === selectedImage
                               ? {
-                                  boxShadow:
-                                    "0px 1px 17px rgba(228, 183, 23, 0.3)",
-                                }
+                                boxShadow:
+                                  "0px 1px 17px rgba(228, 183, 23, 0.3)",
+                              }
                               : {}
                           }
                           onClick={() => {
@@ -302,7 +269,11 @@ const Detail = () => {
                     data && data?.props.map(prop => {
                       return <div className={styles.characterInfo} key={prop.id}>
                         <h4>{prop.name}</h4>
-                        {prop.label === "select" ?<div></div> : <div></div>}
+                        {prop.label === "select" ? prop.values.map((e, index) => {
+                          return <StorageButton selectedMemory={selectedMemory} setControllerM={setControllerM} setSelectedMemory={setSelectedMemory} e={e} index={index} />
+                        }) : prop.values.map(prs => {
+                          return <p>{prs.value === "true" ? "Да" : prs.value === "false" ? "Нет" : prs.value}</p>
+                        })}
                       </div>
                     })
                   }
@@ -459,7 +430,7 @@ const Detail = () => {
                         ? selectedProduct.description.substring(0, textLength)
                         : desc.substring(0, textLength)}{" "}
                       {selectedProduct &&
-                      selectedProduct.description.length > 1000 ? (
+                        selectedProduct.description.length > 1000 ? (
                         <button
                           onClick={() => {
                             setTextLength(selectedProduct?.description.length);
@@ -467,12 +438,12 @@ const Detail = () => {
                           style={
                             textLength !== selectedProduct?.description.length
                               ? {
-                                  color: "#179AE4",
-                                  fontWeight: 700,
-                                }
+                                color: "#179AE4",
+                                fontWeight: 700,
+                              }
                               : {
-                                  display: "none",
-                                }
+                                display: "none",
+                              }
                           }
                         >
                           [read more]
@@ -485,12 +456,12 @@ const Detail = () => {
                           style={
                             textLength !== desc.length
                               ? {
-                                  color: "#179AE4",
-                                  fontWeight: 700,
-                                }
+                                color: "#179AE4",
+                                fontWeight: 700,
+                              }
                               : {
-                                  display: "none",
-                                }
+                                display: "none",
+                              }
                           }
                         >
                           [read more]
@@ -505,7 +476,7 @@ const Detail = () => {
                     <h3>Оставить отзыв</h3>
                     <input required type="text" />
                   </form>
-                  {selectedProduct && selectedProduct?.review?.map((e: IReview) => {
+                  {selectedProduct && selectedProduct?.review?.map(() => {
                     return <Reviews key={uuidv4()} />;
                   })}
                 </div>
@@ -554,7 +525,7 @@ const Detail = () => {
               </div> */}
             </section>
           </div>
-          <div style={{marginTop: -200}}>
+          <div style={{ marginTop: -200 }}>
             <Footer />
           </div>
         </main>

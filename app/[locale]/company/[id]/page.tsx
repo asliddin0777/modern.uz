@@ -13,13 +13,13 @@ import Link from "next/link";
 import axios from "axios";
 import { uuid as uuidv4 } from 'uuidv4';
 import Loader from "../../components/local/Loader";
-import {  useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const Company = () => {
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true);
-  const [likedObj, setLikedObj] = useState([])
+  const [likedObj, setLikedObj] = useState(false)
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
@@ -226,45 +226,7 @@ const Company = () => {
           </section>
           <section className={styles.companyCards}>
             <h2>Товары поставщика</h2>
-            <div className={styles.card}>
-              {selectedVendor
-                ? selectedVendor.products.map((e: any, index: number) => {
-                    return (
-                      <Card
-                        url={`${index}`}
-                        animation="zoom-in"
-                        image={e.image}
-                        width={300}
-                        height={300}
-                        title={e.title}
-                        price={e.price}
-                        cat={e.cat}
-                        key={uuidv4()}
-                        isLiked
-                        setLikedObj={setLikedObj}
-                        likedObj={likedObj}
-                      />
-                    );
-                  })
-                : cardObj.map((card, index) => {
-                    return (
-                      <Card
-                        url={`${index}`}
-                        animation="zoom-in"
-                        image={card.image}
-                        width={card.w}
-                        height={card.h}
-                        title={card.title}
-                        price={card.price}
-                        cat={card.cat}
-                        isLiked
-                        setLikedObj={setLikedObj}
-                        likedObj={likedObj}
-                        key={uuidv4()}
-                      />
-                    );
-                  })}
-            </div>
+            
           </section>
           <div className={styles.carusel}>
             <div

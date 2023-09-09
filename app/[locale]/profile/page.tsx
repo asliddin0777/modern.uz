@@ -203,7 +203,7 @@ const Profile = () => {
                       </div>
                       <div>
                         <p>Фамилия</p>
-                        <input disabled value={lastname ? lastname : userProfile && userProfile[1]} type="text" />
+                        <input disabled value={lastname ? lastname : userProfile && userProfile[userProfile.length-1]} type="text" />
                       </div>
                     </div>
                     <div className={styles.input}>
