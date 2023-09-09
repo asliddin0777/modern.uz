@@ -105,6 +105,9 @@
 }
 
 @media screen and (max-width:768px) {
+    .selectCategory {
+        top: 145px;
+    }
 
     .table {
         gap: 100px;

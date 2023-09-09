@@ -19,13 +19,26 @@ const categoryProp = ({
   subcategor,
   selectedProduct,
 }: card) => {
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const [isSelected, setIsSelected] = useState<number | null>(0);
   return (
     <div className={styles.categoryProp}>
       <section className={styles.sectionLeft}>
         {subcategor && subcategor.props.length > 0 ? (
           <>
-            {subcategor.props.map((p) => (
-              <div key={p.id} className={styles.manufacturer}>
+            {subcategor.props.map((p, index: number) => (
+              <div
+                key={p.id}
+                onClick={() => {
+                  setIsOpened(!isOpened);
+                  if (isSelected === index) {
+                    setIsSelected(null);
+                  } else {
+                    setIsSelected(index);
+                  }
+                }}
+                className={styles.manufacturer}
+              >
                 <div className={styles.manufacturerTitle}>
                   <div
                     style={{
@@ -35,16 +48,32 @@ const categoryProp = ({
                     }}
                   >
                     <p className={styles.operativeTitle}>{p.name} </p>
-                    <Image
-                      src={"/toparrow.svg"}
-                      width={15}
-                      height={12}
-                      alt="toparrow"
-                    />
+                    <button
+                      onClick={() => {
+                        setIsOpened(!isOpened);
+                      }}
+                    >
+                      <Image
+                        style={
+                          isSelected !== index
+                            ? {
+                                transform: "rotate(-180deg)",
+                              }
+                            : {}
+                        }
+                        src={"/toparrow.svg"}
+                        width={15}
+                        height={12}
+                        alt="toparrow"
+                      />
+                    </button>
                   </div>
                 </div>
                 {p.values.map((v) => (
-                  <div key={v.id}>
+                  <div
+                    key={v.id}
+                    className={isSelected !== index ? styles.dn : styles.just}
+                  >
                     <div
                       className={styles.checkBoxInput}
                       onClick={() => {

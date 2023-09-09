@@ -98,7 +98,7 @@ const Card = ({
         }}
       >
         <Image
-          src={card && userInfo && card.likes.find(id => id === userInfo.userId) ? likeBlue : likes}
+          src={card && userInfo && card.likes?.find(id => id === userInfo.userId) ? likeBlue : likes}
           alt="like icon"
           width={45}
           height={45}

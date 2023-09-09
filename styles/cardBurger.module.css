@@ -9,6 +9,7 @@
     padding-left: 12px;
     padding-bottom: 15px;
 }
+
 .price {
     box-shadow: 0px 5px 20px 10px rgba(184, 184, 184, 0.19);
     margin-top: 19px;
@@ -90,6 +91,21 @@
 .close {
     margin: 10px 1px;
     margin-left: 200px;
+}
+
+.dn {
+    height: 0;
+    z-index: -1000;
+    transition: 0.1s linear;
+    text-align: center;
+    opacity: 0;
+    padding-right: 41px;
+}
+
+.just {
+    transition: 0.3s ease-in-out;
+    margin-top: 1rem;
+    padding-right: 41px;
 }
 
 .apply {

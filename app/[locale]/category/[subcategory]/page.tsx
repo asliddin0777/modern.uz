@@ -72,6 +72,24 @@ export default function Page() {
 
   useEffect(() => {
     setLoad(true);
+    console.log(pathname);
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_API}/api/subcategories/${
+          pathname.split("/")[pathname.split("/").length - 1]
+        }`
+      )
+      .then((res: any) => {
+        setSubcategory(res.data);
+      })
+      .catch((e: string) => console.log(e))
+      .finally(() => {
+        setLoad(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    setLoad(true);
     const fetchData = async () => {
       try {
         const categories = await axios.get(
@@ -80,19 +98,9 @@ export default function Page() {
         const subCategories = await axios.get(
           `${process.env.NEXT_PUBLIC_API}/api/subcategories`
         );
-        const subCategory = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}/api/subcategories/${
-            pathname.split("/")[pathname.split("/").length - 1]
-          }`
-        );
-        const [res1, res2, res3] = await axios.all([
-          categories,
-          subCategories,
-          subCategory,
-        ]);
+        const [res1, res2] = await axios.all([categories, subCategories]);
         setCategories(res1.data);
         setSubCategories(res2.data);
-        setSubcategory(res3.data)
       } catch (err) {
         console.log(err);
       } finally {
