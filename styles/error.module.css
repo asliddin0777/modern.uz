@@ -1,0 +1,31 @@
+.error {
+    position: fixed;
+    top: 0;
+    margin-top: 1rem;
+    left: 100%;
+    transition: 0.4s linear;
+    margin-left: -300px;
+    width: 100%;
+    z-index: 1000000000 !important;
+    height: 100%;
+}
+
+.dn {
+    opacity: 0;
+    transition: 0.4s linear;
+}
+
+.container {
+    width: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    height: 40px;
+    background: rgb(255, 4, 4);
+}
+
+.container > p {
+    color: #fff;
+    font-size: 18px;
+}

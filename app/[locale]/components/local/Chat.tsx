@@ -104,6 +104,29 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
               />
             </button>
           </div>
+          <div className={styles.chatWith}>
+            {chats.map((e: any) => {
+              return (
+                <div onClick={() => {
+                  socket.emit("chatSelected", e)
+                  router.push(`/product/${path.split("/")[path.split("/").length - 1]}`)
+                  setSelectedChat(e)
+                  setChatListOpener(false)
+                }} key={uuidv4()} className={styles.eachChat}>
+                  <Image
+                    src={"/images/user.png"}
+                    alt="user image"
+                    width={50}
+                    height={50}
+                  />
+                  <div className={styles.chatWithWhom}>
+                    <h4>{e.admin.email}</h4>
+                    <p>Текст сообщения...</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
       <div className={styles.bg} />

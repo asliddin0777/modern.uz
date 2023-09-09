@@ -4,6 +4,7 @@ import styles from "@/styles/auth.module.css";
 import Image from "next/image";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import Error from "../local/Error";
 
 
 
@@ -20,6 +21,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
   const [timer, setTimer] = useState<number>(62);
   const [load, setLoad] = useState<boolean>(true);
   const [data, setData] = useState<any[] | any>([])
+  const [error, setError] = useState<string>("")
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -63,7 +65,10 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
           userToken: res.data.token,
         })
         setIsAuthOpen(false)
-      }).catch(err => console.log(err))
+      }).catch(err => {
+        console.log(err);
+        setError(err.response.data.errors[0].message);
+      })
     }
   }
 
@@ -77,17 +82,20 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
           headers: {
             "Content-Type": "application/json"
           }
-        }).catch(err => console.log(err))
+        }).catch(err => {
+          console.log(err.response.data);
+          //setError(err.response.data.errors[0].message)
+        })
         setFromWhere(0)
         setQueue(2)
         sessionStorage.setItem("userPhoneNumber", `998${numRef.current.value}`)
         numRef.current.value = null
+        console.log(error);
       }
     } else {
-      alert("Fill the blank")
+      setError("Fill the blanks")
     }
   }
-
 
 
   const handleUserRegister = () => {
@@ -137,159 +145,169 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
         passRef.current.value = null
         passRef2.current.value = null
       } else {
-        alert("They are not same")
+        setError("The passwords are not same")
       }
     }
   }
 
 
   return (
-    <div className={isAuthOpen ? styles.authent : styles.dn}>
-      <div className={isAuthOpen ? styles.auth : styles.dn}>
-        <div className={styles.close}>
-          <button
-            onClick={() => {
-              setIsAuthOpen(false);
-            }}
-          >
-            <Image
-              src={"/icons/close.svg"}
-              alt="close auth icon"
-              width={21}
-              height={21}
-            />
-          </button>
-        </div>
-        <div className={styles.title}>
-          <h3>
-            {fromWhere === 1
-              ? "Авторизация"
-              : fromWhere === 2 ? "Регистрация" : queue === 2 ? "Введите код" : queue === 2.5 ? "Новый пароль" : ""}
-          </h3>
-        </div>
-        <div className={styles.authForm}>
-          {fromWhere === 1 ? (
-            <>
-              <input
-                type="text"
-                maxLength={9}
-                placeholder="Номер телефона"
-                required
-                ref={numberRef}
-                autoComplete="false"
+    <>
+      {error !== "" && <Error msg={error} />}
+      <div className={isAuthOpen ? styles.authent : styles.dn}>
+        <div className={isAuthOpen ? styles.auth : styles.dn}>
+          <div className={styles.close}>
+            <button
+              onClick={() => {
+                setIsAuthOpen(false);
+              }}
+            >
+              <Image
+                src={"/icons/close.svg"}
+                alt="close auth icon"
+                width={21}
+                height={21}
               />
-              <input
-                type="password"
-                maxLength={8}
-                placeholder="Пароль"
-                required
-                ref={passwordRef}
-                autoComplete={"false"}
-              />
-              <button
-                className={styles.forgotPass}
-                onClick={() => {
-                  setQueue(2);
-                }}
-              >
-                Вы забыли пароль?
-              </button>
-              <button className={styles.enter} onClick={() => {
-                if (passwordRef.current.value && numberRef.current.value) {
-                  handleCheckUserAtLogin()
-                }
-              }}>Войти</button>
-            </>
-          ) : fromWhere === 2 ? <>
-            <input
-              type="text"
-              maxLength={9}
-              placeholder="Номер телефона"
-              required
-              ref={numRef}
-              autoComplete="false"
-            />
-            <button onClick={() => {
-              handleUserGetCode()
-              // console.log("object");
-            }} className={styles.enter}>Подтвердить</button>
-          </> : queue === 2 ?
-            <>
-              <input
-                type="text"
-                maxLength={4}
-                placeholder="Код"
-                required
-                ref={codeRef}
-                autoComplete="false"
-              />
+            </button>
+          </div>
+          <div className={styles.title}>
+            <h3>
+              {fromWhere === 1
+                ? "Авторизация"
+                : fromWhere === 2 ? "Регистрация" : queue === 2 ? "Введите код" : queue === 2.5 ? "Новый пароль" : ""}
+            </h3>
+          </div>
+          <div className={styles.authForm}>
+            {fromWhere === 1 ? (
+              <>
+                <div className={styles.phoneNumber}>
+                  <p>+998</p>
+                  <input
+                    type="text"
+                    maxLength={9}
+                    placeholder="999999999"
+                    required
+                    ref={numberRef}
+                    autoComplete="false"
+                  />
+                </div>
+                <input
+                  type="password"
+                  maxLength={8}
+                  placeholder="Пароль"
+                  required
+                  ref={passwordRef}
+                  autoComplete={"false"}
+                />
+                <button
+                  className={styles.forgotPass}
+                  onClick={() => {
+                    setQueue(2);
+                  }}
+                >
+                  Вы забыли пароль?
+                </button>
+                <button className={styles.enter} onClick={() => {
+                  if (passwordRef.current.value && numberRef.current.value) {
+                    handleCheckUserAtLogin()
+                  }
+                }}>Войти</button>
+              </>
+            ) : fromWhere === 2 ? <>
+            <div className={styles.phoneNumber}>
+                  <p>+998</p>
+                  <input
+                    type="text"
+                    maxLength={9}
+                    placeholder="999999999"
+                    required
+                    ref={numRef}
+                    autoComplete="false"
+                  />
+                </div>
               <button onClick={() => {
-                handleUserRegister()
+                handleUserGetCode()
+                // console.log("object");
               }} className={styles.enter}>Подтвердить</button>
-              <p onClick={() => {
-                timer <= 0 ? setTimer(60) : ""
-              }} style={timer <= 0 ? {
-                textAlign: "center",
-                color: 'red',
-                cursor: "pointer"
-              } : {
-                textAlign: "center",
-                cursor: "pointer"
-              }}>Запросить еще раз ( 0 : {timer <= 0 ? 0 : timer} )</p>
-            </> : queue === 2.5 ?
+            </> : queue === 2 ?
               <>
                 <input
                   type="text"
-                  maxLength={15}
-                  placeholder="Имя"
+                  maxLength={4}
+                  placeholder="Код"
                   required
-                  ref={userNameRef}
-                  autoComplete="false"
-                />
-                <input
-                  type="text"
-                  maxLength={20}
-                  placeholder="Фамилия"
-                  required
-                  ref={lastNameRef}
-                  autoComplete="false"
-                />
-                <input
-                  type="password"
-                  minLength={8}
-                  maxLength={36}
-                  placeholder="Новый пароль"
-                  required
-                  ref={passRef}
-                  autoComplete="false"
-                />
-                <input
-                  type="password"
-                  minLength={8}
-                  maxLength={36}
-                  placeholder="Подтвердите пароль"
-                  required
-                  ref={passRef2}
+                  ref={codeRef}
                   autoComplete="false"
                 />
                 <button onClick={() => {
-                  handleCreatePassword()
+                  handleUserRegister()
                 }} className={styles.enter}>Подтвердить</button>
-              </> : ""}
+                <p onClick={() => {
+                  timer <= 0 ? setTimer(60) : ""
+                }} style={timer <= 0 ? {
+                  textAlign: "center",
+                  color: 'red',
+                  cursor: "pointer"
+                } : {
+                  textAlign: "center",
+                  cursor: "pointer"
+                }}>Запросить еще раз ( 0 : {timer <= 0 ? 0 : timer} )</p>
+              </> : queue === 2.5 ?
+                <>
+                  <input
+                    type="text"
+                    maxLength={15}
+                    placeholder="Имя"
+                    required
+                    ref={userNameRef}
+                    autoComplete="false"
+                  />
+                  <input
+                    type="text"
+                    maxLength={20}
+                    placeholder="Фамилия"
+                    required
+                    ref={lastNameRef}
+                    autoComplete="false"
+                  />
+                  <input
+                    type="password"
+                    minLength={8}
+                    maxLength={36}
+                    placeholder="Новый пароль"
+                    required
+                    ref={passRef}
+                    autoComplete="false"
+                  />
+                  <input
+                    type="password"
+                    minLength={8}
+                    maxLength={36}
+                    placeholder="Подтвердите пароль"
+                    required
+                    ref={passRef2}
+                    autoComplete="false"
+                  />
+                  <button onClick={() => {
+                    handleCreatePassword()
+                  }} className={styles.enter}>Подтвердить</button>
+                </> : ""}
+          </div>
+          {fromWhere === 1 ? <button onClick={() => {
+            setFromWhere(2)
+          }}>Регистрация</button> : fromWhere === 2 ? <button onClick={() => {
+            setFromWhere(1)
+          }}>Уже есть аккаунт?</button> : ""}
         </div>
-        {fromWhere === 1 ? <button onClick={() => {
-          setFromWhere(2)
-        }}>Регистрация</button> : fromWhere === 2 ? <button onClick={() => {
-          setFromWhere(1)
-        }}>Уже есть аккаунт?</button> : ""}
+        <div
+          className={styles.bg}
+          onClick={() => {
+            setIsAuthOpen(false);
+          }}
+        />
+
       </div>
-      <div
-        className={styles.bg}
-        onClick={() => {
-          setIsAuthOpen(false);
-        }}
-      />
-    </div>
+    </>
   );
 };
 

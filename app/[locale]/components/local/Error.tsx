@@ -1,9 +1,14 @@
 import React from 'react'
-
-const Error = () => {
+import styles from "@/styles/error.module.css"
+interface Error {
+  msg: string
+}
+const Error = ({ msg }: Error) => {
   return (
-    <div>
-        
+    <div className={msg ? styles.error: styles.dn}>
+      <div className={styles.container}>
+        <p>{msg}</p>
+      </div>
     </div>
   )
 }

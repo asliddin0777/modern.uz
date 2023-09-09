@@ -212,7 +212,7 @@ const Detail = () => {
                       </div>
                     </div>
                     
-                    {auth === true && <Auth setIsAuthOpen={setAuth} fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} />}
+                    
                     <div className={styles.selectMemory}>
                       {colors &&
                         colors.map((e: any, index: number) => {
@@ -263,6 +263,7 @@ const Detail = () => {
                     </div>
                   </div>
                 </div> */}
+                {auth === true && <Auth setIsAuthOpen={setAuth} fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} />}
                 {isChatOpen === true && <Chat selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
                 <div className={styles.characterSide}>
                   {

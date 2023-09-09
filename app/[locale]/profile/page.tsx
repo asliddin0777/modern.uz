@@ -14,20 +14,20 @@ import { useCookies } from "react-cookie";
 import Loader from "../components/local/Loader";
 import { uuid as uuidv4 } from 'uuidv4';
 import IUser from "@/interfaces/IUser";
+import { useRouter } from "next/navigation";
 const Profile = () => {
   const [isChangePassOpen, setIsChangePassOpen] = useState(false);
   const [profileBurger, setProfileBurger] = useState(false);
   const [button, setButton] = useState<number>(0);
+  const {push} = useRouter()
   const [buttonColor, setButtonColor] = useState<number>(0);
   const [profile, setProfile] = useState<any | any[]>([]);
   const [selectedCards] = useCookies(["selectedCard"]);
   const { selectedCard } = selectedCards;
-
   const AuthOpen = () => {
     setIsChangePassOpen(!isChangePassOpen);
   };
-  const [cookie] = useCookies(["userInfo"]);
-
+  const [cookie, setCookie, removeCookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
   const ProfileBurgerHandler = () => {
     setProfileBurger(!profileBurger);
@@ -82,7 +82,6 @@ const Profile = () => {
 
   if (!load) {
     const username: any = localStorage.getItem("userName");
-    const password: any = localStorage.getItem("password");
     const lastname: any = localStorage.getItem("lastname");
     const userProfile: string[] | undefined = user?.fullName.split(" ")
     console.log(userProfile);
@@ -102,7 +101,7 @@ const Profile = () => {
               onClick={ProfileBurgerHandler}
             >
               <Image
-                src={"/profileBurger.svg"}
+                src={"/icons/profileBurger.svg"}
                 width={22}
                 height={17}
                 alt="burger"
@@ -167,7 +166,10 @@ const Profile = () => {
                       />
                       <p>Мои заказы</p>
                     </div>
-                    <div className={styles.profileClose}>
+                    <div className={styles.profileClose} onClick={()=> {
+                      removeCookie("userInfo")
+                      push("/")
+                    }}>
                       <Image
                         src={"/icons/logout.svg"}
                         width={19}
@@ -203,7 +205,7 @@ const Profile = () => {
                       </div>
                       <div>
                         <p>Фамилия</p>
-                        <input disabled value={lastname ? lastname : userProfile && userProfile[userProfile.length-1]} type="text" />
+                        <input disabled value={lastname ? lastname : userProfile && userProfile[userProfile.length - 1]} type="text" />
                       </div>
                     </div>
                     <div className={styles.input}>
@@ -284,7 +286,10 @@ const Profile = () => {
                       />
                       <p>Мои заказы</p>
                     </div>
-                    <div className={styles.profileClose}>
+                    <div className={styles.profileClose} onClick={() => {
+                      removeCookie("userInfo")
+                      push("/")
+                    }}>
                       <Image
                         src={"/icons/logout.svg"}
                         width={19}
@@ -379,7 +384,7 @@ const Profile = () => {
                     </>
                   ) : (
                     <>
-                      <h1 style={{textAlign: "center"}}>You don't have products</h1>
+                      <h1 style={{ textAlign: "center" }}>You don't have products</h1>
                     </>
                   )}
                 </section>
@@ -407,7 +412,7 @@ const Profile = () => {
               onClick={ProfileBurgerHandler}
             >
               <Image
-                src={"/profileBurger.svg"}
+                src={"/icons/profileBurger.svg"}
                 width={22}
                 height={17}
                 alt="burger"
@@ -467,7 +472,10 @@ const Profile = () => {
                     />
                     <p>Мои заказы</p>
                   </div>
-                  <div className={styles.profileClose}>
+                  <div className={styles.profileClose} onClick={() => {
+                    removeCookie("userInfo")
+                    push("/")
+                  }}>
                     <Image
                       src={"icons/logout.svg"}
                       width={19}
