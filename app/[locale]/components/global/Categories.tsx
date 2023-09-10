@@ -17,6 +17,7 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
   const [mouseOver, setMouseOver] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>("");
   const [isCategoryOpen, setCategoryOpen] = useState<boolean>(false);
+  const [isCategoriesOpen, setCategoriesOpen] = useState<boolean>(false);
   const [data, setData] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true);
 
@@ -27,7 +28,8 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
     const getData = async () => {
       try {
         const req1 = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}/api/categories`);
+          `${process.env.NEXT_PUBLIC_API}/api/categories`
+        );
         const req2 = await axios.get(
           `${process.env.NEXT_PUBLIC_API}/api/subcategories`
         );
@@ -74,7 +76,12 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
                 alt="just categories"
               />
             </div>
-            <ul className={styles.selectList}>
+            <ul
+              className={styles.selectList}
+              onMouseOut={() => {
+                setCategoriesOpen(false);
+              }}
+            >
               {categories &&
                 categories.map((e: any, index: number) => {
                   if (index < 5) {
@@ -86,12 +93,17 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
                           setMouseOver(true);
                           setSelected(e.name);
                         }}
+                        onMouseMove={() => {
+                          setCategoryOpen(!isCategoriesOpen);
+                        }}
                         onMouseLeave={() => {
                           setMouseOver(false);
                           setSelected("");
                         }}
                       >
-                        <Link href={`/category/${e.id.toLocaleLowerCase()}`}>{e.name}</Link>
+                        <Link href={`/category/${e.id.toLocaleLowerCase()}`}>
+                          {e.name}
+                        </Link>
                         <Image
                           className={
                             selected === e.name ? styles.animated : styles.just
@@ -109,6 +121,9 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
                 })}
             </ul>
             {isCategoryOpen && (
+              <SelectCategory selected={selected} categories={categories} />
+            )}
+            {isCategoriesOpen && (
               <SelectCategory selected={selected} categories={categories} />
             )}
           </div>

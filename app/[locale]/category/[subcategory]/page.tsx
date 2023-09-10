@@ -135,9 +135,6 @@ export default function Page() {
           <TopHeader />
           <Header />
           <Categories categories={categories} subcategories={subCategories} />
-          <div className={styles.phone}>
-            <h1 style={{ fontSize: 20, fontWeight: 700 }}>Телефоны</h1>
-          </div>
           <section className={styles.cardSection}>
             <div className={styles.cardBurgerg} onClick={cardBurgerHandler}>
               <h3>Фильтр</h3>
@@ -175,6 +172,7 @@ export default function Page() {
                     url={e.id}
                     height={300}
                     width={300}
+                    cat={e.subcategory.name}
                     image={
                       e.media.length
                         ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
