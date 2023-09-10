@@ -135,9 +135,6 @@ export default function Page() {
           <TopHeader />
           <Header />
           <Categories categories={categories} subcategories={subCategories} />
-          <div className={styles.phone}>
-            <h1 style={{ fontSize: 20, fontWeight: 700 }}>Телефоны</h1>
-          </div>
           <section className={styles.cardSection}>
             <div className={styles.cardBurgerg} onClick={cardBurgerHandler}>
               <h3>Фильтр</h3>
@@ -175,6 +172,7 @@ export default function Page() {
                     url={e.id}
                     height={300}
                     width={300}
+                    cat={e.subcategory.name}
                     image={
                       e.media.length
                         ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
@@ -191,25 +189,7 @@ export default function Page() {
                 ))}
             </section>
           </section>
-          <div className={styles.carusel}>
-            <div
-              style={{
-                backgroundColor: "#E4B717",
-                width: 39,
-                height: 39,
-                borderRadius: "100%",
-                color: "#fff",
-                textAlign: "center",
-                paddingTop: 8,
-              }}
-            >
-              <p>1</p>
-            </div>
-            <p>2</p>
-            <p>3</p>
-            <p>...</p>
-            <p>5</p>
-          </div>
+         
           <div style={{ marginTop: -300 }}>
             <Footer />
           </div>

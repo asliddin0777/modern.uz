@@ -90,7 +90,7 @@
 
 .selectItem:hover {
   color: #e4b717;
-  transition: 0.4s linear;
+  transition: 0.2s linear;
 }
 
 .selectItem a {
