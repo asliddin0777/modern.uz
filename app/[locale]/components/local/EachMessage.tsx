@@ -1,4 +1,3 @@
-import IProduct from '@/interfaces/Product/IProduct';
 import React, { useEffect, useState } from 'react'
 import { uuid as uuidv4 } from 'uuidv4';
 import Image from "next/image"

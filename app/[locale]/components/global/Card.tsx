@@ -74,7 +74,7 @@ const Card = ({
           </h3>
           <h4>{cat}</h4>
           <div className={styles.cart}>
-            <h3>{price}</h3>
+            <h3>{price} сум</h3>
 
           </div>
         </div>
@@ -90,27 +90,30 @@ const Card = ({
               }
             }).then(res => {
               setData(true)
-              console.log(res);
             }).catch(err => console.log(err))
           } else {
             setAuth(!auth)
           }
         }}
       >
-        <Image
-          src={card && userInfo && card.likes?.find(id => id === userInfo.userId) ? likeBlue : likes}
+        {/* <Image
+          src={ ? likeBlue : likes}
           alt="like icon"
           width={45}
           height={45}
-        />
+        /> */}
+        {card && userInfo && card.likes?.find(id => id === userInfo.userId) ? <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" stroke-width="0.9120000000000001"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#f00"></path> </g></svg>:<svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" stroke-width="0.9120000000000001"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#ffffff00"></path> </g></svg>}
       </div>
-      <div className={`${styles.box} ${styles.like}`}>
-        <Image
-          src={"/icons/buyW.svg"}
-          alt="add cart icon"
-          width={21}
-          height={20.5}
-        />
+      <div className={styles.buy}>
+        <button>Купить</button>
+        <div className={`${styles.box} ${styles.like}`}>
+          <Image
+            src={"/icons/buyW.svg"}
+            alt="add cart icon"
+            width={21}
+            height={20.5}
+          />
+        </div>
       </div>
     </div>
   );

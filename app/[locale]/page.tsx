@@ -1,6 +1,6 @@
 "use client";
 import Head from "next/head";
-import styles from "@/styles/Home.module.css";
+import styles from "@/styles/index.module.css";
 import TopHeader from "./components/global/TopHeader";
 import Header from "./components/global/Header";
 import Categories from "./components/global/Categories";
@@ -99,7 +99,7 @@ export default function Home() {
 
   useEffect(() => {
     if (refetch === true) {
-      setData({page:1, products: [], totalCount:3})
+      setData({ page: 1, products: [], totalCount: 3 })
       setPopularProducts({})
       const refetchData = async () => {
         try {
@@ -155,7 +155,7 @@ export default function Home() {
         <main className={styles.home}>
           <TopHeader />
           <Header />
-          <Categories  categories={categories} subcategories={subCategories} />
+          <Categories categories={categories} subcategories={subCategories} />
           <div className={styles.container}>
             <HeaderTabs
               setButtonColor={setButtonColor}
@@ -251,8 +251,12 @@ export default function Home() {
                 <section className={styles.newProducts}>
                   <h3>Новые продукты</h3>
                   <div className={styles.newProductsWrapper}>
-                    {data &&
-                      data?.products?.map((e: any, index: number) => {
+                    {refetch === true ?
+                      <>
+                        <div className={styles.loading}>
+                          <Loader />
+                        </div>
+                      </> : data?.products?.map((e: any, index: number) => {
                         return (
                           <Card
                             setData={setRefetch}
@@ -263,9 +267,9 @@ export default function Home() {
                             height={300}
                             width={300}
                             image={
-                              e.media.length
+                              e.media.length > 0
                                 ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0]?.name}`
-                                : "/images/14.png"
+                                : "/icons/bag.svg"
                             }
                             title={e.name}
                             price={e.price[0].price}
@@ -293,8 +297,8 @@ export default function Home() {
                                 width={300}
                                 image={
                                   card.media.length
-                                    ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[1]?.name}`
-                                    : "/images/14.png"
+                                    ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0]?.name}`
+                                    : "/icons/bag.svg"
                                 }
                                 title={card.name}
                                 price={card.price[0].price}
@@ -423,8 +427,8 @@ export default function Home() {
               </>
             )}
           </div>
-          <div style={{marginTop: -200}}>
-          <Footer />
+          <div>
+            <Footer />
           </div>
         </main>
       </>

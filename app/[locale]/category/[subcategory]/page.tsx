@@ -210,7 +210,7 @@ export default function Page() {
             <p>...</p>
             <p>5</p>
           </div>
-          <div style={{ marginTop: -300 }}>
+          <div>
             <Footer />
           </div>
         </div>

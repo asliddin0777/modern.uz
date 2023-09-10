@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TopHeader from "../components/global/TopHeader";
 import Header from "../components/global/Header";
 import Categories from "../components/global/Categories";
@@ -35,15 +35,15 @@ const Contact = () => {
   const phoneObj = [
     {
       title: "заводской номер",
-      number: "+998 99 999 99 99"
+      number: "+998 93 059 59 37"
     },
     {
       title: "доставка номер",
-      number: "+998 99 999 99 99"
+      number: "+998 93 059 59 37"
     },
     {
       title: "колл-центр номер",
-      number: "+998 99 999 99 99"
+      number: "+998 93 059 59 37"
     },
   ]
 
@@ -53,12 +53,14 @@ const Contact = () => {
     const obj = Object.fromEntries(data.entries())
     const send = `name: ${obj.name}%0Atitle: ${obj.title}%0Aphone: ${obj.phoneNumber}%0Amessage: ${obj.message}`
     axios({
-        method: "post",
-        url: `https://api.telegram.org/bot6306734073:AAHd8DekE-bnRW1yv2bJrBUAU8dH6nUziLw/sendMessage?chat_id=5356847426&text=${send}`
-    }).catch(err => console.log(err))
-}
-
-  
+      method: "post",
+      url: `https://api.telegram.org/bot6306734073:AAHd8DekE-bnRW1yv2bJrBUAU8dH6nUziLw/sendMessage?chat_id=5356847426&text=${send}`
+    })
+  }
+  const phoneNumRef = useRef<any>()
+  const titleRef = useRef<HTMLInputElement | any>()
+  const nameRef = useRef<HTMLInputElement | any>()
+  const messageRef = useRef<HTMLInputElement | any>()
   return (
     <div className={styles.container}>
       <TopHeader />
@@ -72,19 +74,19 @@ const Contact = () => {
           <div className={styles.contactCard}>
             <h3>Номера телефонов для связи:</h3>
             <div className={styles.phone}>
-              {phoneObj.map(({title, number}, index: number) => {
+              {phoneObj.map(({ title, number }, index: number) => {
                 return (
-                  <div className={styles.connection}>
+                  <div key={title} className={styles.connection}>
                     <h4>{title}</h4>
                     <div className={styles.phoneNumber}>
                       <Image
-                        src={"icons/contact.svg"}
+                        src={"/icons/contact.svg"}
                         width={19}
                         height={19}
                         alt="svg"
                       />
-                      <Link href="tel:+ 998 99 999 99 99">
-                       {number}
+                      <Link href="tel:+998 93 059 59 37">
+                        {number}
                       </Link>
                     </div>
                   </div>
@@ -102,24 +104,23 @@ const Contact = () => {
         <form className={styles.contactForm} onSubmit={Submit}>
           <h3>Написать обращение</h3>
           <div className={styles.contactInput}>
-            <div>
-              <p>Ф.И.О.</p>
-              <input name="name" className={styles.input} />
-            </div>
-
             <div className={styles.inputContainer}>
-              <p>Тема обращения</p>
-              <input name="title" className={styles.input} />
+              <p onClick={() => { nameRef.current.focus() }}>Ф.И.О.</p>
+              <input ref={nameRef} name="name" className={styles.input} />
             </div>
-
             <div className={styles.inputContainer}>
-              <p>Номер телефона</p>
-              <input name="phoneNumber" maxLength={13} className={styles.input} />
+              <p onClick={() => { titleRef.current.focus() }}>Тема обращения</p>
+              <input ref={titleRef} name="title" className={styles.input} />
             </div>
-
             <div className={styles.inputContainer}>
-              <p>Текст обращения</p>
-              <textarea name="message" maxLength={250} className={styles.input} />
+              <p onClick={() => {
+                phoneNumRef.current.focus()
+              }}>Номер телефона</p>
+              <input ref={phoneNumRef} name="phoneNumber" maxLength={13} className={styles.input} />
+            </div>
+            <div className={styles.inputContainer}>
+              <p onClick={() => messageRef.current.focus()}>Текст обращения</p>
+              <textarea ref={messageRef} name="message" maxLength={250} className={styles.input} />
             </div>
           </div>
           <button onClick={() => {
@@ -127,7 +128,7 @@ const Contact = () => {
           }}>Отправить</button>
         </form>
       </div>
-      <div style={{ marginTop: "11rem" }}>
+      <div>
         <Footer />
       </div>
     </div>
@@ -136,4 +137,3 @@ const Contact = () => {
 
 export default Contact;
 
-  

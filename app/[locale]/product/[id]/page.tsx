@@ -526,7 +526,7 @@ const Detail = () => {
               </div> */}
             </section>
           </div>
-          <div style={{ marginTop: -200 }}>
+          <div>
             <Footer />
           </div>
         </main>

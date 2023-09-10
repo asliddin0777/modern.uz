@@ -86,6 +86,7 @@
     font-size: 17px;
     font-weight: 400;
     line-height: 160%;
+    cursor: pointer;
 }
 
 .inputContainer {

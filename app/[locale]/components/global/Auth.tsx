@@ -22,6 +22,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
   const [load, setLoad] = useState<boolean>(true);
   const [data, setData] = useState<any[] | any>([])
   const [error, setError] = useState<string>("")
+  const [err, setErr] = useState(false)
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -50,7 +51,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
   const lastNameRef = useRef<HTMLInputElement | any>()
   const [cookie, setCookie] = useCookies(['userInfo'])
   const handleCheckUserAtLogin = () => {
-    if (passwordRef && numberRef) {
+    if (passwordRef.current.value !== "" && numberRef.current.value !== "") {
       axios.post(`${process.env.NEXT_PUBLIC_API}/api/users/login`, {
         phoneNumber: `998${numberRef?.current?.value}`,
         password: `${passwordRef?.current?.value}`,
@@ -68,6 +69,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
       }).catch(err => {
         console.log(err);
         setError(err.response.data.errors[0].message);
+        setErr(true)
       })
     }
   }
@@ -153,7 +155,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
 
   return (
     <>
-      {error !== "" && <Error msg={error} />}
+      {error !== "" && <Error err={err} setErr={setErr} msg={error} />}
       <div className={isAuthOpen ? styles.authent : styles.dn}>
         <div className={isAuthOpen ? styles.auth : styles.dn}>
           <div className={styles.close}>
@@ -188,7 +190,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
                     placeholder="999999999"
                     required
                     ref={numberRef}
-                    autoComplete="false"
+                    autoComplete="off"
                   />
                 </div>
                 <input
@@ -197,7 +199,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
                   placeholder="Пароль"
                   required
                   ref={passwordRef}
-                  autoComplete={"false"}
+                  autoComplete={"off"}
                 />
                 <button
                   className={styles.forgotPass}
@@ -207,24 +209,27 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
                 >
                   Вы забыли пароль?
                 </button>
-                <button className={styles.enter} onClick={() => {
+                <button className={styles.enter} onClick={(e) => {
                   if (passwordRef.current.value && numberRef.current.value) {
                     handleCheckUserAtLogin()
+                  }else {
+                    setErr(true)
+                    setError("Please fill the blanks")
                   }
                 }}>Войти</button>
               </>
             ) : fromWhere === 2 ? <>
-            <div className={styles.phoneNumber}>
-                  <p>+998</p>
-                  <input
-                    type="text"
-                    maxLength={9}
-                    placeholder="999999999"
-                    required
-                    ref={numRef}
-                    autoComplete="false"
-                  />
-                </div>
+              <div className={styles.phoneNumber}>
+                <p>+998</p>
+                <input
+                  type="text"
+                  maxLength={9}
+                  placeholder="999999999"
+                  required
+                  ref={numRef}
+                  autoComplete="off"
+                />
+              </div>
               <button onClick={() => {
                 handleUserGetCode()
                 // console.log("object");
@@ -237,7 +242,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
                   placeholder="Код"
                   required
                   ref={codeRef}
-                  autoComplete="false"
+                  autoComplete="off"
                 />
                 <button onClick={() => {
                   handleUserRegister()
@@ -260,7 +265,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
                     placeholder="Имя"
                     required
                     ref={userNameRef}
-                    autoComplete="false"
+                    autoComplete="off"
                   />
                   <input
                     type="text"
@@ -268,7 +273,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
                     placeholder="Фамилия"
                     required
                     ref={lastNameRef}
-                    autoComplete="false"
+                    autoComplete="off"
                   />
                   <input
                     type="password"
@@ -277,7 +282,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
                     placeholder="Новый пароль"
                     required
                     ref={passRef}
-                    autoComplete="false"
+                    autoComplete="off"
                   />
                   <input
                     type="password"
@@ -286,7 +291,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
                     placeholder="Подтвердите пароль"
                     required
                     ref={passRef2}
-                    autoComplete="false"
+                    autoComplete="off"
                   />
                   <button onClick={() => {
                     handleCreatePassword()

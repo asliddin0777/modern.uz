@@ -391,7 +391,7 @@ const Profile = () => {
               </section>
             </>
           )}
-          <div style={{ marginTop: -300 }}>
+          <div>
             <Footer />
           </div>
         </div>

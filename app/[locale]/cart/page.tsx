@@ -13,6 +13,7 @@ import { useCookies } from "react-cookie";
 import Loader from "../components/local/Loader";
 import Counter from "@/utils/Counter";
 import { uuid as uuidv4 } from 'uuidv4';
+import Error from "../components/local/Error";
 
 
 
@@ -40,6 +41,9 @@ const Cart = () => {
       : (document.body.style.overflow = "auto");
   }, [order]);
 
+  const [err, setErr] = useState<string>("")
+  const [error, setError] = useState<boolean>(false)
+
 
   useEffect(() => {
     setLoad(true);
@@ -50,8 +54,9 @@ const Cart = () => {
         const [res1, res2] = await axios.all([categories, subCategories]);
         setCategories(res1.data);
         setSubCategories(res2.data);
-      } catch (err) {
-        console.log(err);
+      } catch (err:any) {
+        setErr(err.message)
+        setError(true)
       } finally {
         setLoad(false);
       }
@@ -73,6 +78,7 @@ const Cart = () => {
         <div className={styles.cart}>
           <h1 style={{ fontSize: 20, fontWeight: 700 }}>Корзина</h1>
         </div>
+        <Error err={error} msg={err} setErr={setError} />
         {selectedCard ? (
           <section className={styles.DeliverySection}>
             <section className={styles.sectionLeft}>

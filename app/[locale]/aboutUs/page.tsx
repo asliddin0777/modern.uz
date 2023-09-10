@@ -20,7 +20,7 @@ const AboutUs = () => {
         </div>
         <div className={styles.businasswoman}>
           <Image
-            src={"/images/businasswoman.png"}
+            src={"/images/bussineswoman.png"}
             width={480}
             height={371}
             alt="hello"
