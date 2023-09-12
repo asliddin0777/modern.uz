@@ -84,7 +84,6 @@ const Profile = () => {
     const username: any = localStorage.getItem("userName");
     const lastname: any = localStorage.getItem("lastname");
     const userProfile: string[] | undefined = user?.fullName.split(" ")
-    console.log(userProfile);
     if (userInfo) {
       return (
         <div className={styles.profile}>

@@ -15,19 +15,19 @@ interface IProps {
     updateMessageViewStatus: Function
 }
 const EachMessage = ({ userInfo, m, updateMessageViewStatus }: IProps) => {
-    const serverURL = "http://192.168.0.104:3000"
+    const serverURL = process.env.NEXT_SERVER_URL
     const image: string[] = ["jpg", "png", 'jpeg']
     const video = ['mp4']
-    const [viewed, setViewed] = useState<boolean>(false)
+    const [viewed, setViewed] = useState<boolean>(m.viewed)
     function sendMessage(msg: IMessage) {
         if (msg.sender === userInfo.userId) {
             setViewed(msg.viewed);
         }
     }
     useEffect(() => {
-        socket.on(m.id!, sendMessage);
+        socket.on(String(m.id)!, sendMessage);
         return () => {
-            socket.off(m.id!, sendMessage);
+            socket.off(String(m.id)!, sendMessage);
         };
     }, [setViewed]);
 

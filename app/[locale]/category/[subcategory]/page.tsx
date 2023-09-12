@@ -176,7 +176,7 @@ export default function Page() {
                     image={
                       e.media.length
                         ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
-                        : "/images/14.png"
+                        : "/icons/bag.svg"
                     }
                     title={e.name}
                     // @ts-ignore

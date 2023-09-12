@@ -1,5 +1,5 @@
 "use client"
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "@/styles/card.module.css";
 import Link from "next/link";
@@ -12,6 +12,7 @@ import axios from "axios";
 import Auth from "./Auth";
 import IProduct from "@/interfaces/Product/IProduct";
 import { IPage } from "@/interfaces/IPage";
+import { CartContext } from "../../layout";
 
 
 interface Card {
@@ -47,11 +48,17 @@ const Card = ({
   const [cookie] = useCookies(["userInfo"])
   const [auth, setAuth] = useState<boolean>(false)
   const { userInfo } = cookie
+  const [addedToCart, setAddedToCart] = useState<boolean>(false)
+  const [succed, setSucced] = useState<boolean>(false)
+  const [msg, setMsg] = useState<string>("")
   useEffect(() => {
     if (auth === false) {
       document.body.style.overflow = "auto"
     }
   }, [auth])
+  console.log(userInfo);
+  const cartedIn:any = useContext(CartContext)
+
   // useEffect(() => {
   //   if(router.pathname === "/category") {
   //     setAnimation(false)
@@ -60,6 +67,8 @@ const Card = ({
   // console.log("dcscsd", router)
 
   // duration={0.3} animateOut={animate === true ? "animate__zoomOut" : ""} animateOnce={animate} animateIn={animate === true ? "animate__zoomIn" : ""}
+  console.log(cartedIn);
+  const [cart, setCookie] = useCookies(["inCart"])
   return (
     <div key={uuidv4()} className={styles.card}>
       <Link className={styles.imageOfCard} href={`/product/${url}`}>
@@ -88,8 +97,8 @@ const Card = ({
               headers: {
                 Authorization: userInfo.userToken
               }
-            }).then(res => {
-              setData(true)
+            }).then((res:any) => {
+              setData((prev) => !prev)
             }).catch(err => console.log(err))
           } else {
             setAuth(!auth)
@@ -102,11 +111,25 @@ const Card = ({
           width={45}
           height={45}
         /> */}
-        {card && userInfo && card.likes?.find(id => id === userInfo.userId) ? <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" stroke-width="0.9120000000000001"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#f00"></path> </g></svg>:<svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" stroke-width="0.9120000000000001"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#ffffff00"></path> </g></svg>}
+        {card && userInfo && card.likes?.find(id => id === userInfo.userId) ? <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" stroke-width="0.9120000000000001"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#f00"></path> </g></svg> : <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" stroke-width="0.9120000000000001"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#ffffff00"></path> </g></svg>}
       </div>
       <div className={styles.buy}>
         <button>Купить</button>
-        <div className={`${styles.box} ${styles.like}`}>
+        <div onClick={() => {
+          if (userInfo) {
+            axios.put(addedToCart ? `/users/basket/add/${url}`: `/users/basket/remove/${url}`, {}, {
+              headers: {
+                Authorization: userInfo.userToken
+              }
+            }).then(res => {
+              setAddedToCart(!addedToCart)
+              setCookie("inCart", res.data.basket)
+              
+            }).catch(err => console.log(err))
+          } else {
+            setAuth(!auth);
+          }
+        }} className={`${styles.box} ${styles.like}`}>
           <Image
             src={"/icons/buyW.svg"}
             alt="add cart icon"

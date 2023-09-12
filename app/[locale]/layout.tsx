@@ -5,7 +5,9 @@ import { Inter } from "next/font/google";
 import { useLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import axios from "axios";
+import { createContext, useContext, useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
+export const CartContext = createContext({})
 
 export default function RootLayout({ children, params }: any) {
   const locale = useLocale();
@@ -15,9 +17,12 @@ export default function RootLayout({ children, params }: any) {
   }
 
   axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_API}/api`
+  const [inCart, setInCart] = useState([])
   return (
-    <html lang={locale}>
-      <body>{children}</body>
-    </html>
+    <CartContext.Provider value={{ inCart, setInCart }}>
+      <html lang={locale}>
+        <body>{children}</body>
+      </html>
+    </CartContext.Provider>
   );
 }

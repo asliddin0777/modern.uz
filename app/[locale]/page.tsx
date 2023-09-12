@@ -7,7 +7,7 @@ import Categories from "./components/global/Categories";
 import Image from "next/image";
 import Card from "./components/global/Card";
 import Footer from "./components/global/Footer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import HeaderTabs from "./components/local/HeaderTabs";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -20,6 +20,7 @@ import axios from "axios";
 import { uuid as uuidv4 } from "uuidv4";
 import Loader from "./components/local/Loader";
 import { IPage } from "@/interfaces/IPage";
+import { CartContext } from "./layout";
 
 export default function Home() {
   const [buttonColor, setButtonColor] = useState<number>(0);
@@ -141,6 +142,7 @@ export default function Home() {
     },
   };
 
+
   if (load === true && !data) {
     return <Loader />;
   } else {
@@ -179,7 +181,7 @@ export default function Home() {
                             <Link
                               href={
                                 e.productId
-                                  ? `/detail/${e.productId}`
+                                  ? `/product/${e.productId}`
                                   : `/company/${e.vendorId}`
                               }
                               className={styles.addLeft}

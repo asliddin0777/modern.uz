@@ -34,6 +34,19 @@ button {
 
 .swiper-button-next, .swiper-button-prev {
   color: #E4B717 !important;
+  width: 10px !important;
+  height: auto !important;
+}
+
+.swiper-wrapper {
+  display: flex;
+}
+
+.swiper .swiper-button-next {
+  width: auto !important;
+  margin-left: 1rem;
+  height: auto !important;
+  background: #000 !important;
 }
 
 .swiper-button-next {

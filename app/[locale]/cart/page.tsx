@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useContext } from "react";
 import styles from "@/styles/cart.module.css";
 import Image from "next/image";
 import Footer from "../components/global/Footer";
@@ -14,6 +14,8 @@ import Loader from "../components/local/Loader";
 import Counter from "@/utils/Counter";
 import { uuid as uuidv4 } from 'uuidv4';
 import Error from "../components/local/Error";
+import IUser from "@/interfaces/IUser";
+import { CartContext } from "../layout";
 
 
 
@@ -35,6 +37,8 @@ const Cart = () => {
   const { selectedCard } = selectedCards;
   const { userInfo } = userInform;
 
+  const [user, setUser] = useState()
+
   useEffect(() => {
     order
       ? (document.body.style.overflow = "hidden")
@@ -43,55 +47,73 @@ const Cart = () => {
 
   const [err, setErr] = useState<string>("")
   const [error, setError] = useState<boolean>(false)
-
-
+  const [cart, setCart] = useState([])
   useEffect(() => {
-    setLoad(true);
+    setLoad(true)
     const fetchData = async () => {
       try {
-        const categories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`);
-        const subCategories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`);
-        const [res1, res2] = await axios.all([categories, subCategories]);
-        setCategories(res1.data);
-        setSubCategories(res2.data);
-      } catch (err:any) {
-        setErr(err.message)
-        setError(true)
+        const categories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`)
+        const subCategories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`)
+        const user = await axios.get("/products/liked", {
+          headers: {
+            Authorization: userInfo === undefined ? "" : userInfo.userToken
+          }
+        })
+        const cart = await axios.get("/users/current", {
+          headers: {
+            Authorization: userInfo === undefined ? "" : userInfo.userToken
+          }
+        })
+        const [res1, res2, us, ctr] = await axios.all([categories, subCategories, user, cart])
+        setCategories(res1.data)
+        setSubCategories(res2.data)
+        setUser(us.data)
+        setCart(ctr.data.basket)
+      } catch (err) {
+        console.log(err);
       } finally {
-        setLoad(false);
+        setLoad(false)
       }
-    };
-    fetchData();
-  }, []);
+    }
+    fetchData()
+  }, [])
 
 
+  console.log(cart);
 
 
+  const cartedIn = useContext(CartContext)
+
+  console.log(cartedIn);
+
+  const [cartedProducts] = useCookies(["inCart"])
+  const {inCart} = cartedProducts
+  console.log(inCart);
 
   if (!load) {
     return (
       <div className={styles.Delivery}>
         <TopHeader />
         <Header />
-        <Categories categories={categories} subcategories={subCategories}/>
-        <Order selectedProduct={selectedCard} order={order} setOrder={setOrder} />
+        <Categories categories={categories} subcategories={subCategories} />
+        <Order selectedProduct={inCart} order={order} setOrder={setOrder} />
         <div className={styles.cart}>
           <h1 style={{ fontSize: 20, fontWeight: 700 }}>Корзина</h1>
         </div>
         <Error err={error} msg={err} setErr={setError} />
-        {selectedCard ? (
+        {inCart ? (
           <section className={styles.DeliverySection}>
             <section className={styles.sectionLeft}>
-              {selectedCard &&
-                selectedCard?.map((card: any, index: number) => {
+              {inCart &&
+                inCart?.map((card: any, index: number) => {
                   return (
                     <div key={uuidv4()} className={styles.card}>
                       <input className={styles.input} type="checkbox" />
                       <Image
                         src={
-                          card.media?.length
-                            ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${card.product.media[1].name}`
-                            : "/images/14.png"
+                          card.media?.length > 0
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0].name}`
+                            : "/icons/bag.svg"
                         }
                         width={90}
                         height={100}
@@ -99,13 +121,13 @@ const Cart = () => {
                       />
                       <div className={styles.menu}>
                         <h1>
-                          {card.product
-                            ? card.product.name
+                          {card
+                            ? card.name
                             : `Phone named something ${card.productId}`}
                         </h1>
                         <p style={{ color: "#B7AFAF" }}>
-                          {card.product.subcategory
-                            ? card.product.subcategory.name
+                          {card.subcategory
+                            ? card.subcategory.name
                             : "Artel"}
                         </p>
                         <div
@@ -131,7 +153,7 @@ const Cart = () => {
                         </p>
                         <div className={styles.countButton}>
                           <Counter
-                            price={card.product.price[0].price}
+                            price={card.price[0].price}
                             count={count}
                             setCount={setCount}
                           />
@@ -149,7 +171,7 @@ const Cart = () => {
                         </div>
                         <h1>
                           {card.product
-                            ? `${card.product.price[0].price}`
+                            ? `${card.price[0].price}`
                             : "900"}
                         </h1>
                       </div>
@@ -192,7 +214,7 @@ const Cart = () => {
                   onClick={() => {
                     setOrder(true);
                     setCountCookie("count", {
-                      
+
                     })
                   }}
                 >
