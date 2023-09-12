@@ -47,9 +47,9 @@
     text-align: left;
 }
 
-.card * {
+/* .card * {
     text-align: left !important;
-}
+} */
 
 .like {
     position: absolute;
