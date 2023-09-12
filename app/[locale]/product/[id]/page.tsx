@@ -107,6 +107,10 @@ const Detail = () => {
     //   let checkWtR = Boolean(wtRs?.value);
     //   checkWtRs = checkWtR;
     // }
+
+
+  
+
     return (
       <>
         <Head>

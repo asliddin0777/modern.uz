@@ -20,7 +20,8 @@ const Counter = ({ count, setCount, price }: Counts) => {
 
   const decrement = () => {
     setCounts(count > 1 ? counts - 1 : 1);
-    setCount(count - price);
+    setCount(count  > price ? price - 0 : 0);
+
   };
 
   return (
