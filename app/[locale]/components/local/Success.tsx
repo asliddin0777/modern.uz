@@ -6,7 +6,7 @@ interface Success {
   err: boolean
 }
 const Success = ({ msg, setErr, err }: Success) => {
-  useEffect(()=> {
+  useEffect(() => {
     const timeout = setTimeout(() => {
       setErr(false);
     }, 3000);
@@ -14,13 +14,13 @@ const Success = ({ msg, setErr, err }: Success) => {
   }, [err])
   return (
     <>
-    <div className={err === true ? styles.succes: styles.dn}>
-      <div className={styles.container}>
-        <p>{msg}</p>
+      <div className={err === true ? styles.success : styles.dn}>
+        <div className={styles.container}>
+          <p>{msg}</p>
+        </div>
       </div>
-    </div>
     </>
   )
 }
 
-export default Error
+export default Success

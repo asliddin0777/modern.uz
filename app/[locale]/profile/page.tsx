@@ -60,8 +60,8 @@ const Profile = () => {
     setLoad(true);
     const fetchData = async () => {
       try {
-        const categories = await axios.get("/categories");
-        const subCategories = await axios.get("/subcategories");
+        const categories = await axios.get(`/categories`);
+        const subCategories = await axios.get(`/subcategories`);
         const user = await axios.get("/users/current", {
           headers: {
             Authorization: userInfo !== undefined && userInfo.userToken

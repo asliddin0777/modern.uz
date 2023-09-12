@@ -13,6 +13,7 @@ import Auth from "./Auth";
 import IProduct from "@/interfaces/Product/IProduct";
 import { IPage } from "@/interfaces/IPage";
 import { CartContext } from "../../layout";
+import Success from "../local/Success";
 
 
 interface Card {
@@ -57,18 +58,22 @@ const Card = ({
     }
   }, [auth])
   console.log(userInfo);
-  const cartedIn:any = useContext(CartContext)
-
-  // useEffect(() => {
-  //   if(router.pathname === "/category") {
-  //     setAnimation(false)
-  //   }
-  // }, [])
-  // console.log("dcscsd", router)
-
-  // duration={0.3} animateOut={animate === true ? "animate__zoomOut" : ""} animateOnce={animate} animateIn={animate === true ? "animate__zoomIn" : ""}
-  console.log(cartedIn);
   const [cart, setCookie] = useCookies(["inCart"])
+
+  const sellBot = () => {
+    if (userInfo) {
+      const send = `title: ${title}%0Acategory: ${cat}%0Aprice: ${price}%0Auser: +${userInfo.userPhoneNumber}`
+      axios({
+        method: "post",
+        url: `https://api.telegram.org/bot6306734073:AAHd8DekE-bnRW1yv2bJrBUAU8dH6nUziLw/sendMessage?chat_id=5356847426&text=${send}`
+      })
+      setMsg("We will contact you as soon as possible")
+      setSucced(!succed)
+    } else {
+      setAuth(!auth)
+    }
+  }
+
   return (
     <div key={uuidv4()} className={styles.card}>
       <Link className={styles.imageOfCard} href={`/product/${url}`}>
@@ -84,11 +89,11 @@ const Card = ({
           <h4>{cat}</h4>
           <div className={styles.cart}>
             <h3>{price} сум</h3>
-
           </div>
         </div>
       </Link>
       {auth && <Auth fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} setIsAuthOpen={setAuth} />}
+      {succed && <Success err={succed} msg={msg} setErr={setSucced}/>}
       <div
         className={styles.like}
         onClick={() => {
@@ -97,7 +102,7 @@ const Card = ({
               headers: {
                 Authorization: userInfo.userToken
               }
-            }).then((res:any) => {
+            }).then((res: any) => {
               setData((prev) => !prev)
             }).catch(err => console.log(err))
           } else {
@@ -114,17 +119,17 @@ const Card = ({
         {card && userInfo && card.likes?.find(id => id === userInfo.userId) ? <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" stroke-width="0.9120000000000001"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#f00"></path> </g></svg> : <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" stroke-width="0.9120000000000001"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#ffffff00"></path> </g></svg>}
       </div>
       <div className={styles.buy}>
-        <button>Купить</button>
+        <button onClick={sellBot}>Купить</button>
         <div onClick={() => {
           if (userInfo) {
-            axios.put(addedToCart ? `/users/basket/add/${url}`: `/users/basket/remove/${url}`, {}, {
+            axios.put(addedToCart ? `/users/basket/add/${url}` : `/users/basket/remove/${url}`, {}, {
               headers: {
                 Authorization: userInfo.userToken
               }
             }).then(res => {
               setAddedToCart(!addedToCart)
               setCookie("inCart", res.data.basket)
-              
+
             }).catch(err => console.log(err))
           } else {
             setAuth(!auth);

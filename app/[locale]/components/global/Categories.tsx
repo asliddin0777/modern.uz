@@ -93,26 +93,17 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
                           setMouseOver(true);
                           setSelected(e.name);
                         }}
-                        onMouseMove={() => {
-                          setCategoryOpen(!isCategoriesOpen);
-                        }}
+    
+                      
                         onMouseLeave={() => {
                           setMouseOver(false);
                           setSelected("");
                         }}
                       >
+                        
                         <Link href={`/category/${e.id.toLocaleLowerCase()}`}>
                           {e.name}
                         </Link>
-                        <Image
-                          className={
-                            selected === e.name ? styles.animated : styles.just
-                          }
-                          src={"/icons/chevronDown.svg"}
-                          alt="chevron down"
-                          height={12}
-                          width={10}
-                        />
                       </li>
                     );
                   } else {

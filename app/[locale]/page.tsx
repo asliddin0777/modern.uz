@@ -22,6 +22,8 @@ import Loader from "./components/local/Loader";
 import { IPage } from "@/interfaces/IPage";
 import { CartContext } from "./layout";
 
+
+
 export default function Home() {
   const [buttonColor, setButtonColor] = useState<number>(0);
   const [slidesPerView, setSlidesPerView] = useState<number>(4);
@@ -35,6 +37,7 @@ export default function Home() {
   const [likedObj, setLikedObj] = useState<any[] | any>([]);
   const [vendor, setVendor] = useState<any[] | any>([]);
   const router = useRouter();
+
 
   const objCard = [
     {

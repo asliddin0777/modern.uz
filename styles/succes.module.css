@@ -20,16 +20,17 @@
 }
 
 .container {
-    width: 280px;
+    width: fit-content;
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    height: 40px;
-    background: rgb(255, 4, 4);
+    background: rgb(255, 208, 0);
 }
 
 .container > p {
-    color: #fff;
+    color: #000;
     font-size: 18px;
+    font-weight: 400;
 }

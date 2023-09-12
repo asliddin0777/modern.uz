@@ -42,7 +42,7 @@
   transition: .20s ease-in-out;
 }
 
-.close > h3 {
+.close>h3 {
   color: #fff;
   font-size: 18px;
 }
@@ -75,8 +75,9 @@
 .selectList>li>img {
   position: relative;
   top: 3px;
-    transition: .4s linear;
-  }
+  transition: .4s linear;
+  
+}
 
 
 .just {
@@ -88,7 +89,8 @@
   transition: 0.4s;
 }
 
-.selectItem:hover {
+.selectItem:hover img,
+.selectItem:hover a  {
   color: #e4b717;
   transition: 0.2s linear;
 }
@@ -105,7 +107,7 @@
 
 
 @media screen and (max-width: 1200px) {
-  .container { 
+  .container {
     width: 100%;
     padding-left: 1%;
     padding-right: 1%;
@@ -116,6 +118,7 @@
   .selectList {
     display: none;
   }
+
   .container {
     padding-left: 1%;
     padding-right: 1%;

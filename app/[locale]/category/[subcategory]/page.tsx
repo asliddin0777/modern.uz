@@ -52,6 +52,7 @@ export default function Page() {
       });
   }, []);
 
+
   useEffect(() => {
     setLoad(true);
     console.log(pathname);
@@ -110,6 +111,9 @@ export default function Page() {
     fetchData();
   }, []);
 
+
+  console.log(Categories.name)
+
   const handlerFilter = () => {
     const p = new Set(selectedProps);
     axios
@@ -128,13 +132,19 @@ export default function Page() {
       });
   };
 
-  if (!load && selectedProps) {
+
+  if (!load && selectedProduct) {
     return (
       <>
         <div className={styles.container}>
           <TopHeader />
           <Header />
           <Categories categories={categories} subcategories={subCategories} />
+          <div className={styles.phone}>
+            <h1>
+              {Categories ? Categories.name : "Телефоны"}
+            </h1>
+          </div>
           <section className={styles.cardSection}>
             <div className={styles.cardBurgerg} onClick={cardBurgerHandler}>
               <h3>Фильтр</h3>
@@ -189,26 +199,27 @@ export default function Page() {
                 ))}
             </section>
           </section>
-          <div className={styles.carusel}>
-            <div
-              style={{
-                backgroundColor: "#E4B717",
-                width: 39,
-                height: 39,
-                borderRadius: "100%",
-                color: "#fff",
-                textAlign: "center",
-                paddingTop: 8,
-              }}
-            >
-              <p>1</p>
-            </div>
-            <p>2</p>
-            <p>3</p>
-            <p>...</p>
-            <p>5</p>
-          </div>
-          <div>
+
+          {/* <div className={styles.carusel}>
+              <div
+                style={{
+                  backgroundColor: "#E4B717",
+                  width: 39,
+                  height: 39,
+                  borderRadius: "100%",
+                  color: "#fff",
+                  textAlign: "center",
+                  paddingTop: 8,
+                }}
+              >
+                <p>1</p>
+              </div>
+              <p>2</p>
+              <p>3</p>
+              <p>...</p>
+              <p>5</p>
+            </div> */}
+          <div style={{marginTop: 100}}>
             <Footer />
           </div>
         </div>
