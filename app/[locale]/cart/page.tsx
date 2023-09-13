@@ -85,11 +85,7 @@ const Cart = () => {
   const cartedIn = useContext(CartContext)
 
   console.log(cartedIn);
-
-  const [cartedProducts] = useCookies(["inCart"])
-  const {inCart} = cartedProducts
-  console.log(inCart);
-
+  const {inCart, setInCart}:any = useContext(CartContext)
   if (!load) {
     return (
       <div className={styles.Delivery}>

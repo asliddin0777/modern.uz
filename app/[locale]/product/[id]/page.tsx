@@ -386,7 +386,7 @@ const Detail = () => {
                         width={49}
                         height={43}
                       />
-                      Доставка
+                      + 998 93 059 59 37
                     </button>
                   </div>
                 </div>
@@ -412,17 +412,16 @@ const Detail = () => {
               >
                 Характеристики
               </button>
-              <button
+              {/* <button
                 onClick={() => {
                   setControllerC(1);
                 }}
                 className={controllerC === 0 ? styles.select : styles.selected}
               >
                 Отзывы
-              </button>
+              </button> */}
             </div>
             <section className={styles.detailSelected}>
-              {controllerC === 0 ? (
                 <>
                   {/* <div className={styles.detailS}>
                     <div className={styles.characterInfo}>
@@ -495,7 +494,7 @@ const Detail = () => {
                     </p>
                   </div>
                 </>
-              ) : (
+              {/* ) : (
                 <div className={styles.reviewsWrapper}>
                   <form className={styles.postReview}>
                     <h3>Оставить отзыв</h3>
@@ -505,7 +504,7 @@ const Detail = () => {
                     return <Reviews key={uuidv4()} />;
                   })}
                 </div>
-              )}
+              )} */}
             </section>
             <section className={styles.similarProducts}>
               {/* <h3>Похожие товары</h3>

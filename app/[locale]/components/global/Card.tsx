@@ -58,7 +58,8 @@ const Card = ({
     }
   }, [auth])
   console.log(userInfo);
-  const [cart, setCookie] = useCookies(["inCart"])
+  const {inCart, setInCart}:any = useContext(CartContext)
+  
 
   const sellBot = () => {
     if (userInfo) {
@@ -73,6 +74,8 @@ const Card = ({
       setAuth(!auth)
     }
   }
+
+  console.log(inCart);
 
   return (
     <div key={uuidv4()} className={styles.card}>
@@ -128,8 +131,9 @@ const Card = ({
               }
             }).then(res => {
               setAddedToCart(!addedToCart)
-              setCookie("inCart", res.data.basket)
-
+              setInCart(res.data.basket)
+              setSucced(!succed)
+              setMsg("Added to cart")
             }).catch(err => console.log(err))
           } else {
             setAuth(!auth);
