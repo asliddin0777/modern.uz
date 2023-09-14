@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import styles from "@/styles/cart.module.css";
 
@@ -10,25 +10,24 @@ interface Counts {
 }
 
 const Counter = ({ count, setCount, price }: Counts) => {
-
-  const [counts, setCounts] = useState<number>(count);
-
+  const [counts, setCounts] = useState<number>(0);
 
   const increment = () => {
-    setCounts(counts + 1)
-    setCount(count + price);   
-  }
+    setCounts(counts + 1);
+    setCount(count + price);
+  };
 
   const decrement = () => {
     setCounts(count > 1 ? counts - 1 : 0);
-    setCount(count  > price ? price - 0 : 0);
-  }
-
+    if (count > 0) {
+      setCount(count - price);
+    }
+  };
 
   return (
     <div className={styles.countButton}>
       <button onClick={decrement}>-</button>
-      <p>{counts / price}</p>
+      <p>{counts}</p>
       <button onClick={increment}>+</button>
     </div>
   );
