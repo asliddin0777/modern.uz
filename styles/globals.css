@@ -15,9 +15,6 @@ body, html, #__next {
   --form-control-color: #E4B71;
   accent-color: #E4B717;
   height: fit-content;
-  position: relative;
-  min-height: 100%;
-  min-height: 100vh;
 }
 
 li {
@@ -37,19 +34,6 @@ button {
 
 .swiper-button-next, .swiper-button-prev {
   color: #E4B717 !important;
-  width: 10px !important;
-  height: auto !important;
-}
-
-.swiper-wrapper {
-  display: flex;
-}
-
-.swiper .swiper-button-next {
-  width: auto !important;
-  margin-left: 1rem;
-  height: auto !important;
-  background: #000 !important;
 }
 
 .swiper-button-next {

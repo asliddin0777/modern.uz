@@ -84,7 +84,7 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
             >
               {categories &&
                 categories.map((e: any, index: number) => {
-                  if (index < 5) {
+                  if (index < 6) {
                     return (
                       <li
                         className={styles.selectItem}

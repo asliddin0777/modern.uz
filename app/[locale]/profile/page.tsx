@@ -2,7 +2,7 @@
 import styles from "@/styles/profile.module.css";
 import Footer from "../components/global/Footer";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ChangePassword from "../components/local/ChangePassword";
 import TopHeader from "../components/global/TopHeader";
 import Header from "../components/global/Header";
@@ -15,6 +15,8 @@ import Loader from "../components/local/Loader";
 import { uuid as uuidv4 } from 'uuidv4';
 import IUser from "@/interfaces/IUser";
 import { useRouter } from "next/navigation";
+import { CartContext } from "../layout";
+import IProduct from "@/interfaces/Product/IProduct";
 const Profile = () => {
   const [isChangePassOpen, setIsChangePassOpen] = useState(false);
   const [profileBurger, setProfileBurger] = useState(false);
@@ -56,6 +58,7 @@ const Profile = () => {
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true);
   const [user, setUser] = useState<IUser>()
+  const {inCart, setInCart}:any = useContext(CartContext)
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
@@ -301,7 +304,7 @@ const Profile = () => {
                 </section>
                 <section className={styles.order}>
                   <h3 className={styles.orderTitle}>Мои заказы</h3>
-                  {selectedCard ? (
+                  {inCart ? (
                     <>
                       <div className={styles.cardOrder}>
                         <div className={styles.orderNumber}>
@@ -313,22 +316,10 @@ const Profile = () => {
                         </div>
                         <div className={styles.orderSection}>
                           <div>
-                            {selectedCard &&
-                              selectedCard.map(
+                            {inCart &&
+                              inCart.map(
                                 (
-                                  e: {
-                                    media: any;
-                                    product: {
-                                      name: string;
-                                      price: {
-                                        price: number;
-                                      }[];
-                                      media: {
-                                        name: string;
-                                        fileId: string;
-                                      }[];
-                                    };
-                                  },
+                                  e: IProduct,
                                   index: number
                                 ) => {
                                   return (
@@ -350,7 +341,7 @@ const Profile = () => {
                                           }}
                                         />
                                         <div className={styles.cartTitle}>
-                                          <h3>{e.product.name}</h3>
+                                          <h3>{e.name}</h3>
                                           <div className={styles.const}>
                                             <div className={styles.constTag}>
                                               <p>Кол-во:</p>
@@ -358,7 +349,7 @@ const Profile = () => {
                                             </div>
                                             <div className={styles.priceTitle}>
                                               <p>Стоимость:</p>
-                                              <p>{e.product.price[0].price}</p>
+                                              <p>{e.price[0].price}</p>
                                             </div>
                                           </div>
                                         </div>
