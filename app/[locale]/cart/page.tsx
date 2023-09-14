@@ -80,6 +80,9 @@ const Cart = () => {
 
 
   console.log(cart);
+  const [counts, setCounts] = useState<number>(0);
+
+
 
 
   const cartedIn = useContext(CartContext)

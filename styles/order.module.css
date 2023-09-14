@@ -112,6 +112,7 @@
 @media screen and (max-width: 565px)  {
     .order {
         width: 100%;
+        margin-top: auto;
     }
 
     .orderSide {

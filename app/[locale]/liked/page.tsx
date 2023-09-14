@@ -96,7 +96,7 @@ export default function Liked() {
                 setLikedObj={setLikedObj}
               />
             }) : "sign in"}
-            {user.length === 0 && <p>You didnt like a product yet</p>}
+            {user.length === 0 && <h2 style={{ textAlign: "center" }}>You didnt like a product yet</h2>}
           </div>
         </section>
         <div style={{ marginTop: "11rem" }}>
