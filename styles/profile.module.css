@@ -1,28 +1,12 @@
 .profileTitle {
     display: flex;
     padding: 10px 0;
+    margin: auto;
     width: 1180px;
     align-items: center;
     justify-content: space-between;
 }
 
-.profile {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.profile > footer {
-    margin-top: auto !important;
-}
-
-.profile > div:first-child {
-    margin: 0 auto;
-}
-
-.profile > div, .profile > section {
-    margin: 0 auto;
-}
 
 .profileBurger {
     display: none;
@@ -38,6 +22,7 @@
     display: flex;
     width: 1180px;
     padding: 10px 0;
+    margin: auto;
 }
 
 .profileCard {
@@ -137,6 +122,7 @@
     justify-content: center;
     gap: 20px;
     width: fit-content;
+    margin: auto;
 }
 
 .input p {
@@ -323,6 +309,7 @@
 }
 
 .button {
+    margin: auto;
     justify-content: flex-end;
     align-items: flex-end;
     display: flex;
@@ -664,12 +651,14 @@
     .rightOrder {
         justify-content: center;
         align-items: center;
+        margin: auto;
     }
 
     .rightOrder button {
         justify-content: center;
         display: flex;
         text-align: center;
+        margin: auto;
         padding-top: 10px;
     }
 
@@ -691,6 +680,7 @@
     .orderNumber div {
         justify-content: center;
         text-align: center;
+        margin: auto;
         display: block;
         padding-left: 0%;
     }

@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import Loader from "../components/local/Loader";
-import { uuid as uuidv4 } from 'uuidv4';
+import { uuid as uuidv4 } from "uuidv4";
 import IUser from "@/interfaces/IUser";
 import { useRouter } from "next/navigation";
 import { CartContext } from "../layout";
@@ -21,7 +21,7 @@ const Profile = () => {
   const [isChangePassOpen, setIsChangePassOpen] = useState(false);
   const [profileBurger, setProfileBurger] = useState(false);
   const [button, setButton] = useState<number>(0);
-  const {push} = useRouter()
+  const { push } = useRouter();
   const [buttonColor, setButtonColor] = useState<number>(0);
   const [profile, setProfile] = useState<any | any[]>([]);
   const [selectedCards] = useCookies(["selectedCard"]);
@@ -57,8 +57,8 @@ const Profile = () => {
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true);
-  const [user, setUser] = useState<IUser>()
-  const {inCart, setInCart}:any = useContext(CartContext)
+  const [user, setUser] = useState<IUser>();
+  const { inCart, setInCart }: any = useContext(CartContext);
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
@@ -67,13 +67,17 @@ const Profile = () => {
         const subCategories = await axios.get(`/subcategories`);
         const user = await axios.get("/users/current", {
           headers: {
-            Authorization: userInfo !== undefined && userInfo.userToken
-          }
-        })
-        const [res1, res2, res3] = await axios.all([categories, subCategories, user]);
+            Authorization: userInfo !== undefined && userInfo.userToken,
+          },
+        });
+        const [res1, res2, res3] = await axios.all([
+          categories,
+          subCategories,
+          user,
+        ]);
         setCategories(res1.data);
         setSubCategories(res2.data);
-        setUser(res3.data)
+        setUser(res3.data);
       } catch (err) {
         console.log(err);
       } finally {
@@ -86,7 +90,7 @@ const Profile = () => {
   if (!load) {
     const username: any = localStorage.getItem("userName");
     const lastname: any = localStorage.getItem("lastname");
-    const userProfile: string[] | undefined = user?.fullName.split(" ")
+    const userProfile: string[] | undefined = user?.fullName.split(" ");
     if (userInfo) {
       return (
         <div className={styles.profile}>
@@ -168,10 +172,13 @@ const Profile = () => {
                       />
                       <p>Мои заказы</p>
                     </div>
-                    <div className={styles.profileClose} onClick={()=> {
-                      removeCookie("userInfo")
-                      push("/")
-                    }}>
+                    <div
+                      className={styles.profileClose}
+                      onClick={() => {
+                        removeCookie("userInfo");
+                        push("/");
+                      }}
+                    >
                       <Image
                         src={"/icons/logout.svg"}
                         width={19}
@@ -203,11 +210,26 @@ const Profile = () => {
                     <div className={styles.input}>
                       <div>
                         <p>Имя</p>
-                        <input disabled value={username ? username : userProfile && userProfile[0]} type="text" />
+                        <input
+                          disabled
+                          value={
+                            username ? username : userProfile && userProfile[0]
+                          }
+                          type="text"
+                        />
                       </div>
                       <div>
                         <p>Фамилия</p>
-                        <input disabled value={lastname ? lastname : userProfile && userProfile[userProfile.length - 1]} type="text" />
+                        <input
+                          disabled
+                          value={
+                            lastname
+                              ? lastname
+                              : userProfile &&
+                                userProfile[userProfile.length - 1]
+                          }
+                          type="text"
+                        />
                       </div>
                     </div>
                     <div className={styles.input}>
@@ -288,10 +310,13 @@ const Profile = () => {
                       />
                       <p>Мои заказы</p>
                     </div>
-                    <div className={styles.profileClose} onClick={() => {
-                      removeCookie("userInfo")
-                      push("/")
-                    }}>
+                    <div
+                      className={styles.profileClose}
+                      onClick={() => {
+                        removeCookie("userInfo");
+                        push("/");
+                      }}
+                    >
                       <Image
                         src={"/icons/logout.svg"}
                         width={19}
@@ -317,48 +342,43 @@ const Profile = () => {
                         <div className={styles.orderSection}>
                           <div>
                             {inCart &&
-                              inCart.map(
-                                (
-                                  e: IProduct,
-                                  index: number
-                                ) => {
-                                  return (
-                                    <div key={uuidv4()}>
-                                      {" "}
-                                      <div key={index} className={styles.cart}>
-                                        <Image
-                                          src={
-                                            e.media?.length
-                                              ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
-                                              : "/images/14.png"
-                                          }
-                                          width={58}
-                                          height={58}
-                                          alt="hello"
-                                          style={{
-                                            width: "auto",
-                                            height: 58,
-                                          }}
-                                        />
-                                        <div className={styles.cartTitle}>
-                                          <h3>{e.name}</h3>
-                                          <div className={styles.const}>
-                                            <div className={styles.constTag}>
-                                              <p>Кол-во:</p>
-                                              <p>{2}</p>
-                                            </div>
-                                            <div className={styles.priceTitle}>
-                                              <p>Стоимость:</p>
-                                              <p>{e.price[0].price}</p>
-                                            </div>
+                              inCart.map((e: IProduct, index: number) => {
+                                return (
+                                  <div key={uuidv4()}>
+                                    {" "}
+                                    <div key={index} className={styles.cart}>
+                                      <Image
+                                        src={
+                                          e.media?.length
+                                            ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
+                                            : "/images/14.png"
+                                        }
+                                        width={58}
+                                        height={58}
+                                        alt="hello"
+                                        style={{
+                                          width: "auto",
+                                          height: 58,
+                                        }}
+                                      />
+                                      <div className={styles.cartTitle}>
+                                        <h3>{e.name}</h3>
+                                        <div className={styles.const}>
+                                          <div className={styles.constTag}>
+                                            <p>Кол-во:</p>
+                                            <p>{2}</p>
+                                          </div>
+                                          <div className={styles.priceTitle}>
+                                            <p>Стоимость:</p>
+                                            <p>{e.price[0].price}</p>
                                           </div>
                                         </div>
                                       </div>
-                                      <div className={styles.line}></div>
                                     </div>
-                                  );
-                                }
-                              )}
+                                    <div className={styles.line}></div>
+                                  </div>
+                                );
+                              })}
                           </div>
                           <div className={styles.rightOrder}>
                             <div className={styles.total}>
@@ -374,7 +394,9 @@ const Profile = () => {
                     </>
                   ) : (
                     <>
-                      <h1 style={{ textAlign: "center" }}>You don't have products</h1>
+                      <h1 style={{ textAlign: "center" }}>
+                        You don't have products
+                      </h1>
                     </>
                   )}
                 </section>
@@ -462,10 +484,13 @@ const Profile = () => {
                     />
                     <p>Мои заказы</p>
                   </div>
-                  <div className={styles.profileClose} onClick={() => {
-                    removeCookie("userInfo")
-                    push("/")
-                  }}>
+                  <div
+                    className={styles.profileClose}
+                    onClick={() => {
+                      removeCookie("userInfo");
+                      push("/");
+                    }}
+                  >
                     <Image
                       src={"icons/logout.svg"}
                       width={19}
@@ -546,74 +571,85 @@ const Profile = () => {
                 </section>
                 <section className={styles.order}>
                   <h3 className={styles.orderTitle}>Мои заказы</h3>
-                  <div className={styles.cardOrder}>
-                    <div className={styles.orderNumber}>
-                      <p>Товары</p>
-                      <div className={styles.orderButton}>
-                        <p>Статус: На рассмотрении</p>
-                        <button>Заказ № 13</button>
-                      </div>
-                    </div>
-                    <div className={styles.orderSection}>
-                      <div>
-                        {selectedCard.map(
-                          (
-                            e: {
-                              product: {
-                                name: string;
-                                price: {
-                                  price: number;
-                                }[];
-                                media: {
-                                  name: string;
-                                  fileId: string;
-                                }[];
-                              };
-                            },
-                            index: number
-                          ) => {
-                            return (
-                              <div key={uuidv4()}>
-                                {" "}
-                                <div key={index} className={styles.cart}>
-                                  <Image
-                                    src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${e.product.media[0].name}`}
-                                    width={58}
-                                    height={58}
-                                    style={{ width: "auto", height: 58 }}
-                                    alt="hello"
-                                  />
-                                  <div className={styles.cartTitle}>
-                                    <h3>{e.product.name}</h3>
-                                    <div className={styles.const}>
-                                      <div className={styles.constTag}>
-                                        <p>Кол-во:</p>
-                                        <p>{2}</p>
-                                      </div>
-                                      <div className={styles.priceTitle}>
-                                        <p>Стоимость:</p>
-                                        <p>{e.product.price[0].price}</p>
+                  {inCart ? (
+                    <>
+                      <div className={styles.cardOrder}>
+                        <div className={styles.orderNumber}>
+                          <p>Товары</p>
+                          <div className={styles.orderButton}>
+                            <p>Статус: На рассмотрении</p>
+                            <button>Заказ № 13</button>
+                          </div>
+                        </div>
+                        <div className={styles.orderSection}>
+                          <div>
+                            {selectedCard.map(
+                              (
+                                e: {
+                                  product: {
+                                    name: string;
+                                    price: {
+                                      price: number;
+                                    }[];
+                                    media: {
+                                      name: string;
+                                      fileId: string;
+                                    }[];
+                                  };
+                                },
+                                index: number
+                              ) => {
+                                return (
+                                  <div key={uuidv4()}>
+                                    {" "}
+                                    <div key={index} className={styles.cart}>
+                                      <Image
+                                        src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${e.product.media[0].name}`}
+                                        width={58}
+                                        height={58}
+                                        style={{ width: "auto", height: 58 }}
+                                        alt="hello"
+                                      />
+                                      <div className={styles.cartTitle}>
+                                        <h3>{e.product.name}</h3>
+                                        <div className={styles.const}>
+                                          <div className={styles.constTag}>
+                                            <p>Кол-во:</p>
+                                            <p>{2}</p>
+                                          </div>
+                                          <div className={styles.priceTitle}>
+                                            <p>Стоимость:</p>
+                                            <p>{e.product.price[0].price}</p>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
+                                    <div className={styles.line}></div>
                                   </div>
-                                </div>
-                                <div className={styles.line}></div>
-                              </div>
-                            );
-                          }
-                        )}
-                      </div>
-                      <div className={styles.rightOrder}>
-                        <div className={styles.total}>
-                          <h4>Итого:</h4>
-                          <h5>72.000.000 сум</h5>
+                                );
+                              }
+                            )}
+                          </div>
+                          <div className={styles.rightOrder}>
+                            <div className={styles.total}>
+                              <h4>Итого:</h4>
+                              <h5>72.000.000 сум</h5>
+                            </div>
+                            <div className={styles.button}>
+                              <button>Связаться с продавцом</button>
+                            </div>
+                          </div>
                         </div>
-                        <div className={styles.button}>
-                          <button>Связаться с продавцом</button>
-                        </div>
                       </div>
-                    </div>
-                  </div>
+                    </>
+                  ) : (
+                    <>
+                      {" "}
+                      <h1 style={{ textAlign: "center" }}>
+                        You don't have products
+                      </h1>
+                    </>
+                  )}
                 </section>
               </section>
             </>

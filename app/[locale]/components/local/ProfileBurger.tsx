@@ -24,7 +24,7 @@ const ProfileBurger = ({ buttonColor, setButtonColor }: Button) => {
             }}
           >
             <Image
-              src={!buttonColor ? "icons/userWhite.svg" : "icons/user.svg" }
+              src={!buttonColor ? "/icons/userWhite.svg" : "/icons/user.svg" }
               width={16}
               height={21}
               alt="user"
