@@ -13,7 +13,7 @@
 .dn {
     opacity: 0;
     transition: 0.2s ease-in-out;
-    top: 0;
+    top: -100px;
     left: 100%;
     margin-left: -300px;
     position: fixed;

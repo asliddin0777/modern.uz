@@ -146,7 +146,7 @@ export default function Home() {
   };
 
 
-  if (load === true && !data) {
+  if (load === true) {
     return <Loader />;
   } else {
     return (
@@ -212,7 +212,7 @@ export default function Home() {
                       })}
                   </Swiper>
                 </div>
-                <div className={styles.categories}>
+                {categories && <div className={styles.categories}>
                   <h3
                     style={{
                       fontSize: 23,
@@ -227,7 +227,7 @@ export default function Home() {
                     modules={[Navigation]}
                     navigation={true}
                   >
-                    {categories &&
+                    {
                       categories.map((val: any) => {
                         return (
                           <SwiperSlide
@@ -239,12 +239,12 @@ export default function Home() {
                               href={`/category/${val.id.toLocaleLowerCase()}`}
                             >
                               <div className={styles.categoriesTop}>
-                                <Image
+                                {val.icon ? <Image
                                   src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${val.icon?.name}`}
                                   width={52}
                                   height={51}
                                   alt="home icon"
-                                />
+                                /> : <h5>No image</h5>}
                               </div>
                               <h3>{val.name}</h3>
                             </Link>
@@ -252,8 +252,8 @@ export default function Home() {
                         );
                       })}
                   </Swiper>
-                </div>
-                <section className={styles.newProducts}>
+                </div>}
+                {data && data.products.length ? <section className={styles.newProducts}>
                   <h3>Новые продукты</h3>
                   <div className={styles.newProductsWrapper}>
                     {refetch === true ?
@@ -322,7 +322,7 @@ export default function Home() {
                       Посмотреть больше
                     </button>
                   </section>
-                </section>
+                </section> : ""}
               </>
             ) : (
               <>
@@ -432,9 +432,7 @@ export default function Home() {
               </>
             )}
           </div>
-          <div>
-            <Footer />
-          </div>
+          <Footer />
         </main>
       </>
     );

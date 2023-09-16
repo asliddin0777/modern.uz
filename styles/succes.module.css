@@ -4,7 +4,7 @@
     margin-top: 1rem;
     left: 100%;
     transition: 0.4s linear;
-    margin-left: -150px;
+    margin-left: -320px;
     width: 100%;
     z-index: 1000000000 !important;
     height: 100%;
@@ -13,7 +13,7 @@
 .dn {
     opacity: 0;
     transition: 0.2s ease-in-out;
-    top: 0;
+    top: -100px;
     left: 100%;
     margin-left: -300px;
     position: fixed;

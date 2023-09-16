@@ -20,12 +20,17 @@ import { userInfo } from "os";
 import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../../components/local/socket";
 import IProduct from "@/interfaces/Product/IProduct";
+import { useParams } from "next/navigation";
 import IReview from "@/interfaces/Review/IReview";
 import Auth from "../../components/global/Auth";
 import IFormatedProps from "@/interfaces/Product/IFormatedProps";
 import StorageButton from "../../components/local/StorageButton";
 
-const Detail = () => {
+const Detail = ({searchParams}:{
+  searchParams: {
+    id: string
+  }
+}) => {
   const [likedObj, setLikedObj] = useState<any | any[]>([]);
   const [controllerC, setControllerC] = useState<number>(0);
   const [controllerM, setControllerM] = useState<number>(0);
@@ -43,7 +48,7 @@ const Detail = () => {
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(1);
   const pathname = usePathname();
-
+  console.log(pathname);
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
   useEffect(() => {
@@ -60,7 +65,7 @@ const Detail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const req1 = await axios.get<IProduct>(`${process.env.NEXT_PUBLIC_API}/api/products/${pathname.split("/")[pathname.split("/").length - 1]}`)
+        const req1 = await axios.get<IProduct>(`${process.env.NEXT_PUBLIC_API}/api/products/${searchParams.id}`)
         const req2 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/props`)
         const req3 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`)
         const req4 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`)
@@ -77,7 +82,6 @@ const Detail = () => {
     }
     fetchData()
   }, [])
-  console.log(pathname.split("/")[pathname.split("/").length - 1]);
   const videoRef = useRef<HTMLVideoElement | any>();
 
   const desc =

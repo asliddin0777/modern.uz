@@ -77,30 +77,6 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
       socket.off('sendMessage', sendMessage)
     }
   }, [setMessages])
-
-  const handleFileSubmit = (e: any) => {
-    const msg = {
-      reciever: selectedProduct.author,
-      sender: userInfo.userId,
-      chat: chat.id,
-      file: { buffer: e.target.files[0], type: e.target.files[0].type, originalName: e.target.files[0].name, },
-    }
-    socket.emit('recieveMsg', msg)
-  }
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
-    if (message && message.length > 0) {
-      const msg = {
-        reciever: chat.admin.id,
-        message,
-        sender: userInfo.userId,
-        chat: chat.id
-      }
-      socket.emit('recieveMsg', msg)
-      setMesage('')
-    }
-  }
   // const {messages:gugu} = message
   
   return (

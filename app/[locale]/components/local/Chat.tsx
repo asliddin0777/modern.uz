@@ -121,7 +121,6 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
                   />
                   <div className={styles.chatWithWhom}>
                     <h4>{e.admin.email}</h4>
-                    <p>Текст сообщения...</p>
                   </div>
                 </div>
               );

@@ -2,7 +2,7 @@
     display: flex;
     width: 1180px;
     padding: 10px 0;
-    margin: auto;
+    margin: 0 auto;
     font-size: 23px;
     font-weight: 700;
 }
@@ -12,7 +12,19 @@
     padding: 10px 0px;
     display: flex;
     margin: auto;
+    height: 100%;
     justify-content: space-between;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    margin-top: auto;
+    display: flex;
 }
 
 .contactCard {

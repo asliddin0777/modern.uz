@@ -128,7 +128,7 @@ const Contact = () => {
           }}>Отправить</button>
         </form>
       </div>
-      <div>
+      <div className={styles.footer}>
         <Footer />
       </div>
     </div>

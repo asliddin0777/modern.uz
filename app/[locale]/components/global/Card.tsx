@@ -49,6 +49,7 @@ const Card = ({
   setData,
 }: Card) => {
   const [like, setLike] = useState(false);
+  const {push} = useRouter()
   const [fromWhere, setFromWhere] = useState(1);
   const [cookie] = useCookies(["userInfo"]);
   const [auth, setAuth] = useState<boolean>(false);
@@ -83,7 +84,7 @@ const Card = ({
 
   return (
     <div key={uuidv4()} className={styles.card}>
-      <Link className={styles.imageOfCard} href={`/product/${url}`}>
+      <Link href={`/product/${title}?id=${url}`} className={styles.imageOfCard}>
         {image !== undefined ? (
           <Image
             src={image}
@@ -143,7 +144,7 @@ const Card = ({
           setIsAuthOpen={setAuth}
         />
       )}
-      {succed && <Success err={succed} msg={msg} setErr={setSucced} />}
+      <Success err={succed} msg={msg} setErr={setSucced}/>
       <div
         className={styles.like}
         onClick={() => {
