@@ -9,7 +9,6 @@ interface Tabs {
 const HeaderTabs = ({ buttonColor, setButtonColor }: Tabs) => {
   return (
     <div className={styles.headerTabs}>
-      <h1>Вы смотрите:</h1>
       <div className={styles.tabs}>
         <button
           onClick={() => {

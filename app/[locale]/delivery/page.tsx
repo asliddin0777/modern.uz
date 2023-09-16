@@ -15,7 +15,7 @@ import axios from "axios";
 import Loader from "../components/local/Loader";
 const Delivery = () => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
-  const [isSelected, setIsSelected] = useState<number>(0);
+  const [isSelected, setIsSelected] = useState<number | null>(0);
   const [load, setLoad] = useState<boolean>(true);
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
@@ -92,6 +92,11 @@ const Delivery = () => {
                     onClick={() => {
                       setIsOpened(!isOpened);
                       setIsSelected(e);
+                      if(isSelected === e) {
+                        setIsSelected(null)
+                      }else{
+                        setIsSelected(e)
+                      }
                     }}
                     className={styles.quest}
                   >

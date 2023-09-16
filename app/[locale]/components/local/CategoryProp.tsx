@@ -27,18 +27,7 @@ const categoryProp = ({
         {subcategor && subcategor.props.length > 0 ? (
           <>
             {subcategor.props.map((p, index: number) => (
-              <div
-                key={p.id}
-                onClick={() => {
-                  setIsOpened(!isOpened);
-                  if (isSelected === index) {
-                    setIsSelected(null);
-                  } else {
-                    setIsSelected(index);
-                  }
-                }}
-                className={styles.manufacturer}
-              >
+              <div key={p.id} className={styles.manufacturer}>
                 <div className={styles.manufacturerTitle}>
                   <div
                     style={{
@@ -51,6 +40,11 @@ const categoryProp = ({
                     <button
                       onClick={() => {
                         setIsOpened(!isOpened);
+                        if (isSelected === index) {
+                          setIsSelected(null);
+                        } else {
+                          setIsSelected(index);
+                        }
                       }}
                     >
                       <Image

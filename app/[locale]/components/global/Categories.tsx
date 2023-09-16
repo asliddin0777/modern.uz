@@ -58,24 +58,30 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
           }}
         >
           <div className={styles.container}>
-            <div
-              onClick={() => {
-                setCategoryOpen(!isCategoryOpen);
-              }}
-              className={!isCategoryOpen ? styles.categ : styles.close}
-            >
-              <h3>Все категории</h3>
-              <Image
-                src={
-                  !isCategoryOpen
-                    ? "/icons/categories.svg"
-                    : "/icons/modernClose.svg"
-                }
-                width={18}
-                height={18}
-                alt="just categories"
-              />
-            </div>
+            {subcategories ? (
+              <>
+                <div
+                  onClick={() => {
+                    setCategoryOpen(!isCategoryOpen);
+                  }}
+                  className={!isCategoryOpen ? styles.categ : styles.close}
+                >
+                  <h3>Все категории</h3>
+                  <Image
+                    src={
+                      !isCategoryOpen
+                        ? "/icons/categories.svg"
+                        : "/icons/modernClose.svg"
+                    }
+                    width={18}
+                    height={18}
+                    alt="just categories"
+                  />
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
             <ul
               className={styles.selectList}
               onMouseOut={() => {
@@ -93,14 +99,11 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
                           setMouseOver(true);
                           setSelected(e.name);
                         }}
-    
-                      
                         onMouseLeave={() => {
                           setMouseOver(false);
                           setSelected("");
                         }}
                       >
-                        
                         <Link href={`/category/${e.id.toLocaleLowerCase()}`}>
                           {e.name}
                         </Link>
