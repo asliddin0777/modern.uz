@@ -111,7 +111,7 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
               setLikedObj={() => { }}
               url={`${selectedProduct.id}`}
               title={selectedProduct.name}
-              image={selectedProduct.media.length ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedProduct.media[0].name}` : undefined}
+              image={selectedProduct.media?.length ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedProduct.media[0].name}` : undefined}
               width={300}
               height={300}
               price={`${selectedProduct.price[0].price}`}

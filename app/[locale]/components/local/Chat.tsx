@@ -54,7 +54,7 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
                     height={50}
                   />
                   <div className={styles.chatWithWhom}>
-                    <h4>{e.admin.email}</h4>
+                    <h4>{e.admin?.email}</h4>
                     <p>Текст сообщения...</p>
                   </div>
                 </div>
@@ -120,7 +120,7 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
                     height={50}
                   />
                   <div className={styles.chatWithWhom}>
-                    <h4>{e.admin.email}</h4>
+                    <h4>{e?.admin.email}</h4>
                   </div>
                 </div>
               );

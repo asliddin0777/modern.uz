@@ -190,22 +190,6 @@ const Profile = () => {
                   </div>
                 </section>
                 <section className={styles.profileRight}>
-                  <div className={styles.profileUpload}>
-                    <Image
-                      src={"/icons/profile.svg"}
-                      width={115.31}
-                      height={115.31}
-                      alt="profile"
-                    />
-                    <div className={styles.circle}>
-                      <Image
-                        src={"/icons/circle.svg"}
-                        width={19.77}
-                        height={16.47}
-                        alt="circle"
-                      />
-                    </div>
-                  </div>
                   <div className={styles.inputSection}>
                     <div className={styles.input}>
                       <div>
@@ -329,7 +313,7 @@ const Profile = () => {
                 </section>
                 <section className={styles.order}>
                   <h3 className={styles.orderTitle}>Мои заказы</h3>
-                  {inCart ? (
+                  {inCart.length > 0 ? (
                     <>
                       <div className={styles.cardOrder}>
                         <div className={styles.orderNumber}>
@@ -394,9 +378,8 @@ const Profile = () => {
                     </>
                   ) : (
                     <>
-                      <h1 style={{ textAlign: "center" }}>
-                        You don't have products
-                      </h1>
+                      {" "}
+                      <h1 style={{textAlign: "center"}}>You don't have products</h1>
                     </>
                   )}
                 </section>

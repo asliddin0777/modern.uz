@@ -100,7 +100,7 @@ const Cart = () => {
           <h1 style={{ fontSize: 20, fontWeight: 700 }}>Корзина</h1>
         </div>
         <Error err={error} msg={err} setErr={setError} />
-        {inCart ? (
+        {inCart.length > 0 ? (
           <section className={styles.DeliverySection}>
             <section className={styles.sectionLeft}>
               {inCart &&
