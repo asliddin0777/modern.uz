@@ -22,8 +22,6 @@ import Loader from "./components/local/Loader";
 import { IPage } from "@/interfaces/IPage";
 import { CartContext } from "./layout";
 
-
-
 export default function Home() {
   const [buttonColor, setButtonColor] = useState<number>(0);
   const [slidesPerView, setSlidesPerView] = useState<number>(4);
@@ -34,10 +32,10 @@ export default function Home() {
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true);
+  const [vendorCard, setVendorCard] = useState<any[] | any>([]);
   const [likedObj, setLikedObj] = useState<any[] | any>([]);
   const [vendor, setVendor] = useState<any[] | any>([]);
   const router = useRouter();
-
 
   const objCard = [
     {
@@ -66,18 +64,24 @@ export default function Home() {
     },
   ];
 
-  const [refetch, setRefetch] = useState(false)
+  const [refetch, setRefetch] = useState(false);
 
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
       try {
-        const req1 = axios.get<IPage>(`${process.env.NEXT_PUBLIC_API}/api/products`);
+        const req1 = axios.get<IPage>(
+          `${process.env.NEXT_PUBLIC_API}/api/products`
+        );
         const req2 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`);
         const req3 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/slides`);
-        const req4 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/products?popularProducts=true`);
+        const req4 = axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/products?popularProducts=true`
+        );
         const req5 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/vendors`);
-        const req6 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`);
+        const req6 = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/subcategories`
+        );
         const [res, res1, res2, res3, res4, res5] = await axios.all([
           req1,
           req2,
@@ -103,39 +107,55 @@ export default function Home() {
 
   useEffect(() => {
     if (refetch === true) {
-      setData({ page: 1, products: [], totalCount: 3 })
-      setPopularProducts({})
+      setData({ page: 1, products: [], totalCount: 3 });
+      setPopularProducts({});
       const refetchData = async () => {
         try {
-          const prod = axios.get<IPage>(`${process.env.NEXT_PUBLIC_API}/api/products`);
-          const pop = axios.get(`${process.env.NEXT_PUBLIC_API}/api/products?popularProducts=true`);
-          const [product, popular] = await axios.all([prod, pop])
-          setData(product.data)
-          setPopularProducts(popular.data)
+          const prod = axios.get<IPage>(
+            `${process.env.NEXT_PUBLIC_API}/api/products`
+          );
+          const pop = axios.get(
+            `${process.env.NEXT_PUBLIC_API}/api/products?popularProducts=true`
+          );
+          const [product, popular] = await axios.all([prod, pop]);
+          setData(product.data);
+          setPopularProducts(popular.data);
         } catch (err) {
           console.log(err);
         }
-      }
-      refetchData()
-      setRefetch(false)
+      };
+      refetchData();
+      setRefetch(false);
     }
-  }, [refetch])
-
+  }, [refetch]);
 
   useEffect(() => {
-    document.body.offsetWidth < 680 && document.body.offsetWidth > 460
-      ? setSlidesPerView(3)
-      : document.body.offsetWidth < 460
-        ? setSlidesPerView(2)
-        : setSlidesPerView(4);
+    setLoad(true);
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API}/api/vendors/`)
+      .then((res: any) => {
+        setVendorCard(res.data);
+      })
+      .catch((e: string) => console.log(e))
+      .finally(() => {
+        setLoad(false);
+      });
   }, []);
 
   useEffect(() => {
     document.body.offsetWidth < 680 && document.body.offsetWidth > 460
       ? setSlidesPerView(3)
       : document.body.offsetWidth < 460
-        ? setSlidesPerView(2)
-        : setSlidesPerView(4);
+      ? setSlidesPerView(2)
+      : setSlidesPerView(4);
+  }, []);
+
+  useEffect(() => {
+    document.body.offsetWidth < 680 && document.body.offsetWidth > 460
+      ? setSlidesPerView(3)
+      : document.body.offsetWidth < 460
+      ? setSlidesPerView(2)
+      : setSlidesPerView(4);
   }, []);
 
   const pagination: object = {
@@ -144,7 +164,6 @@ export default function Home() {
       return '<span class="' + className + '">' + (index + 1) + "</span>";
     },
   };
-
 
   if (load === true) {
     return <Loader />;
@@ -212,23 +231,23 @@ export default function Home() {
                       })}
                   </Swiper>
                 </div>
-                {categories && <div className={styles.categories}>
-                  <h3
-                    style={{
-                      fontSize: 23,
-                    }}
-                  >
-                    Категории для вас
-                  </h3>
-                  <Swiper
-                    spaceBetween={20}
-                    slidesPerView={slidesPerView}
-                    className={styles.swiperL}
-                    modules={[Navigation]}
-                    navigation={true}
-                  >
-                    {
-                      categories.map((val: any) => {
+                {categories && (
+                  <div className={styles.categories}>
+                    <h3
+                      style={{
+                        fontSize: 23,
+                      }}
+                    >
+                      Категории для вас
+                    </h3>
+                    <Swiper
+                      spaceBetween={20}
+                      slidesPerView={slidesPerView}
+                      className={styles.swiperL}
+                      modules={[Navigation]}
+                      navigation={true}
+                    >
+                      {categories.map((val: any) => {
                         return (
                           <SwiperSlide
                             key={uuidv4()}
@@ -239,181 +258,179 @@ export default function Home() {
                               href={`/category/${val.id.toLocaleLowerCase()}`}
                             >
                               <div className={styles.categoriesTop}>
-                                {val.icon ? <Image
-                                  src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${val.icon?.name}`}
-                                  width={52}
-                                  height={51}
-                                  alt="home icon"
-                                /> : <h5>No image</h5>}
+                                {val.icon ? (
+                                  <Image
+                                    src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${val.icon?.name}`}
+                                    width={52}
+                                    height={51}
+                                    alt="home icon"
+                                  />
+                                ) : (
+                                  <h5>No image</h5>
+                                )}
                               </div>
                               <h3>{val.name}</h3>
                             </Link>
                           </SwiperSlide>
                         );
                       })}
-                  </Swiper>
-                </div>}
-                {data && data.products.length ? <section className={styles.newProducts}>
-                  <h3>Новые продукты</h3>
-                  <div className={styles.newProductsWrapper}>
-                    {refetch === true ?
-                      <>
-                        <div className={styles.loading}>
-                          <Loader />
-                        </div>
-                      </> : data?.products?.map((e: any, index: number) => {
-                        return (
-                          <Card
-                            setData={setRefetch}
-                            card={e}
-                            animation="fade-down"
-                            cat={e.subcategory.name}
-                            url={e.id}
-                            height={300}
-                            width={300}
-                            image={
-                              e.media.length > 0
-                                ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0]?.name}`
-                                : "/icons/bag.svg"
-                            }
-                            title={e.name}
-                            price={e.price[0].price}
-                            key={uuidv4()}
-                            isLiked
-                            likedObj={likedObj}
-                            setLikedObj={setLikedObj}
-                          />
-                        );
-                      })}
+                    </Swiper>
                   </div>
-                  <button className={styles.loadMore}>Посмотреть больше</button>
+                )}
+                {data && data.products.length ? (
                   <section className={styles.newProducts}>
-                    <h3>Популярные продукты</h3>
+                    <h3>Новые продукты</h3>
                     <div className={styles.newProductsWrapper}>
-                      {popularProducts &&
-                        popularProducts.products?.map(
-                          (card: any, index: number) => {
-                            return (
-                              <Card
-                                animation="fade-down"
-                                cat={card.subcategory.name}
-                                url={card.id}
-                                height={300}
-                                width={300}
-                                image={
-                                  card.media.length
-                                    ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0]?.name}`
-                                    : "/icons/bag.svg"
-                                }
-                                title={card.name}
-                                price={card.price[0].price}
-                                key={uuidv4()}
-                                isLiked
-                                setData={setRefetch}
-                                card={card}
-                                likedObj={likedObj}
-                                setLikedObj={setLikedObj}
-                              />
-                            );
-                          }
-                        )}
+                      {refetch === true ? (
+                        <>
+                          <div className={styles.loading}>
+                            <Loader />
+                          </div>
+                        </>
+                      ) : (
+                        data?.products?.map((e: any, index: number) => {
+                          return (
+                            <Card
+                              setData={setRefetch}
+                              card={e}
+                              animation="fade-down"
+                              cat={e.subcategory.name}
+                              url={e.id}
+                              height={300}
+                              width={300}
+                              image={
+                                e.media.length > 0
+                                  ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0]?.name}`
+                                  : "/icons/bag.svg"
+                              }
+                              title={e.name}
+                              price={e.price[0].price}
+                              key={uuidv4()}
+                              isLiked
+                              likedObj={likedObj}
+                              setLikedObj={setLikedObj}
+                            />
+                          );
+                        })
+                      )}
                     </div>
                     <button className={styles.loadMore}>
                       Посмотреть больше
                     </button>
+                    <section className={styles.newProducts}>
+                      <h3>Популярные продукты</h3>
+                      <div className={styles.newProductsWrapper}>
+                        {popularProducts &&
+                          popularProducts.products?.map(
+                            (card: any, index: number) => {
+                              return (
+                                <Card
+                                  animation="fade-down"
+                                  cat={card.subcategory.name}
+                                  url={card.id}
+                                  height={300}
+                                  width={300}
+                                  image={
+                                    card.media.length
+                                      ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0]?.name}`
+                                      : "/icons/bag.svg"
+                                  }
+                                  title={card.name}
+                                  price={card.price[0].price}
+                                  key={uuidv4()}
+                                  isLiked
+                                  setData={setRefetch}
+                                  card={card}
+                                  likedObj={likedObj}
+                                  setLikedObj={setLikedObj}
+                                />
+                              );
+                            }
+                          )}
+                      </div>
+                      <button className={styles.loadMore}>
+                        Посмотреть больше
+                      </button>
+                    </section>
                   </section>
-                </section> : ""}
+                ) : (
+                  ""
+                )}
               </>
             ) : (
               <>
-                {[1, 2, 3, 4, 5].map((e: number) => {
-                  return (
-                    <div className={styles.cards} key={uuidv4()}>
-                      <div className={styles.card__left}>
-                        <Link
-                          style={{
-                            color: "#000",
-                          }}
-                          href={`/company/${e}`}
-                          className={styles.card__title}
-                        >
-                          <Image
-                            src={"/icons/profile.svg"}
-                            height={57}
-                            width={57}
-                            alt="profile"
-                          />
-                          <div>
-                            <h3>Shenzhen Qingmai Bicycle Co., Ltd.</h3>
-                            <p>Мужское</p>
-                          </div>
-                        </Link>
-                        <div className={styles.description}>
-                          <p>Описание</p>
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat.
-                          </p>
-                        </div>
-                      </div>
-                      <div className={styles.card__right}>
-                        <div className={styles.cards__button}>
-                          <button
-                            onClick={() => {
-                              router.push(`/company/${e}`);
+                {vendorCard &&
+                  vendorCard.map((e: any, index: number) => {
+                    return (
+                      <div className={styles.cards} key={uuidv4()}>
+                        <div className={styles.card__left}>
+                          <Link
+                            style={{
+                              color: "#000",
                             }}
+                            href={`/company${e}`}
+                            className={styles.card__title}
                           >
-                            Посмотреть все товары
-                          </button>
-                          <button>Связаться</button>
+                            <Image
+                              src={"/icons/profile.svg"}
+                              height={57}
+                              width={57}
+                              alt="profile"
+                            />
+                            <div>
+                              <h3>{e.contacts.phoneNumber}</h3>
+                            </div>
+                          </Link>
+                          <div className={styles.description}>
+                            <p>Описание</p>
+                            <p>{e.description}</p>
+                          </div>
                         </div>
-                        <div className={styles.carusel__card}>
-                          {objCard.map((e: any, index: number) => {
-                            return (
-                              <Card
-                                setData={setRefetch}
-                                card={e}
-                                title={e.name}
-                                image={e.image}
-                                width={e.width}
-                                height={e.height}
-                                price={e.price}
-                                cat={e.cat}
-                                likedObj={likedObj}
-                                isLiked
-                                url={`${index}`}
-                                animation=""
-                                key={uuidv4()}
-                                setLikedObj={setLikedObj}
-                              />
-                            );
-                          })}
-                          <section className={styles.controllerProduct}>
-                            <button>
-                              <Image
-                                src={"/icons/chevronLeft.svg"}
-                                alt="chevron left icon"
-                                width={11}
-                                height={20}
-                              />
+                        <div className={styles.card__right}>
+                          <div className={styles.cards__button}>
+                            <button
+                              onClick={() => {
+                                router.push(`/company/${e}`);
+                              }}
+                            >
+                              Посмотреть все товары
                             </button>
-                            <button>
-                              <Image
-                                src={"/icons/chevronRight.svg"}
-                                alt="chevron right icon"
-                                width={11}
-                                height={20}
-                              />
-                            </button>
-                          </section>
+                            <button>Связаться</button>
+                          </div>
+                          <div className={styles.carusel__card}>
+                            {/* {vendorCard &&
+                              vendorCard.map((e: any, index: number) => {
+                                return (
+                                  <div className={styles.vendorCards}>
+                                    <h4>{e.name}</h4>
+                                    
+                                    <h1>{e.products}</h1>
+                                  </div>
+                                );
+                              })} */}
+                            {/* <section className={styles.controllerProduct}>
+                          <button>
+                            <Image
+                              src={"/icons/chevronLeft.svg"}
+                              alt="chevron left icon"
+                              width={11}
+                              height={20}
+                            />
+                          </button>
+                          <button>
+                            <Image
+                              src={"/icons/chevronRight.svg"}
+                              alt="chevron right icon"
+                              width={11}
+                              height={20}
+                            />
+                          </button>
+                        </section> */}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
                 <div className={styles.carusel}>
                   <div
                     style={{
