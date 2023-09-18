@@ -62,7 +62,7 @@ const Card = ({
       document.body.style.overflow = "auto";
     }
   }, [auth]);
-  console.log(userInfo);
+
   const {inCart, setInCart}:any = useContext(CartContext)
   
 
