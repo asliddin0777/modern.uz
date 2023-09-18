@@ -80,7 +80,6 @@ const Card = ({
     }
   };
 
-  console.log(inCart);
 
   return (
     <div key={uuidv4()} className={styles.card}>
