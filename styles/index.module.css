@@ -105,6 +105,7 @@
   object-fit: cover;
   width: 100% !important;
   border-radius: 50px;
+  padding-left: 10px;
 }
 
 .addLeft>img:first-child {
@@ -164,6 +165,24 @@
 
 .cat * {
   background: transparent !important;
+}
+
+.chatButton {
+  border: 1px solid #e4b717;
+  padding: 5px 15px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #e4b717;
+  transition: .4s ease;
+}
+
+.chatButton:hover {
+  transform: scale(0.9);
 }
 
 .cat>h4 {
@@ -326,7 +345,7 @@
   font-size: 18px;
   line-height: 160%;
   color: #e4b717;
-  transition: 0.5s ease-in-out;
+  transition: 0.4s ease;
 }
 
 .cards__button a {

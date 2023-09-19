@@ -8,13 +8,35 @@ import { useRouter } from "next/navigation";
 import Message from "../components/local/Message";
 import socket from "../components/local/socket";
 import Head from "next/head";
+import { Metadata, ResolvingMetadata } from 'next'
+export const metadata: Metadata = {
+  title: "Chat",
+}
+type Props = {
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
 
-const Page = () => {
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const id = params.id
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || []
+
+  return {
+    title: "wefwefwef",
+  }
+}
+const Page = ({ params, searchParams }: Props) => {
+  console.log(params);
   const [chatListOpener, setChatListOpener] = useState<boolean>(false)
   const [chats, setChats] = useState([])
   const [selectedChat, setSelectedChat] = useState<any | undefined>()
   const [chat, setChat] = useState(false)
-  const {push} = useRouter()
+  const { push } = useRouter()
   const [cookie] = useCookies(["userInfo"])
   const { userInfo } = cookie
   useEffect(() => {
@@ -29,9 +51,9 @@ const Page = () => {
   }, [])
   return (
     <>
-    <Head>
-      <title>Chat {selectedChat.name}</title>
-    </Head>
+      <Head  >
+        <title>eqwfhugqwufweyf</title>
+      </Head>
       <div className={styles.chat}>
         <div className={styles.right}>
           <div className={styles.userTop}>
@@ -85,7 +107,7 @@ const Page = () => {
                 />
               </button>
             </div>
-            <p style={{margin: "auto"}}>Select a chat to start messaging</p>
+            <p style={{ margin: "auto" }}>Select a chat to start messaging</p>
           </> : <Message chat={selectedChat} userInfo={userInfo} setIsChatOpen={setChat} setChatListOpener={setChatListOpener} />}
         </div>
         <div className={chatListOpener ? styles.chats : styles.dn}>

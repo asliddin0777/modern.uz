@@ -1,6 +1,5 @@
 "use client"
 import "@/styles/globals.css";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { useLocale } from "next-intl";
 import { notFound } from "next/navigation";
@@ -12,6 +11,9 @@ import Loader from "./components/local/Loader";
 import Footer from "./components/global/Footer";
 const inter = Inter({ subsets: ["latin"] });
 export const CartContext = createContext({})
+export const metadata = {
+  title: "Home Page"
+}
 
 export default function RootLayout({ children, params }: any) {
   const locale = useLocale();

@@ -21,6 +21,9 @@ import IProduct from "@/interfaces/Product/IProduct";
 import { IPage } from "@/interfaces/IPage";
 import { CartContext } from "../../layout";
 import Success from "../local/Success";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 
 interface Card {
   price: string;
@@ -66,6 +69,11 @@ const Card = ({
   const {inCart, setInCart}:any = useContext(CartContext)
   
 
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, []);
+
   const sellBot = () => {
     if (userInfo) {
       const send = `title: ${title}%0Acategory: ${cat}%0Aprice: ${price}%0Auser: +${userInfo.userPhoneNumber}`;
@@ -80,7 +88,7 @@ const Card = ({
     }
   };
   return (
-    <div key={String(url)} className={styles.card}>
+    <div data-aos="fade-up" key={String(url)} className={styles.card}>
       <Link href={`/product/${title}?id=${url}`} className={styles.imageOfCard}>
         {image !== undefined ? (
           <Image
