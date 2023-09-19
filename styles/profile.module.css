@@ -1,0 +1,725 @@
+.profileTitle {
+    display: flex;
+    padding: 10px 0;
+    margin: 0 auto;
+    width: 1180px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    max-height: fit-content;
+}
+
+
+.profileBurger {
+    display: none;
+    padding: 10px;
+    border: 1px solid #d9d9d9;
+    border-radius: 50%;
+    cursor: pointer;
+
+}
+
+.ProfileSection {
+    gap: 19px;
+    display: flex;
+    width: 1180px;
+    padding: 10px 0;
+    margin: 0 auto;
+}
+
+.profileCard {
+    width: 280px;
+    height: 170px;
+    background: #FFFFFF;
+    border-radius: 20px;
+}
+
+.profileCard:hover {
+    cursor: pointer;
+}
+
+.profileRight {
+    width: 793px;
+    height: 400px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 27px 45px;
+}
+
+.profileUser {
+    gap: 15px;
+    width: 100%;
+    height: 53px;
+    padding: 16px 19px;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 160%;
+    color: #8A8A8A;
+    transition: .5s ease-in-out;
+
+}
+
+
+.profileOrder {
+    gap: 15px;
+    width: 100%;
+    height: 53px;
+    padding: 16px 19px;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 160%;
+    color: #8A8A8A;
+    transition: .5s ease-in-out;
+}
+
+
+
+.profileClose {
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 15px 19px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 160%;
+    color: #8A8A8A;
+    gap: 15px;
+    transition: .5s ease-in-out;
+}
+
+.profileUpload {
+    display: flex;
+    align-items: center;
+}
+
+.circle {
+    margin-left: 79px;
+    margin-top: 75px;
+    position: absolute;
+    background-color: #E4B717;
+    width: 47.22px;
+    height: 47.22px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.inputSection {
+    margin-top: 18.69px;
+}
+
+.input {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: fit-content;
+    margin: auto;
+}
+
+.input p {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 160%;
+    color: #8A8A8A;
+}
+
+.input input {
+    padding: 16px 28px;
+    width: 336px;
+    height: 59px;
+    background: #EFEFEF;
+    border-radius: 50px;
+    border: none;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.input input:focus-visible {
+    outline: none;
+}
+
+.profileButton {
+    margin-left: 200px;
+    margin-top: 36px;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.profileButton button {
+    padding: 15px 47px;
+    border: 1px solid #E4B717;
+    filter: drop-shadow(0px 1px 17px rgba(228, 183, 23, 0.25));
+    border-radius: 50px;
+    background: none;
+    cursor: pointer;
+    color: #E4B717;
+    transition: .2s ease;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.profileButton button:active {
+    transform: scale(0.9);
+}
+
+.order {
+    background-color: #FFFFFF;
+    width: 880px;
+    height: 100%;
+    border-radius: 20px;
+    padding: 19px 27px;
+    padding-bottom: 20px;
+}
+
+.orderTitle {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 160%
+}
+
+.cardOrder {
+    width: 823px;
+    height: 100%;
+    margin-top: 19px auto;
+    /* margin-bottom: 50px; */
+    position: relative;
+    border-radius: 20px;
+    background: #FAF8F8;
+}
+
+.orderNumber {
+    padding-left: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.orderNumber p {
+    cursor: pointer;
+    font-size: 17px;
+    padding-top: 13px;
+    font-weight: 700;
+    line-height: 160%;
+}
+
+.orderNumber div {
+    display: flex;
+    gap: 23px;
+}
+
+.orderNumber div button {
+    width: 194px;
+    height: 50px;
+    padding: 11px 49px;
+    border-radius: 20px;
+    background: #E4B717;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 160%;
+    color: #FFFFFF;
+    transition: .2s ease;
+}
+
+
+.orderNumber div button:active {
+    transform: scale(0.9);
+}
+
+.cart {
+    display: flex;
+    padding-top: 19.97px;
+    padding-bottom: 19.97px;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(136, 136, 136, 0.12);
+}
+
+.orderSection {
+    position: relative;
+    justify-content: space-between;
+    padding: 11px 25px;
+    display: flex;
+}
+
+.cartTitle {
+    padding-left: 14px;
+}
+
+.cartTitle h3 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 160%;
+}
+
+.const {
+    display: flex;
+    align-items: center;
+    gap: 1.7rem;
+}
+
+.constTag {
+    display: flex;
+    gap: 8px;
+    color: #363636;
+    padding-top: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 160%;
+}
+
+
+.constTag p:nth-child(2) {
+    font-size: 16px;
+    font-weight: 450;
+    color: #8A8A8A;
+}
+
+.priceTitle {
+    padding-top: 10px;
+    display: flex;
+    gap: 7px;
+    color: #363636;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 160%;
+}
+
+.priceTitle p:nth-child(2) {
+    font-size: 16px;
+    font-weight: 450;
+    color: #8A8A8A;
+}
+
+.rightOrder {
+    justify-content: space-between;
+    align-items: flex-end;
+    display: block;
+}
+
+.button {
+    margin: auto;
+    justify-content: flex-end;
+    align-items: flex-end;
+    display: flex;
+    position: relative;
+    height: 100%;
+}
+
+.rightOrder button {
+    width: 238px;
+    height: 50px;
+    position: absolute;
+    top: 100%;
+    margin-top: -100px;
+    flex-shrink: 0;
+    background: #FAF8F8;
+    border-radius: 50px;
+    border: 1px solid #E4B717;
+    box-shadow: 0px 1px 17px 0px rgba(228, 183, 23, 0.25);
+    color: #E4B717;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 160%;
+    transition: .2s ease;
+}
+
+.rightOrder button:active {
+    transform: scale(0.9);
+}
+
+.total {
+    cursor: pointer;
+    padding-left: 85px;
+}
+
+.total h4 {
+    color: #E4B717;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.total h5 {
+    color: #363636;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+@media screen and (max-width:1180px) {
+    .profileTitle {
+        width: 1000px;
+        padding: 10px 10px;
+    }
+
+
+    .ProfileSection {
+        width: 1000px;
+        padding: 10px 10px;
+    }
+
+
+    .profileRight {
+        width: 69%;
+        padding: 27px 10px;
+    }
+
+    .input input {
+        width: 316px;
+        font-size: 17px;
+    }
+
+
+    .input p {
+        font-size: 17px;
+    }
+
+    .profileButton button {
+        padding: 15px 42px;
+        font-size: 17px;
+    }
+}
+
+@media screen and (max-width:1200px) {
+    .profileTitle {
+        width: 100%;
+    }
+
+    .ProfileSection {
+        width: 100%;
+        padding: 10px 10px;
+    }
+
+    .input {
+        margin-top: 10px;
+        display: block;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profileUpload {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .input input {
+        padding: 16px 28px;
+        width: 336px;
+        height: 49px;
+        background: #EFEFEF;
+        border-radius: 50px;
+        border: none;
+        font-weight: 400;
+        font-size: 17px;
+    }
+
+    .input p {
+        font-size: 15px;
+    }
+
+    .profileButton {
+        margin-left: 2px;
+        margin-top: 40px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
+
+    .profileButton button {
+        padding: 15px 39px;
+        border: 1px solid #E4B717;
+        filter: drop-shadow(0px 1px 17px rgba(228, 183, 23, 0.25));
+        border-radius: 50px;
+        background: none;
+        cursor: pointer;
+        color: #E4B717;
+        transition: .2s ease;
+        font-weight: 700;
+        font-size: 14.5px;
+    }
+
+
+    .profileRight {
+        height: 600px;
+        padding: 27px 0px;
+    }
+
+}
+
+@media screen and (max-width:768px) {
+    .profileTitle {
+        width: 100%;
+        padding: 10px 10px;
+    }
+
+    .ProfileSection {
+        width: 100%;
+        padding: 10px 10px;
+    }
+
+    .input {
+        margin-top: 10px;
+        display: block;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profileUpload {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .input input {
+        padding: 16px 28px;
+        width: 336px;
+        height: 49px;
+        background: #EFEFEF;
+        border-radius: 50px;
+        border: none;
+        font-weight: 400;
+        font-size: 17px;
+    }
+
+    .input p {
+        font-size: 15px;
+    }
+
+    .profileButton {
+        margin-left: 2px;
+        margin-top: 40px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
+
+    .profileButton button {
+        padding: 15px 39px;
+        border: 1px solid #E4B717;
+        filter: drop-shadow(0px 1px 17px rgba(228, 183, 23, 0.25));
+        border-radius: 50px;
+        background: none;
+        cursor: pointer;
+        color: #E4B717;
+        transition: .2s ease;
+        font-weight: 700;
+        font-size: 14.5px;
+    }
+
+
+    .profileRight {
+        height: 600px;
+        padding: 27px 0px;
+    }
+
+}
+
+@media screen and (max-width:750px) {
+    .profileTitle {
+        width: 100%;
+        padding: 10px 10px;
+    }
+
+    .profileBurger {
+        display: block;
+    }
+
+    .profileRight {
+        width: 100%;
+    }
+
+    .profileCard {
+        display: none;
+    }
+
+    .profileClose {
+        display: none;
+    }
+
+    .ProfileSection {
+        gap: 0;
+    }
+
+
+}
+
+@media screen and (max-width:480px) {
+    .profileTitle {
+        width: 100%;
+    }
+
+    .profileBurger {
+        display: block;
+    }
+
+    .profileRight {
+        width: 100%;
+    }
+
+    .profileCard {
+        display: none;
+    }
+
+    .profileClose {
+        display: none;
+    }
+
+    .ProfileSection {
+        gap: 0;
+    }
+
+
+    .input input {
+        padding: 16px 28px;
+        width: 336px;
+        height: 49px;
+        background: #EFEFEF;
+        border-radius: 50px;
+        border: none;
+        font-weight: 400;
+        font-size: 17px;
+    }
+}
+
+@media screen and (max-width:380px) {
+    .profileTitle {
+        width: 100%;
+    }
+
+    .profileRight {
+        width: 100%;
+    }
+
+    .ProfileSection {
+        gap: 0;
+    }
+
+    .input input {
+        padding: 16px 28px;
+        width: 300px;
+    }
+
+
+    .profileButton button {
+        padding: 15px 19px;
+        border: 1px solid #E4B717;
+        filter: drop-shadow(0px 1px 17px rgba(228, 183, 23, 0.25));
+        border-radius: 50px;
+        background: none;
+        cursor: pointer;
+        color: #E4B717;
+        transition: .2s ease;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+}
+
+
+@media screen and (max-width:1200px) {
+    .order {
+        width: 100%;
+    }
+
+    .cardOrder {
+        width: 100%;
+    }
+}
+
+
+@media screen and (max-width:1040px) {
+    .orderSection {
+        display: block;
+    }
+
+    .rightOrder {
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+    }
+
+    .rightOrder button {
+        justify-content: center;
+        display: flex;
+        text-align: center;
+        margin: auto;
+        padding-top: 10px;
+    }
+
+    .total {
+        text-align: center;
+        padding: 20px 0;
+    }
+
+}
+
+@media screen and (max-width:900px) {
+    .orderNumber {
+        display: block;
+    }
+}
+
+
+@media screen and (max-width: 835px) {
+    .orderNumber div {
+        justify-content: center;
+        text-align: center;
+        margin: auto;
+        display: block;
+        padding-left: 0%;
+    }
+}
+
+@media screen and (max-width: 797px) {
+    .const {
+        display: block;
+    }
+    .cart {
+        align-items: center;
+    }
+
+}
+
+
+@media screen and (max-width: 750px) {
+    .const {
+        display: flex;
+    }
+    .cart {
+        align-items: normal;
+    }
+
+}
+
+
+@media screen and (max-width: 495px) {
+    .const {
+        display: block;
+    }
+    .cart {
+        align-items: center;
+    }
+
+}

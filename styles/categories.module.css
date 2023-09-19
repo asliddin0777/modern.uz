@@ -1,0 +1,124 @@
+.categories {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.container {
+  width: 1180px;
+  padding: 12px 0;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.categ {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #e4b717;
+  padding: 8px 20px;
+  border-radius: 50px;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.close {
+  background-color: #e4b717;
+  display: flex;
+  justify-content: space-between;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 50px;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: .20s ease-in-out;
+}
+
+.close>h3 {
+  color: #fff;
+  font-size: 18px;
+}
+
+.categ>h3 {
+  font-size: 18px;
+  color: #E4B717;
+}
+
+.selectList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  transition: .4s linear;
+}
+
+.selectList h3 {
+  font-size: 18px;
+}
+
+.selectList>li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.selectList>li>img {
+  position: relative;
+  top: 3px;
+  transition: .4s linear;
+  
+}
+
+
+.just {
+  transition: 0.4s linear;
+}
+
+.animated {
+  rotate: -180deg;
+  transition: 0.4s;
+}
+
+.selectItem:hover img,
+.selectItem:hover a  {
+  color: #e4b717;
+  transition: 0.2s linear;
+}
+
+.selectItem a {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.selectItem a:hover {
+  color: #e4b717;
+  transition: 0.4s linear;
+}
+
+
+@media screen and (max-width: 1200px) {
+  .container {
+    width: 100%;
+    padding-left: 1%;
+    padding-right: 1%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .selectList {
+    display: none;
+  }
+
+  .container {
+    padding-left: 1%;
+    padding-right: 1%;
+  }
+}
