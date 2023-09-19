@@ -452,7 +452,7 @@ const Home = ({
                                 width={43}
                                 height={39}
                               />
-                              <p>Chat</p>
+                              <p> Написать поставщику</p>
                             </div>
                           </div>
                           {auth === true && (
