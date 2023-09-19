@@ -22,7 +22,7 @@ const Counter = ({ count, setCount, price }: Counts) => {
       setCounts(counts - 1);
     }
     if (count > 0) {
-      setCount(count ? price === count - price : count);
+      setCount(count - price);
     }
   };
 
