@@ -41,7 +41,6 @@ const Detail = ({
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(1);
   const pathname = usePathname();
-  console.log(pathname);
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
   useEffect(() => {
@@ -91,7 +90,6 @@ const Detail = ({
   const videoRef = useRef<HTMLVideoElement | any>();
 
   if (!load && data) {
-    console.log(data);
     const selectedProduct = data
     // console.log(selectedProduct);
     // const storage = selectedProduct?.props.filter(
@@ -358,7 +356,6 @@ const Detail = ({
                   <div className={styles.cartBottom}>
                     <button
                       onClick={() => {
-                        console.log(data);
                         if (userInfo !== undefined) {
                           setIsChatOpen(!isChatOpen);
                           socket.connect()

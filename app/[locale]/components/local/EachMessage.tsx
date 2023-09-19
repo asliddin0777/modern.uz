@@ -32,7 +32,7 @@ const EachMessage = ({ userInfo, m, updateMessageViewStatus }: IProps) => {
     }, [setViewed]);
 
     useEffect(() => {
-        if (m.sender != userInfo.userId && m.viewed === false) { socket.emit("messageViewed", m); }
+        if (m.sender != userInfo.userId && m.viewed === false) { socket.emit("messageViewed",{ ...m, msg:"from client"}); }
     }, []);
     return (
         <div key={m.id} className={m.reciever !== userInfo.userId ? styles.message : styles.messageS}>

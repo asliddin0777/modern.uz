@@ -7,6 +7,7 @@ import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
 import Message from "../components/local/Message";
 import socket from "../components/local/socket";
+import Head from "next/head";
 
 const Page = () => {
   const [chatListOpener, setChatListOpener] = useState<boolean>(false)
@@ -17,6 +18,7 @@ const Page = () => {
   const [cookie] = useCookies(["userInfo"])
   const { userInfo } = cookie
   useEffect(() => {
+    socket.connect()
     axios.get(`/chats/user`, {
       headers: {
         Authorization: userInfo.userToken
@@ -27,6 +29,9 @@ const Page = () => {
   }, [])
   return (
     <>
+    <Head>
+      <title>Chat {selectedChat.name}</title>
+    </Head>
       <div className={styles.chat}>
         <div className={styles.right}>
           <div className={styles.userTop}>
@@ -84,7 +89,7 @@ const Page = () => {
           </> : <Message chat={selectedChat} userInfo={userInfo} setIsChatOpen={setChat} setChatListOpener={setChatListOpener} />}
         </div>
         <div className={chatListOpener ? styles.chats : styles.dn}>
-          <div className={styles.userTop}>az
+          <div className={styles.userTop}>
             <h3>Сообщения</h3>
             <button
               onClick={() => {

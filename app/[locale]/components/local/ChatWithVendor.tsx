@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import styles from "@/styles/chat.module.css"
 import axios from 'axios'
-import { uuid as uuidv4 } from 'uuidv4';
 import Card from '../global/Card';
 import socket from './socket';
 import { IMessage } from '@/interfaces/IMessage';
@@ -53,6 +52,7 @@ const CHatWithVendor = ({ setChatListOpener, setIsChatOpen, chat, userInfo, sele
         }
 
     }, [chat])
+    console.log(chat);
     useEffect(() => {
         document.body.style.overflow = "hidden"
     }, [])
@@ -125,12 +125,12 @@ const CHatWithVendor = ({ setChatListOpener, setIsChatOpen, chat, userInfo, sele
                                     height={300}
                                     price={`${selectedProduct.price[0].price}`}
                                     cat={selectedProduct.category.name}
-                                    key={uuidv4()}
+                                    key={selectedProduct.id}
                                     animation=""
                                 />}
                         </div>
                         {messages && messages?.map((m: IMessage) => {
-                            return <EachMessage updateMessageViewStatus={updateMessageViewStatus} userInfo={userInfo} m={m} />
+                            return <EachMessage key={m.id} updateMessageViewStatus={updateMessageViewStatus} userInfo={userInfo} m={m} />
                         })}
                         <div ref={endRef} />
                     </div>

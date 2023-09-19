@@ -16,15 +16,18 @@ interface IProps {
 }
 const SendMessage = ({chat, selectedProduct, userInfo}: IProps) => {
     const [message, setMesage] = useState<string | undefined>("")
+    console.log(chat);
     const handleSubmit = (e: any) => {
         e.preventDefault()
         if (message && message.length > 0) {
             const msg = {
-                reciever: chat.admin,
+                reciever: typeof chat.admin === "string" ? chat.admin : chat.admin.id,
                 message,
                 sender: userInfo.userId,
                 chat: chat.id
             }
+            console.log(chat);
+
             socket.emit('recieveMsg', msg)
             setMesage('')
             console.log(msg);

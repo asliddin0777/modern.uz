@@ -31,6 +31,7 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
   const [message, setMesage] = useState<string | undefined>("")
   const [resive, setResive] = useState<IMessage>()
   const endRef = useRef<any>()
+  console.log("wefwef");
   useEffect(() => {
     axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user/${chat.id}`, {
       headers: {
@@ -76,6 +77,8 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
       socket.off('sendMessage', sendMessage)
     }
   }, [setMessages])
+  console.log(chat);
+  console.log("wefwef");
   // const {messages:gugu} = message
   return (
     <>
