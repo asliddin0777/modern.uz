@@ -6,7 +6,6 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useRouter, usePathname } from "next/navigation";
 import Message from "./Message";
-import { uuid as uuidv4 } from 'uuidv4';
 import socket from "./socket";
 import IProduct from "@/interfaces/Product/IProduct";
 
@@ -46,7 +45,7 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
                   socket.emit("chatSelected", e)
                   router.push(`?chat=${e.id}`)
                   setSelectedChat(e)
-                }} key={uuidv4()} className={styles.eachChat}>
+                }} key={e.id} className={styles.eachChat}>
                   <Image
                     src={"/icons/userimage.jpg"}
                     style={{
@@ -114,7 +113,7 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
                   // router.push(`/product/${path.split("/")[path.split("/").length - 1]}`)
                   setSelectedChat(e)
                   setChatListOpener(false)
-                }} key={uuidv4()} className={styles.eachChat}>
+                }} key={e.id} className={styles.eachChat}>
                   <Image
                     src={"/images/user.png"}
                     alt="user image"

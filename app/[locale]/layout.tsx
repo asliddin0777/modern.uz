@@ -8,7 +8,6 @@ import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import TopHeader from "./components/global/TopHeader";
 import Header from "./components/global/Header";
-import Categories from "./components/global/Categories";
 import Loader from "./components/local/Loader";
 import Footer from "./components/global/Footer";
 const inter = Inter({ subsets: ["latin"] });

@@ -2,6 +2,7 @@
     display: flex;
     width: 1180px;
     padding: 10px 0;
+<<<<<<< HEAD
     margin: 0 auto;
 }
 
@@ -10,6 +11,9 @@
     flex-direction: column;
     max-height: fit-content;
 
+=======
+    margin: auto;
+>>>>>>> 4c6f478faa723b938891f11266184b2a1af6b4be
 }
 
 .cardSection {
@@ -17,7 +21,11 @@
     display: flex;
     width: 1180px;
     padding: 10px 0;
+<<<<<<< HEAD
     margin: 0 auto;
+=======
+    margin: auto;
+>>>>>>> 4c6f478faa723b938891f11266184b2a1af6b4be
 }
 
 .price {
