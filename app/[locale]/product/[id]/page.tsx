@@ -395,7 +395,7 @@ const Detail = ({
                         width={49}
                         height={43}
                       />
-                      +{data && +data.vendorId.contacts.phoneNumber}
+                      +{data && +data.vendorId.contacts?.phoneNumber}
                     </button>
                   </div>
                 </div>

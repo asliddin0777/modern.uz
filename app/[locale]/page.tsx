@@ -17,20 +17,42 @@ import "swiper/css/pagination";
 import axios from "axios";
 import Loader from "./components/local/Loader";
 import { IPage } from "@/interfaces/IPage";
+import { usePathname } from "next/navigation";
+import useCookies from "react-cookie/cjs/useCookies";
+import socket from "../[locale]/components/local/socket";
+import IProduct from "@/interfaces/Product/IProduct";
+import Auth from "./components/global/Auth";
+import ChatWithVendor from "./components/local/ChatWithVendor";
 
-const Home = () => {
+const Home = ({
+  searchParams,
+}: {
+  searchParams: {
+    id: string;
+  };
+}) => {
   const [buttonColor, setButtonColor] = useState<number>(0);
   const [slidesPerView, setSlidesPerView] = useState<number>(4);
   const [data, setData] = useState<IPage>();
   const [popularProducts, setPopularProducts] = useState<any[] | any>([]);
   const [slides, setSlides] = useState<any[] | any>([]);
-  const { push } = useRouter()
+  const { push } = useRouter();
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true);
   const [vendorCard, setVendorCard] = useState<any[] | any>([]);
   const [likedObj, setLikedObj] = useState<any[] | any>([]);
   const [vendor, setVendor] = useState<any[] | any>([]);
+  const [auth, setAuth] = useState<boolean>(false);
+  const [fromWhere, setFromWhere] = useState<number>(1);
+  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
+  const [chat, setChat] = useState();
+  const [iprod, setIprod] = useState<IProduct>();
+
+  const pathname = usePathname();
+  console.log(pathname);
+  const [cookie] = useCookies(["userInfo"]);
+  const { userInfo } = cookie;
 
   const [refetch, setRefetch] = useState(false);
 
@@ -83,6 +105,9 @@ const Home = () => {
         try {
           const prod = axios.get<IPage>(
             `${process.env.NEXT_PUBLIC_API}/api/products`
+          );
+          const iprod = await axios.get<IProduct>(
+            `${process.env.NEXT_PUBLIC_API}/api/products/${searchParams.id}`
           );
           const pop = axios.get(
             `${process.env.NEXT_PUBLIC_API}/api/products?popularProducts=true`
@@ -164,10 +189,7 @@ const Home = () => {
                     {slides &&
                       slides.map((e: any) => {
                         return (
-                          <SwiperSlide
-                            key={e.id}
-                            className={styles.addItem}
-                          >
+                          <SwiperSlide key={e.id} className={styles.addItem}>
                             <Link
                               href={
                                 e.productId
@@ -282,9 +304,11 @@ const Home = () => {
                         })
                       )}
                     </div>
-                    {data && data.products.length > 9 && <button className={styles.loadMore}>
-                      Посмотреть больше
-                    </button>}
+                    {data && data.products.length > 9 && (
+                      <button className={styles.loadMore}>
+                        Посмотреть больше
+                      </button>
+                    )}
                     <section className={styles.newProducts}>
                       <h3>Популярные продукты</h3>
                       <div className={styles.newProductsWrapper}>
@@ -316,9 +340,12 @@ const Home = () => {
                             }
                           )}
                       </div>
-                      {popularProducts && popularProducts.products.length > 9 && <button className={styles.loadMore}>
-                        Посмотреть больше
-                      </button>}
+                      {popularProducts &&
+                        popularProducts.products.length > 9 && (
+                          <button className={styles.loadMore}>
+                            Посмотреть больше
+                          </button>
+                        )}
                     </section>
                   </section>
                 ) : (
@@ -327,6 +354,23 @@ const Home = () => {
               </>
             ) : (
               <>
+                {auth === true && (
+                  <Auth
+                    setIsAuthOpen={setAuth}
+                    fromWhere={fromWhere}
+                    isAuthOpen={auth}
+                    setFromWhere={setFromWhere}
+                  />
+                )}
+                {isChatOpen === true && (
+                  <ChatWithVendor
+                    chat={chat}
+                    setChatListOpener={() => {}}
+                    userInfo={userInfo}
+                    selectedProduct={undefined}
+                    setIsChatOpen={setIsChatOpen}
+                  />
+                )}
                 {vendorCard &&
                   vendorCard.map((e: any, index: number) => {
                     return (
@@ -364,57 +408,73 @@ const Home = () => {
                             >
                               Посмотреть все товары
                             </button>
-                            <Link href={`tel: +${e.contacts.phoneNumber}`}>Связаться</Link>
+                            <div
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                console.log(data);
+                                if (userInfo !== undefined) {
+                                  setIsChatOpen(!isChatOpen);
+                                  socket.connect();
+                                  socket.emit(
+                                    "newUser",
+                                    JSON.stringify({
+                                      id: userInfo.userId,
+                                      fullName: `${localStorage.getItem(
+                                        "userName"
+                                      )} ${localStorage.getItem("lastName")}`,
+                                    })
+                                  );
+                                  axios
+                                    .post(
+                                      `/chats/new`,
+                                      {
+                                        author: iprod?.author.id,
+                                        product: iprod?.id,
+                                      },
+                                      {
+                                        headers: {
+                                          Authorization: userInfo.userToken,
+                                        },
+                                      }
+                                    )
+                                    .then((res) => {
+                                      setChat(res.data);
+                                    });
+                                } else {
+                                  setAuth(!auth);
+                                  setFromWhere(2);
+                                }
+                              }}
+                            >
+                              <Image
+                                src={"/icons/chat.svg"}
+                                alt="chat icon"
+                                width={43}
+                                height={39}
+                              />
+                            </div>
                           </div>
-                          <div className={styles.carusel__card}>
-                            {/* {vendorCard &&
-                              vendorCard.map((e: any, index: number) => {
-                                return (
-                                  <div className={styles.vendorCards}>
-                                    <h4>{e.name}</h4>
-                                    
-                                    <h1>{e.products}</h1>
-                                  </div>
-                                );
-                              })} */}
-                            {/* <section className={styles.controllerProduct}>
-                          <button>
-                            <Image
-                              src={"/icons/chevronLeft.svg"}
-                              alt="chevron left icon"
-                              width={11}
-                              height={20}
+                          {auth === true && (
+                            <Auth
+                              setIsAuthOpen={setAuth}
+                              fromWhere={fromWhere}
+                              isAuthOpen={auth}
+                              setFromWhere={setFromWhere}
                             />
-                          </button>
-                          <button>
-                            <Image
-                              src={"/icons/chevronRight.svg"}
-                              alt="chevron right icon"
-                              width={11}
-                              height={20}
+                          )}
+                          {isChatOpen === true && (
+                            <ChatWithVendor
+                              chat={chat}
+                              setChatListOpener={() => {}}
+                              userInfo={userInfo}
+                              selectedProduct={undefined}
+                              setIsChatOpen={setIsChatOpen}
                             />
-                          </button>
-                        </section> */}
-                          </div>
+                          )}
                         </div>
                       </div>
                     );
                   })}
-                <div className={styles.carusel}>
-                  <div
-                    style={{
-                      backgroundColor: "#E4B717",
-                      width: 39,
-                      height: 39,
-                      borderRadius: "100%",
-                      color: "#fff",
-                      textAlign: "center",
-                      paddingTop: 8,
-                    }}
-                  >
-                    <p>1</p>
-                  </div>
-                </div>
               </>
             )}
           </div>
@@ -422,6 +482,6 @@ const Home = () => {
       </>
     );
   }
-}
+};
 
-export default memo(Home)
+export default memo(Home);
