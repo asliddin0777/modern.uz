@@ -4,7 +4,8 @@ import styles from "@/styles/burger.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useCookies } from "react-cookie";
-import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import Auth from "./Auth";
 
 interface Burger {
   setIsBurgerOpen: Function;
@@ -12,21 +13,19 @@ interface Burger {
 }
 
 const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
-
-
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
 
-  const [fromWhere, setFromWhere] = useState<number>(0)
+  const [fromWhere, setFromWhere] = useState<number>(0);
 
-  const closed = !isAuthOpen
+  const closed = !isAuthOpen;
 
-  const [cookie] = useCookies(["userInfo"])
-  const { userInfo } = cookie
-  const router = useRouter()
+  const [cookie] = useCookies(["userInfo"]);
+  const { userInfo } = cookie;
+  const router = useRouter();
 
   useEffect(() => {
-    document.body.style.overflow = "auto"
-  }, [closed])
+    document.body.style.overflow = "auto";
+  }, [closed]);
 
   return (
     <div className={isBurgerOpen ? styles.burger : styles.dn}>
@@ -94,6 +93,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
             {userInfo === undefined ? (
               <div className={styles.auth}>
                 <button
+                  style={{ color: "#000", fontSize: 16 }}
                   onClick={() => {
                     setIsAuthOpen(true);
                     setFromWhere(1);
@@ -118,7 +118,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
                   router.push("/profile");
                 }}
               >
-                <button>Профиль</button>
+                <button style={{ color: "#000", fontSize: 16 }}>Профиль</button>
               </div>
             )}
           </div>
@@ -166,6 +166,14 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
           setIsBurgerOpen(false);
         }}
       />
+      {isAuthOpen && (
+        <Auth
+          fromWhere={fromWhere}
+          setFromWhere={setFromWhere}
+          isAuthOpen={isAuthOpen}
+          setIsAuthOpen={setIsAuthOpen}
+        />
+      )}
     </div>
   );
 };
