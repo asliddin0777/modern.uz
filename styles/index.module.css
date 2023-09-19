@@ -23,7 +23,7 @@
   align-items: center;
   width: 100%;
   border-radius: 30px;
-  height: 410px;
+  height: 430px;
   margin-bottom: 2rem;
   margin-top: 2rem;
 }
@@ -107,6 +107,7 @@
   object-fit: cover;
   width: 100% !important;
   border-radius: 50px;
+  padding-left: 10px;
 }
 
 .addLeft>img:first-child {
