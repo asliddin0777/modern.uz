@@ -26,10 +26,12 @@ import Auth from "../../components/global/Auth";
 import IFormatedProps from "@/interfaces/Product/IFormatedProps";
 import StorageButton from "../../components/local/StorageButton";
 
-const Detail = ({searchParams}:{
+const Detail = ({
+  searchParams,
+}: {
   searchParams: {
-    id: string
-  }
+    id: string;
+  };
 }) => {
   const [likedObj, setLikedObj] = useState<any | any[]>([]);
   const [controllerC, setControllerC] = useState<number>(0);
@@ -65,23 +67,36 @@ const Detail = ({searchParams}:{
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const req1 = await axios.get<IProduct>(`${process.env.NEXT_PUBLIC_API}/api/products/${searchParams.id}`)
-        const req2 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/props`)
-        const req3 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`)
-        const req4 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`)
-        const [res1, res2, res3, res4] = await axios.all([req1, req2, req3, req4])
-        setData(req1.data)
-        setProps(res2.data)
-        setCategories(res3.data)
-        setSubCategories(res4.data)
+        const req1 = await axios.get<IProduct>(
+          `${process.env.NEXT_PUBLIC_API}/api/products/${searchParams.id}`
+        );
+        const req2 = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/props`
+        );
+        const req3 = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/categories`
+        );
+        const req4 = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/subcategories`
+        );
+        const [res1, res2, res3, res4] = await axios.all([
+          req1,
+          req2,
+          req3,
+          req4,
+        ]);
+        setData(req1.data);
+        setProps(res2.data);
+        setCategories(res3.data);
+        setSubCategories(res4.data);
       } catch (err) {
         console.error(err);
       } finally {
         setLoad(false);
       }
-    }
-    fetchData()
-  }, [])
+    };
+    fetchData();
+  }, []);
   const videoRef = useRef<HTMLVideoElement | any>();
 
   const desc =
@@ -89,7 +104,7 @@ const Detail = ({searchParams}:{
 
   console.log(data);
   if (!load && data) {
-    const selectedProduct = data
+    const selectedProduct = data;
     // console.log(selectedProduct);
     // const storage = selectedProduct?.props.filter(
     //   (st: any) => st.prop.name === "Storage"
@@ -111,9 +126,6 @@ const Detail = ({searchParams}:{
     //   let checkWtR = Boolean(wtRs?.value);
     //   checkWtRs = checkWtR;
     // }
-
-
-
 
     return (
       <>
@@ -165,13 +177,13 @@ const Detail = ({searchParams}:{
                           style={
                             e.name === selectedImage
                               ? {
-                                boxShadow:
-                                  "0px 1px 17px rgba(228, 183, 23, 0.3)",
-                              }
+                                  boxShadow:
+                                    "0px 1px 17px rgba(228, 183, 23, 0.3)",
+                                }
                               : {}
                           }
                           onClick={() => {
-                            setSelectedImage(e.name)
+                            setSelectedImage(e.name);
                           }}
                         >
                           <Image
@@ -271,21 +283,52 @@ const Detail = ({searchParams}:{
                     </div>
                   </div>
                 </div> */}
-                {auth === true && <Auth setIsAuthOpen={setAuth} fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} />}
-                {isChatOpen === true && <Chat selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
+                {auth === true && (
+                  <Auth
+                    setIsAuthOpen={setAuth}
+                    fromWhere={fromWhere}
+                    isAuthOpen={auth}
+                    setFromWhere={setFromWhere}
+                  />
+                )}
+                {isChatOpen === true && (
+                  <Chat
+                    selectedProduct={selectedProduct}
+                    setIsChatOpen={setIsChatOpen}
+                  />
+                )}
                 <div className={styles.characterSide}>
-                  {
-                    data && data?.props.map(prop => {
-                      return <div className={styles.characterInfo} key={prop.id}>
-                        <h4>{prop.name}</h4>
-                        {prop.label === "select" ? prop.values.map((e, index) => {
-                          return <StorageButton selectedMemory={selectedMemory} setControllerM={setControllerM} setSelectedMemory={setSelectedMemory} e={e} index={index} />
-                        }) : prop.values.map(prs => {
-                          return <p>{prs.value === "true" ? "Да" : prs.value === "false" ? "Нет" : prs.value}</p>
-                        })}
-                      </div>
-                    })
-                  }
+                  {data &&
+                    data?.props.map((prop) => {
+                      return (
+                        <div className={styles.characterInfo} key={prop.id}>
+                          <h4>{prop.name}</h4>
+                          {prop.label === "select"
+                            ? prop.values.map((e, index) => {
+                                return (
+                                  <StorageButton
+                                    selectedMemory={selectedMemory}
+                                    setControllerM={setControllerM}
+                                    setSelectedMemory={setSelectedMemory}
+                                    e={e}
+                                    index={index}
+                                  />
+                                );
+                              })
+                            : prop.values.map((prs) => {
+                                return (
+                                  <p>
+                                    {prs.value === "true"
+                                      ? "Да"
+                                      : prs.value === "false"
+                                      ? "Нет"
+                                      : prs.value}
+                                  </p>
+                                );
+                              })}
+                        </div>
+                      );
+                    })}
                 </div>
                 <div className={styles.costSide}>
                   <div className={styles.costTop}>
@@ -308,20 +351,30 @@ const Detail = ({searchParams}:{
                       <div
                         className={styles.like}
                         style={{
-                          cursor: "pointer"
+                          cursor: "pointer",
                         }}
                         onClick={() => {
                           if (userInfo) {
-                            axios.put<IProduct>(`/products/like/${pathname.split("/")[pathname.split("/").length - 1]}`, {}, {
-                              headers: {
-                                Authorization: userInfo.userToken
-                              }
-                            }).then(res => {
-                              // setData(true)
-                              window.location.reload()
-                            }).catch(err => console.log(err))
+                            axios
+                              .put<IProduct>(
+                                `/products/like/${
+                                  pathname.split("/")[
+                                    pathname.split("/").length - 1
+                                  ]
+                                }`,
+                                {},
+                                {
+                                  headers: {
+                                    Authorization: userInfo.userToken,
+                                  },
+                                }
+                              )
+                              .then((res) => {
+                                // setData(true)
+                              })
+                              .catch((err) => console.log(err));
                           } else {
-                            setAuth(!auth)
+                            setAuth(!auth);
                           }
                         }}
                       >
@@ -331,14 +384,72 @@ const Detail = ({searchParams}:{
           width={45}
           height={45}
         /> */}
-                        {selectedProduct && userInfo && selectedProduct.likes?.find(id => id === userInfo.userId) ? <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" stroke-width="0.9120000000000001"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#f00"></path> </g></svg> : <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" stroke-width="0.9120000000000001"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#ffffff00"></path> </g></svg>}
+                        {selectedProduct &&
+                        userInfo &&
+                        selectedProduct.likes?.find(
+                          (id) => id === userInfo.userId
+                        ) ? (
+                          <svg
+                            className={styles.like}
+                            width={35}
+                            height={35}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            stroke="#ff0000"
+                            stroke-width="0.9120000000000001"
+                          >
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g
+                              id="SVGRepo_tracerCarrier"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></g>
+                            <g id="SVGRepo_iconCarrier">
+                              {" "}
+                              <path
+                                d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z"
+                                fill="#f00"
+                              ></path>{" "}
+                            </g>
+                          </svg>
+                        ) : (
+                          <svg
+                            className={styles.like}
+                            width={35}
+                            height={35}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            stroke="#ff0000"
+                            stroke-width="0.9120000000000001"
+                          >
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g
+                              id="SVGRepo_tracerCarrier"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></g>
+                            <g id="SVGRepo_iconCarrier">
+                              {" "}
+                              <path
+                                d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z"
+                                fill="#ffffff00"
+                              ></path>{" "}
+                            </g>
+                          </svg>
+                        )}
                       </div>
                     </div>
                     <div className={styles.buy}>
                       <button
                         type="button"
                         onClick={() => {
-                          setOrder(true);
+                          if (userInfo) {
+                            setOrder(true);
+                          } else {
+                            setAuth(!auth);
+                          }
                         }}
                       >
                         Купить
@@ -358,16 +469,28 @@ const Detail = ({searchParams}:{
                       onClick={() => {
                         if (userInfo !== undefined) {
                           setIsChatOpen(!isChatOpen);
-                          socket.connect()
-                          socket.emit('newUser', JSON.stringify({ id: userInfo.userId, fullName: `${localStorage.getItem("userName")} ${localStorage.getItem("lastName")}` }))
-                          axios.post("/chats/new", {
-                            author: data.author,
-                            product: data.id
-                          }, {
-                            headers: {
-                              Authorization: userInfo.userToken
+                          socket.connect();
+                          socket.emit(
+                            "newUser",
+                            JSON.stringify({
+                              id: userInfo.userId,
+                              fullName: `${localStorage.getItem(
+                                "userName"
+                              )} ${localStorage.getItem("lastName")}`,
+                            })
+                          );
+                          axios.post(
+                            "/chats/new",
+                            {
+                              author: data.author,
+                              product: data.id,
+                            },
+                            {
+                              headers: {
+                                Authorization: userInfo.userToken,
+                              },
                             }
-                          })
+                          );
                         } else {
                           setAuth(!auth);
                           setFromWhere(2);
@@ -426,8 +549,8 @@ const Detail = ({searchParams}:{
               </button> */}
             </div>
             <section className={styles.detailSelected}>
-                <>
-                  {/* <div className={styles.detailS}>
+              <>
+                {/* <div className={styles.detailS}>
                     <div className={styles.characterInfo}>
                       <div className={styles.characterInfoLeft}>
                         {warranty && (
@@ -447,57 +570,57 @@ const Detail = ({searchParams}:{
                       </div>
                     </div>
                   </div> */}
-                  <div className={styles.info}>
-                    <p
-                      style={{
-                        color: "#888888",
-                        lineHeight: "25.6px",
-                      }}
-                    >
-                      {selectedProduct
-                        ? selectedProduct.description.substring(0, textLength)
-                        : desc.substring(0, textLength)}{" "}
-                      {selectedProduct &&
-                        selectedProduct.description.length > 1000 ? (
-                        <button
-                          onClick={() => {
-                            setTextLength(selectedProduct?.description.length);
-                          }}
-                          style={
-                            textLength !== selectedProduct?.description.length
-                              ? {
+                <div className={styles.info}>
+                  <p
+                    style={{
+                      color: "#888888",
+                      lineHeight: "25.6px",
+                    }}
+                  >
+                    {selectedProduct
+                      ? selectedProduct.description.substring(0, textLength)
+                      : desc.substring(0, textLength)}{" "}
+                    {selectedProduct &&
+                    selectedProduct.description.length > 1000 ? (
+                      <button
+                        onClick={() => {
+                          setTextLength(selectedProduct?.description.length);
+                        }}
+                        style={
+                          textLength !== selectedProduct?.description.length
+                            ? {
                                 color: "#179AE4",
                                 fontWeight: 700,
                               }
-                              : {
+                            : {
                                 display: "none",
                               }
-                          }
-                        >
-                          [read more]
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => {
-                            setTextLength(desc.length);
-                          }}
-                          style={
-                            textLength !== desc.length
-                              ? {
+                        }
+                      >
+                        [read more]
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          setTextLength(desc.length);
+                        }}
+                        style={
+                          textLength !== desc.length
+                            ? {
                                 color: "#179AE4",
                                 fontWeight: 700,
                               }
-                              : {
+                            : {
                                 display: "none",
                               }
-                          }
-                        >
-                          [read more]
-                        </button>
-                      )}
-                    </p>
-                  </div>
-                </>
+                        }
+                      >
+                        [read more]
+                      </button>
+                    )}
+                  </p>
+                </div>
+              </>
               {/* ) : (
                 <div className={styles.reviewsWrapper}>
                   <form className={styles.postReview}>
