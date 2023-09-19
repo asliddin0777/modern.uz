@@ -10,7 +10,7 @@ interface Counts {
 }
 
 const Counter = ({ count, setCount, price }: Counts) => {
-  const [counts, setCounts] = useState<number>(0);
+  const [counts, setCounts] = useState<number>(1);
 
   const increment = () => {
     setCounts(counts + 1);
@@ -22,7 +22,7 @@ const Counter = ({ count, setCount, price }: Counts) => {
       setCounts(counts - 1);
     }
     if (count > 0) {
-      setCount(count ? price === count - price : count);
+      setCount(count - price);
     }
   };
 
