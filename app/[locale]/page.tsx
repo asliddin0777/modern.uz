@@ -116,16 +116,16 @@ const Home = () => {
     document.body.offsetWidth < 680 && document.body.offsetWidth > 460
       ? setSlidesPerView(3)
       : document.body.offsetWidth < 460
-        ? setSlidesPerView(2)
-        : setSlidesPerView(4);
+      ? setSlidesPerView(2)
+      : setSlidesPerView(4);
   }, []);
 
   useEffect(() => {
     document.body.offsetWidth < 680 && document.body.offsetWidth > 460
       ? setSlidesPerView(3)
       : document.body.offsetWidth < 460
-        ? setSlidesPerView(2)
-        : setSlidesPerView(4);
+      ? setSlidesPerView(2)
+      : setSlidesPerView(4);
   }, []);
 
   const pagination: object = {

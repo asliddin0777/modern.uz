@@ -144,11 +144,12 @@
   .authent {
     width: 100%;
     margin-top: auto;
+
   }
 
   .auth {
     width: 100%;
-    height: 420px;
+    height: auto;
   }
 
   .authForm {

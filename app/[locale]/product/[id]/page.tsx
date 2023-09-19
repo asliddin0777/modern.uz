@@ -16,10 +16,12 @@ import Auth from "../../components/global/Auth";
 import StorageButton from "../../components/local/StorageButton";
 import ChatWithVendor from "../../components/local/ChatWithVendor";
 
-const Detail = ({searchParams}:{
+const Detail = ({
+  searchParams,
+}: {
   searchParams: {
-    id: string
-  }
+    id: string;
+  };
 }) => {
   
   const [chat, setChat] = useState()
@@ -56,23 +58,36 @@ const Detail = ({searchParams}:{
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const req1 = await axios.get<IProduct>(`${process.env.NEXT_PUBLIC_API}/api/products/${searchParams.id}`)
-        const req2 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/props`)
-        const req3 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`)
-        const req4 = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`)
-        const [res1, res2, res3, res4] = await axios.all([req1, req2, req3, req4])
-        setData(req1.data)
-        setProps(res2.data)
-        setCategories(res3.data)
-        setSubCategories(res4.data)
+        const req1 = await axios.get<IProduct>(
+          `${process.env.NEXT_PUBLIC_API}/api/products/${searchParams.id}`
+        );
+        const req2 = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/props`
+        );
+        const req3 = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/categories`
+        );
+        const req4 = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/subcategories`
+        );
+        const [res1, res2, res3, res4] = await axios.all([
+          req1,
+          req2,
+          req3,
+          req4,
+        ]);
+        setData(req1.data);
+        setProps(res2.data);
+        setCategories(res3.data);
+        setSubCategories(res4.data);
       } catch (err) {
         console.error(err);
       } finally {
         setLoad(false);
       }
-    }
-    fetchData()
-  }, [])
+    };
+    fetchData();
+  }, []);
   const videoRef = useRef<HTMLVideoElement | any>();
 
   if (!load && data) {
@@ -99,9 +114,6 @@ const Detail = ({searchParams}:{
     //   let checkWtR = Boolean(wtRs?.value);
     //   checkWtRs = checkWtR;
     // }
-
-
-
 
     return (
       <>
@@ -151,13 +163,13 @@ const Detail = ({searchParams}:{
                           style={
                             e.name === selectedImage
                               ? {
-                                boxShadow:
-                                  "0px 1px 17px rgba(228, 183, 23, 0.3)",
-                              }
+                                  boxShadow:
+                                    "0px 1px 17px rgba(228, 183, 23, 0.3)",
+                                }
                               : {}
                           }
                           onClick={() => {
-                            setSelectedImage(e.name)
+                            setSelectedImage(e.name);
                           }}
                         >
                           <Image
@@ -294,7 +306,7 @@ const Detail = ({searchParams}:{
                       <div
                         className={styles.like}
                         style={{
-                          cursor: "pointer"
+                          cursor: "pointer",
                         }}
                         onClick={() => {
                           if (userInfo) {
@@ -307,7 +319,7 @@ const Detail = ({searchParams}:{
                               window.location.reload()
                             }).catch(err => console.log(err))
                           } else {
-                            setAuth(!auth)
+                            setAuth(!auth);
                           }
                         }}
                       >
@@ -324,7 +336,11 @@ const Detail = ({searchParams}:{
                       <button
                         type="button"
                         onClick={() => {
-                          setOrder(true);
+                          if (userInfo) {
+                            setOrder(true);
+                          } else {
+                            setAuth(!auth);
+                          }
                         }}
                       >
                         Купить
@@ -415,8 +431,8 @@ const Detail = ({searchParams}:{
               </button> */}
             </div>
             <section className={styles.detailSelected}>
-                <>
-                  {/* <div className={styles.detailS}>
+              <>
+                {/* <div className={styles.detailS}>
                     <div className={styles.characterInfo}>
                       <div className={styles.characterInfoLeft}>
                         {warranty && (
@@ -457,7 +473,7 @@ const Detail = ({searchParams}:{
                                 color: "#179AE4",
                                 fontWeight: 700,
                               }
-                              : {
+                            : {
                                 display: "none",
                               }
                           }
