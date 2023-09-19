@@ -409,7 +409,7 @@ const Home = ({
                               Посмотреть все товары
                             </button>
                             <div
-                              style={{ cursor: "pointer" }}
+                              className={styles.chatButton}
                               onClick={() => {
                                 console.log(data);
                                 if (userInfo !== undefined) {
@@ -452,6 +452,7 @@ const Home = ({
                                 width={43}
                                 height={39}
                               />
+                              <p>Chat</p>
                             </div>
                           </div>
                           {auth === true && (

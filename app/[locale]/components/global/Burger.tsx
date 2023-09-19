@@ -122,7 +122,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
               </div>
             )}
           </div>
-          <div className={styles.navigateItem}>
+          {/* <div className={styles.navigateItem}>
             <Image
               src={"/icons/basket.svg"}
               alt="home icon"
@@ -130,7 +130,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
               height={22}
             />
             <p>Заводы</p>
-          </div>
+          </div> */}
           <div className={styles.navigateItem}>
             <Image
               src={"/icons/heart.svg"}
@@ -140,15 +140,15 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
             />
             <Link href="/liked">Избранные</Link>
           </div>
-          <div className={styles.navigateItem}>
-            <Image
-              src={"/icons/order.svg"}
-              alt="home icon"
-              width={22}
-              height={22}
-            />
-            <p>Заказы</p>
-          </div>
+          <li>
+            <Link href="/delivery">Доставка</Link>
+          </li>
+          <li>
+            <Link href="/aboutUs">О нас</Link>
+          </li>
+          <li>
+            <Link href="/contact">Контакты</Link>
+          </li>
         </div>
         <Link href="#" className={styles.contact}>
           <Image
