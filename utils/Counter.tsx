@@ -7,19 +7,29 @@ interface Counts {
   count: number;
   setCount: Function;
   price: number;
+  qtyMin: number;
+  qtyMax: number;
 }
 
-const Counter = ({ count, setCount, price }: Counts) => {
-  const [counts, setCounts] = useState<number>(1);
+const Counter = ({
+  count,
+  setCount,
+  price,
+  qtyMax,
+  qtyMin,
+}: Counts) => {
+  const [counts, setCounts] = useState<number>(0);
 
   const increment = () => {
-    setCounts(counts + 1);
-    setCount(count + price);
+    if(counts >= qtyMin && counts <= qtyMax) {
+      setCounts(counts + qtyMax);
+      setCount(count + price);
+    }
   };
 
   const decrement = () => {
-    if(counts > 0) {
-      setCounts(counts - 1);
+    if (counts > 0) {
+      setCounts(counts - qtyMin);
     }
     if (count > 0) {
       setCount(count - price);

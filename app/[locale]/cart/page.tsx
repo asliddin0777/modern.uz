@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { memo, useContext } from "react";
 import styles from "@/styles/cart.module.css";
 import Image from "next/image";
@@ -22,7 +22,7 @@ const Cart = () => {
   const [selectedCards] = useCookies(["selectedCard"]);
   const { userInfo } = userInform;
 
-  const [user, setUser] = useState()
+  const [user, setUser] = useState();
 
   useEffect(() => {
     order
@@ -30,58 +30,67 @@ const Cart = () => {
       : (document.body.style.overflow = "auto");
   }, [order]);
 
-  const [err, setErr] = useState<string>("")
-  const [error, setError] = useState<boolean>(false)
-  const [cart, setCart] = useState([])
-  const [refetch, setRefetch] = useState(false)
+  const [err, setErr] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
+  const [cart, setCart] = useState([]);
+  const [refetch, setRefetch] = useState(false);
   useEffect(() => {
-    setLoad(true)
+    setLoad(true);
     const fetchData = async () => {
       try {
-        const categories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`)
-        const subCategories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`)
+        const categories = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/categories`
+        );
+        const subCategories = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/subcategories`
+        );
         const user = await axios.get("/products/liked", {
           headers: {
-            Authorization: userInfo === undefined ? "" : userInfo.userToken
-          }
-        })
+            Authorization: userInfo === undefined ? "" : userInfo.userToken,
+          },
+        });
         const cart = await axios.get("/users/current", {
           headers: {
-            Authorization: userInfo === undefined ? "" : userInfo.userToken
-          }
-        })
-        const [res1, res2, us, ctr] = await axios.all([categories, subCategories, user, cart])
-        setCategories(res1.data)
-        setSubCategories(res2.data)
-        setUser(us.data)
-        setCart(ctr.data.basket)
+            Authorization: userInfo === undefined ? "" : userInfo.userToken,
+          },
+        });
+        const [res1, res2, us, ctr] = await axios.all([
+          categories,
+          subCategories,
+          user,
+          cart,
+        ]);
+        setCategories(res1.data);
+        setSubCategories(res2.data);
+        setUser(us.data);
+        setCart(ctr.data.basket);
       } catch (err) {
         console.log(err);
       } finally {
-        setLoad(false)
+        setLoad(false);
       }
-    }
-    fetchData()
-  }, [])
+    };
+    fetchData();
+  }, []);
   useEffect(() => {
-    setLoad(true)
+    setLoad(true);
     const fetchData = async () => {
       try {
         const cart = await axios.get("/users/current", {
           headers: {
-            Authorization: userInfo === undefined ? "" : userInfo.userToken
-          }
-        })
-        const [ctr] = await axios.all([cart])
-        setCart(ctr.data.basket)
+            Authorization: userInfo === undefined ? "" : userInfo.userToken,
+          },
+        });
+        const [ctr] = await axios.all([cart]);
+        setCart(ctr.data.basket);
       } catch (err) {
         console.log(err);
       } finally {
-        setLoad(false)
+        setLoad(false);
       }
-    }
-    fetchData()
-  }, [refetch])
+    };
+    fetchData();
+  }, [refetch]);
   if (!load) {
     return (
       <div className={styles.delivery}>
@@ -91,7 +100,7 @@ const Cart = () => {
           <h1 style={{ fontSize: 20, fontWeight: 700 }}>Корзина</h1>
         </div>
         <Error err={error} msg={err} setErr={setError} />
-        {cart.length > 0 ? (
+        {cart?.length > 0 ? (
           <section className={styles.DeliverySection}>
             <section className={styles.sectionLeft}>
               {cart &&
@@ -115,9 +124,7 @@ const Cart = () => {
                             : `Phone named something ${card.productId}`}
                         </h1>
                         <p style={{ color: "#B7AFAF" }}>
-                          {card.subcategory
-                            ? card.subcategory.name
-                            : "Artel"}
+                          {card.subcategory ? card.subcategory.name : "Artel"}
                         </p>
                         <div
                           style={{ display: "flex", gap: 10, paddingTop: 7 }}
@@ -142,6 +149,8 @@ const Cart = () => {
                         </p>
                         <div className={styles.countButton}>
                           <Counter
+                            qtyMin={card.price[0].qtyMin}
+                            qtyMax={card.price[0].qtyMax}
                             price={card.price[0].price}
                             count={count}
                             setCount={setCount}
@@ -149,17 +158,29 @@ const Cart = () => {
                         </div>
                       </div>
                       <div className={styles.countPrice}>
-                        <div style={{
-                          cursor: "pointer"
-                        }} onClick={() => {
-                          axios.put(`/users/basket/remove/${card.id}`, {}, {
-                            headers: {
-                              Authorization: userInfo ? userInfo.userToken : ""
-                            }
-                          }).then(res => {
-                            setRefetch(!refetch)
-                          })
-                        }} className={styles.remove}>
+                        <div
+                          style={{
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            axios
+                              .put(
+                                `/users/basket/remove/${card.id}`,
+                                {},
+                                {
+                                  headers: {
+                                    Authorization: userInfo
+                                      ? userInfo.userToken
+                                      : "",
+                                  },
+                                }
+                              )
+                              .then((res) => {
+                                setRefetch(!refetch);
+                              });
+                          }}
+                          className={styles.remove}
+                        >
                           <Image
                             src={"/icons/remove.svg"}
                             width={14}
@@ -168,11 +189,7 @@ const Cart = () => {
                           />
                           <p>Удалить</p>
                         </div>
-                        <h1>
-                          {card
-                            ? `${card.price[0].price}`
-                            : "900"}
-                        </h1>
+                        <h1>{card ? `${card.price[0].price}` : "900"}</h1>
                       </div>
                     </div>
                   );
@@ -220,14 +237,12 @@ const Cart = () => {
             </section>
           </section>
         ) : (
-          <h2 style={{ textAlign: "center" }}>
-            Вы еще ничего не заказали
-          </h2>
+          <h2 style={{ textAlign: "center" }}>Вы еще ничего не заказали</h2>
         )}
       </div>
     );
   } else {
-    return <Loader />
+    return <Loader />;
   }
 };
 

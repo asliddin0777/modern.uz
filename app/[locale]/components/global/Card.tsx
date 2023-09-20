@@ -88,7 +88,7 @@ const Card = ({
     }
   };
   return (
-    <div data-aos="fade-up" key={String(url)} className={styles.card}>
+    <div key={String(url)} className={styles.card}>
       <Link href={`/product/${title}?id=${url}`} className={styles.imageOfCard}>
         {image !== undefined ? (
           <Image
