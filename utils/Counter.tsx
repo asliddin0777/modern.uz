@@ -6,28 +6,40 @@ import styles from "@/styles/cart.module.css";
 interface Counts {
   count: number;
   setCount: Function;
-  price: number;
-  qtyMin: number;
-  qtyMax: number;
+  price: {
+    price:number,
+    oldPrice:number,
+    qtyMin:number,
+    qtyMax:number
+  }[];
 }
 
-const Counter = ({ count, setCount, price, qtyMax, qtyMin }: Counts) => {
-  const [counts, setCounts] = useState<number>(0);
-
+const Counter = ({ count, setCount, price }: Counts) => {
+  const [counts, setCounts] = useState<number>(1);
+  console.log(price)
 
   const increment = () => {
-    setCounts(counts + qtyMax);
-    setCount(count + price);
+
+      setCounts(counts + 1);
+  if (counts > 5){
+    setCount(count + price[1].price);
+  }    else {
+    setCount(count+price[0].price)
+  }
   };
 
   const decrement = () => {
-    if (counts > 0) {
-      setCounts(counts - qtyMin);
+    if (counts > 1) {
+      setCounts(counts - 1);
     }
-    if (counts > 0) {
-      setCount(count - price);
-    }
+    if (counts > 1) {
+      if(counts > 5) {
+        setCount(count -= price[1].price);
+      }else{
+        setCount(count -= price[0].price);
 
+      }
+    }
   };
 
   return (

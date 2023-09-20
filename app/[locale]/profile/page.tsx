@@ -339,7 +339,7 @@ const Profile = () => {
                           <div className={styles.rightOrder}>
                             <div className={styles.total}>
                               <h4>Итого:</h4>
-                              <h5>72.000.000 сум</h5>
+                              <h5></h5>
                             </div>
                             <div className={styles.button}>
                               <button>Связаться с продавцом</button>

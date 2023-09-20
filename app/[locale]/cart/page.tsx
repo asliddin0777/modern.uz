@@ -21,6 +21,7 @@ const Cart = () => {
   const [userInform] = useCookies(["userInfo"]);
   const [selectedCards] = useCookies(["selectedCard"]);
   const { userInfo } = userInform;
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const [user, setUser] = useState();
 
@@ -38,18 +39,28 @@ const Cart = () => {
     setLoad(true);
     const fetchData = async () => {
       try {
-        const categories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`)
-        const subCategories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`)
-        const user = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/products/liked`, {
-          headers: {
-            Authorization: userInfo === undefined ? "" : userInfo.userToken
+        const categories = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/categories`
+        );
+        const subCategories = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/subcategories`
+        );
+        const user = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/products/liked`,
+          {
+            headers: {
+              Authorization: userInfo === undefined ? "" : userInfo.userToken,
+            },
           }
-        })
-        const cart = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/users/current`, {
-          headers: {
-            Authorization: userInfo === undefined ? "" : userInfo.userToken,
-          },
-        });
+        );
+        const cart = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/users/current`,
+          {
+            headers: {
+              Authorization: userInfo === undefined ? "" : userInfo.userToken,
+            },
+          }
+        );
         const [res1, res2, us, ctr] = await axios.all([
           categories,
           subCategories,
@@ -69,14 +80,26 @@ const Cart = () => {
     fetchData();
   }, []);
   useEffect(() => {
+    if (cart && cart.length > 0) {
+      cart.forEach((obj: any) => {
+        setTotalPrice((prevTotal) => prevTotal + obj.price[0].price);
+        console.log(totalPrice);
+      });
+    }
+    console.log("ewg");
+  }, [cart, 1000]);
+  useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
       try {
-        const cart = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/users/current`, {
-          headers: {
-            Authorization: userInfo === undefined ? "" : userInfo.userToken,
-          },
-        });
+        const cart = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/users/current`,
+          {
+            headers: {
+              Authorization: userInfo === undefined ? "" : userInfo.userToken,
+            },
+          }
+        );
         const [ctr] = await axios.all([cart]);
         setCart(ctr.data.basket);
       } catch (err) {
@@ -146,26 +169,36 @@ const Cart = () => {
                         </p>
                         <div className={styles.countButton}>
                           <Counter
-                            qtyMin={card.price[0].qtyMin}
-                            qtyMax={card.price[0].qtyMax}
-                            price={card.price[0].price}
+                            price={card.price}
                             count={count}
                             setCount={setCount}
                           />
                         </div>
                       </div>
                       <div className={styles.countPrice}>
-                        <div style={{
-                          cursor: "pointer"
-                        }} onClick={() => {
-                          axios.put(`${process.env.NEXT_PUBLIC_API}/api/users/basket/remove/${card.id}`, {}, {
-                            headers: {
-                              Authorization: userInfo ? userInfo.userToken : ""
-                            }
-                          }).then(res => {
-                            setRefetch(!refetch)
-                          })
-                        }} className={styles.remove}>
+                        <div
+                          style={{
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            axios
+                              .put(
+                                `${process.env.NEXT_PUBLIC_API}/api/users/basket/remove/${card.id}`,
+                                {},
+                                {
+                                  headers: {
+                                    Authorization: userInfo
+                                      ? userInfo.userToken
+                                      : "",
+                                  },
+                                }
+                              )
+                              .then((res) => {
+                                setRefetch(!refetch);
+                              });
+                          }}
+                          className={styles.remove}
+                        >
                           <Image
                             src={"/icons/remove.svg"}
                             width={14}
@@ -208,7 +241,7 @@ const Cart = () => {
                   }}
                 >
                   <label>Итого:</label>
-                  <h3>{count}</h3>
+                  <h3>{count + totalPrice}</h3>
                 </div>
 
                 <button
