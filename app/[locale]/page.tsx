@@ -56,7 +56,15 @@ const Home = ({
 
   const [refetch, setRefetch] = useState(false);
 
+  function getRandomColor() {
+    var r = Math.floor(Math.random() * 256); // Random value between 0 and 255 for red
+    var g = Math.floor(Math.random() * 256); // Random value between 0 and 255 for green
+    var b = Math.floor(Math.random() * 256); // Random value between 0 and 255 for blue
 
+    var color = "rgb(" + r + ", " + g + ", " + b + ")";
+
+    return color;
+  }
 
   useEffect(() => {
     setLoad(true);
@@ -109,9 +117,10 @@ const Home = ({
           const pop = axios.get(
             `${process.env.NEXT_PUBLIC_API}/api/products?popularProducts=true`
           );
-          const [product, popular] = await axios.all([prod, pop]);
+          const [product, popular, dataget] = await axios.all([prod, pop]);
           setData(product.data);
           setPopularProducts(popular.data);
+          setData(dataget.data);
         } catch (err) {
           console.log(err);
         }
@@ -375,12 +384,20 @@ const Home = ({
                             as={`/company/${e.name}?id=${e.id}`}
                             className={styles.card__title}
                           >
-                            <Image
+                            {/* <Image
                               src={"/icons/profile.svg"}
                               height={57}
                               width={57}
                               alt="profile"
-                            />
+                            /> */}
+                            <div
+                              className={styles.profileImage}
+                              style={{
+                                background: `${getRandomColor()}`,
+                              }}
+                            >
+                              A
+                            </div>
                             <div>
                               <h3>{e.name}</h3>
                             </div>

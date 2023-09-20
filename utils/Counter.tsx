@@ -34,10 +34,9 @@ const Counter = ({ count, setCount, price }: Counts) => {
     }
     if (counts > 1) {
       if(counts > 5) {
-        setCount(count -= price[1].price);
+        setCount(count - price[1].price);
       }else{
-        setCount(count -= price[0].price);
-
+        setCount(count - price[0].price);
       }
     }
   };

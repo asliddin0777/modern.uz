@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { memo } from "react";
 import styles from "@/styles/company.module.css";
@@ -14,24 +14,51 @@ import axios from "axios";
 import Loader from "../../components/local/Loader";
 import { useRouter, usePathname } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
+import useCookies from "react-cookie/cjs/useCookies";
+import socket from "../../components/local/socket";
+import ChatWithVendor from "../../components/local/ChatWithVendor";
+import Auth from "../../components/global/Auth";
 
-const Company = ({ searchParams }: {
+
+
+const Company = ({
+  searchParams,
+}: {
   searchParams: {
-    id: string
-  }
+    id: string;
+  };
 }) => {
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
-  const [refetch, setRefetch] = useState(false)
+  const [refetch, setRefetch] = useState(false);
   const [load, setLoad] = useState<boolean>(true);
-  const [likedObj, setLikedObj] = useState(false)
+  const [likedObj, setLikedObj] = useState(false);
+
+  const [auth, setAuth] = useState<boolean>(false);
+  const [fromWhere, setFromWhere] = useState<number>(1);
+  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
+  const [chat, setChat] = useState();
+  const [iprod, setIprod] = useState<IProduct>();
+
+
+  const [cookie] = useCookies(["userInfo"]);
+  const { userInfo } = cookie;
+
+
+
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
       try {
-        const categories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`);
-        const subCategories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`);
-        const data = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/vendors/${searchParams.id}`);
+        const categories = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/categories`
+        );
+        const subCategories = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/subcategories`
+        );
+        const data = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/vendors/${searchParams.id}`
+        );
         const [res1, res2, dataget] = await axios.all([
           categories,
           subCategories,
@@ -71,27 +98,66 @@ const Company = ({ searchParams }: {
             <div className={styles.companyProfile}>
               <div className={styles.profileSection}>
                 {" "}
-                <div className={styles.profileImage} style={{
-                  background: `${getRandomColor()}`
-                }}>{data.name[0]}</div>
+                <div
+                  className={styles.profileImage}
+                  style={{
+                    background: `${getRandomColor()}`,
+                  }}
+                >
+                  {data.name[0]}
+                </div>
                 <div className={styles.profile}>
                   <h1>
-                    {data
-                      ? data.name
-                      : "Shenzhen Qingmai Bicycle Co., Ltd."}
+                    {data ? data.name : "Shenzhen Qingmai Bicycle Co., Ltd."}
                   </h1>
                 </div>
               </div>
-              <a
-                href={
-                  data
-                    ? `tel: +${data.contacts.phoneNumber}`
-                    : "#"
-                }
-                type="button"
+              <div
+                className={styles.chatButton}
+                onClick={() => {
+                  console.log(data);
+                  if (userInfo !== undefined) {
+                    setIsChatOpen(!isChatOpen);
+                    socket.connect();
+                    socket.emit(
+                      "newUser",
+                      JSON.stringify({
+                        id: userInfo.userId,
+                        fullName: `${localStorage.getItem(
+                          "userName"
+                        )} ${localStorage.getItem("lastName")}`,
+                      })
+                    );
+                    axios
+                      .post(
+                        `/chats/new`,
+                        {
+                          author: iprod?.author.id,
+                          product: iprod?.id,
+                        },
+                        {
+                          headers: {
+                            Authorization: userInfo.userToken,
+                          },
+                        }
+                      )
+                      .then((res) => {
+                        setChat(res.data);
+                      });
+                  } else {
+                    setAuth(!auth);
+                    setFromWhere(2);
+                  }
+                }}
               >
-                Связаться
-              </a>
+                <Image
+                  src={"/icons/chat.svg"}
+                  alt="chat icon"
+                  width={43}
+                  height={39}
+                />
+                <p> Написать поставщику</p>
+              </div>
             </div>
             <div className={styles.companyDescrip}>
               <p>Описание</p>
@@ -104,29 +170,31 @@ const Company = ({ searchParams }: {
           </section>
           <section className={styles.companyCards}>
             {data && data.products.length > 0 && <h2>Товары поставщика</h2>}
-            {data && data.products && data.products.map((e: IProduct) => {
-              return (
-                <Card
-                  isLiked
-                  setLikedObj={() => { }}
-                  setData={setRefetch}
-                  card={e}
-                  animation="fade-down"
-                  cat={e.subcategory.name}
-                  url={e.id}
-                  height={300}
-                  width={300}
-                  image={
-                    e.media.length > 0
-                      ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0]?.name}`
-                      : "/icons/bag.svg"
-                  }
-                  title={e.name}
-                  price={String(e.price[0].price)}
-                  key={e.id}
-                />
-              )
-            })}
+            {data &&
+              data.products &&
+              data.products.map((e: IProduct) => {
+                return (
+                  <Card
+                    isLiked
+                    setLikedObj={() => {}}
+                    setData={setRefetch}
+                    card={e}
+                    animation="fade-down"
+                    cat={e.subcategory.name}
+                    url={e.id}
+                    height={300}
+                    width={300}
+                    image={
+                      e.media.length > 0
+                        ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0]?.name}`
+                        : "/icons/bag.svg"
+                    }
+                    title={e.name}
+                    price={String(e.price[0].price)}
+                    key={e.id}
+                  />
+                );
+              })}
           </section>
           {/* <div className={styles.carusel}>
             <div
@@ -149,6 +217,23 @@ const Company = ({ searchParams }: {
             <Link href="#">5</Link>
           </div> */}
         </div>
+        {auth === true && (
+          <Auth
+            setIsAuthOpen={setAuth}
+            fromWhere={fromWhere}
+            isAuthOpen={auth}
+            setFromWhere={setFromWhere}
+          />
+        )}
+        {isChatOpen === true && (
+          <ChatWithVendor
+            chat={chat}
+            setChatListOpener={() => {}}
+            userInfo={userInfo}
+            selectedProduct={undefined}
+            setIsChatOpen={setIsChatOpen}
+          />
+        )}
       </div>
     );
   } else {
