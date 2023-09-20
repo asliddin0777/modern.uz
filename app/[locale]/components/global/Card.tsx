@@ -51,7 +51,7 @@ const Card = ({
   card,
   setData,
 }: Card) => {
-  console.log(url);
+  
   const [like, setLike] = useState(false);
   const { push } = useRouter()
   const [fromWhere, setFromWhere] = useState(1);
@@ -67,6 +67,7 @@ const Card = ({
     }
   }, [auth]);
 
+  const sendLike = `${process.env.NEXT_PUBLIC_API}/api/products/like/${card?.id}`
 
   useEffect(() => {
     AOS.init();
@@ -86,6 +87,7 @@ const Card = ({
       setAuth(!auth);
     }
   };
+ 
   return (
     <div key={String(url)} className={styles.card}>
       <Link href={`/product/${title}?id=${url}`} className={styles.imageOfCard}>
@@ -153,17 +155,15 @@ const Card = ({
         className={styles.like}
         onClick={() => {
           if (userInfo && card) {
-            console.log(card)
-            axios
-              .put(
-                `products/like/${card?.id}`, {},
-                {
-                  headers: {
-                    Authorization: userInfo.userToken,
-                  },
-                }
-              )
-              .then((res) => {
+            const data = {
+              method: 'put',
+              url: sendLike, 
+              headers: {
+                Authorization: userInfo.userToken,
+              }
+            }
+        
+              axios(data).then((res) => {
                 setData((prev) => !prev);
               })
               .catch((err) => console.log(err));
@@ -229,9 +229,9 @@ const Card = ({
       <div className={styles.buy}>
         <button onClick={sellBot}>Купить</button>
         <div onClick={() => {
-          console.log("wefwef");
+        
           if (userInfo) {
-            axios.put(`/users/basket/add/${url}`, {}, {
+            axios.put(`${process.env.NEXT_PUBLIC_API}/api/users/basket/add/${url}`, {}, {
               headers: {
                 Authorization: userInfo.userToken
               }

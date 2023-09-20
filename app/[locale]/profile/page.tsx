@@ -19,8 +19,6 @@ const Profile = () => {
   const { push } = useRouter();
   const [buttonColor, setButtonColor] = useState<number>(0);
   const [profile, setProfile] = useState<any | any[]>([]);
-  const [selectedCards] = useCookies(["selectedCard"]);
-  const { selectedCard } = selectedCards;
   const AuthOpen = () => {
     setIsChangePassOpen(!isChangePassOpen);
   };
@@ -33,33 +31,13 @@ const Profile = () => {
   useEffect(() => {
     document.body.style.overflow = "auto";
   });
-
-  useEffect(() => {
-    setLoad(true);
-    axios
-      .get(`/users/current`, {
-        headers: {
-          Authorization: userInfo ? userInfo.userToken : "",
-        },
-      })
-      .then((res) => setProfile(res.data))
-      .catch((err) => console.log(err.message))
-      .finally(() => {
-        setLoad(false);
-      });
-  }, [userInfo]);
-
-  const [categories, setCategories] = useState<any[] | any>([]);
-  const [subCategories, setSubCategories] = useState<any[] | any>([]);
-  const [load, setLoad] = useState<boolean>(true);
-  const [user, setUser] = useState<IUser>();
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
       try {
-        const categories = await axios.get(`/categories`);
-        const subCategories = await axios.get(`/subcategories`);
-        const user = await axios.get("/users/current", {
+        const categories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`);
+        const subCategories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`);
+        const user = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/users/current`, {
           headers: {
             Authorization: userInfo !== undefined && userInfo.userToken,
           },
@@ -81,9 +59,13 @@ const Profile = () => {
     fetchData();
   }, []);
 
+  const [categories, setCategories] = useState<any[] | any>([]);
+  const [subCategories, setSubCategories] = useState<any[] | any>([]);
+  const [load, setLoad] = useState<boolean>(true);
+  const [user, setUser] = useState<IUser>();
+
   if (!load) {
-    const username: any = localStorage.getItem("userName");
-    const lastname: any = localStorage.getItem("lastname");
+    console.log(user);
     const userProfile: string[] | undefined = user?.fullName.split(" ");
     if (userInfo) {
       return (
@@ -189,7 +171,7 @@ const Profile = () => {
                         <input
                           disabled
                           value={
-                            username ? username : userProfile && userProfile[0]
+                            userProfile && userProfile[0]
                           }
                           type="text"
                         />
@@ -199,10 +181,8 @@ const Profile = () => {
                         <input
                           disabled
                           value={
-                            lastname
-                              ? lastname
-                              : userProfile &&
-                                userProfile[userProfile.length - 1]
+                            userProfile &&
+                            userProfile[userProfile.length - 1]
                           }
                           type="text"
                         />
@@ -213,8 +193,8 @@ const Profile = () => {
                         <p>Номер телефона</p>
                         <input
                           disabled
-                          value={`+${profile.phoneNumber}`}
-                          placeholder="+998 "
+                          value={`+${user?.phoneNumber}`}
+                          placeholder={`+${user?.phoneNumber}`}
                           type="text"
                         />
                       </div>
@@ -305,7 +285,7 @@ const Profile = () => {
                 </section>
                 <section className={styles.order}>
                   <h3 className={styles.orderTitle}>Мои заказы</h3>
-                  {selectedCard.length > 0 ? (
+                  {user && user.basket.length > 0 ? (
                     <>
                       <div className={styles.cardOrder}>
                         <div className={styles.orderNumber}>
@@ -317,8 +297,8 @@ const Profile = () => {
                         </div>
                         <div className={styles.orderSection}>
                           <div>
-                            {selectedCard &&
-                              selectedCard.map((e: IProduct, index: number) => {
+                            {user &&
+                              user.basket.map((e: IProduct, index: number) => {
                                 return (
                                   <div key={uuidv4()}>
                                     {" "}
@@ -371,7 +351,7 @@ const Profile = () => {
                   ) : (
                     <>
                       {" "}
-                      <h1 style={{textAlign: "center"}}>You don't have products</h1>
+                      <h1 style={{ textAlign: "center" }}>You don't have products</h1>
                     </>
                   )}
                 </section>
@@ -541,7 +521,7 @@ const Profile = () => {
                 </section>
                 <section className={styles.order}>
                   <h3 className={styles.orderTitle}>Мои заказы</h3>
-                  {selectedCard ? (
+                  {user && user.basket.length > 0 ? (
                     <>
                       <div className={styles.cardOrder}>
                         <div className={styles.orderNumber}>
@@ -553,20 +533,9 @@ const Profile = () => {
                         </div>
                         <div className={styles.orderSection}>
                           <div>
-                            {selectedCard.map(
+                            {user.basket.map(
                               (
-                                e: {
-                                  product: {
-                                    name: string;
-                                    price: {
-                                      price: number;
-                                    }[];
-                                    media: {
-                                      name: string;
-                                      fileId: string;
-                                    }[];
-                                  };
-                                },
+                                e,
                                 index: number
                               ) => {
                                 return (
@@ -574,14 +543,14 @@ const Profile = () => {
                                     {" "}
                                     <div key={index} className={styles.cart}>
                                       <Image
-                                        src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${e.product.media[0].name}`}
+                                        src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0].name}`}
                                         width={58}
                                         height={58}
                                         style={{ width: "auto", height: 58 }}
                                         alt="hello"
                                       />
                                       <div className={styles.cartTitle}>
-                                        <h3>{e.product.name}</h3>
+                                        <h3>{e.name}</h3>
                                         <div className={styles.const}>
                                           <div className={styles.constTag}>
                                             <p>Кол-во:</p>
@@ -589,7 +558,7 @@ const Profile = () => {
                                           </div>
                                           <div className={styles.priceTitle}>
                                             <p>Стоимость:</p>
-                                            <p>{e.product.price[0].price}</p>
+                                            <p>{e.price[0].price}</p>
                                           </div>
                                         </div>
                                       </div>

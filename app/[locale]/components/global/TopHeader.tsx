@@ -6,12 +6,12 @@ import Image from "next/image";
 import Auth from "./Auth";
 import { useCookies } from "react-cookie";
 import { useRouter } from 'next/navigation'
+import axios from "axios";
 
 const TopHeader = () => {
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
 
   const [fromWhere, setFromWhere] = useState<number>(0)
-
   const closed = !isAuthOpen
 
   const [cookie] = useCookies(["userInfo"])
@@ -21,6 +21,19 @@ const TopHeader = () => {
   useEffect(() => {
     document.body.style.overflow = "auto"
   }, [closed])
+  const [load, setLoad] = useState(true)
+  useEffect(()=> {
+    setLoad(true)
+    if (userInfo) {
+      axios.get(`${process.env.NEXT_PUBLIC_API}/api/users/current`, {
+        headers: {
+          Authorization: userInfo.userToken
+        }
+      }).then(res => setLoad(false)).finally(()=> {
+        setLoad(false)
+      })
+    }
+  }, [])
 
   return (
     <div className={styles.topNavBar}>
@@ -40,7 +53,7 @@ const TopHeader = () => {
           </li>
         </ul>
       </nav>
-      {userInfo === undefined ? <div className={styles.auth}>
+      {load === true ? <div className={styles.auth}>
         <Image src={"/icons/user.svg"} width={14} height={18} alt="user icon" />
         <button onClick={() => {
           setIsAuthOpen(true)
@@ -59,6 +72,6 @@ const TopHeader = () => {
       {isAuthOpen && <Auth fromWhere={fromWhere} setFromWhere={setFromWhere} isAuthOpen={isAuthOpen} setIsAuthOpen={setIsAuthOpen} />}
     </div>
   );
-};
+}
 
 export default memo(TopHeader);

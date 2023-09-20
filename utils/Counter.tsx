@@ -11,31 +11,23 @@ interface Counts {
   qtyMax: number;
 }
 
-const Counter = ({
-  count,
-  setCount,
-  price,
-  qtyMax,
-  qtyMin,
-}: Counts) => {
+const Counter = ({ count, setCount, price, qtyMax, qtyMin }: Counts) => {
   const [counts, setCounts] = useState<number>(0);
 
+
   const increment = () => {
-    if(counts >= qtyMin && counts <= qtyMax) {
-      setCounts(counts + qtyMax);
-      setCount(count + price);
-    }
-    setCount(0)
+    setCounts(counts + qtyMax);
+    setCount(count + price);
   };
 
   const decrement = () => {
     if (counts > 0) {
       setCounts(counts - qtyMin);
     }
-    if (count > 0) {
+    if (counts > 0) {
       setCount(count - price);
     }
-    setCount(0)
+
   };
 
   return (

@@ -308,7 +308,7 @@ const Detail = ({
                         }}
                         onClick={() => {
                           if (userInfo) {
-                            axios.put<IProduct>(`/products/like/${searchParams.id}`, {}, {
+                            axios.put<IProduct>(`${process.env.NEXT_PUBLIC_API}/api/products/like/${searchParams.id}`, {}, {
                               headers: {
                                 Authorization: userInfo.userToken
                               }
@@ -360,7 +360,7 @@ const Detail = ({
                           setIsChatOpen(!isChatOpen);
                           socket.connect()
                           socket.emit('newUser', JSON.stringify({ id: userInfo.userId, fullName: `${localStorage.getItem("userName")} ${localStorage.getItem("lastName")}` }))
-                          axios.post("/chats/new", {
+                          axios.post(`${process.env.NEXT_PUBLIC_API}/api/chats/new`, {
                             author: data.author.id,
                             product: data.id
                           }, {
