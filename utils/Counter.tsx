@@ -10,7 +10,7 @@ interface Counts {
 }
 
 const Counter = ({ count, setCount, price }: Counts) => {
-  const [counts, setCounts] = useState<number>(0);
+  const [counts, setCounts] = useState<number>(1);
 
   const increment = () => {
     setCounts(counts + 1);

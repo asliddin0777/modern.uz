@@ -9,12 +9,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import Loader from "../components/local/Loader";
 import Counter from "@/utils/Counter";
-import { uuid as uuidv4 } from 'uuidv4';
 import Error from "../components/local/Error";
-import { CartContext } from "../layout";
-
-
-
 
 const Cart = () => {
   const [order, setOrder] = useState<boolean>(false);
@@ -38,6 +33,7 @@ const Cart = () => {
   const [err, setErr] = useState<string>("")
   const [error, setError] = useState<boolean>(false)
   const [cart, setCart] = useState([])
+  const [refetch, setRefetch] = useState(false)
   useEffect(() => {
     setLoad(true)
     const fetchData = async () => {
@@ -67,26 +63,41 @@ const Cart = () => {
     }
     fetchData()
   }, [])
-  const cartedIn = useContext(CartContext)
-  console.log(cartedIn);
-  const {inCart, setInCart}:any = useContext(CartContext)
+  useEffect(() => {
+    setLoad(true)
+    const fetchData = async () => {
+      try {
+        const cart = await axios.get("/users/current", {
+          headers: {
+            Authorization: userInfo === undefined ? "" : userInfo.userToken
+          }
+        })
+        const [ctr] = await axios.all([cart])
+        setCart(ctr.data.basket)
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoad(false)
+      }
+    }
+    fetchData()
+  }, [refetch])
   if (!load) {
     return (
       <div className={styles.delivery}>
         <Categories categories={categories} subcategories={subCategories} />
-        <Order selectedProduct={inCart} order={order} setOrder={setOrder} />
+        <Order selectedProduct={cart} order={order} setOrder={setOrder} />
         <div className={styles.cart}>
           <h1 style={{ fontSize: 20, fontWeight: 700 }}>Корзина</h1>
         </div>
         <Error err={error} msg={err} setErr={setError} />
-        {inCart.length > 0 ? (
+        {cart.length > 0 ? (
           <section className={styles.DeliverySection}>
             <section className={styles.sectionLeft}>
-              {inCart &&
-                inCart?.map((card: any, index: number) => {
+              {cart &&
+                cart?.map((card: any, index: number) => {
                   return (
-                    <div key={uuidv4()} className={styles.card}>
-                      <input className={styles.input} type="checkbox" />
+                    <div key={card.id} className={styles.card}>
                       <Image
                         src={
                           card.media?.length > 0
@@ -138,7 +149,17 @@ const Cart = () => {
                         </div>
                       </div>
                       <div className={styles.countPrice}>
-                        <div className={styles.remove}>
+                        <div style={{
+                          cursor: "pointer"
+                        }} onClick={() => {
+                          axios.put(`/users/basket/remove/${card.id}`, {}, {
+                            headers: {
+                              Authorization: userInfo ? userInfo.userToken : ""
+                            }
+                          }).then(res => {
+                            setRefetch(!refetch)
+                          })
+                        }} className={styles.remove}>
                           <Image
                             src={"/icons/remove.svg"}
                             width={14}
@@ -148,7 +169,7 @@ const Cart = () => {
                           <p>Удалить</p>
                         </div>
                         <h1>
-                          {card.product
+                          {card
                             ? `${card.price[0].price}`
                             : "900"}
                         </h1>
