@@ -1,5 +1,4 @@
 import React, { memo, useEffect, useState } from 'react'
-import { uuid as uuidv4 } from 'uuidv4';
 import Image from "next/image"
 import styles from "@/styles/chat.module.css"
 import { IMessage } from '@/interfaces/IMessage';
@@ -41,7 +40,7 @@ const EachMessage = ({ userInfo, m, updateMessageViewStatus }: IProps) => {
                 width: 300,
                 height: "auto",
                 borderRadius: 15
-            }} src={serverURL + '/' + m.file} />}
+            }} src={'http://192.168.0.107:3000' + '/' + m.file} />}
             {m.file && video.find(i => i === m.file.split('.')[1].toLocaleLowerCase()) && <video style={{
                 width: 300,
                 height: "auto",
