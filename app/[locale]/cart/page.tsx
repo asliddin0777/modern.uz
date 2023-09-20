@@ -40,12 +40,12 @@ const Cart = () => {
       try {
         const categories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`)
         const subCategories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`)
-        const user = await axios.get("/products/liked", {
+        const user = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/products/liked`, {
           headers: {
             Authorization: userInfo === undefined ? "" : userInfo.userToken
           }
         })
-        const cart = await axios.get("/users/current", {
+        const cart = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/users/current`, {
           headers: {
             Authorization: userInfo === undefined ? "" : userInfo.userToken
           }
@@ -67,7 +67,7 @@ const Cart = () => {
     setLoad(true)
     const fetchData = async () => {
       try {
-        const cart = await axios.get("/users/current", {
+        const cart = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/users/current`, {
           headers: {
             Authorization: userInfo === undefined ? "" : userInfo.userToken
           }
@@ -152,7 +152,7 @@ const Cart = () => {
                         <div style={{
                           cursor: "pointer"
                         }} onClick={() => {
-                          axios.put(`/users/basket/remove/${card.id}`, {}, {
+                          axios.put(`${process.env.NEXT_PUBLIC_API}/api/users/basket/remove/${card.id}`, {}, {
                             headers: {
                               Authorization: userInfo ? userInfo.userToken : ""
                             }

@@ -18,7 +18,7 @@ const Page = () => {
   const { userInfo } = cookie
   useEffect(() => {
     socket.connect()
-    axios.get(`/chats/user`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API}/api/users/current`, {
       headers: {
         Authorization: userInfo.userToken
       }
