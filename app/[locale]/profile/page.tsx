@@ -1,21 +1,16 @@
 "use client";
 import styles from "@/styles/profile.module.css";
-import Footer from "../components/global/Footer";
 import Image from "next/image";
 import { useContext, useState } from "react";
 import ChangePassword from "../components/local/ChangePassword";
-import TopHeader from "../components/global/TopHeader";
-import Header from "../components/global/Header";
 import Categories from "../components/global/Categories";
 import ProfileBurger from "../components/local/ProfileBurger";
 import { useEffect } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import Loader from "../components/local/Loader";
 import { uuid as uuidv4 } from "uuidv4";
 import IUser from "@/interfaces/IUser";
 import { useRouter } from "next/navigation";
-import { CartContext } from "../layout";
 import IProduct from "@/interfaces/Product/IProduct";
 const Profile = () => {
   const [isChangePassOpen, setIsChangePassOpen] = useState(false);
@@ -58,7 +53,6 @@ const Profile = () => {
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true);
   const [user, setUser] = useState<IUser>();
-  const { inCart, setInCart }: any = useContext(CartContext);
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
@@ -311,7 +305,7 @@ const Profile = () => {
                 </section>
                 <section className={styles.order}>
                   <h3 className={styles.orderTitle}>Мои заказы</h3>
-                  {inCart.length > 0 ? (
+                  {selectedCard.length > 0 ? (
                     <>
                       <div className={styles.cardOrder}>
                         <div className={styles.orderNumber}>
@@ -323,8 +317,8 @@ const Profile = () => {
                         </div>
                         <div className={styles.orderSection}>
                           <div>
-                            {inCart &&
-                              inCart.map((e: IProduct, index: number) => {
+                            {selectedCard &&
+                              selectedCard.map((e: IProduct, index: number) => {
                                 return (
                                   <div key={uuidv4()}>
                                     {" "}
@@ -547,7 +541,7 @@ const Profile = () => {
                 </section>
                 <section className={styles.order}>
                   <h3 className={styles.orderTitle}>Мои заказы</h3>
-                  {inCart ? (
+                  {selectedCard ? (
                     <>
                       <div className={styles.cardOrder}>
                         <div className={styles.orderNumber}>

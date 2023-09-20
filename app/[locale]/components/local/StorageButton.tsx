@@ -1,6 +1,5 @@
 import React from 'react'
 import styles from "@/styles/detail.module.css"
-import { uuid as uuidv4 } from "uuidv4"
 import IFormatedProps from '@/interfaces/IFormatedProps'
 interface IProps {
     e: {
@@ -16,7 +15,7 @@ const StorageButton = ({ e, index, setSelectedMemory, selectedMemory, setControl
     return (
         <button
             type="button"
-            key={uuidv4()}
+            key={e.id}
             className={
                 selectedMemory === e.value
                     ? styles.memoryd

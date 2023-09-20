@@ -19,7 +19,6 @@ import axios from "axios";
 import Auth from "./Auth";
 import IProduct from "@/interfaces/Product/IProduct";
 import { IPage } from "@/interfaces/IPage";
-import { CartContext } from "../../layout";
 import Success from "../local/Success";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -52,8 +51,9 @@ const Card = ({
   card,
   setData,
 }: Card) => {
+  console.log(url);
   const [like, setLike] = useState(false);
-  const {push} = useRouter()
+  const { push } = useRouter()
   const [fromWhere, setFromWhere] = useState(1);
   const [cookie] = useCookies(["userInfo"]);
   const [auth, setAuth] = useState<boolean>(false);
@@ -66,8 +66,7 @@ const Card = ({
       document.body.style.overflow = "auto";
     }
   }, [auth]);
-  const {inCart, setInCart}:any = useContext(CartContext)
-  
+
 
   useEffect(() => {
     AOS.init();
@@ -149,22 +148,22 @@ const Card = ({
           setIsAuthOpen={setAuth}
         />
       )}
-      <Success err={succed} msg={msg} setErr={setSucced}/>
+      <Success err={succed} msg={msg} setErr={setSucced} />
       <div
         className={styles.like}
         onClick={() => {
-          if (userInfo) {
+          if (userInfo && card) {
+            console.log(card)
             axios
-              .put<IProduct>(
-                `/products/like/${url}`,
-                {},
+              .put(
+                `products/like/${card?.id}`, {},
                 {
                   headers: {
                     Authorization: userInfo.userToken,
                   },
                 }
               )
-              .then((res: any) => {
+              .then((res) => {
                 setData((prev) => !prev);
               })
               .catch((err) => console.log(err));
@@ -173,15 +172,9 @@ const Card = ({
           }
         }}
       >
-        {/* <Image
-          src={ ? likeBlue : likes}
-          alt="like icon"
-          width={45}
-          height={45}
-        /> */}
         {card &&
-        userInfo &&
-        card.likes?.find((id) => id === userInfo.userId) ? (
+          userInfo &&
+          card.likes?.find((id) => id === userInfo.userId) ? (
           <svg
             className={styles.like}
             width={35}
@@ -236,6 +229,7 @@ const Card = ({
       <div className={styles.buy}>
         <button onClick={sellBot}>Купить</button>
         <div onClick={() => {
+          console.log("wefwef");
           if (userInfo) {
             axios.put(`/users/basket/add/${url}`, {}, {
               headers: {
@@ -243,7 +237,6 @@ const Card = ({
               }
             }).then(res => {
               setAddedToCart(!addedToCart)
-              setInCart(res.data.basket)
               setSucced(!succed)
               succed === true && setMsg("Added to cart")
             }).catch(err => console.log(err))
