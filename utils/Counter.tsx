@@ -25,6 +25,7 @@ const Counter = ({
       setCounts(counts + qtyMax);
       setCount(count + price);
     }
+    setCount(0)
   };
 
   const decrement = () => {
@@ -34,6 +35,7 @@ const Counter = ({
     if (count > 0) {
       setCount(count - price);
     }
+    setCount(0)
   };
 
   return (
