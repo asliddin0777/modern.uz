@@ -40,7 +40,7 @@ const EachMessage = ({ userInfo, m, updateMessageViewStatus }: IProps) => {
                 width: 300,
                 height: "auto",
                 borderRadius: 15
-            }} src={'http://192.168.0.107:3000' + '/' + m.file} />}
+            }} src={serverURL + '/' + m.file} />}
             {m.file && video.find(i => i === m.file.split('.')[1].toLocaleLowerCase()) && <video style={{
                 width: 300,
                 height: "auto",

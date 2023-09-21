@@ -70,6 +70,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
           userToken: res.data.token,
         })
         setIsAuthOpen(false)
+        window.location.reload()
       }).catch(err => {
         console.log(err);
         setError(err.response.data.errors[0].message);
@@ -150,6 +151,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
         setIsAuthOpen(false)
         passRef.current.value = null
         passRef2.current.value = null
+        window.location.reload()
       } else {
         setError("The passwords are not same")
       }

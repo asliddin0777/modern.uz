@@ -18,7 +18,7 @@ const Page = () => {
   const { userInfo } = cookie
   useEffect(() => {
     socket.connect()
-    axios.get(`${process.env.NEXT_PUBLIC_API}/api/users/current`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user`, {
       headers: {
         Authorization: userInfo.userToken
       }
@@ -26,6 +26,8 @@ const Page = () => {
       setChats(res.data)
     }).catch(err => console.log(err))
   }, [])
+
+  console.log(chats);
   return (
     <>
       <Head  >
@@ -37,7 +39,7 @@ const Page = () => {
             <h3>Сообщения</h3>
           </div>
           <div className={styles.chatWith}>
-            {chats.map((e: any) => {
+            {chats && chats.map((e: any) => {
               return (
                 <div onClick={() => {
                   socket.emit("chatSelected", e)
@@ -104,7 +106,7 @@ const Page = () => {
             </button>
           </div>
           <div className={styles.chatWith}>
-            {chats.map((e: any) => {
+            {chats && chats.map((e: any) => {
               return (
                 <div onClick={() => {
                   socket.emit("chatSelected", e)

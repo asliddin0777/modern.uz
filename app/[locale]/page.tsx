@@ -71,6 +71,7 @@ const Home = ({
           `${process.env.NEXT_PUBLIC_API}/api/products?popularProducts=true`
         );
         const req5 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/vendors`);
+        // const [vendor]
         const req6 = await axios.get(
           `${process.env.NEXT_PUBLIC_API}/api/subcategories`
         );
@@ -96,7 +97,7 @@ const Home = ({
     };
     fetchData();
   }, []);
-
+  console.log(vendor);
   useEffect(() => {
     if (refetch === true) {
       setData({ page: 1, products: [], totalCount: 3 });
@@ -120,19 +121,6 @@ const Home = ({
       setRefetch(false);
     }
   }, [refetch]);
-
-  useEffect(() => {
-    setLoad(true);
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API}/api/vendors/`)
-      .then((res: any) => {
-        setVendorCard(res.data);
-      })
-      .catch((e: string) => console.log(e))
-      .finally(() => {
-        setLoad(false);
-      });
-  }, []);
 
   useEffect(() => {
     document.body.offsetWidth < 680 && document.body.offsetWidth > 460
@@ -362,8 +350,8 @@ const Home = ({
                     setIsChatOpen={setIsChatOpen}
                   />
                 )}
-                {vendorCard &&
-                  vendorCard.map((e: any, index: number) => {
+                {vendor &&
+                  vendor.map((e: any, index: number) => {
                     return (
                       <div className={styles.cards} key={e.id}>
                         <div className={styles.card__left}>
@@ -417,9 +405,9 @@ const Home = ({
                                   );
                                   axios
                                     .post(
-                                      `/chats/new`,
+                                      `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
                                       {
-                                        author: iprod?.author.id,
+                                        author: e.produts[0].author,
                                         product: iprod?.id,
                                       },
                                       {

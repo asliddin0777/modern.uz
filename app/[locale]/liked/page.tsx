@@ -43,7 +43,7 @@ export default function Liked() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const user = await axios.get("/products/liked", {
+        const user = await axios.get(`${process.env.NEXT_PUBLIC_API}/products/liked`, {
           headers: {
             Authorization: userInfo === undefined ? "" : userInfo.userToken
           }

@@ -6,4 +6,3 @@ export default interface IUser {
   phoneNumber: number;
   basket: IProduct[]
 }
-w

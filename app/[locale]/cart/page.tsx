@@ -82,6 +82,7 @@ const Cart = () => {
     }
     fetchData()
   }, [refetch])
+  console.log(cart);
   if (!load) {
     return (
       <div className={styles.delivery}>
