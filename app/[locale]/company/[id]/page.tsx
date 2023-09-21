@@ -189,7 +189,7 @@ const Company = ({
                     image={
                       e.media.length > 0
                         ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0]?.name}`
-                        : "/icons/bag.svg"
+                        : "/images/noImg.jpg"
                     }
                     title={e.name}
                     price={String(e.price[0].price)}

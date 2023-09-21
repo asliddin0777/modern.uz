@@ -153,6 +153,8 @@ const Home = ({
     },
   };
 
+  console.log(slides)
+
   if (load === true) {
     return <Loader />;
   } else {
@@ -180,8 +182,8 @@ const Home = ({
                             <Link
                               href={
                                 e.productId
-                                  ? `/product/${e.productId}`
-                                  : `/company/${e.vendorId}`
+                                  ? `/product/${e.title}?=id${e.productId}`
+                                  : `/company/${e.title}?=id${e.vendorId}`
                               }
                               className={styles.addLeft}
                             >
@@ -232,18 +234,20 @@ const Home = ({
                           >
                             <Link
                               className={styles.categoryItem}
-                              href={`/category/${val.id.toLocaleLowerCase()}`}
+                              
+                              href={`/category/${val.name}?=id${val.id}`}
                             >
-                              <div className={styles.categoriesTop}>
+                              <div className={styles.categoriesTop} style={val.icon ? {border: "1px solid #4D4D4D"} : {border: 0}}>
                                 {val.icon ? (
                                   <Image
+                                  
                                     src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${val.icon?.name}`}
                                     width={52}
                                     height={51}
                                     alt="home icon"
                                   />
                                 ) : (
-                                  <h5>No image</h5>
+                                  <h5>Нет изображения</h5>
                                 )}
                               </div>
                               <h3>{val.name}</h3>
@@ -278,7 +282,7 @@ const Home = ({
                               image={
                                 e.media.length > 0
                                   ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0]?.name}`
-                                  : "/icons/bag.svg"
+                                  : "/images/noImg.jpg"
                               }
                               title={e.name}
                               price={e.price[0].price}
@@ -312,7 +316,7 @@ const Home = ({
                                   image={
                                     card.media.length
                                       ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0]?.name}`
-                                      : "/icons/bag.svg"
+                                      : "/images/noImg.jpg"
                                   }
                                   title={card.name}
                                   price={card.price[0].price}

@@ -11,13 +11,13 @@ import useCookies from "react-cookie/cjs/useCookies";
 import Auth from "./Auth";
 import { IPage } from "@/interfaces/IPage";
 interface IData {
-  data?: IPage
+  data?: IPage;
 }
 
-const Header = ({data}: IData) => {
+const Header = ({ data }: IData) => {
   const [isBurgerOpen, setIsBurgerOpen] = useState<boolean | any>(false);
   const [mouseOver, setMouseOver] = useState<boolean>(false);
-  const [language, setLanguage] = useState<string>("RU");
+  const [language, setLanguage] = useState<string>("/icons/ru.svg");
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(1);
   // useEffect(() => {
@@ -39,7 +39,7 @@ const Header = ({data}: IData) => {
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
 
-  const languges: string[] = ["RU", "UZ"];
+  const languges: string[] = ["/icons/uz.svg", "/icons/ru.svg"];
 
   useEffect(() => {
     isBurgerOpen
@@ -47,16 +47,16 @@ const Header = ({data}: IData) => {
       : (document.body.style.overflow = "auto");
   }, [isBurgerOpen]);
 
-  useEffect(()=> {
+  useEffect(() => {
     if (auth === true) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-  }, [auth])
+  }, [auth]);
 
   return (
-    <header  className={styles.header}>
+    <header className={styles.header}>
       {auth === true && (
         <Auth
           setIsAuthOpen={setAuth}
@@ -119,36 +119,29 @@ const Header = ({data}: IData) => {
               />
             </div>
             <div className={styles.select}>
-              <h4>{language}</h4>
-              <Image
-                className={mouseOver ? styles.animated : styles.just}
-                src={"/icons/chevronDown.svg"}
-                width={12}
-                height={7}
-                alt="chevron down"
-              />
+              <Image src={language} width={30} height={30} alt="vdsdv" />
             </div>
             <div
               className={mouseOver ? styles.selectLanguage : styles.just}
               style={
                 !mouseOver
                   ? {
-                    display: "none",
-                  }
+                      display: "none",
+                    }
                   : {}
               }
             >
               {languges.map((e: string) => {
                 return (
-                  <h4
+                  <div
                     key={e}
                     onClick={() => {
                       setLanguage(e);
                       setMouseOver(false);
                     }}
                   >
-                    {e}
-                  </h4>
+                    <Image src={e} width={20} height={20} alt="j" />
+                  </div>
                 );
               })}
             </div>
@@ -224,28 +217,77 @@ const Header = ({data}: IData) => {
                 </svg>
               </Link>
             </div>
-            <div onClick={()=> {
-              if (userInfo) {
-                setAuth(false)
-              } else {
-                setAuth(true)
-              }
-            }} className={styles.image}>
-              {auth === false && userInfo ? <Link href="/chats" locale="ru">
-              <svg viewBox="0 0 24.00 24.00" width={24} height={24} fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                  <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                  <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                  <g id="SVGRepo_iconCarrier">
-                    <path d="M19.4003 18C19.7837 17.2499 20 16.4002 20 15.5C20 12.4624 17.5376 10 14.5 10C11.4624 10 9 12.4624 9 15.5C9 18.5376 11.4624 21 14.5 21L21 21C21 21 20 20 19.4143 18.0292M18.85 12C18.9484 11.5153 19 11.0137 19 10.5C19 6.35786 15.6421 3 11.5 3C7.35786 3 4 6.35786 4 10.5C4 11.3766 4.15039 12.2181 4.42676 13C5.50098 16.0117 3 18 3 18H9.5" stroke="#000000" strokeWidth="0.792" strokeLinecap="round" strokeLinejoin="round"></path>
-                 </g>
-                </svg>
-              </Link>:  <><Auth fromWhere={fromWhere} setFromWhere={setFromWhere} isAuthOpen={auth} setIsAuthOpen={setAuth} /> <svg viewBox="0 0 24.00 24.00" width={24} height={24} fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                  <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                  <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                  <g id="SVGRepo_iconCarrier">
-                    <path d="M19.4003 18C19.7837 17.2499 20 16.4002 20 15.5C20 12.4624 17.5376 10 14.5 10C11.4624 10 9 12.4624 9 15.5C9 18.5376 11.4624 21 14.5 21L21 21C21 21 20 20 19.4143 18.0292M18.85 12C18.9484 11.5153 19 11.0137 19 10.5C19 6.35786 15.6421 3 11.5 3C7.35786 3 4 6.35786 4 10.5C4 11.3766 4.15039 12.2181 4.42676 13C5.50098 16.0117 3 18 3 18H9.5" stroke="#000000" strokeWidth="0.792" strokeLinecap="round" strokeLinejoin="round"></path>
-                 </g>
-                </svg></>}
+            <div
+              onClick={() => {
+                if (userInfo) {
+                  setAuth(false);
+                } else {
+                  setAuth(true);
+                }
+              }}
+              className={styles.image}
+            >
+              {auth === false && userInfo ? (
+                <Link href="/chats" locale="ru">
+                  <svg
+                    viewBox="0 0 24.00 24.00"
+                    width={24}
+                    height={24}
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="#ffffff"
+                  >
+                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      <path
+                        d="M19.4003 18C19.7837 17.2499 20 16.4002 20 15.5C20 12.4624 17.5376 10 14.5 10C11.4624 10 9 12.4624 9 15.5C9 18.5376 11.4624 21 14.5 21L21 21C21 21 20 20 19.4143 18.0292M18.85 12C18.9484 11.5153 19 11.0137 19 10.5C19 6.35786 15.6421 3 11.5 3C7.35786 3 4 6.35786 4 10.5C4 11.3766 4.15039 12.2181 4.42676 13C5.50098 16.0117 3 18 3 18H9.5"
+                        stroke="#000000"
+                        strokeWidth="0.792"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></path>
+                    </g>
+                  </svg>
+                </Link>
+              ) : (
+                <>
+                  <Auth
+                    fromWhere={fromWhere}
+                    setFromWhere={setFromWhere}
+                    isAuthOpen={auth}
+                    setIsAuthOpen={setAuth}
+                  />{" "}
+                  <svg
+                    viewBox="0 0 24.00 24.00"
+                    width={24}
+                    height={24}
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="#ffffff"
+                  >
+                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      <path
+                        d="M19.4003 18C19.7837 17.2499 20 16.4002 20 15.5C20 12.4624 17.5376 10 14.5 10C11.4624 10 9 12.4624 9 15.5C9 18.5376 11.4624 21 14.5 21L21 21C21 21 20 20 19.4143 18.0292M18.85 12C18.9484 11.5153 19 11.0137 19 10.5C19 6.35786 15.6421 3 11.5 3C7.35786 3 4 6.35786 4 10.5C4 11.3766 4.15039 12.2181 4.42676 13C5.50098 16.0117 3 18 3 18H9.5"
+                        stroke="#000000"
+                        strokeWidth="0.792"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></path>
+                    </g>
+                  </svg>
+                </>
+              )}
             </div>
             <button
               className={styles.image}
