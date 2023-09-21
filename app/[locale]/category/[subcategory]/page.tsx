@@ -20,8 +20,7 @@ const Page = () => {
   const [load, setLoad] = useState<boolean>(true);
   const [selectedProps, setSelectedProps] = useState<any[] | any>([]);
   const [selectedProduct, setSelectedProduct] = useState<
-    { page: number; products: IProduct[]; limit: number } | undefined
-  >();
+    { page: number; products: IProduct[]; limit: number } | undefined>();
   const [likedObj, setLikedObj] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
@@ -32,7 +31,7 @@ const Page = () => {
   };
 
   const pathname = usePathname();
-  console.log(pathname);
+  // console.log(pathname);
 
   useEffect(() => {
     setLoad(true);

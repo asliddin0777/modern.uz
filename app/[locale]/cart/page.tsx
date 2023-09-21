@@ -79,37 +79,37 @@ const Cart = () => {
     };
     fetchData();
   }, []);
+
   useEffect(() => {
     if (cart && cart.length > 0) {
       cart.forEach((obj: any) => {
         setTotalPrice((prevTotal) => prevTotal + obj.price[0].price);
-        console.log(totalPrice);
       });
     }
-    console.log("ewg");
-  }, [cart, 1000]);
-  useEffect(() => {
-    setLoad(true);
-    const fetchData = async () => {
-      try {
-        const cart = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}/api/users/current`,
-          {
-            headers: {
-              Authorization: userInfo === undefined ? "" : userInfo.userToken,
-            },
-          }
-        );
-        const [ctr] = await axios.all([cart]);
-        setCart(ctr.data.basket);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoad(false);
-      }
-    };
-    fetchData();
-  }, [refetch]);
+  }, [cart.length > 0 ? cart : []]);
+
+  // useEffect(() => {
+  //   setLoad(true);
+  //   const fetchData = async () => {
+  //     try {
+  //       const cart = await axios.get(
+  //         `${process.env.NEXT_PUBLIC_API}/api/users/current`,
+  //         {
+  //           headers: {
+  //             Authorization: userInfo === undefined ? "" : userInfo.userToken,
+  //           },
+  //         }
+  //       );
+  //       const [ctr] = await axios.all([cart]);
+  //       setCart(ctr.data.basket);
+  //     } catch (err) {
+  //       console.log(err);
+  //     } finally {
+  //       setLoad(false);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [refetch]);
 
   if (!load) {
     return (
