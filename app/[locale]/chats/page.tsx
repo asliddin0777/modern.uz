@@ -26,8 +26,6 @@ const Page = () => {
       setChats(res.data)
     }).catch(err => console.log(err))
   }, [])
-
-  console.log(chats);
   return (
     <>
       <Head  >

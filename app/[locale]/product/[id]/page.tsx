@@ -6,7 +6,7 @@ import styles from "@/styles/detail.module.css";
 import Image from "next/image";
 import Footer from "../../components/global/Footer";
 import Order from "../../components/global/Order";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import axios from "axios";
 import Loader from "../../components/local/Loader";
 import useCookies from "react-cookie/cjs/useCookies";

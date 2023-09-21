@@ -108,7 +108,7 @@ const Company = ({
                 </div>
                 <div className={styles.profile}>
                   <h1>
-                    {data ? data.name : "Shenzhen Qingmai Bicycle Co., Ltd."}
+                    {data && data.name}
                   </h1>
                 </div>
               </div>
@@ -116,7 +116,8 @@ const Company = ({
                 className={styles.chatButton}
                 onClick={() => {
                   console.log(data);
-                  if (userInfo !== undefined) {
+                  if (userInfo !== undefined && data && data.products && data.products.length > 0) {
+                    console.log(data.products[0].author);
                     setIsChatOpen(!isChatOpen);
                     socket.connect();
                     socket.emit(
@@ -130,10 +131,9 @@ const Company = ({
                     );
                     axios
                       .post(
-                        `/chats/new`,
+                        `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
                         {
-                          author: iprod?.author.id,
-                          product: iprod?.id,
+                          admin: data.products[0].author,
                         },
                         {
                           headers: {
@@ -156,7 +156,7 @@ const Company = ({
                   width={43}
                   height={39}
                 />
-                <p> Написать поставщику</p>
+                <p>Написать поставщику</p>
               </div>
             </div>
             <div className={styles.companyDescrip}>
@@ -168,8 +168,10 @@ const Company = ({
               </p>
             </div>
           </section>
+            {data && data.products.length > 0 && <h2 style={{
+              marginTop: 32
+            }}>Товары поставщика</h2>}
           <section className={styles.companyCards}>
-            {data && data.products.length > 0 && <h2>Товары поставщика</h2>}
             {data &&
               data.products &&
               data.products.map((e: IProduct) => {

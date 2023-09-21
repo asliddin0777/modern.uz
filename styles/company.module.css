@@ -132,6 +132,10 @@
 
 .companyCards {
     margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2%;
+    row-gap: 1rem;
 }
 
 .companyCards h2 {

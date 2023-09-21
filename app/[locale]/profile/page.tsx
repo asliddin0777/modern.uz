@@ -31,6 +31,22 @@ const Profile = () => {
   useEffect(() => {
     document.body.style.overflow = "auto";
   });
+  
+  const [categories, setCategories] = useState<any[] | any>([]);
+  const [subCategories, setSubCategories] = useState<any[] | any>([]);
+  const [load, setLoad] = useState<boolean>(true);
+  const [user, setUser] = useState<IUser>();
+  
+  function getRandomColor() {
+    var r = Math.floor(Math.random() * 256); // Random value between 0 and 255 for red
+    var g = Math.floor(Math.random() * 256); // Random value between 0 and 255 for green
+    var b = Math.floor(Math.random() * 256); // Random value between 0 and 255 for blue
+    
+    var color = "rgb(" + r + ", " + g + ", " + b + ")";
+    
+    return color;
+  }
+  
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
@@ -57,6 +73,7 @@ const Profile = () => {
         setCategories(res1.data);
         setSubCategories(res2.data);
         setUser(res3.data);
+        console.log(res3);
       } catch (err) {
         console.log(err);
       } finally {
@@ -65,22 +82,6 @@ const Profile = () => {
     };
     fetchData();
   }, []);
-
-  const [categories, setCategories] = useState<any[] | any>([]);
-  const [subCategories, setSubCategories] = useState<any[] | any>([]);
-  const [load, setLoad] = useState<boolean>(true);
-  const [user, setUser] = useState<IUser>();
-
-  function getRandomColor() {
-    var r = Math.floor(Math.random() * 256); // Random value between 0 and 255 for red
-    var g = Math.floor(Math.random() * 256); // Random value between 0 and 255 for green
-    var b = Math.floor(Math.random() * 256); // Random value between 0 and 255 for blue
-
-    var color = "rgb(" + r + ", " + g + ", " + b + ")";
-
-    return color;
-  }
-
   if (!load) {
     console.log(user);
     const userProfile: string[] | undefined = user?.fullName.split(" ");

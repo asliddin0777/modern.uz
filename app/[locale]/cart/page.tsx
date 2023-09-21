@@ -81,12 +81,44 @@ const Cart = () => {
   }, []);
 
   useEffect(() => {
-    if (cart && cart.length > 0) {
+    if (refetch === true) {
+      setLoad(true);
+      const fetchData = async () => {
+        try {
+          const cart = await axios.get(
+            `${process.env.NEXT_PUBLIC_API}/api/users/current`,
+            {
+              headers: {
+                Authorization: userInfo === undefined ? "" : userInfo.userToken,
+              },
+            }
+          );
+          const [ctr] = await axios.all([
+            cart,
+          ]);
+
+          setCart(ctr.data.basket);
+        } catch (err) {
+          console.log(err);
+        } finally {
+          setLoad(false);
+        }
+      };
+      fetchData();
+    }
+  }, [refetch]);
+
+
+  useEffect(() => {
+    if (cart && cart.length > 0 && count === 0) {
+      setLoad(true)
       cart.forEach((obj: any) => {
         setTotalPrice((prevTotal) => prevTotal + obj.price[0].price);
       });
+      setCount(totalPrice)
+      setLoad(false)
     }
-  }, [cart.length > 0 ? cart : []]);
+  }, [cart]);
 
   // useEffect(() => {
   //   setLoad(true);
@@ -241,7 +273,7 @@ const Cart = () => {
                   }}
                 >
                   <label>Итого:</label>
-                  <h3>{count + totalPrice}</h3>
+                  <h3>{count}</h3>
                 </div>
 
                 <button

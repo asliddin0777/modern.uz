@@ -14,7 +14,7 @@ interface IProps {
     updateMessageViewStatus: Function
 }
 const EachMessage = ({ userInfo, m, updateMessageViewStatus }: IProps) => {
-    const serverURL = process.env.NEXT_SERVER_URL
+    const serverURL = process.env.NEXT_PUBLIC_API
     const image: string[] = ["jpg", "png", 'jpeg']
     const video = ['mp4']
     const [viewed, setViewed] = useState<boolean>(m.viewed)

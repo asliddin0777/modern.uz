@@ -105,7 +105,6 @@ const Home = ({
     };
     fetchData();
   }, []);
-  console.log(vendor);
   useEffect(() => {
     if (refetch === true) {
       setData({ page: 1, products: [], totalCount: 3 });
@@ -384,7 +383,7 @@ const Home = ({
                                 background: `${getRandomColor()}`,
                               }}
                             >
-                              A
+                              {e.name[0]}
                             </div>
                             <div>
                               <h3>{e.name}</h3>

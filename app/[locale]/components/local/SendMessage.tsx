@@ -16,9 +16,7 @@ interface IProps {
 }
 const SendMessage = ({chat, selectedProduct, userInfo}: IProps) => {
     const [message, setMesage] = useState<string | undefined>("")
-    console.log(chat);
     const handleSubmit = (e: any) => {
-        console.log(e);
         e.preventDefault()
         if (message && message.length > 0) {
             const msg = {
@@ -27,11 +25,8 @@ const SendMessage = ({chat, selectedProduct, userInfo}: IProps) => {
                 sender: userInfo.userId,
                 chat: chat.id
             }
-            console.log(chat);
-
             socket.emit('recieveMsg', msg)
             setMesage('')
-            console.log(msg);
         }
     }
     const handleFileSubmit = (e: any) => {
@@ -42,7 +37,6 @@ const SendMessage = ({chat, selectedProduct, userInfo}: IProps) => {
             file: { buffer: e.target.files[0], type: e.target.files[0].type, originalName: e.target.files[0].name, },
         }
          socket.emit('recieveMsg', msg)
-        console.log(msg);
     }
     return (
         <form onSubmit={handleSubmit} className={styles.sendMessage}>

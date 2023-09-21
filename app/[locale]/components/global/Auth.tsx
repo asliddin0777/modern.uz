@@ -5,6 +5,7 @@ import Image from "next/image";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import Error from "../local/Error";
+import { useRouter } from "next/navigation";
 
 
 
@@ -16,7 +17,7 @@ interface Auth {
 }
 
 const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
-
+  const { refresh } = useRouter()
   const [queue, setQueue] = useState<number | any>(0);
   const [timer, setTimer] = useState<number>(62);
   const [load, setLoad] = useState<boolean>(true);
@@ -70,7 +71,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
           userToken: res.data.token,
         })
         setIsAuthOpen(false)
-        window.location.reload()
+        refresh()
       }).catch(err => {
         console.log(err);
         setError(err.response.data.errors[0].message);
@@ -97,7 +98,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
         setQueue(2)
         sessionStorage.setItem("userPhoneNumber", `998${numRef.current.value}`)
         numRef.current.value = null
-        console.log(error);
+        setError("The OTC is incorrect")
       }
     } else {
       setError("Fill the blanks")
@@ -138,20 +139,17 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
             Authorization: cookie.userInfo.userToken
           }
         }).then((res) => {
+          console.log(res);
           setCookie("userInfo", {
             userPhoneNumber: res.data.phoneNumber,
             userId: res.data.id,
             userToken: res.data.token,
           })
         }).catch(err => console.log(err))
-        localStorage.setItem("userName", userNameRef.current.value)
-        localStorage.setItem("lastname", lastNameRef.current.value)
-        localStorage.setItem("password", passRef.current.value)
         setFromWhere(0)
         setIsAuthOpen(false)
         passRef.current.value = null
         passRef2.current.value = null
-        window.location.reload()
       } else {
         setError("The passwords are not same")
       }
@@ -218,7 +216,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
                 <button className={styles.enter} onClick={(e) => {
                   if (passwordRef.current.value && numberRef.current.value) {
                     handleCheckUserAtLogin()
-                  }else {
+                  } else {
                     setErr(true)
                     setError("Please fill the blanks")
                   }

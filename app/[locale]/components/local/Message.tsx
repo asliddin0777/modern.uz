@@ -25,13 +25,7 @@ interface ChatHandler {
 const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedProduct }: ChatHandler) => {
   const [messages, setMessages] = useState<IMessage[] | undefined>([])
   const { push } = useRouter()
-  const image: string[] = ["jpg", "png", 'jpeg']
-  const video = ['mp4']
-  const serverURL = "http://192.168.0.108:3000"
-  const [message, setMesage] = useState<string | undefined>("")
-  const [resive, setResive] = useState<IMessage>()
   const endRef = useRef<any>()
-  console.log("wefwef");
   useEffect(() => {
     axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user/${chat.id}`, {
       headers: {
@@ -49,11 +43,6 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
       behavior: "smooth"
     });
   }, [messages])
-  useEffect(() => {
-    endRef.current.scrollIntoView({
-      behavior: "smooth"
-    });
-  }, [])
 
   const sendMessage = (msg: any) => {
     setMessages((prev: any) => [...prev, msg])
@@ -77,8 +66,6 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
       socket.off('sendMessage', sendMessage)
     }
   }, [setMessages])
-  console.log(chat);
-  console.log("wefwef");
   // const {messages:gugu} = message
   return (
     <>
