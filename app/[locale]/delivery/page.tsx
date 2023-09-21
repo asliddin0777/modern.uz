@@ -19,15 +19,11 @@ const Delivery = () => {
     setLoad(true);
     const fetchData = async () => {
       try {
-        const categories = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}/api/categories`
-        );
-        const subCategories = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}/api/subcategories`
-        );
-        const [res1, res2] = await axios.all([categories, subCategories]);
-        setCategories(res1.data);
-        setSubCategories(res2.data);
+        const req2 = axios.get(`${process.env.NEXT_PUBLIC_API}/categories`);
+        const req1 = axios.get(`${process.env.NEXT_PUBLIC_API}/subcategories`);
+        const [res1, res2] = await axios.all([req1, req2]);
+        setSubCategories(res1.data);
+        setCategories(res2.data);
       } catch (err) {
         console.log(err);
       } finally {

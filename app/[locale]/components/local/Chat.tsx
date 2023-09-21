@@ -22,7 +22,7 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
   const [cookie] = useCookies(["userInfo"])
   const { userInfo } = cookie
   useEffect(() => {
-    axios.get(`/chats/user`, {
+    axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user`, {
       headers: {
         Authorization: userInfo.userToken
       }

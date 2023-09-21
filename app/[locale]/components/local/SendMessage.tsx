@@ -35,7 +35,6 @@ const SendMessage = ({chat, selectedProduct, userInfo}: IProps) => {
         }
     }
     const handleFileSubmit = (e: any) => {
-        console.log("wegwefwefwef");
         const msg = {
             reciever: typeof chat.admin === "string" ? chat.admin : chat.admin.id,
             sender: userInfo.userId,

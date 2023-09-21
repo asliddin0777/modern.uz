@@ -112,7 +112,7 @@ const Detail = ({
     //   let checkWtR = Boolean(wtRs?.value);
     //   checkWtRs = checkWtR;
     // }
-
+    // console.log(data);
     return (
       <>
         <Head>

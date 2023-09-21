@@ -168,6 +168,7 @@ const Profile = () => {
                       onClick={() => {
                         removeCookie("userInfo");
                         push("/");
+                        window.location.reload()
                       }}
                     >
                       <Image
