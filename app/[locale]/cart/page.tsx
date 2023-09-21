@@ -86,30 +86,7 @@ const Cart = () => {
         setTotalPrice((prevTotal) => prevTotal + obj.price[0].price);
       });
     }
-  }, [cart.length > 0 ? cart : []]);
-
-  // useEffect(() => {
-  //   setLoad(true);
-  //   const fetchData = async () => {
-  //     try {
-  //       const cart = await axios.get(
-  //         `${process.env.NEXT_PUBLIC_API}/api/users/current`,
-  //         {
-  //           headers: {
-  //             Authorization: userInfo === undefined ? "" : userInfo.userToken,
-  //           },
-  //         }
-  //       );
-  //       const [ctr] = await axios.all([cart]);
-  //       setCart(ctr.data.basket);
-  //     } catch (err) {
-  //       console.log(err);
-  //     } finally {
-  //       setLoad(false);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [refetch]);
+  }, [cart]);
 
   if (!load) {
     return (
@@ -131,7 +108,7 @@ const Cart = () => {
                         src={
                           card.media?.length > 0
                             ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0].name}`
-                            : "/icons/bag.svg"
+                            : "/images/noImg.jpg"
                         }
                         width={90}
                         height={100}

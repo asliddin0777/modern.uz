@@ -38,7 +38,7 @@ const Page = () => {
     axios
       .get(`${process.env.NEXT_PUBLIC_API}/api/products`, {
         params: {
-          category: pathname.split("/")[pathname.split("/").length - 1],
+          category: pathname.split("/")[pathname.split("/").length - 0],
         },
       })
       .then((res: any) => {
@@ -55,7 +55,7 @@ const Page = () => {
     axios
       .get(`${process.env.NEXT_PUBLIC_API}/api/products`, {
         params: {
-          category: pathname.split("/")[pathname.split("/").length - 1],
+          category: pathname.split("/")[pathname.split("/").length - 0],
         },
       })
       .then((res: any) => {
@@ -73,7 +73,7 @@ const Page = () => {
     console.log(pathname);
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API}/api/subcategories/${pathname.split("/")[pathname.split("/").length - 1]
+        `${process.env.NEXT_PUBLIC_API}/api/subcategories/${pathname.split("/")[pathname.split("/").length - 0]
         }`
       )
       .then((res: any) => {
@@ -180,7 +180,7 @@ const Page = () => {
                     image={
                       e.media.length
                         ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
-                        : "/icons/bag.svg"
+                        : "/images/noImg.jpg"
                     }
                     title={e.name}
                     // @ts-ignore
