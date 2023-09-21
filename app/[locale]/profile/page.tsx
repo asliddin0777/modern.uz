@@ -35,13 +35,20 @@ const Profile = () => {
     setLoad(true);
     const fetchData = async () => {
       try {
-        const categories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`);
-        const subCategories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`);
-        const user = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/users/current`, {
-          headers: {
-            Authorization: userInfo !== undefined && userInfo.userToken,
-          },
-        });
+        const categories = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/categories`
+        );
+        const subCategories = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/subcategories`
+        );
+        const user = await axios.get(
+          `${process.env.NEXT_PUBLIC_API}/api/users/current`,
+          {
+            headers: {
+              Authorization: userInfo !== undefined && userInfo.userToken,
+            },
+          }
+        );
         const [res1, res2, res3] = await axios.all([
           categories,
           subCategories,
@@ -63,6 +70,16 @@ const Profile = () => {
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true);
   const [user, setUser] = useState<IUser>();
+
+  function getRandomColor() {
+    var r = Math.floor(Math.random() * 256); // Random value between 0 and 255 for red
+    var g = Math.floor(Math.random() * 256); // Random value between 0 and 255 for green
+    var b = Math.floor(Math.random() * 256); // Random value between 0 and 255 for blue
+
+    var color = "rgb(" + r + ", " + g + ", " + b + ")";
+
+    return color;
+  }
 
   if (!load) {
     console.log(user);
@@ -165,15 +182,21 @@ const Profile = () => {
                   </div>
                 </section>
                 <section className={styles.profileRight}>
+                  <div
+                    className={styles.profileImage}
+                    style={{
+                      background: `${getRandomColor()}`,
+                    }}
+                  >
+                    {user && user.fullName[0]}
+                  </div>
                   <div className={styles.inputSection}>
                     <div className={styles.input}>
                       <div>
                         <p>Имя</p>
                         <input
                           disabled
-                          value={
-                            userProfile && userProfile[0]
-                          }
+                          value={userProfile && userProfile[0]}
                           type="text"
                         />
                       </div>
@@ -182,8 +205,7 @@ const Profile = () => {
                         <input
                           disabled
                           value={
-                            userProfile &&
-                            userProfile[userProfile.length - 1]
+                            userProfile && userProfile[userProfile.length - 1]
                           }
                           type="text"
                         />
@@ -340,7 +362,7 @@ const Profile = () => {
                           <div className={styles.rightOrder}>
                             <div className={styles.total}>
                               <h4>Итого:</h4>
-                              <h5>72.000.000 сум</h5>
+                              <h5></h5>
                             </div>
                             <div className={styles.button}>
                               <button>Связаться с продавцом</button>
@@ -352,7 +374,9 @@ const Profile = () => {
                   ) : (
                     <>
                       {" "}
-                      <h1 style={{ textAlign: "center" }}>You don't have products</h1>
+                      <h1 style={{ textAlign: "center" }}>
+                        You don't have products
+                      </h1>
                     </>
                   )}
                 </section>
@@ -534,41 +558,36 @@ const Profile = () => {
                         </div>
                         <div className={styles.orderSection}>
                           <div>
-                            {user.basket.map(
-                              (
-                                e,
-                                index: number
-                              ) => {
-                                return (
-                                  <div key={uuidv4()}>
-                                    {" "}
-                                    <div key={index} className={styles.cart}>
-                                      <Image
-                                        src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0].name}`}
-                                        width={58}
-                                        height={58}
-                                        style={{ width: "auto", height: 58 }}
-                                        alt="hello"
-                                      />
-                                      <div className={styles.cartTitle}>
-                                        <h3>{e.name}</h3>
-                                        <div className={styles.const}>
-                                          <div className={styles.constTag}>
-                                            <p>Кол-во:</p>
-                                            <p>{2}</p>
-                                          </div>
-                                          <div className={styles.priceTitle}>
-                                            <p>Стоимость:</p>
-                                            <p>{e.price[0].price}</p>
-                                          </div>
+                            {user.basket.map((e, index: number) => {
+                              return (
+                                <div key={uuidv4()}>
+                                  {" "}
+                                  <div key={index} className={styles.cart}>
+                                    <Image
+                                      src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0].name}`}
+                                      width={58}
+                                      height={58}
+                                      style={{ width: "auto", height: 58 }}
+                                      alt="hello"
+                                    />
+                                    <div className={styles.cartTitle}>
+                                      <h3>{e.name}</h3>
+                                      <div className={styles.const}>
+                                        <div className={styles.constTag}>
+                                          <p>Кол-во:</p>
+                                          <p>{2}</p>
+                                        </div>
+                                        <div className={styles.priceTitle}>
+                                          <p>Стоимость:</p>
+                                          <p>{e.price[0].price}</p>
                                         </div>
                                       </div>
                                     </div>
-                                    <div className={styles.line}></div>
                                   </div>
-                                );
-                              }
-                            )}
+                                  <div className={styles.line}></div>
+                                </div>
+                              );
+                            })}
                           </div>
                           <div className={styles.rightOrder}>
                             <div className={styles.total}>

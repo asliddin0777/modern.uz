@@ -25,13 +25,14 @@ const Delivery = () => {
         setSubCategories(res1.data);
         setCategories(res2.data);
       } catch (err) {
-        console.error(err);
+        console.log(err);
       } finally {
         setLoad(false);
       }
     };
     fetchData();
   }, []);
+
 
   if (!load) {
     return (
