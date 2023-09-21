@@ -24,7 +24,7 @@ const SelectCategory = ({ categories }: Categories) => {
                     }}
                     className={styles.iconOfCat}
                   >
-                    <Link href={`/category/${e.id.toLocaleLowerCase()}`}>{e.name}</Link>
+                    <Link href={`/category/${e.id}`}>{e.name}</Link>
                   </div>
                 </div>
               );
@@ -39,7 +39,7 @@ const SelectCategory = ({ categories }: Categories) => {
                     <Link
                       key={index}
                       style={{ color: "#666565" }}
-                      href={`/category/${e.id.toLocaleLowerCase()}`}
+                      href={`/category/${e.id}`}
                     >
                       {e.name}
                     </Link>
