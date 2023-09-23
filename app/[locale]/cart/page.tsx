@@ -17,9 +17,7 @@ const Cart = () => {
   const [count, setCount] = useState(0);
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
-  const [cookie] = useCookies(["aboutUser"]);
   const [userInform] = useCookies(["userInfo"]);
-  const [selectedCards] = useCookies(["selectedCard"]);
   const { userInfo } = userInform;
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -135,16 +133,12 @@ const Cart = () => {
                 cart?.map((card: any, index: number) => {
                   return (
                     <div key={card.id} className={styles.card}>
-                      <Image
-                        src={
-                          card.media?.length > 0
-                            ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0].name}`
-                            : "/images/noImg.jpg"
-                        }
+                      {card.media?.length > 0 ?<Image
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0].name}`}
                         width={90}
                         height={100}
                         alt="img"
-                      />
+                      />: <p>НЕТ ИЗОБРАЖЕНИЯ</p>}
                       <div className={styles.menu}>
                         <h1>
                           {card

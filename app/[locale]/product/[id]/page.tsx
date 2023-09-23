@@ -23,7 +23,7 @@ const Detail = ({
     id: string;
   };
 }) => {
-  
+
   const [chat, setChat] = useState()
   const [controllerC, setControllerC] = useState<number>(0);
   const [controllerM, setControllerM] = useState<number>(0);
@@ -161,9 +161,9 @@ const Detail = ({
                           style={
                             e.name === selectedImage
                               ? {
-                                  boxShadow:
-                                    "0px 1px 17px rgba(228, 183, 23, 0.3)",
-                                }
+                                boxShadow:
+                                  "0px 1px 17px rgba(228, 183, 23, 0.3)",
+                              }
                               : {}
                           }
                           onClick={() => {
@@ -191,6 +191,8 @@ const Detail = ({
                 </div>
 
                 <Order
+                  counts={1}
+                  totalPrice={data.price[0].price}
                   selectedProduct={selectedProduct}
                   order={order}
                   setOrder={setOrder}
@@ -268,7 +270,7 @@ const Detail = ({
                   </div>
                 </div> */}
                 {auth === true && <Auth setIsAuthOpen={setAuth} fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} />}
-                {isChatOpen === true && <ChatWithVendor chat={chat} setChatListOpener={()=> {}} userInfo={userInfo} selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
+                {isChatOpen === true && <ChatWithVendor chat={chat} setChatListOpener={() => { }} userInfo={userInfo} selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
                 <div className={styles.characterSide}>
                   {
                     data && data?.props.map(prop => {
@@ -449,17 +451,17 @@ const Detail = ({
                       </div>
                     </div>
                   </div> */}
-                  <div className={styles.info}>
-                    <p
-                      style={{
-                        color: "#888888",
-                        lineHeight: "25.6px",
-                      }}
-                    >
-                      {selectedProduct
-                        && selectedProduct.description.substring(0, textLength)}
-                      {selectedProduct &&
-                        selectedProduct.description.length > 1000 && (
+                <div className={styles.info}>
+                  <p
+                    style={{
+                      color: "#888888",
+                      lineHeight: "25.6px",
+                    }}
+                  >
+                    {selectedProduct
+                      && selectedProduct.description.substring(0, textLength)}
+                    {selectedProduct &&
+                      selectedProduct.description.length > 1000 && (
                         <button
                           onClick={() => {
                             setTextLength(selectedProduct?.description.length);
@@ -470,7 +472,7 @@ const Detail = ({
                                 color: "#179AE4",
                                 fontWeight: 700,
                               }
-                            : {
+                              : {
                                 display: "none",
                               }
                           }
@@ -478,9 +480,9 @@ const Detail = ({
                           [read more]
                         </button>
                       )}
-                    </p>
-                  </div>
-                </>
+                  </p>
+                </div>
+              </>
               {/* ) : (
                 <div className={styles.reviewsWrapper}>
                   <form className={styles.postReview}>

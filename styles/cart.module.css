@@ -16,6 +16,12 @@
     color: #888888;
 }
 
+.card > p {
+    color: #888;
+    font-weight: 600;
+    user-select: none;
+}
+
 .card * h1 {
     color: #000;
     display: flex;
