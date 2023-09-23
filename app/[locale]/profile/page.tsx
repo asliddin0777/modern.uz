@@ -429,7 +429,7 @@ const Profile = () => {
                   >
                     <Image
                       src={
-                        !buttonColor ? "icons/userWhite.svg" : "icons/user.svg"
+                      "/icons/user.svg"
                       }
                       width={16}
                       height={21}
