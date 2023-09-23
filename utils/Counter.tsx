@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useState } from "react";
 import styles from "@/styles/cart.module.css";
 import Order from "@/app/[locale]/components/global/Order";
@@ -23,14 +23,20 @@ const Counter = ({ count, setCount, price, order, setOrder, selectedPr }: Counts
   const [counts, setCounts] = useState<number>(1);
   console.log(price);
   const increment = () => {
-    setCounts(counts + 1);
     if (price) {
-      if (counts <= price[0].qtyMax && price[1]) {
-        // console.log(price);
-        setCount(count + price[1].price);
-      } else {
-        setCount(count + price[0].price);
-      }
+      price.map(pr => {
+        if (counts < pr.qtyMax) {
+          if (counts  < pr.qtyMax) {
+            setCounts(counts + 1);
+            setCount(count + pr.price);
+            console.log(count)
+          }
+          } else {
+            setCount(count);
+            setCounts(counts);
+            console.log(count, "1");
+          }
+      })
     }
   };
 
@@ -57,4 +63,4 @@ const Counter = ({ count, setCount, price, order, setOrder, selectedPr }: Counts
   );
 };
 
-export default Counter;
+export default memo(Counter);
