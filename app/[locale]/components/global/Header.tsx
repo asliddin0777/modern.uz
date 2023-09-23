@@ -111,14 +111,6 @@ const Header = ({ data }: IData) => {
             className={styles.contraLeft}
           >
             <div className={styles.image}>
-              <Image
-                src={"/icons/inet.svg"}
-                alt="language icon"
-                width={20}
-                height={20}
-              />
-            </div>
-            <div className={styles.select}>
               <Image src={language} width={30} height={30} alt="vdsdv" />
             </div>
             <div
@@ -140,7 +132,7 @@ const Header = ({ data }: IData) => {
                       setMouseOver(false);
                     }}
                   >
-                    <Image src={e} width={20} height={20} alt="j" />
+                    <Image src={e} width={25} height={25} alt="j" />
                   </div>
                 );
               })}

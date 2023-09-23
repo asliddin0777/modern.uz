@@ -8,7 +8,6 @@ import ProfileBurger from "../components/local/ProfileBurger";
 import { useEffect } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import { uuid as uuidv4 } from "uuidv4";
 import IUser from "@/interfaces/IUser";
 import { useRouter } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
@@ -324,7 +323,7 @@ const Profile = () => {
                             {user &&
                               user.basket.map((e: IProduct, index: number) => {
                                 return (
-                                  <div key={uuidv4()}>
+                                  <div key={e.id}>
                                     {" "}
                                     <div key={index} className={styles.cart}>
                                       <Image
@@ -561,7 +560,7 @@ const Profile = () => {
                           <div>
                             {user.basket.map((e, index: number) => {
                               return (
-                                <div key={uuidv4()}>
+                                <div key={e.id}>
                                   {" "}
                                   <div key={index} className={styles.cart}>
                                     <Image

@@ -124,7 +124,6 @@ const Cart = () => {
     return (
       <div className={styles.delivery}>
         <Categories categories={categories} subcategories={subCategories} />
-        <Order selectedProduct={cart} order={order} setOrder={setOrder} />
         <div className={styles.cart}>
           <h1 style={{ fontSize: 20, fontWeight: 700 }}>Корзина</h1>
         </div>
@@ -181,6 +180,9 @@ const Cart = () => {
                             price={card.price}
                             count={count}
                             setCount={setCount}
+                            order={order}
+                            setOrder={setOrder}
+                            selectedPr={card}
                           />
                         </div>
                       </div>
@@ -227,7 +229,7 @@ const Cart = () => {
                 <h1>Ваш заказ</h1>
                 <div style={{ display: "flex", gap: 15, marginTop: 12 }}>
                   <label>Товары:</label>
-                  <p>8.000.000 сум</p>
+                  <p>{count}</p>
                 </div>
                 <div
                   style={{
