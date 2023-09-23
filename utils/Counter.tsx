@@ -21,14 +21,15 @@ interface Counts {
 
 const Counter = ({ count, setCount, price, order, setOrder, selectedPr }: Counts) => {
   const [counts, setCounts] = useState<number>(1);
-  console.log(price);
-
   const increment = () => {
     setCounts(counts + 1);
-    if (counts > 4) {
-      setCount(count + price[1].price);
-    } else {
-      setCount(count + price[0].price);
+    if (price) {
+      if (counts <= price[0].qtyMax && price[1]) {
+        // console.log(price);
+        setCount(count + price[1].price);
+      } else {
+        setCount(count + price[0].price);
+      }
     }
   };
 

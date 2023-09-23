@@ -30,6 +30,12 @@ const Profile = () => {
   useEffect(() => {
     document.body.style.overflow = "auto";
   });
+
+  useEffect(()=> {
+    if (!userInfo) {
+      push("/")
+    }
+  }, [])
   
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
@@ -131,7 +137,7 @@ const Profile = () => {
                         src={
                           !buttonColor
                             ? "/icons/user.svg"
-                            : "/icons/userWhite.svg"
+                            : "/icons/user.svg"
                         }
                         width={16}
                         height={21}
@@ -257,7 +263,7 @@ const Profile = () => {
                       <Image
                         src={
                           !buttonColor
-                            ? "/icons/userWhite.svg"
+                            ? "/icons/user.svg"
                             : "/icons/user.svg"
                         }
                         width={16}
@@ -429,7 +435,7 @@ const Profile = () => {
                   >
                     <Image
                       src={
-                        !buttonColor ? "icons/userWhite.svg" : "icons/user.svg"
+                        !buttonColor ? "/icons/user.svg" : "/icons/user.svg"
                       }
                       width={16}
                       height={21}
@@ -451,7 +457,7 @@ const Profile = () => {
                   >
                     <Image
                       src={
-                        !buttonColor ? "icons/book.svg" : "icons/bookWhite.svg"
+                        !buttonColor ? "/icons/book.svg" : "/icons/bookWhite.svg"
                       }
                       width={17.29}
                       height={21}
@@ -467,7 +473,7 @@ const Profile = () => {
                     }}
                   >
                     <Image
-                      src={"icons/logout.svg"}
+                      src={"/icons/logout.svg"}
                       width={19}
                       height={19}
                       alt="close"
@@ -501,8 +507,8 @@ const Profile = () => {
                       <Image
                         src={
                           !buttonColor
-                            ? "icons/userWhite.svg"
-                            : "icons/user.svg"
+                            ? "/icons/user.svg"
+                            : "/icons/user.svg"
                         }
                         width={16}
                         height={21}
@@ -524,8 +530,8 @@ const Profile = () => {
                       <Image
                         src={
                           !buttonColor
-                            ? "icons/book.svg"
-                            : "icons/bookWhite.svg"
+                            ? "/icons/book.svg"
+                            : "/icons/bookWhite.svg"
                         }
                         width={17.29}
                         height={21}
@@ -535,7 +541,7 @@ const Profile = () => {
                     </div>
                     <div className={styles.profileClose}>
                       <Image
-                        src={"icons/logout.svg"}
+                        src={"/icons/logout.svg"}
                         width={19}
                         height={19}
                         alt="close"

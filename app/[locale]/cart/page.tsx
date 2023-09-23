@@ -126,7 +126,7 @@ const Cart = () => {
           <h1 style={{ fontSize: 20, fontWeight: 700 }}>Корзина</h1>
         </div>
         <Error err={error} msg={err} setErr={setError} />
-        {cart?.length > 0 ? (
+        {cart?.length && count > 0 ? (
           <section className={styles.DeliverySection}>
             <section className={styles.sectionLeft}>
               {cart &&
@@ -263,7 +263,7 @@ const Cart = () => {
           <h2 style={{ textAlign: "center" }}>Вы еще ничего не заказали</h2>
         )}
       </div>
-    );
+    );  
   } else {
     return <Loader />;
   }

@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import styles from "@/styles/auth.module.css";
 import Image from "next/image";
 import axios from "axios";
@@ -320,4 +320,4 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
   );
 };
 
-export default Auth;
+export default memo(Auth);

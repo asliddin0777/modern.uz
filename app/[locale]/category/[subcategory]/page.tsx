@@ -173,7 +173,9 @@ const Page = () => {
               {selectedProduct && selectedProduct.products &&
                 selectedProduct.products.map((e, index: number) => (
                   <Card
-                    // animation="fade-down" 
+                    card={e}
+                    // animation=""
+                    animation="fade-down" 
                     url={e.id}
                     height={300}
                     setData={setData}
@@ -185,8 +187,7 @@ const Page = () => {
                         : "/images/noImg.jpg"
                     }
                     title={e.name}
-                    // @ts-ignore
-                    price={e.price[0].price}
+                    price={String(e.price[0].price)}
                     key={e.id}
                     isLiked
                     likedObj={likedObj}
