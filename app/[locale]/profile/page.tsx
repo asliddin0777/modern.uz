@@ -87,7 +87,6 @@ const Profile = () => {
     fetchData();
   }, []);
   if (!load) {
-    console.log(user);
     if (userInfo) {
       return (
         <div className={styles.profile}>
