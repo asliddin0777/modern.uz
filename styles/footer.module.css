@@ -10,7 +10,7 @@
 .container {
     display: flex;
     justify-content: space-between;
-    width: 1180px;
+    width: var(--container-width);
 }
 
 .container a {

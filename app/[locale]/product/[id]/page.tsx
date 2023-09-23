@@ -361,7 +361,7 @@ const Detail = ({
                           socket.connect()
                           socket.emit('newUser', JSON.stringify({ id: userInfo.userId, fullName: `${localStorage.getItem("userName")} ${localStorage.getItem("lastName")}` }))
                           axios.post(`${process.env.NEXT_PUBLIC_API}/api/chats/new`, {
-                            author: data.author.id,
+                            admin: typeof data.author === "string" ? data.author : data.author.id,
                             product: data.id
                           }, {
                             headers: {

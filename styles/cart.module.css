@@ -1,6 +1,6 @@
 .cart {
     display: flex;
-    width: 1180px;
+    width: var(--container-width);
     padding: 10px 0;
     margin: 0 auto;
 }
@@ -24,7 +24,7 @@
 .DeliverySection {
     gap: 12.5px;
     display: flex;
-    width: 1180px;
+    width: var(--container-width);
     padding: 10px 0;
     margin: auto;
 }

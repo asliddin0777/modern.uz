@@ -9,7 +9,7 @@
 
 .container {
   display: flex;
-  width: 1180px;
+  width: var(--container-width);
   flex-direction: column;
 }
 
@@ -285,7 +285,7 @@
 
 .allCategoriy__section {
   align-items: center;
-  width: 1180px;
+  width: var(--container-width);
   padding: 10px 0;
   margin: auto;
 }
@@ -301,7 +301,7 @@
 .cards {
   padding: 19px 31px;
   margin-top: 21px;
-  width: 1180px;
+  width: var(--container-width);
   height: auto;
   display: flex;
   background: #ffffff;
@@ -421,7 +421,7 @@
   gap: 15px;
   justify-content: center;
   display: flex;
-  width: 1180px;
+  width: var(--container-width);
   padding: 10px 0;
   margin: 57px auto;
   color: #8a8a8a;

@@ -9,7 +9,7 @@
 .container {
   display: flex;
   align-items: center;
-  width: 1180px;
+  width: var(--container-width);
   justify-content: space-between;
   padding: 10px 0;
   margin: auto;

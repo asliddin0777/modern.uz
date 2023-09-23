@@ -411,7 +411,8 @@ const Home = ({
                               className={styles.chatButton}
                               onClick={() => {
                                 console.log(data);
-                                if (userInfo !== undefined) {
+                                if (userInfo !== undefined && e && e.products) {
+                                  console.log(e);
                                   setIsChatOpen(!isChatOpen);
                                   socket.connect();
                                   socket.emit(
@@ -427,7 +428,7 @@ const Home = ({
                                     .post(
                                       `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
                                       {
-                                        author: e.produts[0].author,
+                                        admin: e.products[0].author,
                                         product: iprod?.id,
                                       },
                                       {
