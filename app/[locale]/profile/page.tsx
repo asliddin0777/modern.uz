@@ -78,7 +78,6 @@ const Profile = () => {
         setCategories(res1.data);
         setSubCategories(res2.data);
         setUser(res3.data);
-        console.log(res3);
       } catch (err) {
         console.log(err);
       } finally {
@@ -89,7 +88,6 @@ const Profile = () => {
   }, []);
   if (!load) {
     console.log(user);
-    const userProfile: string[] | undefined = user?.fullName.split(" ");
     if (userInfo) {
       return (
         <div className={styles.profile}>
@@ -202,7 +200,7 @@ const Profile = () => {
                         <p>Имя</p>
                         <input
                           disabled
-                          value={userProfile && userProfile[0]}
+                          value={user?.fullName.split(" ")[0]}
                           type="text"
                         />
                       </div>
@@ -211,7 +209,7 @@ const Profile = () => {
                         <input
                           disabled
                           value={
-                            userProfile && userProfile[userProfile.length - 1]
+                            user?.fullName.split(" ")[1]
                           }
                           type="text"
                         />

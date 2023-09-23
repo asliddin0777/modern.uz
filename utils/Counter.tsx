@@ -21,6 +21,7 @@ interface Counts {
 
 const Counter = ({ count, setCount, price, order, setOrder, selectedPr }: Counts) => {
   const [counts, setCounts] = useState<number>(1);
+  console.log(price);
   const increment = () => {
     setCounts(counts + 1);
     if (price) {
