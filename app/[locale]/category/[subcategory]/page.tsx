@@ -26,6 +26,7 @@ const Page = () => {
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [data, setData] = useState(false)
 
+
   const cardBurgerHandler = () => {
     setCardBurger(!cardBurger);
   };
@@ -127,6 +128,7 @@ const Page = () => {
       });
   };
 
+  console.log(categories)
 
   if (!load) {
     return (
@@ -171,7 +173,7 @@ const Page = () => {
               {selectedProduct && selectedProduct.products &&
                 selectedProduct.products.map((e, index: number) => (
                   <Card
-                    animation="fade-down"
+                    // animation="fade-down" 
                     url={e.id}
                     height={300}
                     setData={setData}
@@ -193,26 +195,6 @@ const Page = () => {
                 ))}
             </section>
           </section>
-
-          {/* <div className={styles.carusel}>
-              <div
-                style={{
-                  backgroundColor: "#E4B717",
-                  width: 39,
-                  height: 39,
-                  borderRadius: "100%",
-                  color: "#fff",
-                  textAlign: "center",
-                  paddingTop: 8,
-                }}
-              >
-                <p>1</p>
-              </div>
-              <p>2</p>
-              <p>3</p>
-              <p>...</p>
-              <p>5</p>
-            </div> */}
         </div>
       </>
     );
