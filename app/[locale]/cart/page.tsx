@@ -139,7 +139,7 @@ const Cart = () => {
                         src={
                           card.media?.length > 0
                             ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0].name}`
-                            : "/images/noImg.jpg"
+                            : "/images/noS.jpg"
                         }
                         width={90}
                         height={100}

@@ -140,15 +140,33 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
             />
             <Link href="/liked">Избранные</Link>
           </div>
-          <li>
+          <div className={styles.navigateItem}>
+            <Image
+              src={"/icons/delivery.svg"}
+              alt="home icon"
+              width={25}
+              height={25}
+            />
             <Link href="/delivery">Доставка</Link>
-          </li>
-          <li>
+          </div>
+          <div className={styles.navigateItem}>
+            <Image
+              src={"/icons/about.svg"}
+              alt="home icon"
+              width={25}
+              height={25}
+            />
             <Link href="/aboutUs">О нас</Link>
-          </li>
-          <li>
+          </div>
+          <div className={styles.navigateItem}>
+            <Image
+              src={"/icons/contactBurger.svg"}
+              alt="home icon"
+              width={22}
+              height={22}
+            />
             <Link href="/contact">Контакты</Link>
-          </li>
+          </div>
         </div>
         <Link href="#" className={styles.contact}>
           <Image
