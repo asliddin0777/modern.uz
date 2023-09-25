@@ -514,9 +514,6 @@
     height: 50px;
     font-size: 16px;
   }
-  .characterSide {
-    justify-content: flex-end;
-  }
   .characterInfoLeft > p, .characterInfoRight > p {
     font-size: 14px !important;
   }

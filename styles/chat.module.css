@@ -14,6 +14,11 @@
   position: relative;
 }
 
+.messageInfo {
+  display: flex;
+  justify-content: space-between;align-items: center;
+}
+
 .chat {
   width: 100%;
   scroll-behavior: auto;
@@ -64,6 +69,8 @@
 
 .mainChat {
   padding: 10px;
+  padding-top: 0 !important;
+  margin-top: -10px !important;
   height: 87%;
   max-height: 86%;
   overflow-y: scroll;
@@ -88,7 +95,7 @@
 
 .message > p,
 .messageS > p {
-  max-width: 200px;
+  max-width: 250px;
   width: fit-content;
   padding: 10px;
   border-radius: 15px 15px 0 15px;
@@ -120,15 +127,27 @@
   align-items: center;
   background: #fff;
   border-bottom-left-radius: 20px;
+  width: 600px;
+  padding: 0 1rem;
+  margin: auto;
+  box-shadow: 0px 1px 17px #0000000f;
+  margin-top: -1rem;
+  border-radius: 10px;
+  z-index: 10000;
 }
 
 .sendMessage > input:first-child {
   outline: none;
   border: none;
   padding: 20px;
+  padding-left: 0 !important;
   font-size: 16px;
   border-radius: 20px;
   width: 100%;
+}
+
+.sendMessage > button {
+  margin-left: 1rem;
 }
 
 .sendMessage > img {
@@ -211,6 +230,12 @@
   }
 }
 
+@media screen and (max-width: 1000px) {
+  .sendMessage {
+    width: 100%;
+  }
+}
+
 @media screen and (max-width: 1200px) {
   .chat {
     width: 100%;
@@ -247,4 +272,19 @@
     .chats > .chatWith {
         padding: 6px 1%;
     }
+    .sendMessage {
+      width: 400px;
+      margin-top: -1rem;
+      position: relative;
+      top: -1rem;
+    }
+}
+
+@media screen and (max-width: 400px) {
+  .sendMessage {
+    width: 100%;
+    margin-top: 0rem;
+    position: relative;
+    top: auto;
+  }
 }

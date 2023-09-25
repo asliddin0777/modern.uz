@@ -10,6 +10,8 @@ import { useCookies } from "react-cookie";
 import Loader from "../components/local/Loader";
 import Counter from "@/utils/Counter";
 import Error from "../components/local/Error";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Cart = () => {
   const [order, setOrder] = useState<boolean>(false);
@@ -20,7 +22,7 @@ const Cart = () => {
   const [userInform] = useCookies(["userInfo"]);
   const { userInfo } = userInform;
   const [totalPrice, setTotalPrice] = useState(0);
-
+  const {refresh, push} = useRouter()
   const [user, setUser] = useState();
 
   useEffect(() => {
@@ -117,7 +119,7 @@ const Cart = () => {
       setLoad(false)
     }
   }, [cart]);
-
+  console.log(cart);
   if (!load) {
     return (
       <div className={styles.delivery}>
@@ -138,8 +140,12 @@ const Cart = () => {
                         width={90}
                         height={100}
                         alt="img"
-                      />: <p>НЕТ ИЗОБРАЖЕНИЯ</p>}
-                      <div className={styles.menu}>
+                      />: <p onClick={()=> {
+                        push(`/product/${card.name}?id=${card.id}`)
+                      }}>НЕТ ИЗОБРАЖЕНИЯ</p>}
+                      <div onClick={()=> {
+                        push(`/product/${card.name}?id=${card.id}`)
+                      }} className={styles.menu}>
                         <h1>
                           {card
                             ? card.name
@@ -148,16 +154,6 @@ const Cart = () => {
                         <p style={{ color: "#B7AFAF" }}>
                           {card.subcategory ? card.subcategory.name : "Artel"}
                         </p>
-                        <div
-                          style={{ display: "flex", gap: 10, paddingTop: 7 }}
-                        >
-                          <label>Цвет:</label>
-                          <p>{card.color ? card.color : "Зеленый"}</p>
-                        </div>
-                        <div style={{ display: "flex", gap: 10 }}>
-                          <label>Встроенная память:</label>
-                          <p>{card.memory ? card.memory : "256 гб"}</p>
-                        </div>
                       </div>
                       <div className={styles.count}>
                         <p
@@ -200,6 +196,7 @@ const Cart = () => {
                               )
                               .then((res) => {
                                 setRefetch(!refetch);
+                                refresh()
                               });
                           }}
                           className={styles.remove}

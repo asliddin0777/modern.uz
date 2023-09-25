@@ -2,17 +2,13 @@
 
 import React, { memo } from "react";
 import styles from "@/styles/company.module.css";
-import TopHeader from "../../components/global/TopHeader";
-import Header from "../../components/global/Header";
 import Categories from "../../components/global/Categories";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Card from "../../components/global/Card";
-import Footer from "../../components/global/Footer";
-import Link from "next/link";
 import axios from "axios";
 import Loader from "../../components/local/Loader";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
 import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../../components/local/socket";
@@ -40,7 +36,7 @@ const Company = ({
   const [chat, setChat] = useState();
   const [iprod, setIprod] = useState<IProduct>();
 
-
+  const {back, push} = useRouter()
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
 

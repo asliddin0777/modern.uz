@@ -21,45 +21,56 @@ interface Counts {
 
 const Counter = ({ count, setCount, price, order, setOrder, selectedPr }: Counts) => {
   const [counts, setCounts] = useState<number>(1);
-  console.log(price);
-  const increment = () => {
-    if (price) {
-      price.map(pr => {
-        if (counts < pr.qtyMax) {
-          if (counts  < pr.qtyMax) {
-            setCounts(counts + 1);
-            setCount(count + pr.price);
-            console.log(count)
-          }
-          } else {
-            setCount(count);
-            setCounts(counts);
-            console.log(count, "1");
-          }
-      })
+  const [pricer, setPrice] = useState<{
+    price: number;
+    oldPrice: number;
+    qtyMin: number;
+    qtyMax: number;
+  }>()
+  const [totalPrice, setTotalPrice] = useState<number>(1)
+  const findPrice = (qty: number) => price.find(p => {
+    if (p.qtyMin <= qty && qty <= p.qtyMax) {
+      return p;
     }
+    ;
+  }) || price[price.length - 1]
+  useEffect(() => {
+    setTotalPrice(counts * findPrice(counts).price)
+    // setCount(1)
+    // setCount(count*findPrice(counts).price)
+  }, [counts])
+  const increment = () => {
+    setCounts(counts + 1)
   };
 
   const decrement = () => {
     if (counts > 1) {
-      setCounts(counts - 1);
-    }
-    if (counts > 1) {
-      if (counts > 5) {
-        setCount(count - price[1].price);
-      } else {
-        setCount(count - price[0].price);
-      }
+      setCounts(counts - 1)
+      // setCount(prev => {
+      //   const p = findPrice(counts)
+      //   console.log(p);
+      //   return count - p.price
+      // })
+    } else {
+      setCounts(1)
     }
   };
 
+  // console.log(counts);
+
   return (
-    <div className={styles.countButton}>
-      <button onClick={decrement}>-</button>
-      <p>{counts}</p>
-      <button onClick={increment}>+</button>
-      {order === true && <Order order={order} setOrder={setOrder} selectedProduct={selectedPr} counts={count} totalPrice={count }/>}
-    </div>
+    <>
+      <div className={styles.countButton}>
+        <button onClick={decrement}>-</button>
+        <p>{counts}</p>
+        <button onClick={increment}>+</button>
+        {order === true && <Order order={order} setOrder={setOrder} selectedProduct={selectedPr} counts={count} totalPrice={count} />}
+      </div>
+      <div className={styles.totalCounter}>
+        <h3>Итого:</h3>
+        <p className={styles.totalCounter}>{totalPrice}</p>
+      </div>
+    </>
   );
 };
 

@@ -11,6 +11,7 @@ import { useCookies } from "react-cookie";
 import IUser from "@/interfaces/IUser";
 import { useRouter } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
+import Loader from "../components/local/Loader";
 const Profile = () => {
   const [isChangePassOpen, setIsChangePassOpen] = useState(false);
   const [profileBurger, setProfileBurger] = useState(false);
@@ -619,6 +620,8 @@ const Profile = () => {
         </div>
       );
     }
+  } else {
+    return <><Loader /></>
   }
 };
 

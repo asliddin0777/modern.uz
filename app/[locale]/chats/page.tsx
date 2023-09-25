@@ -13,7 +13,7 @@ const Page = () => {
   const [chats, setChats] = useState([])
   const [selectedChat, setSelectedChat] = useState<any | undefined>()
   const [chat, setChat] = useState(false)
-  const { push } = useRouter()
+  const { push, back } = useRouter()
   const [cookie] = useCookies(["userInfo"])
   const { userInfo } = cookie
   useEffect(() => {
@@ -72,7 +72,7 @@ const Page = () => {
               <h3 />
               <button
                 onClick={() => {
-                  push("/")
+                  back()
                   socket.disconnect()
                 }}
               >
@@ -92,7 +92,7 @@ const Page = () => {
             <h3>Сообщения</h3>
             <button
               onClick={() => {
-                push("/")
+                back()
               }}
             >
               <Image

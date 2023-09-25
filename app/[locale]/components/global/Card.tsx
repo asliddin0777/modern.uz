@@ -22,6 +22,7 @@ import { IPage } from "@/interfaces/IPage";
 import Success from "../local/Success";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Error from "../local/Error";
 
 
 interface Card {
@@ -51,7 +52,7 @@ const Card = ({
   card,
   setData,
 }: Card) => {
-  
+
   const [like, setLike] = useState(false);
   const { push } = useRouter()
   const [fromWhere, setFromWhere] = useState(1);
@@ -61,6 +62,7 @@ const Card = ({
   const [addedToCart, setAddedToCart] = useState<boolean>(false);
   const [succed, setSucced] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>("");
+  const [error, setErr] = useState<boolean>(false)
   useEffect(() => {
     if (auth === false) {
       document.body.style.overflow = "auto";
@@ -87,7 +89,7 @@ const Card = ({
       setAuth(!auth);
     }
   };
- 
+
   return (
     <div key={String(url)} className={styles.card}>
       <Link href={`/product/${title}?id=${url}`} className={styles.imageOfCard}>
@@ -124,21 +126,22 @@ const Card = ({
         />
       )}
       <Success err={succed} msg={msg} setErr={setSucced} />
+      <Error err={error} msg={msg} setErr={setErr}  />
       <div
         className={styles.like}
         onClick={() => {
           if (userInfo && card) {
             const data = {
               method: 'put',
-              url: sendLike, 
+              url: sendLike,
               headers: {
                 Authorization: userInfo.userToken,
               }
             }
-        
-              axios(data).then((res) => {
-                setData((prev) => !prev);
-              })
+
+            axios(data).then((res) => {
+              setData((prev) => !prev);
+            })
               .catch((err) => console.log(err));
           } else {
             setAuth(!auth);
@@ -202,8 +205,8 @@ const Card = ({
       <div className={styles.buy}>
         <button onClick={sellBot}>Купить</button>
         <div onClick={() => {
-        
-          if (userInfo) {
+
+          if (userInfo && error === false) {
             axios.put(`${process.env.NEXT_PUBLIC_API}/api/users/basket/add/${url}`, {}, {
               headers: {
                 Authorization: userInfo.userToken
@@ -211,10 +214,16 @@ const Card = ({
             }).then(res => {
               setAddedToCart(!addedToCart)
               setSucced(!succed)
-              succed === true && setMsg("Added to cart")
-            }).catch(err => console.log(err))
+              setMsg("Added to cart")
+            }).catch(err => {
+              setErr(true)
+              setMsg(err.response.data.errors[0].message);
+              console.clear()
+            })
           } else {
-            setAuth(!auth);
+            if (userInfo === undefined) {
+              setAuth(!auth);
+            }
           }
         }} className={`${styles.box} ${styles.like}`}>
           <Image

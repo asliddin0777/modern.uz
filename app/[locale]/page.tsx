@@ -1,10 +1,8 @@
 "use client";
-import Head from "next/head";
 import styles from "@/styles/index.module.css";
 import Categories from "./components/global/Categories";
 import Image from "next/image";
 import Card from "./components/global/Card";
-import Footer from "./components/global/Footer";
 import { useState, useEffect, memo } from "react";
 import HeaderTabs from "./components/local/HeaderTabs";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -166,7 +164,7 @@ const Home = ({
             <HeaderTabs
               setButtonColor={setButtonColor}
               buttonColor={buttonColor}
-            />
+            /> 
             {buttonColor === 0 ? (
               <>
                 <div>
