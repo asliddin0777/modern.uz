@@ -22,7 +22,7 @@ export default function Liked() {
       try {
         const categories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`)
         const subCategories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`)
-        const user = await axios.get("/products/liked", {
+        const user = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/products/liked`, {
           headers: {
             Authorization: userInfo === undefined ? "" : userInfo.userToken
           }
