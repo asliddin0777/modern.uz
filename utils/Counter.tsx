@@ -17,9 +17,10 @@ interface Counts {
   order: boolean;
   setOrder: Function;
   selectedPr: IProduct[]
+  cart: IProduct[]
 }
 
-const Counter = ({ count, setCount, price, order, setOrder, selectedPr }: Counts) => {
+const Counter = ({ count, setCount, price, order, setOrder, selectedPr, cart }: Counts) => {
   const [counts, setCounts] = useState<number>(1);
   const [pricer, setPrice] = useState<{
     price: number;
@@ -28,29 +29,34 @@ const Counter = ({ count, setCount, price, order, setOrder, selectedPr }: Counts
     qtyMax: number;
   }>()
   const [totalPrice, setTotalPrice] = useState<number>(1)
+  const [pp, setPp] = useState(1)
   const findPrice = (qty: number) => price.find(p => {
     if (p.qtyMin <= qty && qty <= p.qtyMax) {
+      console.log(p);
       return p;
     }
     ;
   }) || price[price.length - 1]
+  console.log(cart);
   useEffect(() => {
     setTotalPrice(counts * findPrice(counts).price)
-    // setCount(1)
-    // setCount(count*findPrice(counts).price)
   }, [counts])
+  
   const increment = () => {
+    console.log(totalPrice, "  ", pp);
     setCounts(counts + 1)
-  };
+    setCount(count - count + totalPrice + findPrice(counts).price)
+
+    // if (counts > 1 && findPrice(counts-1).price - findPrice(totalPrice).price === 0) {
+    // } else {
+    //   setCount(counts * findPrice(totalPrice).price)
+  }
+  // console.log(count, " / ",findPrice(totalPrice).price," ", findPrice(counts).price);
 
   const decrement = () => {
     if (counts > 1) {
       setCounts(counts - 1)
-      // setCount(prev => {
-      //   const p = findPrice(counts)
-      //   console.log(p);
-      //   return count - p.price
-      // })
+      setCount(count - findPrice(counts - 1).price)
     } else {
       setCounts(1)
     }

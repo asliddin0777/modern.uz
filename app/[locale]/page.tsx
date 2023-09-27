@@ -370,7 +370,7 @@ const Home = ({
                               color: "#000",
                             }}
                             href={`/company/${e.id}`}
-                            as={`/company/${e.name}?id=${e.id}`}
+                            as={`/company/${e.name.split(" ")[0]}?id=${e.id}`}
                             className={styles.card__title}
                           >
                             {/* <Image
@@ -483,4 +483,4 @@ const Home = ({
   }
 };
 
-export default memo(Home);
+export default Home;

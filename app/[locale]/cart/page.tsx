@@ -1,30 +1,33 @@
 "use client";
-import React, { memo, useContext } from "react";
+import React, { memo } from "react";
 import styles from "@/styles/cart.module.css";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Categories from "../components/global/Categories";
-import Order from "../components/global/Order";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import Loader from "../components/local/Loader";
 import Counter from "@/utils/Counter";
 import Error from "../components/local/Error";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import CouterV2 from "@/utils/CouterV2";
+import IProduct from "@/interfaces/Product/IProduct";
 
 const Cart = () => {
   const [order, setOrder] = useState<boolean>(false);
   const [load, setLoad] = useState(true);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState<number>(0);
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [userInform] = useCookies(["userInfo"]);
   const { userInfo } = userInform;
   const [totalPrice, setTotalPrice] = useState(0);
-  const {refresh, push} = useRouter()
+  const { refresh, push } = useRouter()
   const [user, setUser] = useState();
-
+  const [totals, setTotals] = useState<{
+    id:string,
+    sum: number
+  }[]>([])
   useEffect(() => {
     order
       ? (document.body.style.overflow = "hidden")
@@ -33,7 +36,7 @@ const Cart = () => {
 
   const [err, setErr] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState<IProduct[]>([]);
   const [refetch, setRefetch] = useState(false);
   useEffect(() => {
     setLoad(true);
@@ -79,6 +82,10 @@ const Cart = () => {
     };
     fetchData();
   }, []);
+  const sumPrices = ():number => {
+    return totals.reduce((sum, tot) => sum + tot.sum, 0)
+  }
+  const [price, setPrice] = useState<number>(()=> sumPrices())
 
   useEffect(() => {
     if (refetch === true) {
@@ -107,19 +114,24 @@ const Cart = () => {
       fetchData();
     }
   }, [refetch]);
-
-
   useEffect(() => {
     if (cart && cart.length > 0 && count === 0) {
       setLoad(true)
-      cart.forEach((obj: any) => {
+      cart.forEach((obj) => {
         setTotalPrice((prevTotal) => prevTotal + obj.price[0].price);
+        if (totals && totals.length) {
+          
+        } else {
+          setTotals((prev:any)=> [...prev, {
+            id: obj.id, sum: obj.price[0].price
+        }])
+        }
       });
-      setCount(totalPrice)
+      setPrice(sumPrices())
       setLoad(false)
     }
   }, [cart]);
-  console.log(cart);
+  console.log(totals);
   if (!load) {
     return (
       <div className={styles.delivery}>
@@ -128,22 +140,22 @@ const Cart = () => {
           <h1 style={{ fontSize: 20, fontWeight: 700 }}>Корзина</h1>
         </div>
         <Error err={error} msg={err} setErr={setError} />
-        {cart?.length && count > 0 ? (
+        {cart && cart.length && count !== undefined ? (
           <section className={styles.DeliverySection}>
             <section className={styles.sectionLeft}>
-              {cart &&
-                cart?.map((card: any, index: number) => {
+              {cart && cart.length &&
+                cart.map((card: any, index: number) => {
                   return (
                     <div key={card.id} className={styles.card}>
-                      {card.media?.length > 0 ?<Image
+                      {card.media?.length > 0 ? <Image
                         src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0].name}`}
                         width={90}
                         height={100}
                         alt="img"
-                      />: <p onClick={()=> {
+                      /> : <p onClick={() => {
                         push(`/product/${card.name}?id=${card.id}`)
                       }}>НЕТ ИЗОБРАЖЕНИЯ</p>}
-                      <div onClick={()=> {
+                      <div onClick={() => {
                         push(`/product/${card.name}?id=${card.id}`)
                       }} className={styles.menu}>
                         <h1>
@@ -166,14 +178,7 @@ const Cart = () => {
                           Кол-во:
                         </p>
                         <div className={styles.countButton}>
-                          <Counter
-                            price={card.price}
-                            count={count}
-                            setCount={setCount}
-                            order={order}
-                            setOrder={setOrder}
-                            selectedPr={card}
-                          />
+                          <CouterV2 setAllPrice={setPrice} totals={totals} id={card.id} setTotals={setTotals} prices={card.price} />
                         </div>
                       </div>
                       <div className={styles.countPrice}>
@@ -243,7 +248,7 @@ const Cart = () => {
                   }}
                 >
                   <label>Итого:</label>
-                  <h3>{count}</h3>
+                  <h3>{totals ? price : ''}</h3>
                 </div>
 
                 <button
@@ -260,7 +265,7 @@ const Cart = () => {
           <h2 style={{ textAlign: "center" }}>Вы еще ничего не заказали</h2>
         )}
       </div>
-    );  
+    );
   } else {
     return <Loader />;
   }
