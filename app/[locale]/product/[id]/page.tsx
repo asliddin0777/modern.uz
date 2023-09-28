@@ -15,6 +15,7 @@ import IProduct from "@/interfaces/Product/IProduct";
 import Auth from "../../components/global/Auth";
 import StorageButton from "../../components/local/StorageButton";
 import ChatWithVendor from "../../components/local/ChatWithVendor";
+import IChat from "@/interfaces/IChat";
 
 const Detail = ({
   searchParams,
@@ -24,7 +25,7 @@ const Detail = ({
   };
 }) => {
 
-  const [chat, setChat] = useState()
+  const [chat, setChat] = useState<IChat>()
   const [controllerC, setControllerC] = useState<number>(0);
   const [controllerM, setControllerM] = useState<number>(0);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
@@ -270,7 +271,7 @@ const Detail = ({
                   </div>
                 </div> */}
                 {auth === true && <Auth setIsAuthOpen={setAuth} fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} />}
-                {isChatOpen === true && <ChatWithVendor chat={chat} setChatListOpener={() => { }} userInfo={userInfo} selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
+                {isChatOpen === true && chat && <ChatWithVendor id={chat.id} chat={chat} setChatListOpener={() => { }} userInfo={userInfo} selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
                 <div className={styles.characterSide}>
                   {
                     data && data?.props.map(prop => {

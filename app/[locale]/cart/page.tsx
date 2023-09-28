@@ -14,9 +14,9 @@ import CouterV2 from "@/utils/CouterV2";
 import IProduct from "@/interfaces/Product/IProduct";
 
 const Cart = () => {
+
   const [order, setOrder] = useState<boolean>(false);
   const [load, setLoad] = useState(true);
-  const [count, setCount] = useState<number>(0);
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [userInform] = useCookies(["userInfo"]);
@@ -25,9 +25,10 @@ const Cart = () => {
   const { refresh, push } = useRouter()
   const [user, setUser] = useState();
   const [totals, setTotals] = useState<{
-    id:string,
+    id: string,
     sum: number
   }[]>([])
+  const [total, setTotal] = useState(0)
   useEffect(() => {
     order
       ? (document.body.style.overflow = "hidden")
@@ -39,6 +40,7 @@ const Cart = () => {
   const [cart, setCart] = useState<IProduct[]>([]);
   const [refetch, setRefetch] = useState(false);
   useEffect(() => {
+
     setLoad(true);
     const fetchData = async () => {
       try {
@@ -82,10 +84,10 @@ const Cart = () => {
     };
     fetchData();
   }, []);
-  const sumPrices = ():number => {
+  const sumPrices = (): number => {
     return totals.reduce((sum, tot) => sum + tot.sum, 0)
   }
-  const [price, setPrice] = useState<number>(()=> sumPrices())
+  const [price, setPrice] = useState<number>(() => sumPrices())
 
   useEffect(() => {
     if (refetch === true) {
@@ -115,23 +117,30 @@ const Cart = () => {
     }
   }, [refetch]);
   useEffect(() => {
-    if (cart && cart.length > 0 && count === 0) {
+    if (cart && cart.length > 0) {
       setLoad(true)
       cart.forEach((obj) => {
         setTotalPrice((prevTotal) => prevTotal + obj.price[0].price);
         if (totals && totals.length) {
-          
+
         } else {
-          setTotals((prev:any)=> [...prev, {
+          setTotals((prev: any) => [...prev, {
             id: obj.id, sum: obj.price[0].price
-        }])
+          }])
         }
       });
       setPrice(sumPrices())
       setLoad(false)
     }
   }, [cart]);
-  console.log(totals);
+  useEffect(() => {
+    let sum = 0
+    for (let i = 0; i < totals.length; i++) {
+      sum += totals[i].sum;
+      
+    }
+    setTotal(sum)
+  }, [totals])
   if (!load) {
     return (
       <div className={styles.delivery}>
@@ -140,7 +149,7 @@ const Cart = () => {
           <h1 style={{ fontSize: 20, fontWeight: 700 }}>Корзина</h1>
         </div>
         <Error err={error} msg={err} setErr={setError} />
-        {cart && cart.length && count !== undefined ? (
+        {cart && cart.length && totalPrice !== undefined ? (
           <section className={styles.DeliverySection}>
             <section className={styles.sectionLeft}>
               {cart && cart.length &&
@@ -225,7 +234,7 @@ const Cart = () => {
                 <h1>Ваш заказ</h1>
                 <div style={{ display: "flex", gap: 15, marginTop: 12 }}>
                   <label>Товары:</label>
-                  <p>{count}</p>
+                  <p>{0}</p>
                 </div>
                 <div
                   style={{
@@ -248,7 +257,9 @@ const Cart = () => {
                   }}
                 >
                   <label>Итого:</label>
-                  <h3>{totals ? price : ''}</h3>
+                  <h3>{
+                    total
+                  }</h3>
                 </div>
 
                 <button

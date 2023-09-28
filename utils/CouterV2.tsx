@@ -8,7 +8,7 @@ import IPrice from '@/interfaces/Product/IPrice';
 interface Counter {
     prices: IPrice[]
     setTotals: Function
-    id:string,
+    id: string,
     totals: {
         id: string
         sum: number
@@ -17,28 +17,47 @@ interface Counter {
 }
 export default function CouterV2({ prices, setTotals, id, totals, setAllPrice }: Counter) {
     const findPrice = (qty: number) => prices.find(p => {
-        if (p.qtyMin <= qty && qty <= p.qtyMax) {
+        if (p.qtyMin <= qty && qty < p.qtyMax) {
+            console.log(p);
             return p;
         }
         ;
     }) || prices[prices.length - 1]
+
+
+
+
     const [count, setCount] = useState(1)
     const [currentPrice, setPrice] = useState<IPrice>(prices[0])
-    const decrement = () => { 
-        setCount(prev=>prev>1?prev-1:1)
+    const decrement = () => {
+        setCount(prev => prev > 1 ? prev - 1 : 1)
     }
     const increment = () => {
-        setCount(prev=>prev+1)
-     }
-     useEffect(()=>{
-        if(currentPrice.qtyMin>=count||count>currentPrice.qtyMax) {
+        setCount(prev => prev + 1)
+    }
+    useEffect(() => {
+        if (currentPrice.qtyMin >= count || count > currentPrice.qtyMax) {
+
             setPrice(findPrice(count))
-            totals.find(tot=> tot.id === id ? tot.sum = count*currentPrice.price: "")
+            totals.find(tot => tot.id === id ? tot.sum = count * currentPrice.price : "")
             setAllPrice(totals.reduce((sum, tot) => sum + tot.sum, 0))
-            console.log(totals);
-        }   
-        setTotals(totals)
-     })
+            
+        }
+
+    }, [])
+    useEffect(() => {
+        setPrice(findPrice(count));
+        setTotals((prev: {
+            id: string
+            sum: number
+        }[])=> prev.map(t => {
+            
+                if(t.id===id){
+                    return {id, sum:count*currentPrice.price}
+                }
+                return t;
+        }));
+    }, [count])
     return (
         <>
             <div className={styles.countButton}>
@@ -49,7 +68,7 @@ export default function CouterV2({ prices, setTotals, id, totals, setAllPrice }:
             </div>
             <div className={styles.totalCounter}>
                 <h3>Итого:</h3>
-                <p className={styles.totalCounter}>{count*currentPrice.price}</p>
+                <p className={styles.totalCounter}>{count * currentPrice.price}</p>
             </div>
         </>
     )

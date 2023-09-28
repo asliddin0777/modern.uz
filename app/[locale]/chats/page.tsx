@@ -8,7 +8,12 @@ import { useRouter } from "next/navigation";
 import Message from "../components/local/Message";
 import socket from "../components/local/socket";
 import Head from "next/head";
-const Page = () => {
+const Page = ({searchParams}: {
+  searchParams: {
+    id:string
+  }
+}) => {
+  console.log('chat with vendor');
   const [chatListOpener, setChatListOpener] = useState<boolean>(false)
   const [chats, setChats] = useState([])
   const [selectedChat, setSelectedChat] = useState<any | undefined>()
@@ -18,12 +23,16 @@ const Page = () => {
   const { userInfo } = cookie
   useEffect(() => {
     socket.connect()
+    socket.emit("newUser", {id: userInfo.userId})
     axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user`, {
       headers: {
         Authorization: userInfo.userToken
       }
     }).then(res => {
       setChats(res.data)
+      if (searchParams.id) {
+        push(`/chats/chat-with-admin?id=${searchParams.id}`)
+      }
     }).catch(err => console.log(err))
   }, [])
   return (
@@ -41,7 +50,7 @@ const Page = () => {
               return (
                 <div onClick={() => {
                   socket.emit("chatSelected", e)
-                  push(`?chat=${e.id}`)
+                  push(`/chats/${e.admin?.email.split("@")[0]}?id=${e.id}`)
                   setSelectedChat(e)
                 }} key={e.id} className={styles.eachChat}>
                   <Image
@@ -62,30 +71,29 @@ const Page = () => {
           </div>
         </div>
         <div className={!chatListOpener ? styles.left : styles.dn}>
-          {!selectedChat ? <>
-            <div className={styles.top}>
-              <button onClick={() => {
-                setChatListOpener(true)
-              }} className={styles.arrowLeft}>
-                <Image src={"/icons/arrowLeft.png"} width={20} height={20} alt="arrow left" />
-              </button>
-              <h3 />
-              <button
-                onClick={() => {
-                  back()
-                  socket.disconnect()
-                }}
-              >
-                <Image
-                  src={"/icons/close.svg"}
-                  alt="close chat icon"
-                  width={21}
-                  height={21}
-                />
-              </button>
-            </div>
-            <p style={{ margin: "auto" }}>Select a chat to start messaging</p>
-          </> : <Message chat={selectedChat} userInfo={userInfo} setIsChatOpen={setChat} setChatListOpener={setChatListOpener} />}
+
+          <div className={styles.top}>
+            <button onClick={() => {
+              setChatListOpener(true)
+            }} className={styles.arrowLeft}>
+              <Image src={"/icons/arrowLeft.png"} width={20} height={20} alt="arrow left" />
+            </button>
+            <h3 />
+            <button
+              onClick={() => {
+                back()
+                socket.disconnect()
+              }}
+            >
+              <Image
+                src={"/icons/close.svg"}
+                alt="close chat icon"
+                width={21}
+                height={21}
+              />
+            </button>
+          </div>
+          <p style={{ margin: "auto" }}>Select a chat to start messaging</p>
         </div>
         <div className={chatListOpener ? styles.chats : styles.dn}>
           <div className={styles.userTop}>

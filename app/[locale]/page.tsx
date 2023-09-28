@@ -21,6 +21,7 @@ import socket from "../[locale]/components/local/socket";
 import IProduct from "@/interfaces/Product/IProduct";
 import Auth from "./components/global/Auth";
 import ChatWithVendor from "./components/local/ChatWithVendor";
+import IChat from "@/interfaces/IChat";
 
 const Home = ({
   searchParams,
@@ -44,13 +45,14 @@ const Home = ({
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(1);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
-  const [chat, setChat] = useState();
+  const [chat, setChat] = useState<IChat>();
   const [iprod, setIprod] = useState<IProduct>();
-
+  const [chats, setChats] = useState<IChat[]>([])
   const pathname = usePathname();
-
+  console.log(chats);
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
+  console.log(vendor);
 
   const [refetch, setRefetch] = useState(false);
 
@@ -132,16 +134,16 @@ const Home = ({
     document.body.offsetWidth < 680 && document.body.offsetWidth > 460
       ? setSlidesPerView(3)
       : document.body.offsetWidth < 460
-      ? setSlidesPerView(2)
-      : setSlidesPerView(4);
+        ? setSlidesPerView(2)
+        : setSlidesPerView(4);
   }, []);
 
   useEffect(() => {
     document.body.offsetWidth < 680 && document.body.offsetWidth > 460
       ? setSlidesPerView(3)
       : document.body.offsetWidth < 460
-      ? setSlidesPerView(2)
-      : setSlidesPerView(4);
+        ? setSlidesPerView(2)
+        : setSlidesPerView(4);
   }, []);
 
   const pagination: object = {
@@ -164,7 +166,7 @@ const Home = ({
             <HeaderTabs
               setButtonColor={setButtonColor}
               buttonColor={buttonColor}
-            /> 
+            />
             {buttonColor === 0 ? (
               <>
                 <div>
@@ -232,13 +234,13 @@ const Home = ({
                           >
                             <Link
                               className={styles.categoryItem}
-                              
+
                               href={`/category/${val.name}?=id${val.id}`}
                             >
-                              <div className={styles.categoriesTop} style={val.icon ? {border: "1px solid #4D4D4D"} : {border: 0}}>
+                              <div className={styles.categoriesTop} style={val.icon ? { border: "1px solid #4D4D4D" } : { border: 0 }}>
                                 {val.icon ? (
                                   <Image
-                                  
+
                                     src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${val.icon?.name}`}
                                     width={52}
                                     height={51}
@@ -351,15 +353,6 @@ const Home = ({
                     setFromWhere={setFromWhere}
                   />
                 )}
-                {isChatOpen === true && (
-                  <ChatWithVendor
-                    chat={chat}
-                    setChatListOpener={() => {}}
-                    userInfo={userInfo}
-                    selectedProduct={undefined}
-                    setIsChatOpen={setIsChatOpen}
-                  />
-                )}
                 {vendor &&
                   vendor.map((e: any, index: number) => {
                     return (
@@ -400,7 +393,7 @@ const Home = ({
                           <div className={styles.cards__button}>
                             <button
                               onClick={() => {
-                                push(`/company/${e.name}?id=${e.id}`);
+                                push(`/company/${e.name.split(" ")[0]}?id=${e.id}`);
                               }}
                             >
                               Посмотреть все товары
@@ -408,11 +401,10 @@ const Home = ({
                             <div
                               className={styles.chatButton}
                               onClick={() => {
-                                console.log(data);
-                                if (userInfo !== undefined && e && e.products) {
-                                  console.log(e);
+                                socket.connect();
+                                console.log("connected");
+                                if (userInfo !== undefined && e) {
                                   setIsChatOpen(!isChatOpen);
-                                  socket.connect();
                                   socket.emit(
                                     "newUser",
                                     JSON.stringify({
@@ -426,7 +418,7 @@ const Home = ({
                                     .post(
                                       `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
                                       {
-                                        admin: e.products[0].author,
+                                        admin: e.admin.id,
                                         product: iprod?.id,
                                       },
                                       {
@@ -437,6 +429,7 @@ const Home = ({
                                     )
                                     .then((res) => {
                                       setChat(res.data);
+                                      push(`/chats?id=${res.data.id}`)
                                     });
                                 } else {
                                   setAuth(!auth);
@@ -450,7 +443,7 @@ const Home = ({
                                 width={43}
                                 height={39}
                               />
-                              <p> Написать поставщику</p>
+                              <p>Написать поставщику</p>
                             </div>
                           </div>
                           {auth === true && (
@@ -461,15 +454,16 @@ const Home = ({
                               setFromWhere={setFromWhere}
                             />
                           )}
-                          {isChatOpen === true && (
+                          {/* {isChatOpen === true && chat && (
                             <ChatWithVendor
+                              id={chat.id}
                               chat={chat}
-                              setChatListOpener={() => {}}
+                              setChatListOpener={() => { }}
                               userInfo={userInfo}
                               selectedProduct={undefined}
                               setIsChatOpen={setIsChatOpen}
                             />
-                          )}
+                          )} */}
                         </div>
                       </div>
                     );

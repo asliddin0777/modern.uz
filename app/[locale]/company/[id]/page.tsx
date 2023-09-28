@@ -36,10 +36,11 @@ const Company = ({
   const [chat, setChat] = useState();
   const [iprod, setIprod] = useState<IProduct>();
 
-  const {back, push} = useRouter()
+  const { back, push } = useRouter()
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
 
+  const [data, setData] = useState<object[] | any>([]);
 
 
   useEffect(() => {
@@ -71,8 +72,26 @@ const Company = ({
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    if (refetch) {
+      setLoad(true);
+      const fetchData = async () => {
+        try {
+          const data = await axios.get(
+            `${process.env.NEXT_PUBLIC_API}/api/vendors/${searchParams.id}`
+          );
+          setData(data.data);
+        } catch (err) {
+          console.log(err);
+        } finally {
+          setLoad(false);
+        }
+      };
+      fetchData();
+    }
+  }, [refetch]);
+  console.log(data);
   const [nav, setNav] = useState<number>(0);
-  const [data, setData] = useState<object[] | any>([]);
   const { id }: any = useRouter();
 
   function getRandomColor() {
@@ -85,7 +104,7 @@ const Company = ({
     return color;
   }
 
-  if (load === false) {
+  if (load === false && data) {
     return (
       <div className={styles.company}>
         <Categories categories={categories} subcategories={subCategories} />
@@ -164,9 +183,9 @@ const Company = ({
               </p>
             </div>
           </section>
-            {data && data.products.length > 0 && <h2 style={{
-              marginTop: 32
-            }}>Товары поставщика</h2>}
+          {data && data.products.length > 0 && <h2 style={{
+            marginTop: 32
+          }}>Товары поставщика</h2>}
           <section className={styles.companyCards}>
             {data &&
               data.products &&
@@ -174,7 +193,7 @@ const Company = ({
                 return (
                   <Card
                     isLiked
-                    setLikedObj={() => {}}
+                    setLikedObj={() => { }}
                     setData={setRefetch}
                     card={e}
                     animation="fade-down"
@@ -221,15 +240,6 @@ const Company = ({
             fromWhere={fromWhere}
             isAuthOpen={auth}
             setFromWhere={setFromWhere}
-          />
-        )}
-        {isChatOpen === true && (
-          <ChatWithVendor
-            chat={chat}
-            setChatListOpener={() => {}}
-            userInfo={userInfo}
-            selectedProduct={undefined}
-            setIsChatOpen={setIsChatOpen}
           />
         )}
       </div>
