@@ -43,7 +43,7 @@ export default function Liked() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const user = await axios.get(`${process.env.NEXT_PUBLIC_API}/products/liked`, {
+        const user = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/products/liked`, {
           headers: {
             Authorization: userInfo === undefined ? "" : userInfo.userToken
           }
@@ -88,7 +88,7 @@ export default function Liked() {
                 setLikedObj={()=> {}}
               />
             }) : "sign in"}
-            {user.length === 0 && <h2 style={{ textAlign: "center" }}>You didnt like a product yet</h2>}
+            {user.length === 0 && <h4 style={{ textAlign: "center", color: "#888" }}>Вам еще не понравился товар</h4>}
           </div>
         </section>
       </div>

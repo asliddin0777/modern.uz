@@ -20,7 +20,7 @@ import Auth from "./Auth";
 import IProduct from "@/interfaces/Product/IProduct";
 import { IPage } from "@/interfaces/IPage";
 import Success from "../local/Success";
-import AOS from "aos";
+import AOS, { refresh } from "aos";
 import "aos/dist/aos.css";
 import Error from "../local/Error";
 
@@ -55,6 +55,7 @@ const Card = ({
 
   const [like, setLike] = useState(false);
   const { push } = useRouter()
+  const {refresh:reff} = useRouter()
   const [fromWhere, setFromWhere] = useState(1);
   const [cookie] = useCookies(["userInfo"]);
   const [auth, setAuth] = useState<boolean>(false);
@@ -141,6 +142,8 @@ const Card = ({
 
             axios(data).then((res) => {
               setData((prev) => !prev);
+              reff()
+              push("/liked")
             })
               .catch((err) => console.log(err));
           } else {
