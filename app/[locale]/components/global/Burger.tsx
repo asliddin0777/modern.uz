@@ -14,7 +14,7 @@ interface Burger {
 
 const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
-
+  const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(0);
 
   const closed = !isAuthOpen;
@@ -167,15 +167,90 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
             />
             <Link href="/contact">Контакты</Link>
           </div>
+          <div
+            onClick={() => {
+              if (userInfo) {
+                setAuth(false);
+              } else {
+                setAuth(true);
+              }
+            }}
+          >
+            {auth === false && userInfo ? (
+              <Link className={styles.navigateItem} href="/chats" locale="ru">
+                <svg
+                  viewBox="0 0 24.00 24.00"
+                  width={24}
+                  height={24}
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  stroke="#ffffff"
+                >
+                  <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M19.4003 18C19.7837 17.2499 20 16.4002 20 15.5C20 12.4624 17.5376 10 14.5 10C11.4624 10 9 12.4624 9 15.5C9 18.5376 11.4624 21 14.5 21L21 21C21 21 20 20 19.4143 18.0292M18.85 12C18.9484 11.5153 19 11.0137 19 10.5C19 6.35786 15.6421 3 11.5 3C7.35786 3 4 6.35786 4 10.5C4 11.3766 4.15039 12.2181 4.42676 13C5.50098 16.0117 3 18 3 18H9.5"
+                      stroke="#000000"
+                      strokeWidth="0.792"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></path>
+                  </g>
+                </svg>
+                <p>Chats</p>
+              </Link>
+            ) : (
+              <>
+                <Auth
+                  fromWhere={fromWhere}
+                  setFromWhere={setFromWhere}
+                  isAuthOpen={auth}
+                  setIsAuthOpen={setAuth}
+                />{" "}
+                <div style={{cursor: "pointer"}} className={styles.navigateItem}>
+                  <svg
+                    viewBox="0 0 24.00 24.00"
+                    width={24}
+                    height={24}
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="#ffffff"
+                  >
+                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      <path
+                        d="M19.4003 18C19.7837 17.2499 20 16.4002 20 15.5C20 12.4624 17.5376 10 14.5 10C11.4624 10 9 12.4624 9 15.5C9 18.5376 11.4624 21 14.5 21L21 21C21 21 20 20 19.4143 18.0292M18.85 12C18.9484 11.5153 19 11.0137 19 10.5C19 6.35786 15.6421 3 11.5 3C7.35786 3 4 6.35786 4 10.5C4 11.3766 4.15039 12.2181 4.42676 13C5.50098 16.0117 3 18 3 18H9.5"
+                        stroke="#000000"
+                        strokeWidth="0.792"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></path>
+                    </g>
+                  </svg>
+                  <p>Chats</p>
+                </div>
+              </>
+            )}
+          </div>
         </div>
-        <Link href="#" className={styles.contact}>
+        <Link href="tel: + 998 93 059 59 37" className={styles.contact}>
           <Image
             src={"/icons/call.svg"}
             width={22}
             height={22}
             alt="call icon"
           />
-          +998 99 999 99 99
+          + 998 93 059 59 37
         </Link>
       </div>
       <div

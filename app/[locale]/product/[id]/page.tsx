@@ -189,7 +189,7 @@ const Detail = ({
                     })}
                   </div>
                 </div>
-
+    
                 <Order
                   selectedProduct={selectedProduct}
                   order={order}

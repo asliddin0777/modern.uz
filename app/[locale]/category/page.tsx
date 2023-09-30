@@ -4,7 +4,7 @@ import Header from "../components/global/Header";
 import Image from "next/image";
 import Card from "../components/global/Card";
 import Footer from "../components/global/Footer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import TopHeader from "../components/global/TopHeader";
 import Categories from "../components/global/Categories";
 import CardBurger from "../components/local/CardBurger";
@@ -14,34 +14,32 @@ import { usePathname, useRouter } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
 import CategoryProp from "../components/local/CategoryProp";
 
-export default function Page() {
+const Page = () => {
   const [cardBurger, setCardBurger] = useState<boolean>(false);
   const [subcategor, setSubcategory] = useState<any[] | any>();
   const [load, setLoad] = useState<boolean>(true);
   const [selectedProps, setSelectedProps] = useState<any[] | any>([]);
   const [selectedProduct, setSelectedProduct] = useState<
-    { page: number; products: IProduct[]; limit: number } | undefined
-  >();
+    { page: number; products: IProduct[]; limit: number } | undefined>();
   const [likedObj, setLikedObj] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
+  const [data, setData] = useState(false)
+
 
   const cardBurgerHandler = () => {
     setCardBurger(!cardBurger);
   };
 
-  const router = useRouter();
-
   const pathname = usePathname();
-  console.log(pathname);
+  // console.log(pathname);
 
   useEffect(() => {
     setLoad(true);
-    console.log(pathname);
     axios
-      .get(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
+      .get(`${process.env.NEXT_PUBLIC_API}/api/products`, {
         params: {
-          category: pathname.split("/")[pathname.split("/").length - 1],
+          category: pathname.split("/")[pathname.split("/").length - 0],
         },
       })
       .then((res: any) => {
@@ -52,18 +50,35 @@ export default function Page() {
         setLoad(false);
       });
   }, []);
+  
+  useEffect(() => {
+    setLoad(true);
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API}/api/products`, {
+        params: {
+          category: pathname.split("/")[pathname.split("/").length - 0],
+        },
+      })
+      .then((res: any) => {
+        setSelectedProduct(res.data);
+      })
+      .catch((e: string) => console.log(e))
+      .finally(() => {
+        setLoad(false);
+      });
+  }, [data]);
+
 
   useEffect(() => {
     setLoad(true);
     console.log(pathname);
     axios
-      .get(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
-        params: {
-          subcategory: pathname.split("/")[pathname.split("/").length - 1],
-        },
-      })
+      .get(
+        `${process.env.NEXT_PUBLIC_API}/api/subcategories/${pathname.split("/")[pathname.split("/").length - 0]
+        }`
+      )
       .then((res: any) => {
-        setSelectedProduct(res.data);
+        setSubcategory(res.data);
       })
       .catch((e: string) => console.log(e))
       .finally(() => {
@@ -81,19 +96,9 @@ export default function Page() {
         const subCategories = await axios.get(
           `${process.env.NEXT_PUBLIC_API}/api/subcategories`
         );
-        const subCategory = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}/api/subcategories/${
-            pathname.split("/")[pathname.split("/").length - 1]
-          }`
-        );
-        const [res1, res2, res3] = await axios.all([
-          categories,
-          subCategories,
-          subCategory,
-        ]);
+        const [res1, res2] = await axios.all([categories, subCategories]);
         setCategories(res1.data);
         setSubCategories(res2.data);
-        setSubcategory(res3.data)
       } catch (err) {
         console.log(err);
       } finally {
@@ -103,8 +108,10 @@ export default function Page() {
     fetchData();
   }, []);
 
+
+  console.log(Categories.name)
+
   const handlerFilter = () => {
-    const p = new Set(selectedProps);
     axios
       .get<IProduct[]>(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
         params: {
@@ -121,13 +128,17 @@ export default function Page() {
       });
   };
 
-  if (!load && selectedProps) {
+  console.log(categories)
+
+  if (!load) {
     return (
       <>
         <div className={styles.container}>
           <Categories categories={categories} subcategories={subCategories} />
           <div className={styles.phone}>
-            <h1 style={{ fontSize: 20, fontWeight: 700 }}>Телефоны</h1>
+            <h1>
+              {Categories ? Categories.name : "Телефоны"}
+            </h1>
           </div>
           <section className={styles.cardSection}>
             <div className={styles.cardBurgerg} onClick={cardBurgerHandler}>
@@ -159,17 +170,19 @@ export default function Page() {
             />
 
             <section className={styles.sectionRight}>
-              {selectedProduct &&
+              {selectedProduct && selectedProduct.products &&
                 selectedProduct.products.map((e, index: number) => (
                   <Card
-                    animation="fade-down"
+                    // animation="fade-down" 
                     url={e.id}
                     height={300}
+                    setData={setData}
                     width={300}
+                    cat={e.subcategory.name}
                     image={
                       e.media.length
                         ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
-                        : "/images/14.png"
+                        : "/images/noImg.jpg"
                     }
                     title={e.name}
                     // @ts-ignore
@@ -182,25 +195,6 @@ export default function Page() {
                 ))}
             </section>
           </section>
-          <div className={styles.carusel}>
-            <div
-              style={{
-                backgroundColor: "#E4B717",
-                width: 39,
-                height: 39,
-                borderRadius: "100%",
-                color: "#fff",
-                textAlign: "center",
-                paddingTop: 8,
-              }}
-            >
-              <p>1</p>
-            </div>
-            <p>2</p>
-            <p>3</p>
-            <p>...</p>
-            <p>5</p>
-          </div>
         </div>
       </>
     );
@@ -208,3 +202,5 @@ export default function Page() {
     return <Loader />;
   }
 }
+
+export default memo(Page)
