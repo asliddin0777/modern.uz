@@ -142,8 +142,6 @@ const Card = ({
 
             axios(data).then((res) => {
               setData((prev) => !prev);
-              reff()
-              push("/liked")
             })
               .catch((err) => console.log(err));
           } else {

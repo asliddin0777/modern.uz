@@ -14,9 +14,6 @@ import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../../components/local/socket";
 import ChatWithVendor from "../../components/local/ChatWithVendor";
 import Auth from "../../components/global/Auth";
-
-
-
 const Company = ({
   searchParams,
 }: {
@@ -36,7 +33,7 @@ const Company = ({
   const [chat, setChat] = useState();
   const [iprod, setIprod] = useState<IProduct>();
 
-  const { back, push } = useRouter()
+  const { back, push, refresh } = useRouter()
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
 
@@ -73,8 +70,8 @@ const Company = ({
     fetchData();
   }, []);
   useEffect(() => {
+    setLoad(true);
     if (refetch) {
-      setLoad(true);
       const fetchData = async () => {
         try {
           const data = await axios.get(
@@ -84,7 +81,7 @@ const Company = ({
         } catch (err) {
           console.log(err);
         } finally {
-          setLoad(false);
+          refresh()
         }
       };
       fetchData();
@@ -131,8 +128,7 @@ const Company = ({
                 className={styles.chatButton}
                 onClick={() => {
                   console.log(data);
-                  if (userInfo !== undefined && data && data.products && data.products.length > 0) {
-                    console.log(data.products[0].author);
+                  if (userInfo !== undefined) {
                     setIsChatOpen(!isChatOpen);
                     socket.connect();
                     socket.emit(
@@ -146,9 +142,10 @@ const Company = ({
                     );
                     axios
                       .post(
-                        `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
+                        `/chats/new`,
                         {
-                          admin: data.products[0].author,
+                          author: iprod?.author.id,
+                          product: iprod?.id,
                         },
                         {
                           headers: {
@@ -171,7 +168,7 @@ const Company = ({
                   width={43}
                   height={39}
                 />
-                <p>Написать поставщику</p>
+                <p> Написать поставщику</p>
               </div>
             </div>
             <div className={styles.companyDescrip}>
@@ -204,7 +201,7 @@ const Company = ({
                     image={
                       e.media.length > 0
                         ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0]?.name}`
-                        : "/images/noImg.jpg"
+                        : "/icons/bag.svg"
                     }
                     title={e.name}
                     price={String(e.price[0].price)}

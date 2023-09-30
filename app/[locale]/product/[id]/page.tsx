@@ -190,7 +190,7 @@ const Detail = ({
                     })}
                   </div>
                 </div>
-
+    
                 <Order
                   counts={1}
                   totalPrice={data.price[0].price}

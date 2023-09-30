@@ -72,6 +72,85 @@
     color: #8A8A8A;
 }
 
+
+.cards {
+    padding: 19px 31px;
+    margin-top: 21px;
+    width: 1180px;
+    height: auto;
+    display: flex;
+    background: #ffffff;
+    border-radius: 20px;
+    justify-content: space-between;
+  }
+  
+  .card__title {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .card__title p {
+    font-weight: 450;
+    font-size: 16px;
+    line-height: 160%;
+    color: #8a8a8a;
+  }
+  
+  .card__title h1 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 160%;
+    color: #363636;
+  }
+  
+  .description {
+    margin-top: 26px;
+  }
+  
+  .description p {
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 150%;
+    color: #363636;
+  }
+  
+  .description p:nth-child(2) {
+    width: 335px;
+    font-weight: 450;
+    font-size: 16px;
+    line-height: 150%;
+    color: #8a8a8a;
+  }
+  
+  .cards__button {
+    margin-left: 200px;
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .cards__button button,
+  .cards__button a {
+    padding: 10px 20px;
+    border: 1px solid #e4b717;
+    filter: drop-shadow(0px 1px 17px rgba(228, 183, 23, 0.25));
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 160%;
+    color: #e4b717;
+    transition: 0.4s ease;
+  }
+  
+  .cards__button a {
+    padding: 11px 52px;
+    color: #ffffff;
+    background-color: #e4b717;
+  }
+  
+  .cards__button button:hover,
+  .cards__
+
 .companyProfile a {
     padding: 10px 47px;
     background: #E4B717;
