@@ -13,7 +13,6 @@ const Page = ({searchParams}: {
     id:string
   }
 }) => {
-  console.log('chat with vendor');
   const [chatListOpener, setChatListOpener] = useState<boolean>(false)
   const [chats, setChats] = useState([])
   const [selectedChat, setSelectedChat] = useState<any | undefined>()
@@ -33,7 +32,7 @@ const Page = ({searchParams}: {
       if (searchParams.id) {
         push(`/chats/chat-with-admin?id=${searchParams.id}`)
       }
-    }).catch(err => console.log(err))
+    })
   }, [])
   return (
     <>

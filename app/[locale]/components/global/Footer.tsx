@@ -14,43 +14,34 @@ const Footer = () => {
         <div className={styles.center}>
           <ul className={styles.navigation}>
             <li>
-              <Link href={"#"}>Главная</Link>
+              <Link href={"/"}>Главная</Link>
             </li>
             <li>
-              <Link href={"#"}>Магазин</Link>
-            </li>
-            <li>
-              <Link href={"#"}>Доставка</Link>
+              <Link href={"/delivery"}>Доставка</Link>
             </li>
           </ul>
           <ul className={styles.navigation}>
             <li>
-              <Link href={"#"}>Блог</Link>
+              <Link href={"/aboutUs"}>О нас</Link>
             </li>
             <li>
-              <Link href={"#"}>О нас</Link>
-            </li>
-            <li>
-              <Link href={"#"}>Контакты</Link>
+              <Link href={"/contact"}>Контакты</Link>
             </li>
           </ul>
           <ul className={styles.navigation}>
-            <li>
-              <Link href={"#"}>Вопросы и ответы</Link>
-            </li>
           </ul>
         </div>
         <div className={styles.last}>
           <h3>Социальные сети:</h3>
           <div className={styles.links}>
-            <Link href={"#"}>
+            {/* <Link href={"#"}>
               <Image src={"/icons/faceB.svg"} width={25} height={25} alt="ss" />
             </Link>
             <Link href={"#"}>
               {" "}
               <Image src={"/icons/gmail.svg"} width={25} height={25} alt="ss" />
-            </Link>
-            <Link href={"#"}>
+            </Link> */}
+            <Link href={"https://www.instagram.com/modern_shop.uz/"}>
               <Image
                 src={"/icons/instagram.svg"}
                 width={25}
@@ -58,7 +49,7 @@ const Footer = () => {
                 alt="ss"
               />
             </Link>
-            <Link href={"#"}>
+            {/* <Link href={"#"}>
               <Image
                 src={"/icons/telegram.svg"}
                 width={25}
@@ -68,7 +59,7 @@ const Footer = () => {
             </Link>
             <Link href={"#"}>
             <Image src={"/icons/youtube.svg"} width={25} height={25} alt="ss" />
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

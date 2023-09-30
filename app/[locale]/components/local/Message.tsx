@@ -33,7 +33,7 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
       }
     }).then(res => {
       setMessages(res.data.messages)
-    }).catch(err => console.log(err))
+    })
   }, [chat, setMessages])
   useEffect(() => {
     document.body.style.overflow = "hidden"

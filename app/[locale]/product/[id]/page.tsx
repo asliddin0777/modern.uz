@@ -318,7 +318,7 @@ const Detail = ({
                             }).then(res => {
                               // setData(true)
                               window.location.reload()
-                            }).catch(err => console.log(err))
+                            })
                           } else {
                             setAuth(!auth);
                           }

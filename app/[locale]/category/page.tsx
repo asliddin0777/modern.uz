@@ -32,7 +32,7 @@ const Page = () => {
   };
 
   const pathname = usePathname();
-  // console.log(pathname);
+  
 
   useEffect(() => {
     setLoad(true);
@@ -45,7 +45,6 @@ const Page = () => {
       .then((res: any) => {
         setSelectedProduct(res.data);
       })
-      .catch((e: string) => console.log(e))
       .finally(() => {
         setLoad(false);
       });
@@ -62,7 +61,6 @@ const Page = () => {
       .then((res: any) => {
         setSelectedProduct(res.data);
       })
-      .catch((e: string) => console.log(e))
       .finally(() => {
         setLoad(false);
       });
@@ -71,7 +69,6 @@ const Page = () => {
 
   useEffect(() => {
     setLoad(true);
-    console.log(pathname);
     axios
       .get(
         `${process.env.NEXT_PUBLIC_API}/api/subcategories/${pathname.split("/")[pathname.split("/").length - 0]
@@ -80,7 +77,6 @@ const Page = () => {
       .then((res: any) => {
         setSubcategory(res.data);
       })
-      .catch((e: string) => console.log(e))
       .finally(() => {
         setLoad(false);
       });
@@ -99,18 +95,12 @@ const Page = () => {
         const [res1, res2] = await axios.all([categories, subCategories]);
         setCategories(res1.data);
         setSubCategories(res2.data);
-      } catch (err) {
-        console.log(err);
       } finally {
         setLoad(false);
       }
     };
     fetchData();
   }, []);
-
-
-  console.log(Categories.name)
-
   const handlerFilter = () => {
     axios
       .get<IProduct[]>(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
@@ -122,14 +112,10 @@ const Page = () => {
       .then((res: any) => {
         setSelectedProduct(res.data);
       })
-      .catch((e: string) => console.log(e))
       .finally(() => {
         setLoad(false);
       });
   };
-
-  console.log(categories)
-
   if (!load) {
     return (
       <>

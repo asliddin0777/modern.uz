@@ -41,8 +41,6 @@ const Company = () => {
         setCategories(res1.data);
         setSubCategories(res2.data);
         setData(dataget.data);
-      } catch (err) {
-        console.log(err);
       } finally {
         setLoad(false);
       }
@@ -76,7 +74,7 @@ const Company = () => {
                         color: "#000",
                       }}
                       href={`/company/${e.id}`}
-                      as={`/company/${e.name.split(" ")[0]}?id=${e.id}`}
+                      as={`/company/${e.name.split(" ").join("-")}?id=${e.id}`}
                       className={styles.card__title}
                     >
                       {/* <Image

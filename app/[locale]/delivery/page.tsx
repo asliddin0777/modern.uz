@@ -24,8 +24,6 @@ const Delivery = () => {
         const [res1, res2] = await axios.all([req1, req2]);
         setSubCategories(res1.data);
         setCategories(res2.data);
-      } catch (err) {
-        console.log(err);
       } finally {
         setLoad(false);
       }

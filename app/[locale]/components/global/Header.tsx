@@ -10,6 +10,9 @@ import useCookies from "react-cookie/cjs/useCookies";
 
 import Auth from "./Auth";
 import { IPage } from "@/interfaces/IPage";
+import axios from "axios";
+import IProduct from "@/interfaces/Product/IProduct";
+import SearchModal from "./SearchModal";
 interface IData {
   data?: IPage;
 }
@@ -20,6 +23,7 @@ const Header = ({ data }: IData) => {
   const [language, setLanguage] = useState<string>("/icons/ru.svg");
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(1);
+  const [load, setLoad] = useState(true)
   // useEffect(() => {
   //     const handleScroll = () => {
   //         const currentScrollPosition = window.pageYOffset;
@@ -38,7 +42,7 @@ const Header = ({ data }: IData) => {
 
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
-
+  const [products, setProducts] = useState<IProduct[]>([])
   const languges: string[] = ["/icons/uz.svg", "/icons/ru.svg"];
 
   useEffect(() => {
@@ -55,6 +59,42 @@ const Header = ({ data }: IData) => {
     }
   }, [auth]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const products = await axios.get<IPage>(`${process.env.NEXT_PUBLIC_API}/api/products`)
+        setProducts(products.data.products)
+      } catch { } finally {
+        () => {
+          setLoad(false)
+        }
+      }
+    }
+    fetchData()
+  }, [])
+  const [searchTerm, setSearchTerm] = useState('');
+  const [foundVal, setFoundVal] = useState<IProduct[]>()
+  const handleSearch = (event: {
+    target: {
+      value: string
+    }
+  }) => {
+    setSearchTerm(event.target.value);
+    console.log(searchTerm);
+  };
+  const handleSubmit = (e: {
+    preventDefault: Function
+  }) => {
+    e.preventDefault()
+    if (searchTerm.length !== 0) {
+      const searchResults = products.filter((item) =>
+        item.name.toLowerCase().trim().includes(searchTerm.toLowerCase().trim())
+      );
+      setFoundVal(searchResults)
+    } else {
+      setFoundVal([])
+    } 
+  }
   return (
     <header className={styles.header}>
       {auth === true && (
@@ -90,16 +130,22 @@ const Header = ({ data }: IData) => {
             Modern shop
           </span>
         </Link>
-        <div className={styles.search}>
-          <input type="text" placeholder="Поиск" />
-          <Image
-            src="/icons/search.svg"
-            alt="search icon"
-            width={22}
-            height={22}
-          />
-        </div>
-        <Burger isBurgerOpen={isBurgerOpen} setIsBurgerOpen={setIsBurgerOpen} />
+        <form className={styles.search}>
+          <input value={searchTerm} onChange={handleSearch} autoComplete="off" type="text" placeholder="Поиск" />
+          <button onClick={handleSubmit}>
+            <Image
+              style={{
+                cursor: "pointer"
+              }}
+              src="/icons/search.svg"
+              alt="search icon"
+              width={22}
+              height={22}
+            />
+          </button>
+        </form>
+        <SearchModal products={foundVal ? foundVal : []} />
+        <Burger products={products} isBurgerOpen={isBurgerOpen} setIsBurgerOpen={setIsBurgerOpen} />
         <div className={styles.contra}>
           <div
             onMouseOver={() => {
@@ -118,8 +164,8 @@ const Header = ({ data }: IData) => {
               style={
                 !mouseOver
                   ? {
-                      display: "none",
-                    }
+                    display: "none",
+                  }
                   : {}
               }
             >
@@ -299,6 +345,6 @@ const Header = ({ data }: IData) => {
       </div>
     </header>
   );
-};
+}
 
 export default memo(Header);

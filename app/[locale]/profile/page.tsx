@@ -79,8 +79,6 @@ const Profile = () => {
         setCategories(res1.data);
         setSubCategories(res2.data);
         setUser(res3.data);
-      } catch (err) {
-        console.log(err);
       } finally {
         setLoad(false);
       }

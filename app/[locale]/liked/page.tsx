@@ -50,9 +50,7 @@ export default function Liked() {
         })
         const [us] = await axios.all([user])
         setUser(us.data)
-      } catch (err) {
-        console.log(err);
-      }
+      } finally {}
     }
     fetchData()
   }, [refetch])

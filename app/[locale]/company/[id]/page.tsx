@@ -61,8 +61,6 @@ const Company = ({
         setCategories(res1.data);
         setSubCategories(res2.data);
         setData(dataget.data);
-      } catch (err) {
-        console.log(err);
       } finally {
         setLoad(false);
       }
@@ -78,8 +76,6 @@ const Company = ({
             `${process.env.NEXT_PUBLIC_API}/api/vendors/${searchParams.id}`
           );
           setData(data.data);
-        } catch (err) {
-          console.log(err);
         } finally {
           refresh()
         }
@@ -87,7 +83,6 @@ const Company = ({
       fetchData();
     }
   }, [refetch]);
-  console.log(data);
   const [nav, setNav] = useState<number>(0);
   const { id }: any = useRouter();
 
@@ -127,7 +122,6 @@ const Company = ({
               <div
                 className={styles.chatButton}
                 onClick={() => {
-                  console.log(data);
                   if (userInfo !== undefined) {
                     setIsChatOpen(!isChatOpen);
                     socket.connect();
@@ -191,7 +185,7 @@ const Company = ({
                   <Card
                     isLiked
                     setLikedObj={() => { }}
-                    setData={setRefetch}
+                    setData={setRefetch}  
                     card={e}
                     animation="fade-down"
                     cat={e.subcategory.name}

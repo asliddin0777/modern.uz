@@ -23,11 +23,9 @@ const Order = ({ setOrder, order, selectedProduct, totalPrice, counts }: Order) 
   const [userInform] = useCookies(["userInfo"])
   const router = useRouter()
   const path = usePathname()
-  console.log(selectedProduct)
   const { aboutUser } = cookie
   const { userInfo } = userInform
   const [auth, setAuth] = useState(false)
-  console.log(selectedProduct);
   const [fromWhere, setFromWhere] = useState(1)
 
   const [selectedCard, setSelectedCard] = useCookies(["selectedCard"]);
@@ -51,7 +49,7 @@ const Order = ({ setOrder, order, selectedProduct, totalPrice, counts }: Order) 
               userId: res.data.id,  
               userToken: userInfo ? userInfo.userToken  : aboutUser ? res.data.token : ""
             }, { path: "/" })
-          }).catch(err => console.log(err))
+          })
       } else {
         setAuth(true)
       }

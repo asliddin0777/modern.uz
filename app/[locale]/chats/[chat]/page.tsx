@@ -10,6 +10,8 @@ import socket from "../../components/local/socket";
 import Head from "next/head";
 import IChat from "@/interfaces/IChat";
 import Loader from "../../components/local/Loader";
+import {useSearchParams} from "next/navigation"
+import { usePathname } from "next-intl/client";
 const Page = ({ searchParams }: {
   searchParams: {
     id: string
@@ -17,31 +19,32 @@ const Page = ({ searchParams }: {
 }) => {
   const [chatListOpener, setChatListOpener] = useState<boolean>(false)
   const [chats, setChats] = useState<IChat[]>([])
+  const path = usePathname()
   const [selectedChat, setSelectedChat] = useState<any | undefined>()
   const [chat, setChat] = useState(false)
-  const { push, back } = useRouter()
+  const { push, back, replace } = useRouter()
   const [chatWith, setChatWith] = useState<IChat>()
   const [cookie] = useCookies(["userInfo"])
   const { userInfo } = cookie
   const [load, setLoad] = useState(true)
+  const search = useSearchParams()
   useEffect(() => {
     axios.get<IChat[]>(`${process.env.NEXT_PUBLIC_API}/api/chats/user`, {
       headers: {
         Authorization: userInfo.userToken
       }
     }).then(res => {
-     if(!socket.connected) {
-      socket.connect();
-      console.log('connected');
-     }
+      if (!socket.connected) {
+        socket.connect();
+      }
       setChats(res.data)
       setChatWith(res.data.find(e => {
         if (e.id === searchParams.id) {
-          socket.emit('chatSelected',e)
+          socket.emit('chatSelected', e)
           return e
         }
       }))
-    }).catch(err => console.log(err)).finally(() => setLoad(false))
+    }).finally(() => setLoad(false))
   }, [])
   if (chats && load === false) {
     return (
@@ -82,16 +85,19 @@ const Page = ({ searchParams }: {
             </div>
           </div>
           <div className={!chatListOpener ? styles.left : styles.dn}>
-            {chatWith &&
+            {chatWith ?
               <Message chat={chatWith} userInfo={userInfo} setIsChatOpen={setChat} setChatListOpener={setChatListOpener} />
-            }
+            : <p style={{
+              margin: "auto"
+            }}>Выберите чат, чтобы начать общение</p>}
           </div>
           <div className={chatListOpener ? styles.chats : styles.dn}>
             <div className={styles.userTop}>
               <h3>Сообщения</h3>
               <button
                 onClick={() => {
-                  back()
+                 search.delete()
+                 push(path)
                 }}
               >
                 <Image

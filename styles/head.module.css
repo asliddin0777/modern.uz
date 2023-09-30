@@ -4,6 +4,7 @@
   width: 100%;
   background: #ffffff;
   box-shadow: 0px 1px 10px 1px rgba(118, 118, 118, 0.17);
+  position: relative;
 }
 
 .container {
@@ -131,7 +132,79 @@
   gap: 0.5rem;
 }
 
+.dn {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  z-index: -100;
+  position: fixed;
+  top: 0;
+  transition: 0.4s;
+  margin: auto 0;
+}
 
+.searchModal {
+  box-shadow: 0px 5px 10px 1px rgba(118, 118, 118, 0.17);
+  z-index: 10000;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  position: fixed;
+  opacity: 1;
+  transition: 0.4s;
+  top: 123px;
+  min-height: 100px;
+  max-height: fit-content;
+  background: #fff;
+  width: 1180px;
+}
+
+.searchModalbur {
+  min-height: fit-content;
+  margin-top: 2rem;
+  margin-right: -1rem;
+  max-height: 200px;
+} 
+.dnbur {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  z-index: -100;
+  transition: 0.4s;
+  margin: auto 0;
+}
+
+.wrapper {
+  overflow-y: scroll;
+  gap: 1rem;
+  padding: 10px 0;
+  min-height: 120px;
+  max-height: 200px;
+}
+
+.leftSide > img {
+  width: 120px;
+  height: auto;
+}
+.rightSide {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.product {
+  display: flex;
+  gap: 3rem;
+  margin-bottom: 0.3rem;
+  height: 60px;
+  border: 1px solid #a1a1a1;
+  border-radius: 10px;
+  align-items: center;
+  padding: 0 10px;
+}
+.product:first-child {
+  margin-top: -10px;
+}
 
 @media screen and (max-width: 1200px) {
   .container {
@@ -144,6 +217,9 @@
   }
   .call {
     display: none;
+  }
+  .searchModal {
+    width: 100%;
   }
 }
 
@@ -179,6 +255,9 @@
   }
   .image:last-child {
     display: block;
+  }
+  .searchModal {
+    display: none;
   }
 }
 

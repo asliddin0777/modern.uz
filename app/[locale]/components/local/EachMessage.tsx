@@ -31,7 +31,6 @@ const EachMessage = ({ userInfo, m, updateMessageViewStatus }: IProps) => {
     }, [setViewed]);
 
     useEffect(() => {
-        console.log('iam the viewer');
         if (m.reciever=== userInfo.userId && m.viewed === false) {
             socket.emit("messageViewed", { ...m, msg: "from client" });
         }

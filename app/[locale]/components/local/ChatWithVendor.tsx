@@ -49,9 +49,7 @@ const CHatWithVendor = ({ setChatListOpener, setIsChatOpen, chat, id, userInfo, 
                 }
             }).then(res => {
                 setMessages(res.data.messages)
-            }).catch(err => console.log(err))
-        } else {
-            console.log(chat)
+            })
         }
 
     }, [chat])
@@ -70,7 +68,6 @@ const CHatWithVendor = ({ setChatListOpener, setIsChatOpen, chat, id, userInfo, 
     }, [])
 
     const sendMessage = (msg: any) => {
-        console.log(msg);
         setMessages((prev: any) => [...prev, msg])
     }
     function updateMessageViewStatus(msg: IMessage) {

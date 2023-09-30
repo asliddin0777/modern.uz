@@ -7,7 +7,6 @@ import Categories from "../components/global/Categories";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import Loader from "../components/local/Loader";
-import Counter from "@/utils/Counter";
 import Error from "../components/local/Error";
 import { useRouter } from "next/navigation";
 import CouterV2 from "@/utils/CouterV2";
@@ -76,9 +75,7 @@ const Cart = () => {
         setSubCategories(res2.data);
         setUser(us.data);
         setCart(ctr.data.basket);
-      } catch (err) {
-        console.log(err);
-      } finally {
+      }finally {
         setLoad(false);
       }
     };
@@ -107,8 +104,6 @@ const Cart = () => {
           ]);
 
           setCart(ctr.data.basket);
-        } catch (err) {
-          console.log(err);
         } finally {
           setLoad(false);
         }

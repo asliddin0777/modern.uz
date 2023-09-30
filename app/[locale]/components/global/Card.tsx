@@ -93,7 +93,7 @@ const Card = ({
 
   return (
     <div key={String(url)} className={styles.card}>
-      <Link href={`/product/${title}?id=${url}`} className={styles.imageOfCard}>
+      <Link href={`/product/${title.split(" ").join("-")}?id=${url}`} className={styles.imageOfCard}>
         {image !== undefined ? (
           <Image
             src={image}
@@ -143,7 +143,6 @@ const Card = ({
             axios(data).then((res) => {
               setData((prev) => !prev);
             })
-              .catch((err) => console.log(err));
           } else {
             setAuth(!auth);
           }

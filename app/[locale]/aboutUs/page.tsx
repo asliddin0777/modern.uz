@@ -26,8 +26,6 @@ const AboutUs = () => {
         const [res1, res2] = await axios.all([categories, subCategories]);
         setCategories(res1.data);
         setSubCategories(res2.data);
-      } catch (err) {
-        console.log(err);
       } finally {
         setLoad(false);
       }

@@ -18,7 +18,6 @@ interface Counter {
 export default function CouterV2({ prices, setTotals, id, totals, setAllPrice }: Counter) {
     const findPrice = (qty: number) => prices.find(p => {
         if (p.qtyMin <= qty && qty < p.qtyMax) {
-            console.log(p);
             return p;
         }
         ;
