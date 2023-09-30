@@ -40,7 +40,7 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
     endRef.current.scrollIntoView({
       behavior: "smooth"
     });
-  }, [])
+  })
   // useEffect(() => {
   //   endRef.current.scrollIntoView({
   //     behavior: "smooth"
