@@ -139,6 +139,14 @@ const Header = ({ data }: IData) => {
   return (
     <>
       <Burger products={products} isBurgerOpen={isBurgerOpen} setIsBurgerOpen={setIsBurgerOpen} />
+      {auth === true && (
+          <Auth
+            setIsAuthOpen={setAuth}
+            fromWhere={fromWhere}
+            isAuthOpen={auth}
+            setFromWhere={setFromWhere}
+          />
+        )}
       <header className={!nav ? styles.header : styles.headerNav}
         style={
           isHeaderVisible === true
@@ -153,14 +161,7 @@ const Header = ({ data }: IData) => {
               transition: "0.3s",
             }
         }>
-        {auth === true && (
-          <Auth
-            setIsAuthOpen={setAuth}
-            fromWhere={fromWhere}
-            isAuthOpen={auth}
-            setFromWhere={setFromWhere}
-          />
-        )}
+        
         <div className={styles.container}>
           <Link
             href={"/"}
