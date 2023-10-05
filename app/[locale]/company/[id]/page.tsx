@@ -216,26 +216,6 @@ const Company = ({
                 );
               })}
           </section>
-          {/* <div className={styles.carusel}>
-            <div
-              style={{
-                backgroundColor: "#E4B717",
-                width: 39,
-                height: 39,
-                borderRadius: "100%",
-                textAlign: "center",
-                paddingTop: 8,
-              }}
-            >
-              <Link style={{ color: "#fff" }} href="#">
-                1
-              </Link>
-            </div>
-            <Link href="#">2</Link>
-            <Link href="#">3</Link>
-            <Link href="#">...</Link>
-            <Link href="#">5</Link>
-          </div> */}
         </div>
         {auth === true && (
           <Auth
