@@ -656,7 +656,6 @@
 
   .addLeft>h1 {
     position: absolute;
-    top: 2%;
     left: 3%;
     z-index: 100000;
   }

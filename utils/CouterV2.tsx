@@ -48,11 +48,12 @@ export default function CouterV2({ prices, setTotals, id, totals, setAllPrice }:
         setPrice(findPrice(count));
         setTotals((prev: {
             id: string
-            sum: number
+            sum: number,
+            qty: number
         }[])=> prev.map(t => {
             
                 if(t.id===id){
-                    return {id, sum:count*currentPrice.price}
+                    return {id, sum:count*currentPrice.price, qty: count}
                 }
                 return t;
         }));
@@ -66,8 +67,8 @@ export default function CouterV2({ prices, setTotals, id, totals, setAllPrice }:
                 {/* {order === true && <Order order={order} setOrder={setOrder} selectedProduct={selectedPr} counts={count} totalPrice={count} />} */}
             </div>
             <div className={styles.totalCounter}>
-                <h3>Итого:</h3>
-                <p className={styles.totalCounter}>{count * currentPrice.price}</p>
+                <h4>{currentPrice.price} сум</h4>
+                <p className={styles.totalCounter}>{count * currentPrice.price} сум</p>
             </div>
         </>
     )

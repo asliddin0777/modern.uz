@@ -192,9 +192,12 @@ const Detail = ({
                 </div>
     
                 <Order
-                  counts={1}
-                  totalPrice={data.price[0].price}
-                  selectedProduct={selectedProduct}
+                  deliveryTo=""
+                  products={[{
+                    id: selectedProduct.id as string,
+                    sum: selectedProduct.price[0].price,
+                    qty: 1
+                  }]}
                   order={order}
                   setOrder={setOrder}
                 />

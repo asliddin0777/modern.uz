@@ -1,13 +1,17 @@
 import React from "react";
 import styles from "@/styles/profileBurger.module.css";
 import Image from "next/image";
+import { Cookie, CookieSetOptions } from "universal-cookie";
+import { useRouter } from "next/navigation";
 
 interface Button {
   buttonColor: any;
   setButtonColor: Function;
+  setUser: Function
 }
 
-const ProfileBurger = ({ buttonColor, setButtonColor }: Button) => {
+const ProfileBurger = ({ buttonColor, setButtonColor, setUser }: Button) => {
+  const {push} = useRouter()
   return (
     <div className={styles.ProfileBurger}>
       <div className={styles.profileLeft}>
@@ -24,7 +28,7 @@ const ProfileBurger = ({ buttonColor, setButtonColor }: Button) => {
             }}
           >
             <Image
-              src={!buttonColor ? "/icons/userWhite.svg" : "/icons/user.svg" }
+              src={!buttonColor ? "/icons/user.svg" : "/icons/user.svg" }
               width={16}
               height={21}
               alt="user"
@@ -52,7 +56,10 @@ const ProfileBurger = ({ buttonColor, setButtonColor }: Button) => {
             <p>Мои заказы</p>
           </div>
         </div>
-        <div className={styles.profileClose}>
+        <div onClick={()=> {
+          setUser("userInfo")
+          push("/")
+        }} className={styles.profileClose}>
           <Image src={"icons/logout.svg"} width={19} height={19} alt="close" />
           <p>Выйти</p>
         </div>

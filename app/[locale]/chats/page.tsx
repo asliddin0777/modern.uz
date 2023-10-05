@@ -115,12 +115,12 @@ const Page = ({searchParams}: {
               return (
                 <div onClick={() => {
                   socket.emit("chatSelected", e)
-                  push(`?chat=${e.id}`)
+                  push(`/chats/${e.admin?.email.split("@")[0]}?id=${e.id}`)
                   setSelectedChat(e)
                   setChatListOpener(false)
                 }} key={e.id} className={styles.eachChat}>
                   <Image
-                    src={"/images/user.png"}
+                    src={"/icons/userimage.jpg"}
                     alt="user image"
                     width={50}
                     height={50}

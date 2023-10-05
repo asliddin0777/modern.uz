@@ -3,7 +3,7 @@ import styles from "@/styles/index.module.css";
 import Categories from "./components/global/Categories";
 import Image from "next/image";
 import Card from "./components/global/Card";
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect, cache } from "react";
 import HeaderTabs from "./components/local/HeaderTabs";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -15,13 +15,9 @@ import "swiper/css/pagination";
 import axios from "axios";
 import Loader from "./components/local/Loader";
 import { IPage } from "@/interfaces/IPage";
-import { usePathname } from "next/navigation";
 import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../[locale]/components/local/socket";
-import IProduct from "@/interfaces/Product/IProduct";
 import Auth from "./components/global/Auth";
-import ChatWithVendor from "./components/local/ChatWithVendor";
-import IChat from "@/interfaces/IChat";
 
 const Home = ({
   searchParams,
@@ -39,16 +35,11 @@ const Home = ({
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true);
-  const [vendorCard, setVendorCard] = useState<any[] | any>([]);
   const [likedObj, setLikedObj] = useState<any[] | any>([]);
   const [vendor, setVendor] = useState<any[] | any>([]);
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(1);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
-  const [chat, setChat] = useState<IChat>();
-  const [iprod, setIprod] = useState<IProduct>();
-  const [chats, setChats] = useState<IChat[]>([])
-  const pathname = usePathname();
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
 
@@ -66,7 +57,7 @@ const Home = ({
 
   useEffect(() => {
     setLoad(true);
-    const fetchData = async () => {
+    const fetchData = cache( async () => {
       try {
         const req1 = axios.get<IPage>(
           `${process.env.NEXT_PUBLIC_API}/api/products`
@@ -100,7 +91,7 @@ const Home = ({
       } finally {
         setLoad(false);
       }
-    };
+    })
     fetchData();
   }, []);
   useEffect(() => {
@@ -411,8 +402,7 @@ const Home = ({
                                       .post(
                                         `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
                                         {
-                                          admin: e.admin.id,
-                                          product: iprod?.id,
+                                          admin: e.admin.id
                                         },
                                         {
                                           headers: {
@@ -421,7 +411,6 @@ const Home = ({
                                         }
                                       )
                                       .then((res) => {
-                                        setChat(res.data);
                                         push(`/chats?id=${res.data.id}`)
                                       });
                                   } else {

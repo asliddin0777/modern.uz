@@ -29,11 +29,16 @@
   padding: 9px 10px;
   font-size: 17px;
   color: #666565;
+  padding-left: 5px !important;
   width: 90%;
   border: none;
   outline: none;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
+}
+
+.search button {
+  height: 22px;
 }
 
 .search image {
@@ -53,7 +58,8 @@
   position: absolute;
   box-shadow: 0px 1px 10px 1px rgba(92, 92, 92, 0.19);
   display: flex;
-  top: 102px;
+  top: 100%;
+  margin-top: -1rem;
   background: #fff;
   gap: 5px;
   z-index: 10000000000000;

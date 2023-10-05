@@ -14,6 +14,7 @@ import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../../components/local/socket";
 import ChatWithVendor from "../../components/local/ChatWithVendor";
 import Auth from "../../components/global/Auth";
+import IChat from "@/interfaces/IChat";
 const Company = ({
   searchParams,
 }: {
@@ -38,7 +39,7 @@ const Company = ({
   const { userInfo } = cookie;
 
   const [data, setData] = useState<object[] | any>([]);
-
+  const [chatWith, setChatWith] = useState()
 
   useEffect(() => {
     setLoad(true);
@@ -58,6 +59,19 @@ const Company = ({
           subCategories,
           data,
         ]);
+        await axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user`, {
+          headers: {
+            Authorization: userInfo && userInfo.userToken
+          }
+        }).then(res => {
+          if (res.data.length) {
+            setChatWith(res.data.find((r:{
+              admin: {
+                id:string
+              }
+            }) => r.admin.id === data.data.products[0].author));
+          }
+        })
         setCategories(res1.data);
         setSubCategories(res2.data);
         setData(dataget.data);
@@ -95,7 +109,6 @@ const Company = ({
 
     return color;
   }
-
   if (load === false && data) {
     return (
       <div className={styles.company}>
@@ -123,7 +136,6 @@ const Company = ({
                 className={styles.chatButton}
                 onClick={() => {
                   if (userInfo !== undefined) {
-                    setIsChatOpen(!isChatOpen);
                     socket.connect();
                     socket.emit(
                       "newUser",
@@ -136,10 +148,9 @@ const Company = ({
                     );
                     axios
                       .post(
-                        `/chats/new`,
+                        `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
                         {
-                          author: iprod?.author.id,
-                          product: iprod?.id,
+                          admin: data.products[0].author,
                         },
                         {
                           headers: {
@@ -149,6 +160,7 @@ const Company = ({
                       )
                       .then((res) => {
                         setChat(res.data);
+                        push(`/chats?id=${res.data.id}`)
                       });
                   } else {
                     setAuth(!auth);
@@ -162,7 +174,7 @@ const Company = ({
                   width={43}
                   height={39}
                 />
-                <p> Написать поставщику</p>
+                <p>Написать поставщику</p>
               </div>
             </div>
             <div className={styles.companyDescrip}>

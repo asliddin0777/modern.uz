@@ -19,7 +19,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(0);
-
+  const {push} = useRouter()
   const closed = !isAuthOpen;
 
   const [cookie] = useCookies(["userInfo"]);
@@ -94,7 +94,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
         </form>
         <SearchModal products={foundVal ? foundVal : []} entity={"burger"} />
         <div className={styles.navigation}>
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            push("/")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/home.svg"}
               alt="home icon"
@@ -103,7 +105,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
             />
             <Link href="/">Главная</Link>
           </div>
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            push("/cart")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/basket.svg"}
               alt="bascet icon"
@@ -114,7 +118,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
               Корзина
             </Link>
           </div>
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            userInfo && push("/profile")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/userimage.svg"}
               alt="home icon"
@@ -132,37 +138,21 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
                 >
                   Войти
                 </button>
-                {/* <p> | </p>
-                <button
-                  onClick={() => {
-                    setIsAuthOpen(true);
-                    setFromWhere(2);
-                  }}
-                >
-                  Зарегестрироваться
-                </button> */}
               </div>
             ) : (
               <div
                 className={styles.auth}
                 onClick={() => {
-                  router.push("/profile");
+                  push("/profile");
                 }}
               >
                 <button style={{ color: "#000", fontSize: 16 }}>Профиль</button>
               </div>
             )}
           </div>
-          {/* <div className={styles.navigateItem}>
-            <Image
-              src={"/icons/basket.svg"}
-              alt="home icon"
-              width={22}
-              height={22}
-            />
-            <p>Заводы</p>
-          </div> */}
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            push("/liked")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/heart.svg"}
               alt="home icon"
@@ -171,7 +161,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
             />
             <Link href="/liked">Избранные</Link>
           </div>
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            push("/delivery")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/delivery.svg"}
               alt="home icon"
@@ -180,7 +172,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
             />
             <Link href="/delivery">Доставка</Link>
           </div>
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            push("/aboutUs")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/about.svg"}
               alt="home icon"
@@ -189,7 +183,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
             />
             <Link href="/aboutUs">О нас</Link>
           </div>
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            push("/contact")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/contactBurger.svg"}
               alt="home icon"

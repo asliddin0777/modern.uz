@@ -11,14 +11,18 @@ import IProduct from "@/interfaces/Product/IProduct";
 import Auth from "./Auth";
 
 interface Order {
-  setOrder: Function;
-  order: boolean;
-  selectedProduct: any;
-  totalPrice: number
-  counts: number
+  products: {
+    id: string
+    sum: number,
+    qty: number
+  }[],
+  order: boolean,
+  setOrder: Function,
+  deliveryTo: string
 }
 
-const Order = ({ setOrder, order, selectedProduct, totalPrice, counts }: Order) => {
+const Order = ({ setOrder, order, products, deliveryTo }: Order) => {
+  console.log(products);
   const [cookie, setCookie] = useCookies(["aboutUser"])
   const [userInform] = useCookies(["userInfo"])
   const router = useRouter()
@@ -27,32 +31,32 @@ const Order = ({ setOrder, order, selectedProduct, totalPrice, counts }: Order) 
   const { userInfo } = userInform
   const [auth, setAuth] = useState(false)
   const [fromWhere, setFromWhere] = useState(1)
-
-  const [selectedCard, setSelectedCard] = useCookies(["selectedCard"]);
   const handlePost = () => {
-      if (userInfo) {
-        axios.post(`${process.env.NEXT_PUBLIC_API}/api/orders/new`, {
-          products: {
-            productId: selectedProduct,
-            qty: counts
+    if (userInfo) {
+      axios.post(`${process.env.NEXT_PUBLIC_API}/api/orders/new`, {
+        products: products.map(pr => {
+          return {
+            price: pr.sum.toString().length < 3,
+            productId: pr.id,
+            qty: pr.qty
+          }
+        }),
+        deliveryAddress: deliveryTo
+      },
+        {
+          headers: {
+            Authorization: userInfo.userToken
           },
-          deliveryAddress: "some address to deliver"
-        },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": userInfo && userInfo.userToken
-            },
-          }).then((res: any) => {
-            setCookie("aboutUser", {
-              userBooked: res.data.id,
-              userId: res.data.id,  
-              userToken: userInfo ? userInfo.userToken  : aboutUser ? res.data.token : ""
-            }, { path: "/" })
-          })
-      } else {
-        setAuth(true)
-      }
+        }).then((res: any) => {
+          console.log(res.data);
+          setCookie("aboutUser", {
+            userBooked: products,
+            userToken: userInfo ? userInfo.userToken : aboutUser ? res.data.token : ""
+          }, { path: "/" })
+        })
+    } else {
+      setAuth(true)
+    }
   }
 
   return (

@@ -14,7 +14,8 @@ const Contact = () => {
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true);
-
+  const [succed, setSucced] = useState<boolean>(false);
+  const [msg, setMsg] = useState<string>("");
   const [inputLabel, setInputLabel] = useState(true);
 
   useEffect(() => {
@@ -39,15 +40,15 @@ const Contact = () => {
 
   const phoneObj = [
     {
-      title: "заводской номер",
+      title: "Номер завода",
       number: "+998 93 059 59 37",
     },
     {
-      title: "доставка номер",
+      title: "Доставка номер",
       number: "+998 93 059 59 37",
     },
     {
-      title: "колл-центр номер",
+      title: "Колл-центр номер",
       number: "+998 93 059 59 37",
     },
   ];
@@ -61,6 +62,8 @@ const Contact = () => {
       method: "post",
       url: `https://api.telegram.org/bot6306734073:AAHd8DekE-bnRW1yv2bJrBUAU8dH6nUziLw/sendMessage?chat_id=5356847426&text=${send}`,
     });
+    // @ts-ignore
+    document.getElementById("form").reset();
   };
   const phoneNumRef = useRef<any>();
   const titleRef = useRef<HTMLInputElement | any>();
@@ -68,7 +71,6 @@ const Contact = () => {
   const messageRef = useRef<HTMLInputElement | any>();
   return (
     <div className={styles.container}>
-      <Categories categories={categories} subcategories={subCategories} />
       <div className={styles.contactTitle}>
         <h3>Контакты</h3>
       </div>
@@ -102,7 +104,7 @@ const Contact = () => {
             </div>
           </div>
         </div>
-        <form className={styles.contactForm} onSubmit={Submit}>
+        <form id="form" className={styles.contactForm} onSubmit={Submit}>
           <h3>Написать обращение</h3>
           <div className={styles.contactInput}>
             <div className={styles.inputContainer}>
@@ -141,9 +143,7 @@ const Contact = () => {
             </div>
           </div>
           <button
-            onClick={() => {
-              alert("we will contact you soon");
-            }}
+            onSubmit={Submit}
           >
             Отправить
           </button>

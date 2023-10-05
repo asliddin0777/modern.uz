@@ -41,7 +41,7 @@ const Footer = () => {
               {" "}
               <Image src={"/icons/gmail.svg"} width={25} height={25} alt="ss" />
             </Link> */}
-            <Link href={"https://www.instagram.com/modern_shop.uz/"}>
+            <Link target="_blank" href={"https://www.instagram.com/modern_shop.uz/"}>
               <Image
                 src={"/icons/instagram.svg"}
                 width={25}

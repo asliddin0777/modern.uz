@@ -10,7 +10,7 @@ import React, {
 import Image from "next/image";
 import styles from "@/styles/card.module.css";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import likes from "@/public/icons/like2.svg";
 import likeBlue from "@/public/likeBlue.svg";
 import { useCookies } from "react-cookie";
@@ -56,6 +56,7 @@ const Card = ({
   const [like, setLike] = useState(false);
   const { push } = useRouter()
   const {refresh:reff} = useRouter()
+  const path = usePathname()
   const [fromWhere, setFromWhere] = useState(1);
   const [cookie] = useCookies(["userInfo"]);
   const [auth, setAuth] = useState<boolean>(false);
@@ -69,9 +70,7 @@ const Card = ({
       document.body.style.overflow = "auto";
     }
   }, [auth]);
-
   const sendLike = `${process.env.NEXT_PUBLIC_API}/api/products/like/${card?.id}`
-
   useEffect(() => {
     AOS.init();
     AOS.refresh();
@@ -202,7 +201,7 @@ const Card = ({
           </svg>
         )}
       </div>
-      <div className={styles.buy}>
+     {path.split("/")[1] !== "company" &&  <div className={styles.buy}>
         <button onClick={sellBot}>Купить</button>
         <div onClick={() => {
 
@@ -233,7 +232,7 @@ const Card = ({
             height={20.5}
           />
         </div>
-      </div>
+      </div>}
     </div>
   );
 };

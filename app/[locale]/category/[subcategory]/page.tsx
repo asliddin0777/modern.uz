@@ -14,7 +14,11 @@ import { usePathname, useRouter } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
 import CategoryProp from "../../components/local/CategoryProp";
 
-const Page = () => {
+const Page = ({searchParams}: {
+  searchParams: {
+    id: string
+  }
+}) => {
   const [cardBurger, setCardBurger] = useState<boolean>(false);
   const [subcategor, setSubcategory] = useState<any[] | any>();
   const [load, setLoad] = useState<boolean>(true);
@@ -71,8 +75,7 @@ const Page = () => {
     setLoad(true);
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API}/api/subcategories/${pathname.split("/")[pathname.split("/").length - 0]
-        }`
+        `${process.env.NEXT_PUBLIC_API}/api/subcategories/${searchParams.id}`
       )
       .then((res: any) => {
         setSubcategory(res.data);
@@ -106,7 +109,7 @@ const Page = () => {
     axios
       .get<IProduct[]>(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
         params: {
-          subcategory: pathname.split("/")[pathname.split("/").length - 1],
+          subcategory: searchParams.id,
           props: selectedProps,
         },
       })
@@ -132,7 +135,7 @@ const Page = () => {
             <div className={styles.cardBurgerg} onClick={cardBurgerHandler}>
               <h3>Фильтр</h3>
               <Image
-                src={"/rightArrow.svg"}
+                src={"/icons/rightArrow.svg"}
                 width={24}
                 height={24}
                 alt="arrow"

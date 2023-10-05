@@ -2,7 +2,8 @@
     padding: 10px 5px;
     position: absolute;
     display: flex;
-    top: 185px;
+    top: 0 !important;
+    margin-top: 3.4rem;
     width: var(--container-width);
     background-color: #ffffff;
     border-radius: 20px;

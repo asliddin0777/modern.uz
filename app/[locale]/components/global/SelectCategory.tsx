@@ -40,7 +40,7 @@ const SelectCategory = ({ categories }: Categories) => {
                     <Link
                       key={index}
                       style={{ color: "#666565" }}
-                      href={`/category/${e.name}?=id${e.id}`}
+                      href={`/category/${e.name}?id=${e.id.trim()}`}
                     >
                       {e.name}
                     </Link>

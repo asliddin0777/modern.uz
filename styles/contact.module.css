@@ -72,7 +72,6 @@
 
 .connection h4  {
     /* text-align: center; */
-    padding: 0px 15px;
     font-weight: 500;
     font-size: 19px;
     margin-bottom: 10px;
@@ -246,7 +245,6 @@
 
     .phone {
         flex-wrap: wrap;
-        justify-content: center;
     }
 
     .contactCard {

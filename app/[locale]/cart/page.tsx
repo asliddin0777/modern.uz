@@ -11,6 +11,7 @@ import Error from "../components/local/Error";
 import { useRouter } from "next/navigation";
 import CouterV2 from "@/utils/CouterV2";
 import IProduct from "@/interfaces/Product/IProduct";
+import Order from "../components/global/Order";
 
 const Cart = () => {
 
@@ -25,7 +26,8 @@ const Cart = () => {
   const [user, setUser] = useState();
   const [totals, setTotals] = useState<{
     id: string,
-    sum: number
+    sum: number,
+    qty: number
   }[]>([])
   const [total, setTotal] = useState(0)
   useEffect(() => {
@@ -75,7 +77,7 @@ const Cart = () => {
         setSubCategories(res2.data);
         setUser(us.data);
         setCart(ctr.data.basket);
-      }finally {
+      } finally {
         setLoad(false);
       }
     };
@@ -119,8 +121,12 @@ const Cart = () => {
         if (totals && totals.length) {
 
         } else {
-          setTotals((prev: any) => [...prev, {
-            id: obj.id, sum: obj.price[0].price
+          setTotals((prev: {
+            id:string,
+            sum: number,
+            qty: number
+          }[]) => [...prev, {
+            id: obj.id, sum: obj.price[0].price, qty: 1 
           }])
         }
       });
@@ -132,7 +138,7 @@ const Cart = () => {
     let sum = 0
     for (let i = 0; i < totals.length; i++) {
       sum += totals[i].sum;
-      
+
     }
     setTotal(sum)
   }, [totals])
@@ -151,7 +157,7 @@ const Cart = () => {
                 cart.map((card: any, index: number) => {
                   return (
                     <div key={card.id} className={styles.card}>
-                      {card.media?.length > 0 ? <Image
+                      <div className={styles.aside}>{card.media?.length > 0 ? <Image
                         src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0].name}`}
                         width={90}
                         height={100}
@@ -159,66 +165,68 @@ const Cart = () => {
                       /> : <p onClick={() => {
                         push(`/product/${card.name}?id=${card.id}`)
                       }}>НЕТ ИЗОБРАЖЕНИЯ</p>}
-                      <div onClick={() => {
-                        push(`/product/${card.name}?id=${card.id}`)
-                      }} className={styles.menu}>
-                        <h1>
-                          {card
-                            ? card.name
-                            : `Phone named something ${card.productId}`}
-                        </h1>
-                        <p style={{ color: "#B7AFAF" }}>
-                          {card.subcategory ? card.subcategory.name : "Artel"}
-                        </p>
-                      </div>
-                      <div className={styles.count}>
-                        <p
-                          style={{
-                            fontSize: 18,
-                            fontWeight: 400,
-                            color: "#363636",
-                          }}
-                        >
-                          Кол-во:
-                        </p>
-                        <div className={styles.countButton}>
-                          <CouterV2 setAllPrice={setPrice} totals={totals} id={card.id} setTotals={setTotals} prices={card.price} />
+                        <div onClick={() => {
+                          push(`/product/${card.name}?id=${card.id}`)
+                        }} className={styles.menu}>
+                          <h1>
+                            {card
+                              ? card.name
+                              : `Phone named something ${card.productId}`}
+                          </h1>
+                          <p style={{ color: "#B7AFAF" }}>
+                            {card.subcategory ? card.subcategory.name : "Artel"}
+                          </p>
                         </div>
                       </div>
-                      <div className={styles.countPrice}>
-                        <div
-                          style={{
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            axios
-                              .put(
-                                `${process.env.NEXT_PUBLIC_API}/api/users/basket/remove/${card.id}`,
-                                {},
-                                {
-                                  headers: {
-                                    Authorization: userInfo
-                                      ? userInfo.userToken
-                                      : "",
-                                  },
-                                }
-                              )
-                              .then((res) => {
-                                setRefetch(!refetch);
-                                refresh()
-                              });
-                          }}
-                          className={styles.remove}
-                        >
-                          <Image
-                            src={"/icons/remove.svg"}
-                            width={14}
-                            height={16}
-                            alt="remove"
-                          />
-                          <p>Удалить</p>
+                      <div className={styles.aside}>
+                        <div className={styles.count}>
+                          <p
+                            style={{
+                              fontSize: 18,
+                              fontWeight: 400,
+                              color: "#363636",
+                            }}
+                          >
+                            Кол-во:
+                          </p>
+                          <div className={styles.countButton}>
+                            <CouterV2 setAllPrice={setPrice} totals={totals} id={card.id} setTotals={setTotals} prices={card.price} />
+                          </div>
                         </div>
-                        <h1>{card ? `${card.price[0].price}` : "900"}</h1>
+                        <div className={styles.countPrice}>
+                          <div
+                            style={{
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              axios
+                                .put(
+                                  `${process.env.NEXT_PUBLIC_API}/api/users/basket/remove/${card.id}`,
+                                  {},
+                                  {
+                                    headers: {
+                                      Authorization: userInfo
+                                        ? userInfo.userToken
+                                        : "",
+                                    },
+                                  }
+                                )
+                                .then((res) => {
+                                  setRefetch(!refetch);
+                                  refresh()
+                                });
+                            }}
+                            className={styles.remove}
+                          >
+                            <Image
+                              src={"/icons/remove.svg"}
+                              width={14}
+                              height={16}
+                              alt="remove"
+                            />
+                            <p>Удалить</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   );
@@ -227,10 +235,6 @@ const Cart = () => {
             <section className={styles.right}>
               <div className={styles.allPrice}>
                 <h1>Ваш заказ</h1>
-                <div style={{ display: "flex", gap: 15, marginTop: 12 }}>
-                  <label>Товары:</label>
-                  <p>{0}</p>
-                </div>
                 <div
                   style={{
                     display: "flex",
@@ -254,7 +258,7 @@ const Cart = () => {
                   <label>Итого:</label>
                   <h3>{
                     total
-                  }</h3>
+                  } сум</h3>
                 </div>
 
                 <button
@@ -266,6 +270,7 @@ const Cart = () => {
                 </button>
               </div>
             </section>
+            {order && <Order order={order} setOrder={setOrder} products={totals} deliveryTo={""}/>}
           </section>
         ) : (
           <h2 style={{ textAlign: "center" }}>Вы еще ничего не заказали</h2>

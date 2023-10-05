@@ -6,7 +6,6 @@ import styles from "@/styles/delivery.module.css";
 import Categories from "../components/global/Categories";
 import axios from "axios";
 import Loader from "../components/local/Loader";
-import { GetStaticProps } from "next";
 
 
 const Delivery = () => {
@@ -19,8 +18,8 @@ const Delivery = () => {
     setLoad(true);
     const fetchData = async () => {
       try {
-        const req2 = axios.get(`${process.env.NEXT_PUBLIC_API}/categories`);
-        const req1 = axios.get(`${process.env.NEXT_PUBLIC_API}/subcategories`);
+        const req2 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`);
+        const req1 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`);
         const [res1, res2] = await axios.all([req1, req2]);
         setSubCategories(res1.data);
         setCategories(res2.data);
@@ -42,7 +41,6 @@ const Delivery = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head> */}
         <main className={styles.delivery}>
-          <Categories categories={categories} subcategories={subCategories} />
           <div className={styles.container}>
             <h2>Доставка</h2>
             <div className={styles.article}>

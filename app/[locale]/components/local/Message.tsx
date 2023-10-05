@@ -84,7 +84,7 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
         <button
           onClick={() => {
             socket.disconnect()
-            back()
+            push("/")
           }}
         >
           <Image

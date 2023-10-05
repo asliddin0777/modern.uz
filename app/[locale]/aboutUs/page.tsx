@@ -35,7 +35,6 @@ const AboutUs = () => {
   if (load === false) {
     return (
       <div className={styles.container}>
-        <Categories categories={categories} subcategories={subCategories}/>
         <div className={styles.aboutUs}>
           <div className={styles.aboutUsTitle}>
             <h3>О нас</h3>
