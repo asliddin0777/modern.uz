@@ -18,6 +18,9 @@ const Header = ({ data }: IData) => {
   const [isBurgerOpen, setIsBurgerOpen] = useState<boolean | any>(false);
   const [mouseOver, setMouseOver] = useState<boolean>(false);
   const [language, setLanguage] = useState<string>("/icons/ru.svg");
+  const [nav, setNav] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [lastScrollPosition, setLastScrollPosition] = useState(0);
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(1);
   // useEffect(() => {
@@ -35,6 +38,26 @@ const Header = ({ data }: IData) => {
   //         window.removeEventListener('scroll', handleScroll);
   //     };
   // }, [isHeaderVisible, lastScrollPosition]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPosition = window.pageYOffset;
+      if (currentScrollPosition > lastScrollPosition && isHeaderVisible) {
+        setIsHeaderVisible(false);
+      } else if (
+        currentScrollPosition < lastScrollPosition &&
+        !isHeaderVisible
+      ) {
+        setIsHeaderVisible(true);
+        // setOpen(false)
+      }
+      setLastScrollPosition(currentScrollPosition);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isHeaderVisible, lastScrollPosition]);
 
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
@@ -55,8 +78,38 @@ const Header = ({ data }: IData) => {
     }
   }, [auth]);
 
-  return (
-    <header className={styles.header}>
+  const changeBgHandler = () => {
+    if (window.scrollY >= 16) {
+      setNav(true);
+      console.log("111");
+    } else {
+      setNav(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", changeBgHandler);
+  }, []);
+
+  return <>
+        <Burger isBurgerOpen={isBurgerOpen} setIsBurgerOpen={setIsBurgerOpen} />
+
+    <header
+      className={!nav ? styles.header : styles.headerNav}
+      style={
+        isHeaderVisible === true
+          ? {
+              transition: "0.3s",
+              opacity: 1,
+              transform: "translate3d(0px, 0px, 0px)",
+            }
+          : {
+              opacity: 0,
+              transform: "translate3d(0px, -113px, 0px)",
+              transition: "0.3s",
+            }
+      }
+    >
       {auth === true && (
         <Auth
           setIsAuthOpen={setAuth}
@@ -99,7 +152,6 @@ const Header = ({ data }: IData) => {
             height={22}
           />
         </div>
-        <Burger isBurgerOpen={isBurgerOpen} setIsBurgerOpen={setIsBurgerOpen} />
         <div className={styles.contra}>
           <div
             onMouseOver={() => {
@@ -298,7 +350,7 @@ const Header = ({ data }: IData) => {
         </div>
       </div>
     </header>
-  );
+  </>
 };
 
 export default memo(Header);
