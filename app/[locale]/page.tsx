@@ -166,8 +166,8 @@ const Home = ({
                             <Link
                               href={
                                 e.productId
-                                  ? `/product/${e.title.split(" ").join("-")}?=id${e.productId}`
-                                  : `/company/${e.title.split(" ").join("-")}?=id${e.vendorId}`
+                                  ? `/product/${e.title.split(" ").join("-")}?id=${e.productId}`
+                                  : `/company/${e.title.split(" ").join("-")}?id=${e.vendorId}`
                               }
                               className={styles.addLeft}
                             >

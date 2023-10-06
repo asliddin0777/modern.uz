@@ -29,7 +29,7 @@ const Company = ({
   const [likedObj, setLikedObj] = useState(false);
 
   const [auth, setAuth] = useState<boolean>(false);
-  const [fromWhere, setFromWhere] = useState<number>(1);
+  const [fromWhere, setFromWhere] = useState<number>(2);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [chat, setChat] = useState();
   const [iprod, setIprod] = useState<IProduct>();
@@ -39,7 +39,6 @@ const Company = ({
   const { userInfo } = cookie;
 
   const [data, setData] = useState<object[] | any>([]);
-  const [chatWith, setChatWith] = useState()
 
   useEffect(() => {
     setLoad(true);
@@ -59,19 +58,19 @@ const Company = ({
           subCategories,
           data,
         ]);
-        await axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user`, {
-          headers: {
-            Authorization: userInfo && userInfo.userToken
-          }
-        }).then(res => {
-          if (res.data.length) {
-            setChatWith(res.data.find((r:{
-              admin: {
-                id:string
-              }
-            }) => r.admin.id === data.data.products[0].author));
-          }
-        })
+        // await axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user`, {
+        //   headers: {
+        //     Authorization: userInfo ? userInfo.userToken : ""
+        //   }
+        // }).then(res => {
+        //   if (res.data.length) {
+        //     setChatWith(res.data.find((r:{
+        //       admin: {
+        //         id:string
+        //       }
+        //     }) => r.admin.id === data.data.products[0].author));
+        //   }
+        // })
         setCategories(res1.data);
         setSubCategories(res2.data);
         setData(dataget.data);

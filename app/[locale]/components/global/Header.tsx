@@ -4,8 +4,6 @@ import styles from "@/styles/head.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import Burger from "./Burger";
-import { uuid as uuidv4 } from "uuidv4";
-import { usePathname } from "next/navigation";
 import useCookies from "react-cookie/cjs/useCookies";
 
 import Auth from "./Auth";
@@ -27,22 +25,6 @@ const Header = ({ data }: IData) => {
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(1);
   const [load, setLoad] = useState(true)
-  // useEffect(() => {
-  //     const handleScroll = () => {
-  //         const currentScrollPosition = window.pageYOffset;
-  //         if (currentScrollPosition > lastScrollPosition && isHeaderVisible) {
-  //             setIsHeaderVisible(false);
-  //         } else if (currentScrollPosition < lastScrollPosition && !isHeaderVisible) {
-  //             setIsHeaderVisible(true);
-  //         }
-  //         setLastScrollPosition(currentScrollPosition);
-  //     };
-  //     window.addEventListener('scroll', handleScroll);
-  //     return () => {
-  //         window.removeEventListener('scroll', handleScroll);
-  //     };
-  // }, [isHeaderVisible, lastScrollPosition]);
-
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPosition = window.pageYOffset;

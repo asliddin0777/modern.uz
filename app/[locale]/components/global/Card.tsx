@@ -24,7 +24,6 @@ import AOS, { refresh } from "aos";
 import "aos/dist/aos.css";
 import Error from "../local/Error";
 
-
 interface Card {
   price: string;
   title: string;
@@ -52,11 +51,8 @@ const Card = ({
   card,
   setData,
 }: Card) => {
-
   const [like, setLike] = useState(false);
-  const { push } = useRouter()
-  const {refresh:reff} = useRouter()
-  const path = usePathname()
+  const { push } = useRouter();
   const [fromWhere, setFromWhere] = useState(1);
   const [cookie] = useCookies(["userInfo"]);
   const [auth, setAuth] = useState<boolean>(false);
@@ -70,7 +66,9 @@ const Card = ({
       document.body.style.overflow = "auto";
     }
   }, [auth]);
-  const sendLike = `${process.env.NEXT_PUBLIC_API}/api/products/like/${card?.id}`
+
+  const sendLike = `${process.env.NEXT_PUBLIC_API}/api/products/like/${card?.id}`;
+
   useEffect(() => {
     AOS.init();
     AOS.refresh();
@@ -90,33 +88,11 @@ const Card = ({
     }
   };
 
+  const path= usePathname()
+
+
   return (
-    <div key={String(url)} className={styles.card}>
-      <Link href={`/product/${title.split(" ").join("-")}?id=${url}`} className={styles.imageOfCard}>
-        {image !== undefined ? (
-          <Image
-            src={image}
-            alt="products image"
-            width={width}
-            height={height}
-          />
-        ) : (
-          <h1>No Image</h1>
-        )}
-        <div className={styles.somevalues}>
-          <h3
-            style={{
-              color: "#000",
-            }}
-          >
-            {title}
-          </h3>
-          <h4>{cat}</h4>
-          <div className={styles.cart}>
-            <h3>{price} сум</h3>
-          </div>
-        </div>
-      </Link>
+    <>
       {auth && (
         <Auth
           fromWhere={fromWhere}
@@ -125,115 +101,149 @@ const Card = ({
           setIsAuthOpen={setAuth}
         />
       )}
-      <Success err={succed} msg={msg} setErr={setSucced} />
-      <Error err={error} msg={msg} setErr={setErr}  />
-      <div
-        className={styles.like}
-        onClick={() => {
-          if (userInfo && card) {
-            const data = {
-              method: 'put',
-              url: sendLike,
-              headers: {
-                Authorization: userInfo.userToken,
-              }
-            }
+      <div key={String(url)} data-aos="fade-up" className={styles.card}>
+        <Link
+          href={`/product/${title}?id=${url}`}
+          className={styles.imageOfCard}
+        >
+          {image !== undefined ? (
+            <Image
+              src={image}
+              alt="products image"
+              width={width}
+              height={height}
+            />
+          ) : (
+            <h1>No Image</h1>
+          )}
+          <div className={styles.somevalues}>
+            <h3
+              style={{
+                color: "#000",
+              }}
+            >
+              {title}
+            </h3>
+            <h4>{cat}</h4>
+            <div className={styles.cart}>
+              <h3>{price} сум</h3>
+            </div>
+          </div>
+        </Link>
 
-            axios(data).then((res) => {
-              setData((prev) => !prev);
-            })
-          } else {
-            setAuth(!auth);
-          }
-        }}
-      >
-        {card &&
-          userInfo &&
-          card.likes?.find((id) => id === userInfo.userId) ? (
-          <svg
-            className={styles.like}
-            width={35}
-            height={35}
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            stroke="#ff0000"
-            strokeWidth="0.9120000000000001"
-          >
-            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-            <g
-              id="SVGRepo_tracerCarrier"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></g>
-            <g id="SVGRepo_iconCarrier">
-              {" "}
-              <path
-                d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z"
-                fill="#f00"
-              ></path>{" "}
-            </g>
-          </svg>
-        ) : (
-          <svg
-            className={styles.like}
-            width={35}
-            height={35}
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            stroke="#ff0000"
-            strokeWidth="0.9120000000000001"
-          >
-            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-            <g
-              id="SVGRepo_tracerCarrier"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></g>
-            <g id="SVGRepo_iconCarrier">
-              {" "}
-              <path
-                d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z"
-                fill="#ffffff00"
-              ></path>{" "}
-            </g>
-          </svg>
-        )}
-      </div>
-     {path.split("/")[1] !== "company" &&  <div className={styles.buy}>
-        <button onClick={sellBot}>Купить</button>
-        <div onClick={() => {
-
-          if (userInfo && error === false) {
-            axios.put(`${process.env.NEXT_PUBLIC_API}/api/users/basket/add/${url}`, {}, {
-              headers: {
-                Authorization: userInfo.userToken
-              }
-            }).then(res => {
-              setAddedToCart(!addedToCart)
-              setSucced(!succed)
-              setMsg("Added to cart")
-            }).catch(err => {
-              setErr(true)
-              setMsg(err.response.data.errors[0].message);
-              console.clear()
-            })
-          } else {
-            if (userInfo === undefined) {
+        <Success err={succed} msg={msg} setErr={setSucced} />
+        <div
+          className={styles.like}
+          onClick={() => {
+            if (userInfo && card) {
+              const data = {
+                method: "put",
+                url: sendLike,
+                headers: {
+                  Authorization: userInfo.userToken,
+                },
+              };
+              axios(data)
+                .then((res) => {
+                  setData((prev) => !prev);
+                })
+                .catch((err) => console.log(err));
+            } else {
               setAuth(!auth);
             }
-          }
-        }} className={`${styles.box} ${styles.like}`}>
-          <Image
-            src={"/icons/buyW.svg"}
-            alt="add cart icon"
-            width={21}
-            height={20.5}
-          />
+          }}
+        >
+          {card &&
+          userInfo &&
+          card.likes?.find((id) => id === userInfo.userId) ? (
+            <svg
+              className={styles.like}
+              width={35}
+              height={35}
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              stroke="#ff0000"
+              strokeWidth="0.9120000000000001"
+            >
+              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                {" "}
+                <path
+                  d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z"
+                  fill="#f00"
+                ></path>{" "}
+              </g>
+            </svg>
+          ) : (
+            <svg
+              className={styles.like}
+              width={35}
+              height={35}
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              stroke="#ff0000"
+              strokeWidth="0.9120000000000001"
+            >
+              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                {" "}
+                <path
+                  d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z"
+                  fill="#ffffff00"
+                ></path>{" "}
+              </g>
+            </svg>
+          )}
         </div>
-      </div>}
-    </div>
+            {path.split("/")[1] !== "company" && <div className={styles.buy}>
+          <button onClick={sellBot}>Купить</button>
+          <div
+            onClick={() => {
+              if (userInfo) {
+                axios
+                  .put(
+                    `${process.env.NEXT_PUBLIC_API}/api/users/basket/add/${url}`,
+                    {},
+                    {
+                      headers: {
+                        Authorization: userInfo.userToken,
+                      },
+                    }
+                  )
+                  .then((res) => {
+                    setAddedToCart(!addedToCart);
+                    setSucced(!succed);
+                    succed === true && setMsg("Added to cart");
+                  })
+                  .catch((err) => console.log(err));
+              } else {
+                setAuth(!auth);
+              }
+            }}
+            className={`${styles.box} ${styles.like}`}
+          >
+            <Image
+              src={"/icons/buyW.svg"}
+              alt="add cart icon"
+              width={21}
+              height={20.5}
+            />
+          </div>
+        </div>}
+      </div>
+    </>
   );
 };
 
