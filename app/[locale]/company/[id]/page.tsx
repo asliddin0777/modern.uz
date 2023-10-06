@@ -58,19 +58,6 @@ const Company = ({
           subCategories,
           data,
         ]);
-        // await axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user`, {
-        //   headers: {
-        //     Authorization: userInfo ? userInfo.userToken : ""
-        //   }
-        // }).then(res => {
-        //   if (res.data.length) {
-        //     setChatWith(res.data.find((r:{
-        //       admin: {
-        //         id:string
-        //       }
-        //     }) => r.admin.id === data.data.products[0].author));
-        //   }
-        // })
         setCategories(res1.data);
         setSubCategories(res2.data);
         setData(dataget.data);
