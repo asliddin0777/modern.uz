@@ -1,6 +1,6 @@
 export default interface IChat {
     user: string;
-    adming: string;
+    admin: string;
     id: string;
   }
   

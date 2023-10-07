@@ -1,9 +1,8 @@
 "use client";
 import styles from "@/styles/profile.module.css";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import ChangePassword from "../components/local/ChangePassword";
-import Categories from "../components/global/Categories";
 import ProfileBurger from "../components/local/ProfileBurger";
 import { useEffect } from "react";
 import axios from "axios";
@@ -11,13 +10,12 @@ import { useCookies } from "react-cookie";
 import IUser from "@/interfaces/IUser";
 import { useRouter } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
+import Loader from "../components/local/Loader";
 const Profile = () => {
   const [isChangePassOpen, setIsChangePassOpen] = useState(false);
   const [profileBurger, setProfileBurger] = useState(false);
-  const [button, setButton] = useState<number>(0);
   const { push } = useRouter();
   const [buttonColor, setButtonColor] = useState<number>(0);
-  const [profile, setProfile] = useState<any | any[]>([]);
   const AuthOpen = () => {
     setIsChangePassOpen(!isChangePassOpen);
   };
@@ -30,9 +28,12 @@ const Profile = () => {
   useEffect(() => {
     document.body.style.overflow = "auto";
   });
-  
-  const [categories, setCategories] = useState<any[] | any>([]);
-  const [subCategories, setSubCategories] = useState<any[] | any>([]);
+
+  useEffect(()=> {
+    if (!userInfo) {
+      push("/")
+    }
+  }, [])
   const [load, setLoad] = useState<boolean>(true);
   const [user, setUser] = useState<IUser>();
   
@@ -45,17 +46,21 @@ const Profile = () => {
     
     return color;
   }
-  
+
+  const [userOrdered, setUserOrdered] = useState<{
+    products: {
+      price: number,
+      productId: IProduct,
+      qty: number
+    }[],
+    total: number,
+    deliveryAddress: string
+  }>()
+  const [orders, setOrders] = useState<number>(0)
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
       try {
-        const categories = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}/api/categories`
-        );
-        const subCategories = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}/api/subcategories`
-        );
         const user = await axios.get(
           `${process.env.NEXT_PUBLIC_API}/api/users/current`,
           {
@@ -64,17 +69,18 @@ const Profile = () => {
             },
           }
         );
-        const [res1, res2, res3] = await axios.all([
-          categories,
-          subCategories,
+        await axios.get(`${process.env.NEXT_PUBLIC_API}/api/orders/user`, {
+          headers: {
+            Authorization: userInfo !== undefined && userInfo.userToken
+          }
+        }).then(res=> {
+          setUserOrdered(res.data[res.data.length - 1])
+          setOrders(res.data.length)
+        })
+        const [res3] = await axios.all([
           user,
         ]);
-        setCategories(res1.data);
-        setSubCategories(res2.data);
         setUser(res3.data);
-        console.log(res3);
-      } catch (err) {
-        console.log(err);
       } finally {
         setLoad(false);
       }
@@ -82,15 +88,12 @@ const Profile = () => {
     fetchData();
   }, []);
   if (!load) {
-    console.log(user);
-    const userProfile: string[] | undefined = user?.fullName.split(" ");
     if (userInfo) {
       return (
         <div className={styles.profile}>
           {isChangePassOpen && (
-            <ChangePassword setIsChangePassOpen={setIsChangePassOpen} />
+            <ChangePassword userInfo={userInfo} setIsChangePassOpen={setIsChangePassOpen} />
           )}
-          <Categories categories={categories} subcategories={subCategories} />
           <div className={styles.profileTitle}>
             <h1 style={{ fontSize: 20, fontWeight: 700 }}>Профиль</h1>
             <div
@@ -106,6 +109,7 @@ const Profile = () => {
             </div>
             {profileBurger && (
               <ProfileBurger
+              setUser={removeCookie}
                 setButtonColor={setButtonColor}
                 buttonColor={buttonColor}
               />
@@ -131,7 +135,7 @@ const Profile = () => {
                         src={
                           !buttonColor
                             ? "/icons/user.svg"
-                            : "/icons/userWhite.svg"
+                            : "/icons/user.svg"
                         }
                         width={16}
                         height={21}
@@ -196,7 +200,7 @@ const Profile = () => {
                         <p>Имя</p>
                         <input
                           disabled
-                          value={userProfile && userProfile[0]}
+                          value={user?.fullName.split(" ")[0]}
                           type="text"
                         />
                       </div>
@@ -205,7 +209,7 @@ const Profile = () => {
                         <input
                           disabled
                           value={
-                            userProfile && userProfile[userProfile.length - 1]
+                            user?.fullName.split(" ")[1]
                           }
                           type="text"
                         />
@@ -225,15 +229,6 @@ const Profile = () => {
                   </div>
                   <div className={styles.profileButton}>
                     <button onClick={AuthOpen}>Изменить пароль</button>
-                    <button
-                      style={{
-                        marginLeft: 16,
-                        backgroundColor: "#E4B717",
-                        color: "#fff",
-                      }}
-                    >
-                      Редактировать
-                    </button>
                   </div>
                 </section>
               </section>
@@ -257,7 +252,7 @@ const Profile = () => {
                       <Image
                         src={
                           !buttonColor
-                            ? "/icons/userWhite.svg"
+                            ? "/icons/user.svg"
                             : "/icons/user.svg"
                         }
                         width={16}
@@ -315,58 +310,50 @@ const Profile = () => {
                           <p>Товары</p>
                           <div className={styles.orderButton}>
                             <p>Статус: На рассмотрении</p>
-                            <button>Заказ № 13</button>
+                            <button>Заказ № {orders}</button>
                           </div>
                         </div>
                         <div className={styles.orderSection}>
                           <div>
-                            {user &&
-                              user.basket.map((e: IProduct, index: number) => {
-                                return (
-                                  <div key={e.id}>
-                                    {" "}
-                                    <div key={index} className={styles.cart}>
-                                      <Image
-                                        src={
-                                          e.media?.length
-                                            ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
-                                            : "/images/14.png"
-                                        }
-                                        width={58}
-                                        height={58}
-                                        alt="hello"
-                                        style={{
-                                          width: "auto",
-                                          height: 58,
-                                        }}
-                                      />
-                                      <div className={styles.cartTitle}>
-                                        <h3>{e.name}</h3>
-                                        <div className={styles.const}>
-                                          <div className={styles.constTag}>
-                                            <p>Кол-во:</p>
-                                            <p>{2}</p>
-                                          </div>
-                                          <div className={styles.priceTitle}>
-                                            <p>Стоимость:</p>
-                                            <p>{e.price[0].price}</p>
+                            {userOrdered &&
+                                userOrdered.products.map((pd, index) => {
+                                    return (
+                                      <div key={index+ Math.random()+pd.price}>
+                                        {" "}
+                                        <div key={index} className={styles.cart}>
+                                          <Image
+                                            src={
+                                              pd.productId.media?.length
+                                                ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${pd.productId.media[1]?.name}`
+                                                : "/images/14.png"
+                                            }
+                                            width={58}
+                                            height={58}
+                                            alt="hello"
+                                            style={{
+                                              width: "auto",
+                                              height: 58,
+                                            }}
+                                          />
+                                          <div className={styles.cartTitle}>
+                                            <h3>{pd.productId.name}</h3>
+                                            <div className={styles.const}>
+                                              <div className={styles.constTag}>
+                                                <p>Кол-во:</p>
+                                                <p>{pd.qty}</p>
+                                              </div>
+                                              <div className={styles.priceTitle}>
+                                                <p>Стоимость:</p>
+                                                <p>{pd.price}</p>
+                                              </div>
+                                            </div>
                                           </div>
                                         </div>
+                                        <div className={styles.line}></div>
                                       </div>
-                                    </div>
-                                    <div className={styles.line}></div>
-                                  </div>
-                                );
-                              })}
-                          </div>
-                          <div className={styles.rightOrder}>
-                            <div className={styles.total}>
-                              <h4>Итого:</h4>
-                              <h5></h5>
-                            </div>
-                            <div className={styles.button}>
-                              <button>Связаться с продавцом</button>
-                            </div>
+                                    );
+                                  })
+                              }
                           </div>
                         </div>
                       </div>
@@ -391,7 +378,6 @@ const Profile = () => {
           {isChangePassOpen && (
             <ChangePassword setIsChangePassOpen={setIsChangePassOpen} />
           )}
-          <Categories categories={categories} subcategories={subCategories} />
           <div className={styles.profileTitle}>
             <h1 style={{ fontSize: 20, fontWeight: 700 }}>Профиль</h1>
             <div
@@ -407,6 +393,7 @@ const Profile = () => {
             </div>
             {profileBurger && (
               <ProfileBurger
+              setUser={removeCookie}
                 setButtonColor={setButtonColor}
                 buttonColor={buttonColor}
               />
@@ -429,7 +416,7 @@ const Profile = () => {
                   >
                     <Image
                       src={
-                      "/icons/user.svg"
+                        !buttonColor ? "/icons/user.svg" : "/icons/user.svg"
                       }
                       width={16}
                       height={21}
@@ -451,7 +438,7 @@ const Profile = () => {
                   >
                     <Image
                       src={
-                        !buttonColor ? "icons/book.svg" : "icons/bookWhite.svg"
+                        !buttonColor ? "/icons/book.svg" : "/icons/bookWhite.svg"
                       }
                       width={17.29}
                       height={21}
@@ -467,7 +454,7 @@ const Profile = () => {
                     }}
                   >
                     <Image
-                      src={"icons/logout.svg"}
+                      src={"/icons/logout.svg"}
                       width={19}
                       height={19}
                       alt="close"
@@ -501,8 +488,8 @@ const Profile = () => {
                       <Image
                         src={
                           !buttonColor
-                            ? "icons/userWhite.svg"
-                            : "icons/user.svg"
+                            ? "/icons/user.svg"
+                            : "/icons/user.svg"
                         }
                         width={16}
                         height={21}
@@ -524,8 +511,8 @@ const Profile = () => {
                       <Image
                         src={
                           !buttonColor
-                            ? "icons/book.svg"
-                            : "icons/bookWhite.svg"
+                            ? "/icons/book.svg"
+                            : "/icons/bookWhite.svg"
                         }
                         width={17.29}
                         height={21}
@@ -535,7 +522,7 @@ const Profile = () => {
                     </div>
                     <div className={styles.profileClose}>
                       <Image
-                        src={"icons/logout.svg"}
+                        src={"/icons/logout.svg"}
                         width={19}
                         height={19}
                         alt="close"
@@ -616,6 +603,8 @@ const Profile = () => {
         </div>
       );
     }
+  } else {
+    return <><Loader /></>
   }
 };
 

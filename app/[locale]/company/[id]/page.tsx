@@ -2,23 +2,19 @@
 
 import React, { memo } from "react";
 import styles from "@/styles/company.module.css";
-import TopHeader from "../../components/global/TopHeader";
-import Header from "../../components/global/Header";
 import Categories from "../../components/global/Categories";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Card from "../../components/global/Card";
-import Footer from "../../components/global/Footer";
-import Link from "next/link";
 import axios from "axios";
 import Loader from "../../components/local/Loader";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
 import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../../components/local/socket";
 import ChatWithVendor from "../../components/local/ChatWithVendor";
 import Auth from "../../components/global/Auth";
-
+import IChat from "@/interfaces/IChat";
 const Company = ({
   searchParams,
 }: {
@@ -33,13 +29,16 @@ const Company = ({
   const [likedObj, setLikedObj] = useState(false);
 
   const [auth, setAuth] = useState<boolean>(false);
-  const [fromWhere, setFromWhere] = useState<number>(1);
+  const [fromWhere, setFromWhere] = useState<number>(2);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [chat, setChat] = useState();
   const [iprod, setIprod] = useState<IProduct>();
 
+  const { back, push, refresh } = useRouter()
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
+
+  const [data, setData] = useState<object[] | any>([]);
 
   useEffect(() => {
     setLoad(true);
@@ -62,16 +61,29 @@ const Company = ({
         setCategories(res1.data);
         setSubCategories(res2.data);
         setData(dataget.data);
-      } catch (err) {
-        console.log(err);
       } finally {
         setLoad(false);
       }
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    setLoad(true);
+    if (refetch) {
+      const fetchData = async () => {
+        try {
+          const data = await axios.get(
+            `${process.env.NEXT_PUBLIC_API}/api/vendors/${searchParams.id}`
+          );
+          setData(data.data);
+        } finally {
+          refresh()
+        }
+      };
+      fetchData();
+    }
+  }, [refetch]);
   const [nav, setNav] = useState<number>(0);
-  const [data, setData] = useState<object[] | any>([]);
   const { id }: any = useRouter();
 
   function getRandomColor() {
@@ -83,8 +95,7 @@ const Company = ({
 
     return color;
   }
-
-  if (load === false) {
+  if (load === false && data) {
     return (
       <div className={styles.company}>
         <Categories categories={categories} subcategories={subCategories} />
@@ -103,16 +114,14 @@ const Company = ({
                 </div>
                 <div className={styles.profile}>
                   <h1>
-                    {data ? data.name : "Shenzhen Qingmai Bicycle Co., Ltd."}
+                    {data && data.name}
                   </h1>
                 </div>
               </div>
               <div
                 className={styles.chatButton}
                 onClick={() => {
-                  console.log(data);
                   if (userInfo !== undefined) {
-                    setIsChatOpen(!isChatOpen);
                     socket.connect();
                     socket.emit(
                       "newUser",
@@ -125,10 +134,9 @@ const Company = ({
                     );
                     axios
                       .post(
-                        `/chats/new`,
+                        `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
                         {
-                          author: iprod?.author.id,
-                          product: iprod?.id,
+                          admin: data.products[0].author,
                         },
                         {
                           headers: {
@@ -138,6 +146,7 @@ const Company = ({
                       )
                       .then((res) => {
                         setChat(res.data);
+                        push(`/chats?id=${res.data.id}`)
                       });
                   } else {
                     setAuth(!auth);
@@ -151,7 +160,7 @@ const Company = ({
                   width={43}
                   height={39}
                 />
-                <p> Написать поставщику</p>
+                <p>Написать поставщику</p>
               </div>
             </div>
             <div className={styles.companyDescrip}>
@@ -163,7 +172,9 @@ const Company = ({
               </p>
             </div>
           </section>
-          {data && data.products.length > 0 && <h2>Товары поставщика</h2>}
+          {data && data.products.length > 0 && <h2 style={{
+            marginTop: 32
+          }}>Товары поставщика</h2>}
           <section className={styles.companyCards}>
             {data &&
               data.products &&
@@ -171,8 +182,8 @@ const Company = ({
                 return (
                   <Card
                     isLiked
-                    setLikedObj={() => {}}
-                    setData={setRefetch}
+                    setLikedObj={() => { }}
+                    setData={setRefetch}  
                     card={e}
                     animation="fade-down"
                     cat={e.subcategory.name}
@@ -191,26 +202,6 @@ const Company = ({
                 );
               })}
           </section>
-          {/* <div className={styles.carusel}>
-            <div
-              style={{
-                backgroundColor: "#E4B717",
-                width: 39,
-                height: 39,
-                borderRadius: "100%",
-                textAlign: "center",
-                paddingTop: 8,
-              }}
-            >
-              <Link style={{ color: "#fff" }} href="#">
-                1
-              </Link>
-            </div>
-            <Link href="#">2</Link>
-            <Link href="#">3</Link>
-            <Link href="#">...</Link>
-            <Link href="#">5</Link>
-          </div> */}
         </div>
         {auth === true && (
           <Auth
@@ -218,15 +209,6 @@ const Company = ({
             fromWhere={fromWhere}
             isAuthOpen={auth}
             setFromWhere={setFromWhere}
-          />
-        )}
-        {isChatOpen === true && (
-          <ChatWithVendor
-            chat={chat}
-            setChatListOpener={() => {}}
-            userInfo={userInfo}
-            selectedProduct={undefined}
-            setIsChatOpen={setIsChatOpen}
           />
         )}
       </div>

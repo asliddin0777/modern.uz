@@ -59,7 +59,7 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
                       className={styles.selectItem}
                       key={e.id}
                     >
-                      <Link href={`/category/${e.name}?=id${e.id}`}>
+                      <Link href={`/category/${e.name}?id=${e.id}`}>
                         {e.name}
                       </Link>
                     </li>
@@ -70,9 +70,6 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
               })}
           </ul>
           {isCategoryOpen && (
-            <SelectCategory categories={categories} />
-          )}
-          {isCategoriesOpen && (
             <SelectCategory categories={categories} />
           )}
         </div>

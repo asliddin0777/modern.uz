@@ -1,30 +1,35 @@
 "use client";
-import React, { memo, useContext } from "react";
+import React, { memo } from "react";
 import styles from "@/styles/cart.module.css";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Categories from "../components/global/Categories";
-import Order from "../components/global/Order";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import Loader from "../components/local/Loader";
-import Counter from "@/utils/Counter";
 import Error from "../components/local/Error";
+import { useRouter } from "next/navigation";
+import CouterV2 from "@/utils/CouterV2";
+import IProduct from "@/interfaces/Product/IProduct";
+import Order from "../components/global/Order";
 
 const Cart = () => {
+
   const [order, setOrder] = useState<boolean>(false);
   const [load, setLoad] = useState(true);
-  const [count, setCount] = useState(0);
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
-  const [cookie] = useCookies(["aboutUser"]);
   const [userInform] = useCookies(["userInfo"]);
-  const [selectedCards] = useCookies(["selectedCard"]);
   const { userInfo } = userInform;
   const [totalPrice, setTotalPrice] = useState(0);
-
+  const { refresh, push } = useRouter()
   const [user, setUser] = useState();
-
+  const [totals, setTotals] = useState<{
+    id: string,
+    sum: number,
+    qty: number
+  }[]>([])
+  const [total, setTotal] = useState(0)
   useEffect(() => {
     order
       ? (document.body.style.overflow = "hidden")
@@ -33,9 +38,10 @@ const Cart = () => {
 
   const [err, setErr] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState<IProduct[]>([]);
   const [refetch, setRefetch] = useState(false);
   useEffect(() => {
+
     setLoad(true);
     const fetchData = async () => {
       try {
@@ -71,14 +77,16 @@ const Cart = () => {
         setSubCategories(res2.data);
         setUser(us.data);
         setCart(ctr.data.basket);
-      } catch (err) {
-        console.log(err);
       } finally {
         setLoad(false);
       }
     };
     fetchData();
   }, []);
+  const sumPrices = (): number => {
+    return totals.reduce((sum, tot) => sum + tot.sum, 0)
+  }
+  const [price, setPrice] = useState<number>(() => sumPrices())
 
   useEffect(() => {
     if (refetch === true) {
@@ -98,8 +106,6 @@ const Cart = () => {
           ]);
 
           setCart(ctr.data.basket);
-        } catch (err) {
-          console.log(err);
         } finally {
           setLoad(false);
         }
@@ -107,19 +113,35 @@ const Cart = () => {
       fetchData();
     }
   }, [refetch]);
-
-
   useEffect(() => {
-    if (cart && cart.length > 0 && count === 0) {
+    if (cart && cart.length > 0) {
       setLoad(true)
-      cart.forEach((obj: any) => {
+      cart.forEach((obj) => {
         setTotalPrice((prevTotal) => prevTotal + obj.price[0].price);
+        if (totals && totals.length) {
+
+        } else {
+          setTotals((prev: {
+            id:string,
+            sum: number,
+            qty: number
+          }[]) => [...prev, {
+            id: obj.id, sum: obj.price[0].price, qty: 1 
+          }])
+        }
       });
-      setCount(totalPrice)
+      setPrice(sumPrices())
       setLoad(false)
     }
   }, [cart]);
+  useEffect(() => {
+    let sum = 0
+    for (let i = 0; i < totals.length; i++) {
+      sum += totals[i].sum;
 
+    }
+    setTotal(sum)
+  }, [totals])
   if (!load) {
     return (
       <div className={styles.delivery}>
@@ -128,97 +150,83 @@ const Cart = () => {
           <h1 style={{ fontSize: 20, fontWeight: 700 }}>Корзина</h1>
         </div>
         <Error err={error} msg={err} setErr={setError} />
-        {cart?.length > 0 ? (
+        {cart && cart.length && totalPrice !== undefined ? (
           <section className={styles.DeliverySection}>
             <section className={styles.sectionLeft}>
-              {cart &&
-                cart?.map((card: any, index: number) => {
+              {cart && cart.length &&
+                cart.map((card: any, index: number) => {
                   return (
                     <div key={card.id} className={styles.card}>
-                      <Image
-                        src={
-                          card.media?.length > 0
-                            ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0].name}`
-                            : "/images/noS.jpg"
-                        }
+                      <div className={styles.aside}>{card.media?.length > 0 ? <Image
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0].name}`}
                         width={90}
                         height={100}
                         alt="img"
-                      />
-                      <div className={styles.menu}>
-                        <h1>
-                          {card
-                            ? card.name
-                            : `Phone named something ${card.productId}`}
-                        </h1>
-                        <p style={{ color: "#B7AFAF" }}>
-                          {card.subcategory ? card.subcategory.name : "Artel"}
-                        </p>
-                        <div
-                          style={{ display: "flex", gap: 10, paddingTop: 7 }}
-                        >
-                          <label>Цвет:</label>
-                          <p>{card.color ? card.color : "Зеленый"}</p>
-                        </div>
-                        <div style={{ display: "flex", gap: 10 }}>
-                          <label>Встроенная память:</label>
-                          <p>{card.memory ? card.memory : "256 гб"}</p>
+                      /> : <p onClick={() => {
+                        push(`/product/${card.name}?id=${card.id}`)
+                      }}>НЕТ ИЗОБРАЖЕНИЯ</p>}
+                        <div onClick={() => {
+                          push(`/product/${card.name}?id=${card.id}`)
+                        }} className={styles.menu}>
+                          <h1>
+                            {card
+                              ? card.name
+                              : `Phone named something ${card.productId}`}
+                          </h1>
+                          <p style={{ color: "#B7AFAF" }}>
+                            {card.subcategory ? card.subcategory.name : "Artel"}
+                          </p>
                         </div>
                       </div>
-                      <div className={styles.count}>
-                        <p
-                          style={{
-                            fontSize: 18,
-                            fontWeight: 400,
-                            color: "#363636",
-                          }}
-                        >
-                          Кол-во:
-                        </p>
-                        <div className={styles.countButton}>
-                          <Counter
-                            price={card.price}
-                            count={count}
-                            setCount={setCount}
-                            order={order}
-                            setOrder={setOrder}
-                            selectedPr={card}
-                          />
+                      <div className={styles.aside}>
+                        <div className={styles.count}>
+                          <p
+                            style={{
+                              fontSize: 18,
+                              fontWeight: 400,
+                              color: "#363636",
+                            }}
+                          >
+                            Кол-во:
+                          </p>
+                          <div className={styles.countButton}>
+                            <CouterV2 setAllPrice={setPrice} totals={totals} id={card.id} setTotals={setTotals} prices={card.price} />
+                          </div>
                         </div>
-                      </div>
-                      <div className={styles.countPrice}>
-                        <div
-                          style={{
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            axios
-                              .put(
-                                `${process.env.NEXT_PUBLIC_API}/api/users/basket/remove/${card.id}`,
-                                {},
-                                {
-                                  headers: {
-                                    Authorization: userInfo
-                                      ? userInfo.userToken
-                                      : "",
-                                  },
-                                }
-                              )
-                              .then((res) => {
-                                setRefetch(!refetch);
-                              });
-                          }}
-                          className={styles.remove}
-                        >
-                          <Image
-                            src={"/icons/remove.svg"}
-                            width={14}
-                            height={16}
-                            alt="remove"
-                          />
-                          <p>Удалить</p>
+                        <div className={styles.countPrice}>
+                          <div
+                            style={{
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              axios
+                                .put(
+                                  `${process.env.NEXT_PUBLIC_API}/api/users/basket/remove/${card.id}`,
+                                  {},
+                                  {
+                                    headers: {
+                                      Authorization: userInfo
+                                        ? userInfo.userToken
+                                        : "",
+                                    },
+                                  }
+                                )
+                                .then((res) => {
+                                  setRefetch(!refetch);
+                                  refresh()
+                                });
+                            }}
+                            className={styles.remove}
+                          >
+                            <Image
+                              src={"/icons/remove.svg"}
+                              width={14}
+                              height={16}
+                              alt="remove"
+                            />
+                            <p>Удалить</p>
+                          </div>
                         </div>
-                        <h1>{card ? `${card.price[0].price}` : "900"}</h1>
                       </div>
                     </div>
                   );
@@ -227,10 +235,6 @@ const Cart = () => {
             <section className={styles.right}>
               <div className={styles.allPrice}>
                 <h1>Ваш заказ</h1>
-                <div style={{ display: "flex", gap: 15, marginTop: 12 }}>
-                  <label>Товары:</label>
-                  <p>{count}</p>
-                </div>
                 <div
                   style={{
                     display: "flex",
@@ -252,7 +256,9 @@ const Cart = () => {
                   }}
                 >
                   <label>Итого:</label>
-                  <h3>{count}</h3>
+                  <h3>{
+                    total
+                  } сум</h3>
                 </div>
 
                 <button
@@ -264,6 +270,7 @@ const Cart = () => {
                 </button>
               </div>
             </section>
+            {order && <Order order={order} setOrder={setOrder} products={totals} deliveryTo={""}/>}
           </section>
         ) : (
           <h2 style={{ textAlign: "center" }}>Вы еще ничего не заказали</h2>

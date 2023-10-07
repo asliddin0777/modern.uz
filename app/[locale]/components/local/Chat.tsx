@@ -28,8 +28,7 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
       }
     }).then(res => {
       setChats(res.data)
-      console.log(res.data);
-    }).catch(err => console.log(err))
+    })
   }, [])
   return (
     <>

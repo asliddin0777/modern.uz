@@ -19,10 +19,11 @@ interface ChatHandler {
     setIsChatOpen: React.Dispatch<React.SetStateAction<boolean>>
     chat: any
     userInfo: UserInfo
-    selectedProduct?: IProduct
+    selectedProduct?: IProduct,
+    id: string
 }
 
-const CHatWithVendor = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedProduct }: ChatHandler) => {
+const CHatWithVendor = ({ setChatListOpener, setIsChatOpen, chat, id, userInfo, selectedProduct }: ChatHandler) => {
     const [messages, setMessages] = useState<IMessage[] | undefined>([])
     const { push } = useRouter()
     const image: string[] = ["jpg", "png", 'jpeg']
@@ -31,28 +32,27 @@ const CHatWithVendor = ({ setChatListOpener, setIsChatOpen, chat, userInfo, sele
     const [message, setMesage] = useState<string | undefined>("")
     const [resive, setResive] = useState<IMessage>()
     const endRef = useRef<any>()
-    socket.emit("chatSelected",chat)
-    useEffect(() => {
-        socket.on('sendMessage', sendMessage)
-        return () => {
-            socket.off('sendMessage', sendMessage)
-        }
-    }, [setMessages])
+    socket.emit("chatSelected", chat)
     useEffect(() => {
         if (chat) {
-            axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user/${chat.id}`, {
+            socket.on(`sendMessage-${id}`, sendMessage)
+            return () => {
+                socket.off(`sendMessage-${id}`, sendMessage)
+            }
+        }
+    }, [setMessages, chat])
+    useEffect(() => {
+        if (chat) {
+            axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user/${id}`, {
                 headers: {
                     Authorization: userInfo.userToken
                 }
             }).then(res => {
                 setMessages(res.data.messages)
-            }).catch(err => console.log(err))
-        } else {
-            console.log(chat)
+            })
         }
 
     }, [chat])
-    console.log(chat);
     useEffect(() => {
         document.body.style.overflow = "hidden"
     }, [])
@@ -68,7 +68,6 @@ const CHatWithVendor = ({ setChatListOpener, setIsChatOpen, chat, userInfo, sele
     }, [])
 
     const sendMessage = (msg: any) => {
-        console.log(msg);
         setMessages((prev: any) => [...prev, msg])
     }
     function updateMessageViewStatus(msg: IMessage) {
@@ -84,7 +83,7 @@ const CHatWithVendor = ({ setChatListOpener, setIsChatOpen, chat, userInfo, sele
         }
     }
 
-    
+
 
     return (
         <>
@@ -100,6 +99,7 @@ const CHatWithVendor = ({ setChatListOpener, setIsChatOpen, chat, userInfo, sele
                         <button
                             onClick={() => {
                                 setIsChatOpen(false)
+                                push("/")
                                 socket.disconnect()
                             }}
                         >

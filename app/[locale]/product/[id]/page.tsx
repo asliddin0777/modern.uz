@@ -15,6 +15,7 @@ import IProduct from "@/interfaces/Product/IProduct";
 import Auth from "../../components/global/Auth";
 import StorageButton from "../../components/local/StorageButton";
 import ChatWithVendor from "../../components/local/ChatWithVendor";
+import IChat from "@/interfaces/IChat";
 
 const Detail = ({
   searchParams,
@@ -23,8 +24,8 @@ const Detail = ({
     id: string;
   };
 }) => {
-  
-  const [chat, setChat] = useState()
+
+  const [chat, setChat] = useState<IChat>()
   const [controllerC, setControllerC] = useState<number>(0);
   const [controllerM, setControllerM] = useState<number>(0);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
@@ -161,9 +162,9 @@ const Detail = ({
                           style={
                             e.name === selectedImage
                               ? {
-                                  boxShadow:
-                                    "0px 1px 17px rgba(228, 183, 23, 0.3)",
-                                }
+                                boxShadow:
+                                  "0px 1px 17px rgba(228, 183, 23, 0.3)",
+                              }
                               : {}
                           }
                           onClick={() => {
@@ -191,7 +192,12 @@ const Detail = ({
                 </div>
     
                 <Order
-                  selectedProduct={selectedProduct}
+                  deliveryTo=""
+                  products={[{
+                    id: selectedProduct.id as string,
+                    sum: selectedProduct.price[0].price,
+                    qty: 1
+                  }]}
                   order={order}
                   setOrder={setOrder}
                 />
@@ -268,7 +274,7 @@ const Detail = ({
                   </div>
                 </div> */}
                 {auth === true && <Auth setIsAuthOpen={setAuth} fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} />}
-                {isChatOpen === true && <ChatWithVendor chat={chat} setChatListOpener={()=> {}} userInfo={userInfo} selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
+                {isChatOpen === true && chat && <ChatWithVendor id={chat.id} chat={chat} setChatListOpener={() => { }} userInfo={userInfo} selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
                 <div className={styles.characterSide}>
                   {
                     data && data?.props.map(prop => {
@@ -315,7 +321,7 @@ const Detail = ({
                             }).then(res => {
                               // setData(true)
                               window.location.reload()
-                            }).catch(err => console.log(err))
+                            })
                           } else {
                             setAuth(!auth);
                           }
@@ -361,7 +367,7 @@ const Detail = ({
                           socket.connect()
                           socket.emit('newUser', JSON.stringify({ id: userInfo.userId, fullName: `${localStorage.getItem("userName")} ${localStorage.getItem("lastName")}` }))
                           axios.post(`${process.env.NEXT_PUBLIC_API}/api/chats/new`, {
-                            author: data.author.id,
+                            admin: typeof data.author === "string" ? data.author : data.author.id,
                             product: data.id
                           }, {
                             headers: {
@@ -449,17 +455,17 @@ const Detail = ({
                       </div>
                     </div>
                   </div> */}
-                  <div className={styles.info}>
-                    <p
-                      style={{
-                        color: "#888888",
-                        lineHeight: "25.6px",
-                      }}
-                    >
-                      {selectedProduct
-                        && selectedProduct.description.substring(0, textLength)}
-                      {selectedProduct &&
-                        selectedProduct.description.length > 1000 && (
+                <div className={styles.info}>
+                  <p
+                    style={{
+                      color: "#888888",
+                      lineHeight: "25.6px",
+                    }}
+                  >
+                    {selectedProduct
+                      && selectedProduct.description.substring(0, textLength)}
+                    {selectedProduct &&
+                      selectedProduct.description.length > 1000 && (
                         <button
                           onClick={() => {
                             setTextLength(selectedProduct?.description.length);
@@ -470,7 +476,7 @@ const Detail = ({
                                 color: "#179AE4",
                                 fontWeight: 700,
                               }
-                            : {
+                              : {
                                 display: "none",
                               }
                           }
@@ -478,9 +484,9 @@ const Detail = ({
                           [read more]
                         </button>
                       )}
-                    </p>
-                  </div>
-                </>
+                  </p>
+                </div>
+              </>
               {/* ) : (
                 <div className={styles.reviewsWrapper}>
                   <form className={styles.postReview}>

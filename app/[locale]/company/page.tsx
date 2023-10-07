@@ -2,23 +2,13 @@
 
 import React, { memo } from "react";
 import styles from "@/styles/company.module.css";
-import TopHeader from "../components/global/TopHeader";
-import Header from "../components/global/Header";
 import Categories from "../components/global/Categories";
-import Image from "next/image";
 import { useState, useEffect } from "react";
-import Card from "../components/global/Card";
-import Footer from "../components/global/Footer";
 import Link from "next/link";
 import axios from "axios";
 import Loader from "../components/local/Loader";
-import { useRouter, usePathname } from "next/navigation";
-import IProduct from "@/interfaces/Product/IProduct";
 import useCookies from "react-cookie/cjs/useCookies";
-import socket from "../components/local/socket";
-import ChatWithVendor from "../components/local/ChatWithVendor";
-import Auth from "../components/global/Auth";
-
+import { useRouter } from "next/navigation";
 const Company = () => {
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
@@ -29,7 +19,7 @@ const Company = () => {
   const [chat, setChat] = useState();
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
-
+  const {push} = useRouter()
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
@@ -51,8 +41,6 @@ const Company = () => {
         setCategories(res1.data);
         setSubCategories(res2.data);
         setData(dataget.data);
-      } catch (err) {
-        console.log(err);
       } finally {
         setLoad(false);
       }
@@ -86,7 +74,7 @@ const Company = () => {
                         color: "#000",
                       }}
                       href={`/company/${e.id}`}
-                      as={`/company/${e.name}?id=${e.id}`}
+                      as={`/company/${e.name.split(" ").join("-")}?id=${e.id}`}
                       className={styles.card__title}
                     >
                       {/* <Image
@@ -112,72 +100,15 @@ const Company = () => {
                       <p>{e.description}</p>
                     </div>
                   </div>
-                  <div className={styles.card__right}>
-                    <div className={styles.cards__button}>
-                      <div
-                        className={styles.chatButton}
-                        onClick={() => {
-                          console.log(data);
-                          if (userInfo !== undefined) {
-                            setIsChatOpen(!isChatOpen);
-                            socket.connect();
-                            socket.emit(
-                              "newUser",
-                              JSON.stringify({
-                                id: userInfo.userId,
-                                fullName: `${localStorage.getItem(
-                                  "userName"
-                                )} ${localStorage.getItem("lastName")}`,
-                              })
-                            );
-                            axios
-                              .post(
-                                `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
-                                {
-                                  author: e.produts[0].author
-                                },
-                                {
-                                  headers: {
-                                    Authorization: userInfo.userToken,
-                                  },
-                                }
-                              )
-                              .then((res) => {
-                                setChat(res.data);
-                              });
-                          } else {
-                            setAuth(!auth);
-                            setFromWhere(2);
-                          }
-                        }}
-                      >
-                        <Image
-                          src={"/icons/chat.svg"}
-                          alt="chat icon"
-                          width={43}
-                          height={39}
-                        />
-                        <p> Написать поставщику</p>
-                      </div>
-                    </div>
-                    {auth === true && (
-                      <Auth
-                        setIsAuthOpen={setAuth}
-                        fromWhere={fromWhere}
-                        isAuthOpen={auth}
-                        setFromWhere={setFromWhere}
-                      />
-                    )}
-                    {isChatOpen === true && (
-                      <ChatWithVendor
-                        chat={chat}
-                        setChatListOpener={() => {}}
-                        userInfo={userInfo}
-                        selectedProduct={undefined}
-                        setIsChatOpen={setIsChatOpen}
-                      />
-                    )}
-                  </div>
+                    <div className={styles.card__right}>
+                      <div className={styles.cards__button}>
+                        <button
+                          onClick={() => {
+                            push(`/company/${e.name.split(" ")[0]}?id=${e.id}`);
+                          }}
+                        >
+                          Посмотреть все товары
+                        </button></div></div>
                 </div>
               );
             })}

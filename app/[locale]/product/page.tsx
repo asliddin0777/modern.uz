@@ -21,7 +21,6 @@ const Page = () => {
       .then((res: any) => {
         setData(res.data);
       })
-      .catch((e: string) => console.log(e))
       .finally(() => {
         setLoad(false);
       });

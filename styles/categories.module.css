@@ -7,11 +7,12 @@
 }
 
 .container {
-  width: 1180px;
+  width: var(--container-width);
   padding: 12px 0;
   display: flex;
   gap: 1rem;
   align-items: center;
+  position: relative;
 }
 
 .categ {
@@ -29,6 +30,7 @@
 .close {
   background-color: #e4b717;
   display: flex;
+  position: relative;
   justify-content: space-between;
   border: none;
   padding: 8px 20px;

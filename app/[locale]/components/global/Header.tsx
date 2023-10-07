@@ -4,12 +4,13 @@ import styles from "@/styles/head.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import Burger from "./Burger";
-import { uuid as uuidv4 } from "uuidv4";
-import { usePathname } from "next/navigation";
 import useCookies from "react-cookie/cjs/useCookies";
 
 import Auth from "./Auth";
 import { IPage } from "@/interfaces/IPage";
+import axios from "axios";
+import IProduct from "@/interfaces/Product/IProduct";
+import SearchModal from "./SearchModal";
 interface IData {
   data?: IPage;
 }
@@ -23,22 +24,7 @@ const Header = ({ data }: IData) => {
   const [lastScrollPosition, setLastScrollPosition] = useState(0);
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(1);
-  // useEffect(() => {
-  //     const handleScroll = () => {
-  //         const currentScrollPosition = window.pageYOffset;
-  //         if (currentScrollPosition > lastScrollPosition && isHeaderVisible) {
-  //             setIsHeaderVisible(false);
-  //         } else if (currentScrollPosition < lastScrollPosition && !isHeaderVisible) {
-  //             setIsHeaderVisible(true);
-  //         }
-  //         setLastScrollPosition(currentScrollPosition);
-  //     };
-  //     window.addEventListener('scroll', handleScroll);
-  //     return () => {
-  //         window.removeEventListener('scroll', handleScroll);
-  //     };
-  // }, [isHeaderVisible, lastScrollPosition]);
-
+  const [load, setLoad] = useState(true)
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPosition = window.pageYOffset;
@@ -61,7 +47,7 @@ const Header = ({ data }: IData) => {
 
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
-
+  const [products, setProducts] = useState<IProduct[]>([])
   const languges: string[] = ["/icons/uz.svg", "/icons/ru.svg"];
 
   useEffect(() => {
@@ -78,40 +64,64 @@ const Header = ({ data }: IData) => {
     }
   }, [auth]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const products = await axios.get<IPage>(`${process.env.NEXT_PUBLIC_API}/api/products`)
+        setProducts(products.data.products)
+      } catch { } finally {
+        () => {
+          setLoad(false)
+        }
+      }
+    }
+    fetchData()
+  }, [])
+  const [searchTerm, setSearchTerm] = useState('');
+  const [foundVal, setFoundVal] = useState<IProduct[]>()
+  const handleSearch = (event: {
+    target: {
+      value: string
+    }
+  }) => {
+    setSearchTerm(event.target.value);
+    console.log(searchTerm);
+  };
+  const handleSubmit = (e: {
+    preventDefault: Function
+  }) => {
+    e.preventDefault()
+    if (searchTerm.length !== 0) {
+      const searchResults = products.filter((item) =>
+        item.name.toLowerCase().trim().includes(searchTerm.toLowerCase().trim())
+      );
+      setFoundVal(searchResults)
+    } else {
+      setFoundVal([])
+    }
+  }
+  useEffect(() => {
+    if (auth === true) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [auth]);
+
   const changeBgHandler = () => {
     if (window.scrollY >= 16) {
       setNav(true);
-      console.log("111");
     } else {
       setNav(false);
     }
   };
-
   useEffect(() => {
     window.addEventListener("scroll", changeBgHandler);
   }, []);
-
   return (
     <>
-      <Burger isBurgerOpen={isBurgerOpen} setIsBurgerOpen={setIsBurgerOpen} />
-
-      <header
-        className={!nav ? styles.header : styles.headerNav}
-        style={
-          isHeaderVisible === true
-            ? {
-                transition: "0.3s",
-                opacity: 1,
-                transform: "translate3d(0px, 0px, 0px)",
-              }
-            : {
-                opacity: 0,
-                transform: "translate3d(0px, -113px, 0px)",
-                transition: "0.3s",
-              }
-        }
-      >
-        {auth === true && (
+      <Burger products={products} isBurgerOpen={isBurgerOpen} setIsBurgerOpen={setIsBurgerOpen} />
+      {auth === true && (
           <Auth
             setIsAuthOpen={setAuth}
             fromWhere={fromWhere}
@@ -119,6 +129,21 @@ const Header = ({ data }: IData) => {
             setFromWhere={setFromWhere}
           />
         )}
+      <header className={!nav ? styles.header : styles.headerNav}
+        style={
+          isHeaderVisible === true
+            ? {
+              transition: "0.3s",
+              opacity: 1,
+              transform: "translate3d(0px, 0px, 0px)",
+            }
+            : {
+              opacity: 0,
+              transform: "translate3d(0px, -113px, 0px)",
+              transition: "0.3s",
+            }
+        }>
+        
         <div className={styles.container}>
           <Link
             href={"/"}
@@ -144,15 +169,21 @@ const Header = ({ data }: IData) => {
               Modern shop
             </span>
           </Link>
-          <div className={styles.search}>
-            <input type="text" placeholder="Поиск" />
-            <Image
-              src="/icons/search.svg"
-              alt="search icon"
-              width={22}
-              height={22}
-            />
-          </div>
+          <form className={styles.search}>
+            <input value={searchTerm} onChange={handleSearch} autoComplete="off" type="text" placeholder="Поиск" />
+            <button onClick={handleSubmit}>
+              <Image
+                style={{
+                  cursor: "pointer"
+                }}
+                src="/icons/search.svg"
+                alt="search icon"
+                width={22}
+                height={22}
+              />
+            </button>
+          </form>
+          <SearchModal products={foundVal ? foundVal : []} />
           <div className={styles.contra}>
             <div
               onMouseOver={() => {
@@ -171,8 +202,8 @@ const Header = ({ data }: IData) => {
                 style={
                   !mouseOver
                     ? {
-                        display: "none",
-                      }
+                      display: "none",
+                    }
                     : {}
                 }
               >
@@ -205,19 +236,39 @@ const Header = ({ data }: IData) => {
               </Link>
             </div>
             <div className={styles.ads}>
-              <div className={styles.image}>
-                <Link href="/liked">
+              <div onClick={() => {
+                if (userInfo) {
+                  setAuth(false);
+                } else {
+                  setAuth(true);
+                }
+              }} className={styles.image}>
+                {auth === false && userInfo ? <Link href="/liked">
                   <Image
                     src={"/icons/like.svg"}
                     alt="language icon"
                     width={20}
                     height={20}
                   />
-                </Link>
+                </Link> : <Image
+                  src={"/icons/like.svg"}
+                  alt="language icon"
+                  width={20}
+                  height={20}
+                />}
               </div>
 
-              <div className={styles.image}>
-                <Link href="/cart" locale="ru">
+              <div
+                onClick={() => {
+                  if (userInfo) {
+                    setAuth(false);
+                  } else {
+                    setAuth(true);
+                  }
+                }}
+                className={styles.image}
+              >
+                {auth === false && userInfo ? <Link href="/cart" locale="ru">
                   <svg
                     width="20"
                     height="20"
@@ -260,7 +311,50 @@ const Header = ({ data }: IData) => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                </Link>
+                </Link> : <>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 22 21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0.918457 1L3.11934 1.37995L4.13831 13.4889C4.21978 14.4778 5.04829 15.2367 6.04292 15.2335H17.5859C18.5351 15.2356 19.3403 14.539 19.4747 13.6018L20.4788 6.68031C20.591 5.90668 20.0524 5.18899 19.2779 5.07712C19.2101 5.06762 3.47275 5.06234 3.47275 5.06234"
+                      stroke="#363636"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M12.9546 8.96326H15.8887"
+                      stroke="#363636"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M5.57855 18.8921C5.89704 18.8921 6.15416 19.1496 6.15416 19.4662C6.15416 19.7839 5.89704 20.0415 5.57855 20.0415C5.26005 20.0415 5.00293 19.7839 5.00293 19.4662C5.00293 19.1496 5.26005 18.8921 5.57855 18.8921Z"
+                      fill="#363636"
+                      stroke="#363636"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M17.5146 18.8921C17.8331 18.8921 18.0913 19.1496 18.0913 19.4662C18.0913 19.7839 17.8331 20.0415 17.5146 20.0415C17.1961 20.0415 16.939 19.7839 16.939 19.4662C16.939 19.1496 17.1961 18.8921 17.5146 18.8921Z"
+                      fill="#363636"
+                      stroke="#363636"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </>}
               </div>
               <div
                 onClick={() => {
@@ -301,12 +395,6 @@ const Header = ({ data }: IData) => {
                   </Link>
                 ) : (
                   <>
-                    <Auth
-                      fromWhere={fromWhere}
-                      setFromWhere={setFromWhere}
-                      isAuthOpen={auth}
-                      setIsAuthOpen={setAuth}
-                    />{" "}
                     <svg
                       viewBox="0 0 24.00 24.00"
                       width={24}
@@ -353,6 +441,6 @@ const Header = ({ data }: IData) => {
       </header>
     </>
   );
-};
+}
 
 export default memo(Header);

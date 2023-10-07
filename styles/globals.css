@@ -9,6 +9,11 @@
   font-family: 'Futura PT', sans-serif;
 }
 
+:root {
+  --container-width: 1180px;
+  
+}
+
 html {
   min-height: 100% !important;
   max-height: fit-content;

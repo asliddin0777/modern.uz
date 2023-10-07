@@ -9,7 +9,6 @@ interface Categories {
 
 const SelectCategory = ({ categories }: Categories) => {
   const [hovered, setHovered] = useState<any>("");
-  console.log(categories);
   return (
     <div className={styles.selectCategory}>
       <section className={styles.categorSection}>
@@ -24,7 +23,7 @@ const SelectCategory = ({ categories }: Categories) => {
                     }}
                     className={styles.iconOfCat}
                   >
-                    <Link href={`/category/${e.name}?=id${e.id}`}>
+                    <Link href={`/category/${e.name}?id=${e.id}`}>
                       {e.name}
                     </Link>
                   </div>
@@ -41,7 +40,7 @@ const SelectCategory = ({ categories }: Categories) => {
                     <Link
                       key={index}
                       style={{ color: "#666565" }}
-                      href={`/category/${e.name}?=id${e.id}`}
+                      href={`/category/${e.name}?id=${e.id.trim()}`}
                     >
                       {e.name}
                     </Link>

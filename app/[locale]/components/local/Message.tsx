@@ -24,7 +24,7 @@ interface ChatHandler {
 
 const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedProduct }: ChatHandler) => {
   const [messages, setMessages] = useState<IMessage[] | undefined>([])
-  const { push } = useRouter()
+  const { push, back } = useRouter()
   const endRef = useRef<any>()
   useEffect(() => {
     axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user/${chat.id}`, {
@@ -33,18 +33,22 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
       }
     }).then(res => {
       setMessages(res.data.messages)
-    }).catch(err => console.log(err))
-  }, [chat])
+    })
+  }, [chat, setMessages])
   useEffect(() => {
     document.body.style.overflow = "hidden"
-  }, [])
-  useEffect(() => {
     endRef.current.scrollIntoView({
       behavior: "smooth"
     });
-  }, [messages])
+  })
+  // useEffect(() => {
+  //   endRef.current.scrollIntoView({
+  //     behavior: "smooth"
+  //   });
+  // })
 
   const sendMessage = (msg: any) => {
+   
     setMessages((prev: any) => [...prev, msg])
   }
   function updateMessageViewStatus(msg: IMessage) {
@@ -61,12 +65,13 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
   }
 
   useEffect(() => {
-    socket.on('sendMessage', sendMessage)
+   
+    socket.on(`sendMessage-${chat.id}`, sendMessage)
     return () => {
-      socket.off('sendMessage', sendMessage)
+      socket.off(`sendMessage-${chat.id}`, sendMessage)
     }
-  }, [setMessages])
-  // const {messages:gugu} = message
+  }, [chat, setMessages])
+
   return (
     <>
       <div className={styles.top}>
@@ -78,8 +83,8 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
         <h3>Поставщик</h3>
         <button
           onClick={() => {
-            push("/")
             socket.disconnect()
+            push("/")
           }}
         >
           <Image

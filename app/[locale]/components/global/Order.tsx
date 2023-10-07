@@ -8,58 +8,55 @@ import { usePathname, useRouter } from "next/navigation";
 import axios from "axios";
 import useCookies from "react-cookie/cjs/useCookies";
 import IProduct from "@/interfaces/Product/IProduct";
+import Auth from "./Auth";
 
 interface Order {
-  setOrder: Function;
-  order: boolean;
-  selectedProduct: any;
-  totalPrice: number
-  counts: number
+  products: {
+    id: string
+    sum: number,
+    qty: number
+  }[],
+  order: boolean,
+  setOrder: Function,
+  deliveryTo: string
 }
 
-const Order = ({ setOrder, order, selectedProduct, totalPrice, counts }: Order) => {
+const Order = ({ setOrder, order, products, deliveryTo }: Order) => {
+  console.log(products);
   const [cookie, setCookie] = useCookies(["aboutUser"])
   const [userInform] = useCookies(["userInfo"])
   const router = useRouter()
   const path = usePathname()
-  console.log(selectedProduct)
   const { aboutUser } = cookie
   const { userInfo } = userInform
-
-  const [selectedCard, setSelectedCard] = useCookies(["selectedCard"]);
-
-  const [array, setArray] = useState(selectedCard.selectedCard || []);
-
-  const handlePushToCart = () => {
-    const updatedArray = [...array, {
-      product: selectedProduct,
-      productId: path,
-      qty: counts
-    }];
-    setArray(updatedArray);
-    setSelectedCard("selectedCard", updatedArray);
-  }
-
+  const [auth, setAuth] = useState(false)
+  const [fromWhere, setFromWhere] = useState(1)
   const handlePost = () => {
+    if (userInfo) {
       axios.post(`${process.env.NEXT_PUBLIC_API}/api/orders/new`, {
-        products: {
-          productId: selectedProduct,
-          qty: counts
-        },
-        deliveryAddress: "some address to deliver"
+        products: products.map(pr => {
+          return {
+            price: pr.sum.toString().length < 3,
+            productId: pr.id,
+            qty: pr.qty
+          }
+        }),
+        deliveryAddress: deliveryTo
       },
         {
           headers: {
-            "Content-Type": "application/json",
-            "Authorization": userInfo ? userInfo.userToken : aboutUser ? aboutUser.userToken : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjkyMDU5YTI3Njc1OTk0N2QyOTZkMyIsInBob25lTnVtYmVyIjo5OTg5MTIzNDU2NzgsImlhdCI6MTY4OTk1Mzc0N30.nz6rhxCKJj2q5ZIyn2ydBgOy90Lw2Y5RsgfjPbjT0a8"
+            Authorization: userInfo.userToken
           },
         }).then((res: any) => {
+          console.log(res.data);
           setCookie("aboutUser", {
-            userBooked: res.data.id,
-            userId: res.data.id,  
-            userToken: userInfo ? userInfo.userToken  : aboutUser ? res.data.token : ""
+            userBooked: products,
+            userToken: userInfo ? userInfo.userToken : aboutUser ? res.data.token : ""
           }, { path: "/" })
-        }).catch(err => console.log(err))
+        })
+    } else {
+      setAuth(true)
+    }
   }
 
   return (
@@ -88,7 +85,7 @@ const Order = ({ setOrder, order, selectedProduct, totalPrice, counts }: Order) 
             <p>В ближайшее время мы с вами свяжемся</p>
           </div>
           <button onClick={() => {
-            path === "/cart" ? handlePost() : handlePushToCart() 
+            handlePost()
             setOrder(false);
           }} className={styles.take}>
             Принять
@@ -100,6 +97,7 @@ const Order = ({ setOrder, order, selectedProduct, totalPrice, counts }: Order) 
             setOrder(false);
           }}
         />
+        <Auth fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} setIsAuthOpen={setAuth} />
       </div>
     </>
   );

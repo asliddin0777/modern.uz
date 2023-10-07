@@ -14,7 +14,11 @@ import { usePathname, useRouter } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
 import CategoryProp from "../../components/local/CategoryProp";
 
-const Page = () => {
+const Page = ({searchParams}: {
+  searchParams: {
+    id: string
+  }
+}) => {
   const [cardBurger, setCardBurger] = useState<boolean>(false);
   const [subcategor, setSubcategory] = useState<any[] | any>();
   const [load, setLoad] = useState<boolean>(true);
@@ -32,7 +36,7 @@ const Page = () => {
   };
 
   const pathname = usePathname();
-  // console.log(pathname);
+
 
   useEffect(() => {
     setLoad(true);
@@ -45,7 +49,6 @@ const Page = () => {
       .then((res: any) => {
         setSelectedProduct(res.data);
       })
-      .catch((e: string) => console.log(e))
       .finally(() => {
         setLoad(false);
       });
@@ -62,7 +65,6 @@ const Page = () => {
       .then((res: any) => {
         setSelectedProduct(res.data);
       })
-      .catch((e: string) => console.log(e))
       .finally(() => {
         setLoad(false);
       });
@@ -71,16 +73,13 @@ const Page = () => {
 
   useEffect(() => {
     setLoad(true);
-    console.log(pathname);
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API}/api/subcategories/${pathname.split("/")[pathname.split("/").length - 0]
-        }`
+        `${process.env.NEXT_PUBLIC_API}/api/subcategories/${searchParams.id}`
       )
       .then((res: any) => {
         setSubcategory(res.data);
       })
-      .catch((e: string) => console.log(e))
       .finally(() => {
         setLoad(false);
       });
@@ -99,8 +98,6 @@ const Page = () => {
         const [res1, res2] = await axios.all([categories, subCategories]);
         setCategories(res1.data);
         setSubCategories(res2.data);
-      } catch (err) {
-        console.log(err);
       } finally {
         setLoad(false);
       }
@@ -108,27 +105,21 @@ const Page = () => {
     fetchData();
   }, []);
 
-
-  console.log(Categories.name)
-
   const handlerFilter = () => {
     axios
       .get<IProduct[]>(`${process.env.NEXT_PUBLIC_API}/api/products/`, {
         params: {
-          subcategory: pathname.split("/")[pathname.split("/").length - 1],
+          subcategory: searchParams.id,
           props: selectedProps,
         },
       })
       .then((res: any) => {
         setSelectedProduct(res.data);
       })
-      .catch((e: string) => console.log(e))
       .finally(() => {
         setLoad(false);
       });
   };
-
-  console.log(categories)
 
   if (!load) {
     return (
@@ -144,7 +135,7 @@ const Page = () => {
             <div className={styles.cardBurgerg} onClick={cardBurgerHandler}>
               <h3>Фильтр</h3>
               <Image
-                src={"/rightArrow.svg"}
+                src={"/icons/rightArrow.svg"}
                 width={24}
                 height={24}
                 alt="arrow"
@@ -173,7 +164,9 @@ const Page = () => {
               {selectedProduct && selectedProduct.products &&
                 selectedProduct.products.map((e, index: number) => (
                   <Card
-                    // animation="fade-down" 
+                    card={e}
+                    // animation=""
+                    animation="fade-down" 
                     url={e.id}
                     height={300}
                     setData={setData}
@@ -185,8 +178,7 @@ const Page = () => {
                         : "/images/noImg.jpg"
                     }
                     title={e.name}
-                    // @ts-ignore
-                    price={e.price[0].price}
+                    price={String(e.price[0].price)}
                     key={e.id}
                     isLiked
                     likedObj={likedObj}

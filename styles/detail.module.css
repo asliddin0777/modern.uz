@@ -6,7 +6,7 @@
 }
 
 .container {
-  width: 1180px;
+  width: var(--container-width);
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -513,9 +513,6 @@
     width: 100px;
     height: 50px;
     font-size: 16px;
-  }
-  .characterSide {
-    justify-content: flex-end;
   }
   .characterInfoLeft > p, .characterInfoRight > p {
     font-size: 14px !important;

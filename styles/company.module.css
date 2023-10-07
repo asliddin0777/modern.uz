@@ -1,5 +1,5 @@
 .container {
-    width: 1180px;
+    width: var(--container-width);
     padding: 10px 0;
     margin: 0 auto;
     justify-content: center;
@@ -178,7 +178,7 @@
 }
 
 .navigation {
-    width: 1180px;
+    width: var(--container-width);
     display: flex;
     align-items: center;
     height: 65px;

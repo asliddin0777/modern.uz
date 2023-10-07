@@ -55,7 +55,7 @@ const categoryProp = ({
                               }
                             : {}
                         }
-                        src={"/toparrow.svg"}
+                        src={"/icons/toparrow.svg"}
                         width={15}
                         height={12}
                         alt="toparrow"

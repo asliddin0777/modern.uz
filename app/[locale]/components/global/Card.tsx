@@ -10,7 +10,7 @@ import React, {
 import Image from "next/image";
 import styles from "@/styles/card.module.css";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import likes from "@/public/icons/like2.svg";
 import likeBlue from "@/public/likeBlue.svg";
 import { useCookies } from "react-cookie";
@@ -20,8 +20,9 @@ import Auth from "./Auth";
 import IProduct from "@/interfaces/Product/IProduct";
 import { IPage } from "@/interfaces/IPage";
 import Success from "../local/Success";
-import AOS from "aos";
+import AOS, { refresh } from "aos";
 import "aos/dist/aos.css";
+import Error from "../local/Error";
 
 interface Card {
   price: string;
@@ -59,6 +60,7 @@ const Card = ({
   const [addedToCart, setAddedToCart] = useState<boolean>(false);
   const [succed, setSucced] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>("");
+  const [error, setErr] = useState<boolean>(false)
   useEffect(() => {
     if (auth === false) {
       document.body.style.overflow = "auto";
@@ -85,6 +87,9 @@ const Card = ({
       setAuth(!auth);
     }
   };
+
+  const path= usePathname()
+
 
   return (
     <>
@@ -138,7 +143,6 @@ const Card = ({
                   Authorization: userInfo.userToken,
                 },
               };
-
               axios(data)
                 .then((res) => {
                   setData((prev) => !prev);
@@ -203,7 +207,7 @@ const Card = ({
             </svg>
           )}
         </div>
-        <div className={styles.buy}>
+            {path.split("/")[1] !== "company" && <div className={styles.buy}>
           <button onClick={sellBot}>Купить</button>
           <div
             onClick={() => {
@@ -237,7 +241,7 @@ const Card = ({
               height={20.5}
             />
           </div>
-        </div>
+        </div>}
       </div>
     </>
   );

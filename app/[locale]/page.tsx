@@ -1,11 +1,9 @@
 "use client";
-import Head from "next/head";
 import styles from "@/styles/index.module.css";
 import Categories from "./components/global/Categories";
 import Image from "next/image";
 import Card from "./components/global/Card";
-import Footer from "./components/global/Footer";
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect, cache } from "react";
 import HeaderTabs from "./components/local/HeaderTabs";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -17,12 +15,9 @@ import "swiper/css/pagination";
 import axios from "axios";
 import Loader from "./components/local/Loader";
 import { IPage } from "@/interfaces/IPage";
-import { usePathname } from "next/navigation";
 import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../[locale]/components/local/socket";
-import IProduct from "@/interfaces/Product/IProduct";
 import Auth from "./components/global/Auth";
-import ChatWithVendor from "./components/local/ChatWithVendor";
 
 const Home = ({
   searchParams,
@@ -40,17 +35,11 @@ const Home = ({
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true);
-  const [vendorCard, setVendorCard] = useState<any[] | any>([]);
   const [likedObj, setLikedObj] = useState<any[] | any>([]);
   const [vendor, setVendor] = useState<any[] | any>([]);
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(1);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
-  const [chat, setChat] = useState();
-  const [iprod, setIprod] = useState<IProduct>();
-
-  const pathname = usePathname();
-
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
 
@@ -68,7 +57,7 @@ const Home = ({
 
   useEffect(() => {
     setLoad(true);
-    const fetchData = async () => {
+    const fetchData = cache( async () => {
       try {
         const req1 = axios.get<IPage>(
           `${process.env.NEXT_PUBLIC_API}/api/products`
@@ -102,7 +91,7 @@ const Home = ({
       } finally {
         setLoad(false);
       }
-    };
+    })
     fetchData();
   }, []);
   useEffect(() => {
@@ -117,16 +106,13 @@ const Home = ({
           const pop = axios.get(
             `${process.env.NEXT_PUBLIC_API}/api/products?popularProducts=true`
           );
-          const [product, popular, dataget] = await axios.all([prod, pop]);
+          const [product, popular] = await axios.all([prod, pop]);
           setData(product.data);
           setPopularProducts(popular.data);
-          setData(dataget.data);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      refetchData();
+        } finally {}
+      }; 
       setRefetch(false);
+      refetchData();
     }
   }, [refetch]);
 
@@ -134,16 +120,16 @@ const Home = ({
     document.body.offsetWidth < 680 && document.body.offsetWidth > 460
       ? setSlidesPerView(3)
       : document.body.offsetWidth < 460
-      ? setSlidesPerView(2)
-      : setSlidesPerView(4);
+        ? setSlidesPerView(2)
+        : setSlidesPerView(4);
   }, []);
 
   useEffect(() => {
     document.body.offsetWidth < 680 && document.body.offsetWidth > 460
       ? setSlidesPerView(3)
       : document.body.offsetWidth < 460
-      ? setSlidesPerView(2)
-      : setSlidesPerView(4);
+        ? setSlidesPerView(2)
+        : setSlidesPerView(4);
   }, []);
 
   const pagination: object = {
@@ -152,8 +138,6 @@ const Home = ({
       return '<span class="' + className + '">' + (index + 1) + "</span>";
     },
   };
-
-  console.log(slides)
 
   if (load === true) {
     return <Loader />;
@@ -182,8 +166,8 @@ const Home = ({
                             <Link
                               href={
                                 e.productId
-                                  ? `/product/${e.title}?=id${e.productId}`
-                                  : `/company/${e.title}?=id${e.vendorId}`
+                                  ? `/product/${e.title.split(" ").join("-")}?id=${e.productId}`
+                                  : `/company/${e.title.split(" ").join("-")}?id=${e.vendorId}`
                               }
                               className={styles.addLeft}
                             >
@@ -234,13 +218,13 @@ const Home = ({
                           >
                             <Link
                               className={styles.categoryItem}
-                              
+
                               href={`/category/${val.name}?=id${val.id}`}
                             >
-                              <div className={styles.categoriesTop} style={val.icon ? {border: "1px solid #4D4D4D"} : {border: 0}}>
+                              <div className={styles.categoriesTop} style={val.icon ? { border: "1px solid #4D4D4D" } : { border: 0 }}>
                                 {val.icon ? (
                                   <Image
-                                  
+
                                     src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${val.icon?.name}`}
                                     width={52}
                                     height={51}
@@ -353,127 +337,119 @@ const Home = ({
                     setFromWhere={setFromWhere}
                   />
                 )}
-                {isChatOpen === true && (
-                  <ChatWithVendor
-                    chat={chat}
-                    setChatListOpener={() => {}}
-                    userInfo={userInfo}
-                    selectedProduct={undefined}
-                    setIsChatOpen={setIsChatOpen}
-                  />
-                )}
                 {vendor &&
                   vendor.map((e: any, index: number) => {
-                    return (
-                      <div className={styles.cards} key={e.id}>
-                        <div className={styles.card__left}>
-                          <Link
-                            style={{
-                              color: "#000",
-                            }}
-                            href={`/company/${e.id}`}
-                            as={`/company/${e.name}?id=${e.id}`}
-                            className={styles.card__title}
-                          >
-                            {/* <Image
-                              src={"/icons/profile.svg"}
-                              height={57}
-                              width={57}
-                              alt="profile"
-                            /> */}
-                            <div
-                              className={styles.profileImage}
+                    if (e) {
+                      return (
+                        <div className={styles.cards} key={e.id}>
+                          <div className={styles.card__left}>
+                            <Link
                               style={{
-                                background: `${getRandomColor()}`,
+                                color: "#000",
                               }}
+                              href={`/company/${e.id}`}
+                              as={`/company/${e.name.split(" ").join("-")}?id=${e.id}`}
+                              className={styles.card__title}
                             >
-                              {e.name[0]}
+                              {/* <Image
+                                src={"/icons/profile.svg"}
+                                height={57}
+                                width={57}
+                                alt="profile"
+                              /> */}
+                              <div
+                                className={styles.profileImage}
+                                style={{
+                                  background: `${getRandomColor()}`,
+                                }}
+                              >
+                                {e.name[0]}
+                              </div>
+                              <div>
+                                <h3>{e.name}</h3>
+                              </div>
+                            </Link>
+                            <div className={styles.description}>
+                              <p>Описание</p>
+                              <p>{e.description}</p>
                             </div>
-                            <div>
-                              <h3>{e.name}</h3>
-                            </div>
-                          </Link>
-                          <div className={styles.description}>
-                            <p>Описание</p>
-                            <p>{e.description}</p>
                           </div>
-                        </div>
-                        <div className={styles.card__right}>
-                          <div className={styles.cards__button}>
-                            <button
-                              onClick={() => {
-                                push(`/company/${e.name}?id=${e.id}`);
-                              }}
-                            >
-                              Посмотреть все товары
-                            </button>
-                            <div
-                              className={styles.chatButton}
-                              onClick={() => {
-                                console.log(data);
-                                if (userInfo !== undefined) {
-                                  setIsChatOpen(!isChatOpen);
+                          <div className={styles.card__right}>
+                            <div className={styles.cards__button}>
+                              <button
+                                onClick={() => {
+                                  push(`/company/${e.name.split(" ").join("-")}?id=${e.id}`);
+                                }}
+                              >
+                                Посмотреть все товары
+                              </button>
+                              <div
+                                className={styles.chatButton}
+                                onClick={() => {
                                   socket.connect();
-                                  socket.emit(
-                                    "newUser",
-                                    JSON.stringify({
-                                      id: userInfo.userId,
-                                      fullName: `${localStorage.getItem(
-                                        "userName"
-                                      )} ${localStorage.getItem("lastName")}`,
-                                    })
-                                  );
-                                  axios
-                                    .post(
-                                      `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
-                                      {
-                                        author: e.produts[0].author,
-                                        product: iprod?.id,
-                                      },
-                                      {
-                                        headers: {
-                                          Authorization: userInfo.userToken,
+                                  if (userInfo !== undefined && e) {
+                                    setIsChatOpen(!isChatOpen);
+                                    socket.emit(
+                                      "newUser",
+                                      JSON.stringify({
+                                        id: userInfo.userId,
+                                        fullName: `${localStorage.getItem(
+                                          "userName"
+                                        )} ${localStorage.getItem("lastName")}`,
+                                      })
+                                    );
+                                    axios
+                                      .post(
+                                        `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
+                                        {
+                                          admin: e.admin.id
                                         },
-                                      }
-                                    )
-                                    .then((res) => {
-                                      setChat(res.data);
-                                    });
-                                } else {
-                                  setAuth(!auth);
-                                  setFromWhere(2);
-                                }
-                              }}
-                            >
-                              <Image
-                                src={"/icons/chat.svg"}
-                                alt="chat icon"
-                                width={43}
-                                height={39}
-                              />
-                              <p> Написать поставщику</p>
+                                        {
+                                          headers: {
+                                            Authorization: userInfo.userToken,
+                                          },
+                                        }
+                                      )
+                                      .then((res) => {
+                                        push(`/chats?id=${res.data.id}`)
+                                      });
+                                  } else {
+                                    setAuth(!auth);
+                                    setFromWhere(2);
+                                  }
+                                }}
+                              >
+                                <Image
+                                  src={"/icons/chat.svg"}
+                                  alt="chat icon"
+                                  width={43}
+                                  height={39}
+                                />
+                                <p>Написать поставщику</p>
+                              </div>
                             </div>
+                            {auth === true && (
+                              <Auth
+                                setIsAuthOpen={setAuth}
+                                fromWhere={fromWhere}
+                                isAuthOpen={auth}
+                                setFromWhere={setFromWhere}
+                              />
+                            )}
+                            {/* {isChatOpen === true && chat && (
+                              <ChatWithVendor
+                                id={chat.id}
+                                chat={chat}
+                                setChatListOpener={() => { }}
+                                userInfo={userInfo}
+                                selectedProduct={undefined}
+                                setIsChatOpen={setIsChatOpen}
+                              />
+                            )} */}
                           </div>
-                          {auth === true && (
-                            <Auth
-                              setIsAuthOpen={setAuth}
-                              fromWhere={fromWhere}
-                              isAuthOpen={auth}
-                              setFromWhere={setFromWhere}
-                            />
-                          )}
-                          {isChatOpen === true && (
-                            <ChatWithVendor
-                              chat={chat}
-                              setChatListOpener={() => {}}
-                              userInfo={userInfo}
-                              selectedProduct={undefined}
-                              setIsChatOpen={setIsChatOpen}
-                            />
-                          )}
                         </div>
-                      </div>
-                    );
+                      );
+                    }
                   })}
               </>
             )}
@@ -484,4 +460,4 @@ const Home = ({
   }
 };
 
-export default memo(Home);
+export default Home;

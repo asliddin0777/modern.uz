@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import styles from "@/styles/auth.module.css";
 import Image from "next/image";
 import axios from "axios";
@@ -73,7 +73,6 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
         setIsAuthOpen(false)
         refresh()
       }).catch(err => {
-        console.log(err);
         setError(err.response.data.errors[0].message);
         setErr(true)
       })
@@ -91,7 +90,6 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
             "Content-Type": "application/json"
           }
         }).catch(err => {
-          console.log(err.response.data);
           //setError(err.response.data.errors[0].message)
         })
         setFromWhere(0)
@@ -117,7 +115,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
           headers: {
             "Content-Type": "application/json"
           }
-        }).catch(err => console.log(err)).then(res => setCookie("userInfo", {
+        }).then(res => setCookie("userInfo", {
           userToken: res?.data.token,
         }))
         setQueue(2.5)
@@ -139,13 +137,13 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
             Authorization: cookie.userInfo.userToken
           }
         }).then((res) => {
-          console.log(res);
+          
           setCookie("userInfo", {
             userPhoneNumber: res.data.phoneNumber,
             userId: res.data.id,
             userToken: res.data.token,
           })
-        }).catch(err => console.log(err))
+        })
         setFromWhere(0)
         setIsAuthOpen(false)
         passRef.current.value = null
@@ -236,7 +234,6 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
               </div>
               <button onClick={() => {
                 handleUserGetCode()
-                // console.log("object");
               }} className={styles.enter}>Подтвердить</button>
             </> : queue === 2 ?
               <>
@@ -320,4 +317,4 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
   );
 };
 
-export default Auth;
+export default memo(Auth);

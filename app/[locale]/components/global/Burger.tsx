@@ -6,17 +6,20 @@ import Link from "next/link";
 import { useCookies } from "react-cookie";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Auth from "./Auth";
+import IProduct from "@/interfaces/Product/IProduct";
+import SearchModal from "./SearchModal";
 
 interface Burger {
   setIsBurgerOpen: Function;
   isBurgerOpen: boolean;
+  products: IProduct[]
 }
 
-const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
+const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(0);
-
+  const {push} = useRouter()
   const closed = !isAuthOpen;
 
   const [cookie] = useCookies(["userInfo"]);
@@ -26,6 +29,30 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
   useEffect(() => {
     document.body.style.overflow = "auto";
   }, [closed]);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [foundVal, setFoundVal] = useState<IProduct[]>()
+  const handleSearch = (event: {
+    target: {
+      value: string
+    }
+  }) => {
+    setSearchTerm(event.target.value);
+    console.log(searchTerm);
+  };
+  const handleSubmit = (e: {
+    preventDefault: Function
+  }) => {
+    e.preventDefault()
+    if (searchTerm.length !== 0) {
+      const searchResults = products.filter((item) =>
+        item.name.toLowerCase().trim().includes(searchTerm.toLowerCase().trim())
+      );
+      setFoundVal(searchResults)
+    } else {
+      setFoundVal([])
+    }
+  }
 
   return (
     <div className={isBurgerOpen ? styles.burger : styles.dn}>
@@ -51,19 +78,25 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
         >
           Modern
         </h2>
-        <div className={styles.search}>
-          <input type="text" placeholder="Поиск" />
-          <button>
+        <form className={styles.search}>
+          <input value={searchTerm} onChange={handleSearch} autoComplete="off" type="text" placeholder="Поиск" />
+          <button onClick={handleSubmit}>
             <Image
-              src={"/icons/search.svg"}
+              style={{
+                cursor: "pointer"
+              }}
+              src="/icons/search.svg"
+              alt="search icon"
               width={22}
               height={22}
-              alt="search icon"
             />
           </button>
-        </div>
+        </form>
+        <SearchModal products={foundVal ? foundVal : []} entity={"burger"} />
         <div className={styles.navigation}>
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            push("/")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/home.svg"}
               alt="home icon"
@@ -72,7 +105,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
             />
             <Link href="/">Главная</Link>
           </div>
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            push("/cart")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/basket.svg"}
               alt="bascet icon"
@@ -83,7 +118,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
               Корзина
             </Link>
           </div>
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            userInfo && push("/profile")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/userimage.svg"}
               alt="home icon"
@@ -101,37 +138,21 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
                 >
                   Войти
                 </button>
-                {/* <p> | </p>
-                <button
-                  onClick={() => {
-                    setIsAuthOpen(true);
-                    setFromWhere(2);
-                  }}
-                >
-                  Зарегестрироваться
-                </button> */}
               </div>
             ) : (
               <div
                 className={styles.auth}
                 onClick={() => {
-                  router.push("/profile");
+                  push("/profile");
                 }}
               >
                 <button style={{ color: "#000", fontSize: 16 }}>Профиль</button>
               </div>
             )}
           </div>
-          {/* <div className={styles.navigateItem}>
-            <Image
-              src={"/icons/basket.svg"}
-              alt="home icon"
-              width={22}
-              height={22}
-            />
-            <p>Заводы</p>
-          </div> */}
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            push("/liked")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/heart.svg"}
               alt="home icon"
@@ -140,7 +161,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
             />
             <Link href="/liked">Избранные</Link>
           </div>
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            push("/delivery")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/delivery.svg"}
               alt="home icon"
@@ -149,7 +172,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
             />
             <Link href="/delivery">Доставка</Link>
           </div>
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            push("/aboutUs")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/about.svg"}
               alt="home icon"
@@ -158,7 +183,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
             />
             <Link href="/aboutUs">О нас</Link>
           </div>
-          <div className={styles.navigateItem}>
+          <div onClick={()=> {
+            push("/contact")
+          }} className={styles.navigateItem}>
             <Image
               src={"/icons/contactBurger.svg"}
               alt="home icon"
@@ -212,7 +239,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen }: Burger) => {
                   isAuthOpen={auth}
                   setIsAuthOpen={setAuth}
                 />{" "}
-                <div style={{cursor: "pointer"}} className={styles.navigateItem}>
+                <div style={{ cursor: "pointer" }} className={styles.navigateItem}>
                   <svg
                     viewBox="0 0 24.00 24.00"
                     width={24}
