@@ -5,7 +5,7 @@ import Image from "next/image";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import Error from "../local/Error";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 
 
@@ -41,6 +41,10 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
     }, 1000);
     return () => clearInterval(interval);
   }, [dum]);
+
+  const path= usePathname()
+
+  const category = path.split("/")[1]
 
 
   const phoneRef = useRef<HTMLInputElement | any>()
@@ -154,12 +158,50 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
     }
   }
 
+  const [ml, setMl] = useState(0)
+  useEffect(()=> {
+    if (window.innerWidth <= 1035) {
+      setMl(-150)
+    }
+    if (window.innerWidth >= 1035) {
+      setMl(0)
+    }
+    if (window.innerWidth <= 800) {
+      setMl(-300)
+    }
+    if (window.innerWidth <= 760) {
+      setMl(-500)
+    }
+    if (window.innerWidth <= 700) {
+      setMl(-420)
+    }
+    if (window.innerWidth <= 540) {
+      setMl(-300)
+    }
+    if (window.innerWidth <= 483) {
+      setMl(-600)
+    }
+    if (window.innerWidth <= 400) {
+      setMl(-580)
+    }
+    if (window.innerWidth <= 374) {
+      setMl(-530)
+    }
+    if (window.innerWidth <= 340) {
+      setMl(-520)
+    }
+  }, [window.innerWidth])
 
   return (
     <>
       {error !== "" && <Error err={err} setErr={setErr} msg={error} />}
       <div className={isAuthOpen ? styles.authent : styles.dn}>
-        <div className={isAuthOpen ? styles.auth : styles.dn}>
+        <div style={category === "category" ? {
+          left: "150%",
+          marginLeft: ml,
+          width: window.innerWidth <= 540 ? "fit-content" : 532,
+          padding: window.innerWidth <= 540 ? 32 : "auto"
+        }: {}} className={isAuthOpen ? styles.auth : styles.dn}>
           <div className={styles.close}>
             <button
               onClick={() => {

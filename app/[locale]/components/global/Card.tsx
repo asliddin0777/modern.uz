@@ -90,7 +90,8 @@ const Card = ({
 
   const path= usePathname()
 
-
+  const category = path.split("/")[1]
+  
   return (
     <>
       {auth && (
@@ -130,7 +131,6 @@ const Card = ({
             </div>
           </div>
         </Link>
-
         <Success err={succed} msg={msg} setErr={setSucced} />
         <div
           className={styles.like}

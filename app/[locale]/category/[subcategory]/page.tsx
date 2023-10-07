@@ -1,16 +1,13 @@
 "use client";
 import styles from "@/styles/category.module.css";
-import Header from "../../components/global/Header";
 import Image from "next/image";
 import Card from "../../components/global/Card";
-import Footer from "../../components/global/Footer";
 import { useState, useEffect, memo } from "react";
-import TopHeader from "../../components/global/TopHeader";
 import Categories from "../../components/global/Categories";
 import CardBurger from "../../components/local/CardBurger";
 import axios from "axios";
 import Loader from "../../components/local/Loader";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
 import CategoryProp from "../../components/local/CategoryProp";
 
@@ -165,7 +162,6 @@ const Page = ({searchParams}: {
                 selectedProduct.products.map((e, index: number) => (
                   <Card
                     card={e}
-                    // animation=""
                     animation="fade-down" 
                     url={e.id}
                     height={300}

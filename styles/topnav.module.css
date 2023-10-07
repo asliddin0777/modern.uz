@@ -28,6 +28,28 @@
     gap: 10px;
 }
 
+.topNavBar > div:nth-child(3) {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.topNavBar > div:nth-child(3) > div:first-child {
+  display: flex;
+    background: #fff;
+    gap: 1rem;
+    position: absolute;
+    left: 50% !important;
+    margin-left: -250px !important;
+    border-radius: 20px;
+    z-index: 100000000;
+    flex-direction: column;
+    top: 10rem;
+    padding-bottom: 50px;
+    width: 531px;
+    align-items: center;
+}
+
 @media screen and (max-width: 1200px) {
     .topNavBar {
         width: 100%;

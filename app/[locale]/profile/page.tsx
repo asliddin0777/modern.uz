@@ -29,21 +29,21 @@ const Profile = () => {
     document.body.style.overflow = "auto";
   });
 
-  useEffect(()=> {
+  useEffect(() => {
     if (!userInfo) {
       push("/")
     }
   }, [])
   const [load, setLoad] = useState<boolean>(true);
   const [user, setUser] = useState<IUser>();
-  
+
   function getRandomColor() {
     var r = Math.floor(Math.random() * 256); // Random value between 0 and 255 for red
     var g = Math.floor(Math.random() * 256); // Random value between 0 and 255 for green
     var b = Math.floor(Math.random() * 256); // Random value between 0 and 255 for blue
-    
+
     var color = "rgb(" + r + ", " + g + ", " + b + ")";
-    
+
     return color;
   }
 
@@ -58,34 +58,38 @@ const Profile = () => {
   }>()
   const [orders, setOrders] = useState<number>(0)
   useEffect(() => {
-    setLoad(true);
-    const fetchData = async () => {
-      try {
-        const user = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}/api/users/current`,
-          {
+    if (userInfo) {
+      setLoad(true);
+      const fetchData = async () => {
+        try {
+          const user = await axios.get(
+            `${process.env.NEXT_PUBLIC_API}/api/users/current`,
+            {
+              headers: {
+                Authorization: userInfo !== undefined && userInfo.userToken,
+              },
+            }
+          );
+          await axios.get(`${process.env.NEXT_PUBLIC_API}/api/orders/user`, {
             headers: {
-              Authorization: userInfo !== undefined && userInfo.userToken,
-            },
-          }
-        );
-        await axios.get(`${process.env.NEXT_PUBLIC_API}/api/orders/user`, {
-          headers: {
-            Authorization: userInfo !== undefined && userInfo.userToken
-          }
-        }).then(res=> {
-          setUserOrdered(res.data[res.data.length - 1])
-          setOrders(res.data.length)
-        })
-        const [res3] = await axios.all([
-          user,
-        ]);
-        setUser(res3.data);
-      } finally {
-        setLoad(false);
-      }
-    };
-    fetchData();
+              Authorization: userInfo !== undefined && userInfo.userToken
+            }
+          }).then(res => {
+            setUserOrdered(res.data[res.data.length - 1])
+            setOrders(res.data.length)
+          })
+          const [res3] = await axios.all([
+            user,
+          ]);
+          setUser(res3.data);
+        } finally {
+          setLoad(false);
+        }
+      };
+      fetchData();
+    } else {
+      push("/")
+    }
   }, []);
   if (!load) {
     if (userInfo) {
@@ -109,7 +113,7 @@ const Profile = () => {
             </div>
             {profileBurger && (
               <ProfileBurger
-              setUser={removeCookie}
+                setUser={removeCookie}
                 setButtonColor={setButtonColor}
                 buttonColor={buttonColor}
               />
@@ -171,7 +175,7 @@ const Profile = () => {
                       className={styles.profileClose}
                       onClick={() => {
                         removeCookie("userInfo");
-                        push("/");
+                        // push("/");
                         window.location.reload()
                       }}
                     >
@@ -316,44 +320,44 @@ const Profile = () => {
                         <div className={styles.orderSection}>
                           <div>
                             {userOrdered &&
-                                userOrdered.products.map((pd, index) => {
-                                    return (
-                                      <div key={index+ Math.random()+pd.price}>
-                                        {" "}
-                                        <div key={index} className={styles.cart}>
-                                          <Image
-                                            src={
-                                              pd.productId.media?.length
-                                                ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${pd.productId.media[1]?.name}`
-                                                : "/images/14.png"
-                                            }
-                                            width={58}
-                                            height={58}
-                                            alt="hello"
-                                            style={{
-                                              width: "auto",
-                                              height: 58,
-                                            }}
-                                          />
-                                          <div className={styles.cartTitle}>
-                                            <h3>{pd.productId.name}</h3>
-                                            <div className={styles.const}>
-                                              <div className={styles.constTag}>
-                                                <p>Кол-во:</p>
-                                                <p>{pd.qty}</p>
-                                              </div>
-                                              <div className={styles.priceTitle}>
-                                                <p>Стоимость:</p>
-                                                <p>{pd.price}</p>
-                                              </div>
-                                            </div>
+                              userOrdered.products.map((pd, index) => {
+                                return (
+                                  <div key={index + Math.random() + pd.price}>
+                                    {" "}
+                                    <div key={index} className={styles.cart}>
+                                      <Image
+                                        src={
+                                          pd.productId.media?.length
+                                            ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${pd.productId.media[1]?.name}`
+                                            : "/images/14.png"
+                                        }
+                                        width={58}
+                                        height={58}
+                                        alt="hello"
+                                        style={{
+                                          width: "auto",
+                                          height: 58,
+                                        }}
+                                      />
+                                      <div className={styles.cartTitle}>
+                                        <h3>{pd.productId.name}</h3>
+                                        <div className={styles.const}>
+                                          <div className={styles.constTag}>
+                                            <p>Кол-во:</p>
+                                            <p>{pd.qty}</p>
+                                          </div>
+                                          <div className={styles.priceTitle}>
+                                            <p>Стоимость:</p>
+                                            <p>{pd.price}</p>
                                           </div>
                                         </div>
-                                        <div className={styles.line}></div>
                                       </div>
-                                    );
-                                  })
-                              }
+                                    </div>
+                                    <div className={styles.line}></div>
+                                  </div>
+                                );
+                              })
+                            }
                           </div>
                         </div>
                       </div>
@@ -393,7 +397,7 @@ const Profile = () => {
             </div>
             {profileBurger && (
               <ProfileBurger
-              setUser={removeCookie}
+                setUser={removeCookie}
                 setButtonColor={setButtonColor}
                 buttonColor={buttonColor}
               />
