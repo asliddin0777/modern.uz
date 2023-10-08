@@ -174,8 +174,8 @@ const Profile = () => {
                     <div
                       className={styles.profileClose}
                       onClick={() => {
+                        push("/");
                         removeCookie("userInfo");
-                        // push("/");
                         window.location.reload()
                       }}
                     >
