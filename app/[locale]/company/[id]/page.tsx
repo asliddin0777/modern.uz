@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo } from "react";
+import React, { memo, cache } from "react";
 import styles from "@/styles/company.module.css";
 import Categories from "../../components/global/Categories";
 import Image from "next/image";
@@ -42,7 +42,7 @@ const Company = ({
 
   useEffect(() => {
     setLoad(true);
-    const fetchData = async () => {
+    const fetchData = cache(async () => {
       try {
         const categories = await axios.get(
           `${process.env.NEXT_PUBLIC_API}/api/categories`
@@ -64,7 +64,7 @@ const Company = ({
       } finally {
         setLoad(false);
       }
-    };
+    });
     fetchData();
   }, []);
   useEffect(() => {
@@ -183,7 +183,7 @@ const Company = ({
                   <Card
                     isLiked
                     setLikedObj={() => { }}
-                    setData={setRefetch}  
+                    setData={setRefetch}
                     card={e}
                     animation="fade-down"
                     cat={e.subcategory.name}
@@ -193,7 +193,7 @@ const Company = ({
                     image={
                       e.media.length > 0
                         ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0]?.name}`
-                        : "/images/noImg.jpg" 
+                        : "/images/noImg.jpg"
                     }
                     title={e.name}
                     price={String(e.price[0].price)}

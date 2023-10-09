@@ -1,7 +1,7 @@
 "use client";
 import styles from "@/styles/profile.module.css";
 import Image from "next/image";
-import { useState } from "react";
+import { cache, useState } from "react";
 import ChangePassword from "../components/local/ChangePassword";
 import ProfileBurger from "../components/local/ProfileBurger";
 import { useEffect } from "react";
@@ -61,7 +61,7 @@ const Profile = () => {
   useEffect(() => {
     if (userInfo) {
       setLoad(true);
-      const fetchData = async () => {
+      const fetchData = cache(async () => {
         try {
           const user = await axios.get(
             `${process.env.NEXT_PUBLIC_API}/api/users/current`,
@@ -87,7 +87,7 @@ const Profile = () => {
         } finally {
           setLoad(false);
         }
-      };
+      });
       fetchData();
     } else {
       push("/")

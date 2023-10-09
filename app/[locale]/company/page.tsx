@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo } from "react";
+import React, { memo, cache } from "react";
 import styles from "@/styles/company.module.css";
 import Categories from "../components/global/Categories";
 import { useState, useEffect } from "react";
@@ -19,10 +19,10 @@ const Company = () => {
   const [chat, setChat] = useState();
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
-  const {push} = useRouter()
+  const { push } = useRouter()
   useEffect(() => {
     setLoad(true);
-    const fetchData = async () => {
+    const fetchData = cache(async () => {
       try {
         const categories = await axios.get(
           `${process.env.NEXT_PUBLIC_API}/api/categories`
@@ -44,7 +44,7 @@ const Company = () => {
       } finally {
         setLoad(false);
       }
-    };
+    });
     fetchData();
   }, []);
   const [data, setData] = useState<object[] | any>([]);
@@ -100,15 +100,15 @@ const Company = () => {
                       <p>{e.description}</p>
                     </div>
                   </div>
-                    <div className={styles.card__right}>
-                      <div className={styles.cards__button}>
-                        <button
-                          onClick={() => {
-                            push(`/company/${e.name.split(" ")[0]}?id=${e.id}`);
-                          }}
-                        >
-                          Посмотреть все товары
-                        </button></div></div>
+                  <div className={styles.card__right}>
+                    <div className={styles.cards__button}>
+                      <button
+                        onClick={() => {
+                          push(`/company/${e.name.split(" ")[0]}?id=${e.id}`);
+                        }}
+                      >
+                        Посмотреть все товары
+                      </button></div></div>
                 </div>
               );
             })}
