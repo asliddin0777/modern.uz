@@ -4,9 +4,8 @@ import Head from "next/head";
 import Categories from "../../components/global/Categories";
 import styles from "@/styles/detail.module.css";
 import Image from "next/image";
-import Footer from "../../components/global/Footer";
 import Order from "../../components/global/Order";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import axios from "axios";
 import Loader from "../../components/local/Loader";
 import useCookies from "react-cookie/cjs/useCookies";
@@ -16,6 +15,8 @@ import Auth from "../../components/global/Auth";
 import StorageButton from "../../components/local/StorageButton";
 import ChatWithVendor from "../../components/local/ChatWithVendor";
 import IChat from "@/interfaces/IChat";
+import Success from "../../components/local/Success";
+import Error from "../../components/local/Error";
 
 const Detail = ({
   searchParams,
@@ -35,14 +36,16 @@ const Detail = ({
   const [textLength, setTextLength] = useState<number>(1000);
   const [data, setData] = useState<IProduct>();
   const [props, setProps] = useState<any | any[]>([]);
+  const [addedToCart, setAddedToCart] = useState<boolean>(false);
+  const [succed, setSucced] = useState<boolean>(false);
+  const [msg, setMsg] = useState<string>("");
   const [selectedMemory, setSelectedMemory] = useState<string>("");
-  const [selectedColor] = useState<string>("");
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(1);
-  const pathname = usePathname();
   const [cookie] = useCookies(["userInfo"]);
+  const [error, setErr] = useState<boolean>(false)
   const { userInfo } = cookie;
   useEffect(() => {
     order !== true
@@ -91,29 +94,7 @@ const Detail = ({
   const videoRef = useRef<HTMLVideoElement | any>();
 
   if (!load && data) {
-    const selectedProduct = data
-    // console.log(selectedProduct);
-    // const storage = selectedProduct?.props.filter(
-    //   (st: any) => st.prop.name === "Storage"
-    // );
-    // const colors: any = selectedProduct?.props.filter(
-    //   (st: any) => st.prop.name === "Color"
-    // );
-    // const warranty: any = selectedProduct?.props.find(
-    //   (wr: any) => wr.prop.name === "Warranty"
-    // );
-    // const manif: any = selectedProduct?.props.find(
-    //   (mf: any) => mf.prop.name === "Manufacturer"
-    // );
-    // const wtRs: any = selectedProduct?.props.find(
-    //   (wtrs: any) => wtrs.prop.name === "Water Resistance"
-    // );
-    // let checkWtRs;
-    // if (wtRs) {
-    //   let checkWtR = Boolean(wtRs?.value);
-    //   checkWtRs = checkWtR;
-    // }
-    // console.log(data);
+    const selectedProduct: IProduct = data
     return (
       <>
         <Head>
@@ -129,6 +110,8 @@ const Detail = ({
         <main className={styles.detail}>
           <Categories categories={categories} subcategories={subCategories} />
           <div className={styles.container}>
+            <Success err={succed} msg={msg} setErr={setSucced} />
+            <Error err={error} msg={msg} setErr={setErr} />
             <section className={styles.characteris}>
               <h3>
                 {selectedProduct ? selectedProduct.name : "Apple iPhone 14"}{" "}
@@ -142,7 +125,7 @@ const Detail = ({
                           ? selectedImage === ""
                             ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedProduct?.media[0]?.name}`
                             : `${process.env.NEXT_PUBLIC_IMAGE_API}/${selectedImage}`
-                          : "/icons/bag.svg"
+                          : "/images/noImg.jpg"
                       }
                       style={{
                         borderRadius: 15,
@@ -153,7 +136,7 @@ const Detail = ({
                     />
                   </button>
                   <div className={styles.imagesToSelect}>
-                    {selectedProduct?.media.map((e: any) => {
+                    {selectedProduct.media.length !== 0 ? selectedProduct.media.map((e: any) => {
                       return (
                         <div
                           key={e.id}
@@ -186,10 +169,14 @@ const Detail = ({
                           />
                         </div>
                       );
-                    })}
+                    }) : <div
+                      className={styles.imageToSelect}
+                    >
+                      <p>Нет изображения</p>
+                    </div>}
                   </div>
                 </div>
-    
+
                 <Order
                   deliveryTo=""
                   products={[{
@@ -220,20 +207,16 @@ const Detail = ({
                   <div className={styles.costTop}>
                     <div className={styles.cost}>
                       {selectedProduct &&
-                        selectedProduct.price.map((price: any) => {
-                          return (
-                            <div className={styles.costP} key={`${price.id}${Math.random}`}>
-                              <h3>{price.price} сум</h3>
-                              <h4
-                                style={{
-                                  textDecoration: "line-through",
-                                }}
-                              >
-                                {price.oldPrice} сум
-                              </h4>
-                            </div>
-                          );
-                        })}
+                        <div className={styles.costP} key={`${selectedProduct.id}${Math.random}`}>
+                          <h3>{selectedProduct.price[0].price} сум</h3>
+                          <h4
+                            style={{
+                              textDecoration: "line-through",
+                            }}
+                          >
+                            {selectedProduct.price[0].oldPrice} сум
+                          </h4>
+                        </div>}
                       <div
                         className={styles.like}
                         style={{
@@ -254,12 +237,6 @@ const Detail = ({
                           }
                         }}
                       >
-                        {/* <Image
-          src={ ? likeBlue : likes}
-          alt="like icon"
-          width={45}
-          height={45}
-        /> */}
                         {selectedProduct && userInfo && selectedProduct.likes?.find(id => id === userInfo.userId) ? <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" strokeWidth="0.9120000000000001"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#f00"></path> </g></svg> : <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" strokeWidth="0.9120000000000001"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#ffffff00"></path> </g></svg>}
                       </div>
                     </div>
@@ -276,7 +253,31 @@ const Detail = ({
                       >
                         Купить
                       </button>
-                      <div className={styles.addCart}>
+                      <div onClick={() => {
+                        if (userInfo) {
+                          axios
+                            .put(
+                              `${process.env.NEXT_PUBLIC_API}/api/users/basket/add/${selectedProduct.id}`,
+                              {},
+                              {
+                                headers: {
+                                  Authorization: userInfo.userToken,
+                                },
+                              }
+                            )
+                            .then((res) => {
+                              setAddedToCart(!addedToCart);
+                              setSucced(!succed);
+                              setMsg("Added to cart");
+                            })
+                            .catch((err) => {
+                              setErr(!error)
+                              setMsg(err.response.data.errors[0].message)
+                            });
+                        } else {
+                          setAuth(!auth);
+                        }
+                      }} className={styles.addCart}>
                         <Image
                           src={"/icons/buyY.svg"}
                           alt="add to cart icon"
@@ -351,37 +352,9 @@ const Detail = ({
               >
                 Характеристики
               </button>
-              {/* <button
-                onClick={() => {
-                  setControllerC(1);
-                }}
-                className={controllerC === 0 ? styles.select : styles.selected}
-              >
-                Отзывы
-              </button> */}
             </div>
             <section className={styles.detailSelected}>
               <>
-                {/* <div className={styles.detailS}>
-                    <div className={styles.characterInfo}>
-                      <div className={styles.characterInfoLeft}>
-                        {warranty && (
-                          <p>Гарантия.................................</p>
-                        )}
-                        {manif && <p>Производитель......................</p>}
-                        {wtRs && <p>Водонепроницаемый...........</p>}
-                        {selectedColor !== "" && (
-                          <p>Цвет.........................................</p>
-                        )}
-                      </div>
-                      <div className={styles.characterInfoRight}>
-                        {warranty && <p>{warranty.value}</p>}
-                        {manif && <p>{manif.value}</p>}
-                        {wtRs && <p>{checkWtRs ? "Да" : "Нет"}</p>}
-                        {selectedColor !== "" && <p>{selectedColor}</p>}
-                      </div>
-                    </div>
-                  </div> */}
                 <div className={styles.info}>
                   <p
                     style={{
@@ -414,59 +387,6 @@ const Detail = ({
                   </p>
                 </div>
               </>
-              {/* ) : (
-                <div className={styles.reviewsWrapper}>
-                  <form className={styles.postReview}>
-                    <h3>Оставить отзыв</h3>
-                    <input required type="text" />
-                  </form>
-                  {selectedProduct && selectedProduct?.review?.map(() => {
-                    return <Reviews key={uuidv4()} />;
-                  })}
-                </div>
-              )} */}
-            </section>
-            <section className={styles.similarProducts}>
-              {/* <h3>Похожие товары</h3>
-              <div className={styles.productWrapper}>
-                {cardObj.map((card, index) => {
-                  return (
-                    <Card
-                    setData={setData} card={card}
-                      isLiked={false}
-                      likedObj={likedObj}
-                      setLikedObj={setLikedObj}
-                      url={`${index}`}
-                      title={card.title}
-                      image={card.image}
-                      width={card.w}
-                      height={card.h}
-                      price={card.price}
-                      cat={card.cat}
-                      key={uuidv4()}
-                      animation=""
-                    />
-                  );
-                })}
-              </div>
-              <div className={styles.controllerProduct}>
-                <button>
-                  <Image
-                    src={"/icons/chevronLeft.svg"}
-                    alt="chevron left icon"
-                    width={11}
-                    height={20}
-                  />
-                </button>
-                <button>
-                  <Image
-                    src={"/icons/chevronRight.svg"}
-                    alt="chevron right icon"
-                    width={11}
-                    height={20}
-                  />
-                </button>
-              </div> */}
             </section>
           </div>
         </main>

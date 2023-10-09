@@ -46,6 +46,20 @@ const Header = ({ data }: IData) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isHeaderVisible, lastScrollPosition]);
+  const handleScroll = (event: {
+    preventDefault: Function
+  }) => {
+    event.preventDefault();
+  };
+  useEffect(() => {
+    if (products && products.length > 4) {
+      document.addEventListener('scroll', handleScroll, { passive: false });
+
+      return () => {
+        document.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, []);
 
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
@@ -124,13 +138,13 @@ const Header = ({ data }: IData) => {
     <>
       <Burger products={products} isBurgerOpen={isBurgerOpen} setIsBurgerOpen={setIsBurgerOpen} />
       {auth === true && (
-          <Auth
-            setIsAuthOpen={setAuth}
-            fromWhere={fromWhere}
-            isAuthOpen={auth}
-            setFromWhere={setFromWhere}
-          />
-        )}
+        <Auth
+          setIsAuthOpen={setAuth}
+          fromWhere={fromWhere}
+          isAuthOpen={auth}
+          setFromWhere={setFromWhere}
+        />
+      )}
       <header className={!nav ? styles.header : styles.headerNav}
         style={
           isHeaderVisible === true

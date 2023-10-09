@@ -88,10 +88,10 @@ const Card = ({
     }
   };
 
-  const path= usePathname()
+  const path = usePathname()
 
   const category = path.split("/")[1]
-  
+
   return (
     <>
       {auth && (
@@ -103,6 +103,8 @@ const Card = ({
           fromCat={true}
         />
       )}
+      <Success err={succed} msg={msg} setErr={setSucced} />
+      <Error err={error} msg={msg} setErr={setErr} />
       <div key={String(url)} data-aos="fade-up" className={styles.card}>
         <Link
           href={`/product/${title}?id=${url}`}
@@ -132,7 +134,6 @@ const Card = ({
             </div>
           </div>
         </Link>
-        <Success err={succed} msg={msg} setErr={setSucced} />
         <div
           className={styles.like}
           onClick={() => {
@@ -155,8 +156,8 @@ const Card = ({
           }}
         >
           {card &&
-          userInfo &&
-          card.likes?.find((id) => id === userInfo.userId) ? (
+            userInfo &&
+            card.likes?.find((id) => id === userInfo.userId) ? (
             <svg
               className={styles.like}
               width={35}
@@ -208,7 +209,7 @@ const Card = ({
             </svg>
           )}
         </div>
-            {path.split("/")[1] !== "company" && <div className={styles.buy}>
+        {path.split("/")[1] !== "company" && <div className={styles.buy}>
           <button onClick={sellBot}>Купить</button>
           <div
             onClick={() => {
@@ -226,9 +227,12 @@ const Card = ({
                   .then((res) => {
                     setAddedToCart(!addedToCart);
                     setSucced(!succed);
-                    succed === true && setMsg("Added to cart");
+                    setMsg("Added to cart");
                   })
-                  .catch((err) => console.log(err));
+                  .catch((err) => {
+                    setErr(!error)
+                    setMsg(err.response.data.errors[0].message)
+                  });
               } else {
                 setAuth(!auth);
               }

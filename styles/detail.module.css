@@ -70,10 +70,17 @@
   cursor: pointer;
 }
 .characterInfo {
-  display: flex;
-  align-items: center;
+  display: flex !important;
+  height: fit-content !important;
   gap: 2rem;
+  align-items: center !important;
+  flex-direction: row !important;
+  width: 100%;
   margin-bottom: 1rem;
+}
+
+.characterInfo > h4 {
+  text-transform: capitalize;
 }
 
 .characterInfoLeft * {
@@ -82,6 +89,13 @@
   line-height: 26px;
   gap: 15px;
   font-weight: 500;
+}
+
+.characterSide {
+  width: 33%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .characterInfoRight * {
@@ -102,9 +116,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 133px;
+  width: fit-content;
+  padding: 5px 25px;
   height: 58px;
-  border-radius: 20px;
+  border-radius: 10px;
   border: none;
   background: #fff;
   font-size: 18px;
@@ -237,7 +252,15 @@
   align-items: center;
   justify-content: start;
   gap: 1rem;
-  margin-top: 3rem;
+  margin-top:1rem;
+}
+
+.imageToSelect > p {
+  font-size: 14px;
+  font-weight: 500;
+  user-select: none;
+  color: #888;
+  margin: auto;
 }
 
 .selected,
@@ -510,8 +533,6 @@
   }
   .memory {
     border-radius: 10px;
-    width: 100px;
-    height: 50px;
     font-size: 16px;
   }
   .characterInfoLeft > p, .characterInfoRight > p {
@@ -522,8 +543,6 @@
   }
   .memoryd {
     border-radius: 10px;
-    width: 100px;
-    height: 50px;
     font-size: 16px;
   }
 }

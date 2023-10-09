@@ -9,7 +9,7 @@ const Success = ({ msg, setErr, err }: Success) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setErr(false);
-    }, 3000);
+    }, 1500)
     return () => clearTimeout(timeout);
   }, [err])
   return (
