@@ -14,9 +14,10 @@ interface Auth {
   isAuthOpen: boolean;
   fromWhere: number
   setFromWhere: Function
+  fromCat?: boolean
 }
 
-const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
+const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere, fromCat }: Auth) => {
   const { refresh } = useRouter()
   const [queue, setQueue] = useState<number | any>(0);
   const [timer, setTimer] = useState<number>(62);
@@ -196,7 +197,7 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere }: Auth) => {
     <>
       {error !== "" && <Error err={err} setErr={setErr} msg={error} />}
       <div className={isAuthOpen ? styles.authent : styles.dn}>
-        <div style={category === "category" ? {
+        <div style={fromCat && fromCat === true ? {
           left: "150%",
           marginLeft: ml,
           width: window.innerWidth <= 540 ? "fit-content" : 532,

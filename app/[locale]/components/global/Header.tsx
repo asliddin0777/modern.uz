@@ -28,7 +28,8 @@ const Header = ({ data }: IData) => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPosition = window.pageYOffset;
-      if (currentScrollPosition > lastScrollPosition && isHeaderVisible) {
+      console.log(currentScrollPosition);
+      if (currentScrollPosition > 50 && isHeaderVisible) {
         setIsHeaderVisible(false);
       } else if (
         currentScrollPosition < lastScrollPosition &&
@@ -143,7 +144,6 @@ const Header = ({ data }: IData) => {
               transition: "0.3s",
             }
         }>
-        
         <div className={styles.container}>
           <Link
             href={"/"}

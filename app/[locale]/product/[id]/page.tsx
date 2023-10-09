@@ -132,7 +132,6 @@ const Detail = ({
             <section className={styles.characteris}>
               <h3>
                 {selectedProduct ? selectedProduct.name : "Apple iPhone 14"}{" "}
-                {selectedMemory}
               </h3>
               <div className={styles.characterisInfo}>
                 <div className={styles.leftSide}>
@@ -201,78 +200,6 @@ const Detail = ({
                   order={order}
                   setOrder={setOrder}
                 />
-                {/* <div className={styles.characterSide}>
-                  <div className={styles.character}>
-                    <div className={styles.characterInfo}>
-                      <div className={styles.characterInfoLeft}>
-                        {warranty && (
-                          <p>Гарантия.................................</p>
-                        )}
-                        {manif && <p>Производитель......................</p>}
-                        {wtRs && <p>Водонепроницаемый...........</p>}
-                        {selectedColor !== "" && (
-                          <p>Цвет.........................................</p>
-                        )}
-                      </div>
-                      <div className={styles.characterInfoRight}>
-                        {warranty && <p>{warranty.value}</p>}
-                        {manif && <p>{manif.value}</p>}
-                        {wtRs && <p>{checkWtRs ? "Да" : "Нет"}</p>}
-                        {selectedColor !== "" && <p>{selectedColor}</p>}
-                      </div>
-                    </div>
-                    
-                    
-                    <div className={styles.selectMemory}>
-                      {colors &&
-                        colors.map((e: any, index: number) => {
-                          return (
-                            <button
-                              type="button"
-                              key={uuidv4()}
-                              className={
-                                selectedColor === e.value
-                                  ? styles.memoryd
-                                  : styles.memory
-                              }
-                              onClick={() => {
-                                setControllerM(index);
-                                setSelectedColor(e.value);
-                              }}
-                            >
-                              {e.value}
-                            </button>
-                          );
-                        })}
-                    </div>
-                    <div className={styles.selectMemory}>
-                      {storage &&
-                        storage.map((e: any, index: number) => {
-                          return (
-                            <button
-                              type="button"
-                              key={uuidv4()}
-                              className={
-                                selectedMemory === e.value
-                                  ? styles.memoryd
-                                  : styles.memory
-                              }
-                              onClick={() => {
-                                setControllerM(index);
-                                if (e.value === selectedMemory) {
-                                  setSelectedMemory("");
-                                } else {
-                                  setSelectedMemory(e.value);
-                                }
-                              }}
-                            >
-                              {e.value}
-                            </button>
-                          );
-                        })}
-                    </div>
-                  </div>
-                </div> */}
                 {auth === true && <Auth setIsAuthOpen={setAuth} fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} />}
                 {isChatOpen === true && chat && <ChatWithVendor id={chat.id} chat={chat} setChatListOpener={() => { }} userInfo={userInfo} selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
                 <div className={styles.characterSide}>

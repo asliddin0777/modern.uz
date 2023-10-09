@@ -100,6 +100,7 @@ const Card = ({
           isAuthOpen={auth}
           setFromWhere={setFromWhere}
           setIsAuthOpen={setAuth}
+          fromCat={true}
         />
       )}
       <div key={String(url)} data-aos="fade-up" className={styles.card}>
