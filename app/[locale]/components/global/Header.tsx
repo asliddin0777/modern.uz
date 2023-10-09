@@ -28,15 +28,16 @@ const Header = ({ data }: IData) => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPosition = window.pageYOffset;
-      console.log(currentScrollPosition);
-      if (currentScrollPosition > 50 && isHeaderVisible) {
-        setIsHeaderVisible(false);
-      } else if (
-        currentScrollPosition < lastScrollPosition &&
-        !isHeaderVisible
-      ) {
-        setIsHeaderVisible(true);
-        // setOpen(false)
+      if (lastScrollPosition > 120) {
+        console.log(lastScrollPosition);
+        if (currentScrollPosition > lastScrollPosition && isHeaderVisible) {
+          setIsHeaderVisible(false);
+        } else if (
+          currentScrollPosition < lastScrollPosition &&
+          !isHeaderVisible
+        ) {
+          setIsHeaderVisible(true);
+        }
       }
       setLastScrollPosition(currentScrollPosition);
     };
