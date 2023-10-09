@@ -27,8 +27,8 @@ const Header = ({ data }: IData) => {
   const [load, setLoad] = useState(true)
   useEffect(() => {
     const handleScroll = () => {
+      if (lastScrollPosition > 200) {
       const currentScrollPosition = window.pageYOffset;
-      if (lastScrollPosition > 120) {
         console.log(lastScrollPosition);
         if (currentScrollPosition > lastScrollPosition && isHeaderVisible) {
           setIsHeaderVisible(false);
@@ -38,14 +38,15 @@ const Header = ({ data }: IData) => {
         ) {
           setIsHeaderVisible(true);
         }
+        setLastScrollPosition(currentScrollPosition);
       }
-      setLastScrollPosition(currentScrollPosition);
     };
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isHeaderVisible, lastScrollPosition]);
+  
 
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
@@ -79,6 +80,25 @@ const Header = ({ data }: IData) => {
     }
     fetchData()
   }, [])
+
+
+function disableScroll() {
+  const handleScroll = (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+  };
+
+  useEffect(() => {
+    document.addEventListener('scroll', handleScroll, { passive: false });
+
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+}
+
+function YourComponent() {
+  disableScroll();
+}
   const [searchTerm, setSearchTerm] = useState('');
   const [foundVal, setFoundVal] = useState<IProduct[]>()
   const handleSearch = (event: {
