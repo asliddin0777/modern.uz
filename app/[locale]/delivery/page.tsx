@@ -1,6 +1,6 @@
 "use client"
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, cache } from "react";
 import Image from "next/image";
 import styles from "@/styles/delivery.module.css";
 import Categories from "../components/global/Categories";
@@ -16,7 +16,7 @@ const Delivery = () => {
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   useEffect(() => {
     setLoad(true);
-    const fetchData = async () => {
+    const fetchData = cache(async () => {
       try {
         const req2 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`);
         const req1 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`);
@@ -26,7 +26,7 @@ const Delivery = () => {
       } finally {
         setLoad(false);
       }
-    };
+    });
     fetchData();
   }, []);
 

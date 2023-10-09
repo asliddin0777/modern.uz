@@ -1,5 +1,5 @@
 "use client"
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useState, cache } from "react";
 import styles from "@/styles/aboutUs.module.css";
 import TopHeader from "../components/global/TopHeader";
 import Header from "../components/global/Header";
@@ -15,7 +15,7 @@ const AboutUs = () => {
   const [load, setLoad] = useState<boolean>(true);
   useEffect(() => {
     setLoad(true);
-    const fetchData = async () => {
+    const fetchData = cache(async () => {
       try {
         const categories = await axios.get(
           `${process.env.NEXT_PUBLIC_API}/api/categories`
@@ -29,7 +29,7 @@ const AboutUs = () => {
       } finally {
         setLoad(false);
       }
-    };
+    });
     fetchData();
   }, []);
   if (load === false) {
