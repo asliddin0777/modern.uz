@@ -5,7 +5,7 @@ import Categories from "../../components/global/Categories";
 import styles from "@/styles/detail.module.css";
 import Image from "next/image";
 import Order from "../../components/global/Order";
-import { usePathname } from "next/navigation";
+import Link from "next/link"
 import axios from "axios";
 import Loader from "../../components/local/Loader";
 import useCookies from "react-cookie/cjs/useCookies";
@@ -27,7 +27,7 @@ const Detail = ({
 }) => {
 
   const [chat, setChat] = useState<IChat>()
-  const {push} = useRouter()
+  const { push } = useRouter()
   const [controllerC, setControllerC] = useState<number>(0);
   const [controllerM, setControllerM] = useState<number>(0);
   const [order, setOrder] = useState<boolean>(false);
@@ -312,7 +312,7 @@ const Detail = ({
                       />
                       Написать поставщику
                     </button>
-                    <button className={styles.cart}>
+                    <Link className={styles.cart} href={`tel: +${String(data?.vendorId?.contacts?.phoneNumber)}`}>
                       <Image
                         src={"/icons/deliver.svg"}
                         alt="deliver icon"
@@ -320,7 +320,7 @@ const Detail = ({
                         height={43}
                       />
                       +{data && String(data?.vendorId?.contacts?.phoneNumber)!}
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
