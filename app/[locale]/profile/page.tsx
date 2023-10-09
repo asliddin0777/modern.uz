@@ -57,6 +57,7 @@ const Profile = () => {
     deliveryAddress: string
   }>()
   const [orders, setOrders] = useState<number>(0)
+
   useEffect(() => {
     if (userInfo) {
       setLoad(true);
@@ -77,6 +78,7 @@ const Profile = () => {
           }).then(res => {
             setUserOrdered(res.data[res.data.length - 1])
             setOrders(res.data.length)
+            // console.log(res.data)
           })
           const [res3] = await axios.all([
             user,
@@ -91,7 +93,6 @@ const Profile = () => {
       push("/")
     }
   }, []);
-  console.log(userOrdered);
   if (!load) {
     if (userInfo) {
       return (
@@ -330,7 +331,7 @@ const Profile = () => {
                                         src={
                                           pd.productId.media?.length
                                             ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${pd.productId.media[1]?.name}`
-                                            : "/images/14.png"
+                                            : "/icons/bag.svg"
                                         }
                                         width={58}
                                         height={58}
@@ -345,20 +346,22 @@ const Profile = () => {
                                         <div className={styles.const}>
                                           <div className={styles.constTag}>
                                             <p>Кол-во:</p>
-                                            <p>{pd.qty}</p>
+                                            <p>{pd.qty} </p>
                                           </div>
                                           <div className={styles.priceTitle}>
                                             <p>Стоимость:</p>
-                                            <p>{pd.price}</p>
+                                            <p>{pd.price} сум</p>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-                                    <div className={styles.line}></div>
                                   </div>
                                 );
                               })
                             }
+                            <div className={styles.totalPrice}>
+                              <p>Итого: <span> {userOrdered?.total} сум</span></p>
+                            </div>
                           </div>
                         </div>
                       </div>

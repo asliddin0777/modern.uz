@@ -1,5 +1,5 @@
 "use client";
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { cache, memo, useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import Categories from "../../components/global/Categories";
 import styles from "@/styles/detail.module.css";
@@ -17,7 +17,7 @@ import ChatWithVendor from "../../components/local/ChatWithVendor";
 import IChat from "@/interfaces/IChat";
 import Success from "../../components/local/Success";
 import Error from "../../components/local/Error";
-
+import { useRouter } from "next/navigation";
 const Detail = ({
   searchParams,
 }: {
@@ -27,9 +27,9 @@ const Detail = ({
 }) => {
 
   const [chat, setChat] = useState<IChat>()
+  const {push} = useRouter()
   const [controllerC, setControllerC] = useState<number>(0);
   const [controllerM, setControllerM] = useState<number>(0);
-  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [order, setOrder] = useState<boolean>(false);
   const [load, setLoad] = useState<boolean>(true);
   const [selectedImage, setSelectedImage] = useState<string>("");
@@ -53,13 +53,7 @@ const Detail = ({
       : (document.body.style.overflow = "hidden");
   }, [order]);
   useEffect(() => {
-    isChatOpen !== true
-      ? (document.body.style.overflow = "auto")
-      : (document.body.style.overflow = "hidden");
-  }, [isChatOpen]);
-
-  useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = cache(async () => {
       try {
         const req1 = await axios.get<IProduct>(
           `${process.env.NEXT_PUBLIC_API}/api/products/${searchParams.id}`
@@ -88,7 +82,7 @@ const Detail = ({
       } finally {
         setLoad(false);
       }
-    };
+    })
     fetchData();
   }, []);
   const videoRef = useRef<HTMLVideoElement | any>();
@@ -188,7 +182,6 @@ const Detail = ({
                   setOrder={setOrder}
                 />
                 {auth === true && <Auth setIsAuthOpen={setAuth} fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} />}
-                {isChatOpen === true && chat && <ChatWithVendor id={chat.id} chat={chat} setChatListOpener={() => { }} userInfo={userInfo} selectedProduct={selectedProduct} setIsChatOpen={setIsChatOpen} />}
                 <div className={styles.characterSide}>
                   {
                     data && data?.props.map(prop => {
@@ -291,7 +284,6 @@ const Detail = ({
                     <button
                       onClick={() => {
                         if (userInfo !== undefined) {
-                          setIsChatOpen(!isChatOpen);
                           socket.connect()
                           socket.emit('newUser', JSON.stringify({ id: userInfo.userId, fullName: `${localStorage.getItem("userName")} ${localStorage.getItem("lastName")}` }))
                           axios.post(`${process.env.NEXT_PUBLIC_API}/api/chats/new`, {
@@ -303,6 +295,7 @@ const Detail = ({
                             }
                           }).then(res => {
                             setChat(res.data)
+                            push(`/chats/chat-with-admin?id=${res.data.id}`);
                           })
                         } else {
                           setAuth(!auth);
