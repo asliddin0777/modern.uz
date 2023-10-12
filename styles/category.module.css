@@ -1,503 +1,475 @@
 .phone {
-    display: flex;
-    width: var(--container-width);
-    padding: 10px 0;
-    margin: 0 auto;
+  display: flex;
+  width: var(--container-width);
+  padding: 10px 0;
+  margin: 0 auto;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    max-height: fit-content;
-
+  display: flex;
+  flex-direction: column;
+  max-height: fit-content;
 }
 
 .cardSection {
-    gap: 15px;
-    display: flex;
-    width: var(--container-width);
-    padding: 10px 0;
-    margin: 0 auto;
+  gap: 15px;
+  display: flex;
+  width: var(--container-width);
+  padding: 10px 0;
+  margin: 0 auto;
 }
 
 .price {
-    margin-top: 19px;
-    padding: 15px;
-    width: 227px;
-    height: 124px;
-    background: #FFFFFF;
-    border-radius: 20px;
+  margin-top: 19px;
+  padding: 15px;
+  width: 227px;
+  height: 124px;
+  background: #ffffff;
+  border-radius: 20px;
 }
 
 .priceTitle {
-    font-size: 18px;
-    font-weight: 700;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .manufacturer {
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-top: 19px;
-    padding: 15px;
-    width: 227px;
-    height: auto;
-    background: #FFFFFF;
-    border-radius: 20px;
-
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 19px;
+  padding: 15px;
+  width: 227px;
+  height: auto;
+  background: #ffffff;
+  border-radius: 20px;
 }
 
 .manufacturerTitle {
-    font-size: 18px;
-    font-weight: 700;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .radioInput {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
-
 .radioInput label {
-    padding-left: 13px;
-    font-weight: 450;
-    font-size: 17px;
-    line-height: 160%;
-    color: #8A8A8A;
+  padding-left: 13px;
+  font-weight: 450;
+  font-size: 17px;
+  line-height: 160%;
+  color: #8a8a8a;
 }
 
 .radioInput input {
-    width: 17px;
-    height: 17px;
-    color: #8A8A8A;
-    background-color: #8A8A8A;
+  width: 17px;
+  height: 17px;
+  color: #8a8a8a;
+  background-color: #8a8a8a;
 }
 
 .operative {
-    margin-top: 19px;
-    padding: 15px;
-    width: 227px;
-    background: #FFFFFF;
-    border-radius: 20px;
+  margin-top: 19px;
+  padding: 15px;
+  width: 227px;
+  background: #ffffff;
+  border-radius: 20px;
 }
 
 .operativeTitle {
-    font-size: 18px;
-    font-weight: 700;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .checkBoxInput,
 .radioInput {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .checkBoxInput label {
-    padding-left: 13px;
-    font-weight: 450;
-    font-size: 17px;
-    line-height: 160%;
-    color: #8A8A8A;
+  padding-left: 13px;
+  font-weight: 450;
+  font-size: 17px;
+  line-height: 160%;
+  color: #8a8a8a;
 }
 
 .checkBox input {
-    width: 17px;
-    height: 17px;
+  width: 17px;
+  height: 17px;
 }
 
 .sectionRight {
-    padding-top: 20px;
-    gap: 12.5px;
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.3% !important;
+  row-gap: 0.6rem !important;
+  margin-top: -1rem;
 }
 
-.sectionRight>div {
-    width: 24%;
+.sectionRight > div {
+  width: 24%;
 }
 
 .carusel {
-    cursor: pointer;
+  cursor: pointer;
+  align-items: center;
+  gap: 15px;
+  justify-content: center;
+  display: flex;
+  width: var(--container-width);
+  padding: 10px 0;
+  margin: 57px auto;
+  color: #8a8a8a;
+}
+
+.cardBurgerg {
+  display: none;
+}
+
+.apply {
+  width: 227px;
+  height: 40px;
+  background-color: #e4b717;
+  color: #ffffff;
+  margin-top: 20px;
+  border-radius: 15px;
+  font-size: 18px;
+}
+
+.dn {
+  height: 0;
+  z-index: -1000;
+  transition: 0.1s linear;
+  text-align: center;
+  opacity: 0;
+  padding-right: 41px;
+}
+
+.just {
+  transition: 0.3s ease-in-out;
+  margin-top: 1rem;
+  padding-right: 41px;
+}
+
+@media screen and (max-width: 1180px) {
+  .phone {
+    display: flex;
+    padding: 10px 10px;
+    margin: auto;
+    width: 100%;
+  }
+
+  .cardSection {
+    gap: 10px;
+    display: flex;
+    width: 1000px;
+    padding: 10px 10px;
+    margin: auto;
+  }
+
+  .price {
+    margin-top: 19px;
+    padding: 15px;
+    width: 220px;
+    height: 124px;
+    background: #ffffff;
+    border-radius: 20px;
+  }
+
+  .radioInput label {
+    padding-left: 10px;
+    font-weight: 450;
+    font-size: 16px;
+    line-height: 160%;
+    color: #8a8a8a;
+  }
+
+  .radioInput input {
+    width: 16px;
+    height: 16px;
+    color: #8a8a8a;
+    background-color: #8a8a8a;
+  }
+
+  .operative {
+    margin-top: 19px;
+    padding: 15px;
+    width: 220px;
+    background: #ffffff;
+    border-radius: 20px;
+  }
+
+  .checkBoxInput label {
+    padding-left: 10px;
+    font-weight: 450;
+    font-size: 16px;
+    line-height: 160%;
+    color: #8a8a8a;
+  }
+
+  .checkBox input {
+    width: 16px;
+    height: 16px;
+  }
+
+  .sectionRight {
+    gap: 5px;
+    display: flex;
+    width: 90%;
+  }
+
+  .sectionRight > a {
+    width: 32.85%;
+  }
+
+  .carusel {
     align-items: center;
     gap: 15px;
     justify-content: center;
     display: flex;
-    width: var(--container-width);
+    width: 1000px;
     padding: 10px 0;
-    margin: 57px auto;
-    color: #8A8A8A;
+    margin: 56px auto;
+    color: #8a8a8a;
+  }
 }
 
-.cardBurgerg {
-    display: none;
-}
+@media screen and (max-width: 1200px) {
+  .cardSection {
+    width: 100%;
+  }
 
-.apply {
-    width: 227px;
-    height: 40px;
-    background-color: #E4B717;
-    color: #FFFFFF;
-    margin-top: 20px;
-    border-radius: 15px;
-    font-size: 18px;
-}
+  .phone {
+    width: 100%;
+  }
 
-.dn {
-    height: 0;
-    z-index: -1000;
-    transition: 0.1s linear;
-    text-align: center;
-    opacity: 0;
-    padding-right: 41px;
-}
-
-.just {
-    transition: 0.3s ease-in-out;
-    margin-top: 1rem;
-    padding-right: 41px;
-}
-
-@media screen and (max-width:1180px) {
-    .phone {
-        display: flex;
-        padding: 10px 10px;
-        margin: auto;
-        width: 100%;
-    }
-
-    .cardSection {
-        gap: 10px;
-        display: flex;
-        width: 1000px;
-        padding: 10px 10px;
-        margin: auto;
-    }
-
-    .price {
-        margin-top: 19px;
-        padding: 15px;
-        width: 220px;
-        height: 124px;
-        background: #FFFFFF;
-        border-radius: 20px;
-    }
-
-
-    .radioInput label {
-        padding-left: 10px;
-        font-weight: 450;
-        font-size: 16px;
-        line-height: 160%;
-        color: #8A8A8A;
-    }
-
-    .radioInput input {
-        width: 16px;
-        height: 16px;
-        color: #8A8A8A;
-        background-color: #8A8A8A;
-    }
-
-
-    .operative {
-        margin-top: 19px;
-        padding: 15px;
-        width: 220px;
-        background: #FFFFFF;
-        border-radius: 20px;
-    }
-
-    .checkBoxInput label {
-        padding-left: 10px;
-        font-weight: 450;
-        font-size: 16px;
-        line-height: 160%;
-        color: #8A8A8A;
-    }
-
-
-    .checkBox input {
-        width: 16px;
-        height: 16px;
-    }
-
-
-
-    .sectionRight {
-        padding-top: 20px;
-        gap: 5px;
-        display: flex;
-        width: 90%;
-    }
-
-    .sectionRight>a {
-        width: 32.85%;
-    }
-
-    .carusel {
-        align-items: center;
-        gap: 15px;
-        justify-content: center;
-        display: flex;
-        width: 1000px;
-        padding: 10px 0;
-        margin: 56px auto;
-        color: #8A8A8A;
-    }
-
-}
-
-
-@media screen and (max-width:1200px) {
-    .cardSection {
-        width: 100%;
-    }
-
-    .phone {
-        width: 100%;
-    }
-
-    .sectionRight {
-        gap: 2%;
-        row-gap: 1rem;
-    }
-
+  .sectionRight {
+    gap: 2%;
+    row-gap: 1rem;
+  }
 }
 
 @media screen and (max-width: 1016px) {
+  .cardSection {
+    width: 100%;
+  }
 
-    .cardSection {
-        width: 100%;
-    }
-
-    .sectionRight {
-        gap: 2%;
-        row-gap: 1rem;
-    }
+  .sectionRight {
+    gap: 2%;
+    row-gap: 1rem;
+  }
 }
 
-@media screen and (max-width:1016px) {
-    .cardSection {
-        width: 100%;
-        display: block;
-    }
+@media screen and (max-width: 1016px) {
+  .cardSection {
+    width: 100%;
+    display: block;
+  }
 
-    .phone {
-        width: 100%;
-    }
+  .phone {
+    width: 100%;
+  }
 
-    .sectionLeft {
-        width: 100%;
-        gap: 40px;
-        display: flex;
-        flex-wrap: wrap;
-    }
+  .sectionLeft {
+    width: 100%;
+    gap: 40px;
+    display: flex;
+    flex-wrap: wrap;
+  }
 
-    .sectionRight>div {
-        width: 30%;
-    }
+  .sectionRight > div {
+    width: 30%;
+  }
 
-    .carusel {
-        width: 100%;
-    }
+  .carusel {
+    width: 100%;
+  }
 
+  .sectionRight {
+    gap: 1.5%;
+    row-gap: 1rem;
+  }
 
-    .sectionRight {
-        gap: 1.5%;
-        row-gap: 1rem;
-    }
+  .radioInput label {
+    padding-left: 13px;
+    font-weight: 450;
+    font-size: 14px;
+    line-height: 160%;
+    color: #8a8a8a;
+  }
 
-    .radioInput label {
-        padding-left: 13px;
-        font-weight: 450;
-        font-size: 14px;
-        line-height: 160%;
-        color: #8A8A8A;
-    }
+  .checkBox input {
+    width: 15px;
+    height: 15px;
+  }
 
-    .checkBox input {
-        width: 15px;
-        height: 15px;
-    }
+  .radioInput input {
+    width: 15px;
+    height: 15px;
+    color: #8a8a8a;
+    background-color: #8a8a8a;
+  }
 
-    .radioInput input {
-        width: 15px;
-        height: 15px;
-        color: #8A8A8A;
-        background-color: #8A8A8A;
-    }
+  .priceTitle {
+    font-size: 17px;
+  }
 
+  .operativeTitle {
+    font-size: 17px;
+  }
 
-
-    .priceTitle {
-        font-size: 17px;
-    }
-
-    .operativeTitle {
-        font-size: 17px;
-    }
-
-    .checkBoxInput label {
-        font-size: 15px;
-    }
-
+  .checkBoxInput label {
+    font-size: 15px;
+  }
 }
 
-@media screen and (max-width:768px) {
-    .cardSection {
-        width: 100%;
-        display: block;
-    }
+@media screen and (max-width: 768px) {
+  .cardSection {
+    width: 100%;
+    display: block;
+  }
 
-    .phone {
-        width: 100%;
-    }
+  .phone {
+    width: 100%;
+  }
 
-    .sectionLeft {
-        width: 100%;
-        gap: 35px;
-        display: flex;
-        align-items: center;
-    }
+  .sectionLeft {
+    width: 100%;
+    gap: 35px;
+    display: flex;
+    align-items: center;
+  }
 
+  .sectionRight > div {
+    width: 32.6%;
+  }
 
-    .sectionRight>div {
-        width: 32.60%;
-    }
+  .carusel {
+    width: 100%;
+  }
 
-    .carusel {
-        width: 100%;
-    }
+  .sectionRight {
+    padding-top: 20px;
+    gap: 5px;
+    display: flex;
+    width: 100%;
+  }
 
+  .radioInput label {
+    padding-left: 13px;
+    font-weight: 450;
+    font-size: 14px;
+    line-height: 160%;
+    color: #8a8a8a;
+  }
 
-    .sectionRight {
-        padding-top: 20px;
-        gap: 5px;
-        display: flex;
-        width: 100%;
-    }
+  .checkBox input {
+    width: 15px;
+    height: 15px;
+  }
 
-    .radioInput label {
-        padding-left: 13px;
-        font-weight: 450;
-        font-size: 14px;
-        line-height: 160%;
-        color: #8A8A8A;
-    }
+  .radioInput input {
+    width: 15px;
+    height: 15px;
+    color: #8a8a8a;
+    background-color: #8a8a8a;
+  }
 
-    .checkBox input {
-        width: 15px;
-        height: 15px;
-    }
+  .priceTitle {
+    font-size: 17px;
+  }
 
-    .radioInput input {
-        width: 15px;
-        height: 15px;
-        color: #8A8A8A;
-        background-color: #8A8A8A;
-    }
+  .operativeTitle {
+    font-size: 17px;
+  }
 
-
-
-    .priceTitle {
-        font-size: 17px;
-    }
-
-    .operativeTitle {
-        font-size: 17px;
-    }
-
-    .checkBoxInput label {
-        font-size: 15px;
-    }
-
+  .checkBoxInput label {
+    font-size: 15px;
+  }
 }
 
-@media screen and (max-width:760px) {
-    .cardSection {
-        width: 100%;
-        display: block;
-    }
+@media screen and (max-width: 760px) {
+  .cardSection {
+    width: 100%;
+    display: block;
+  }
 
-    .phone {
-        width: 100%;
-    }
+  .phone {
+    width: 100%;
+  }
 
-    .sectionLeft {
-        width: 100%;
-        gap: 15px;
-        display: none;
-        align-items: center;
-    }
+  .sectionLeft {
+    width: 100%;
+    gap: 15px;
+    display: none;
+    align-items: center;
+  }
 
-    .sectionRight>div {
-        width: 49%;
-    }
+  .sectionRight > div {
+    width: 49%;
+  }
 
-    .sectionRight {
-        width: 100%;
-        gap: 1.2%;
-        row-gap: 1rem;
-        align-items: center;
-    }
+  .sectionRight {
+    width: 100%;
+    gap: 1.2%;
+    row-gap: 1rem;
+    align-items: center;
+  }
 
-    .cardBurgerg h3 {
-        font-size: 22px;
-        line-height: 160%;
-        color: #E4B717;
-    }
+  .cardBurgerg h3 {
+    font-size: 22px;
+    line-height: 160%;
+    color: #e4b717;
+  }
 
-    .cardBurgerg {
-        cursor: pointer;
-        padding: 5px 10px;
-        display: block;
-        width: 200px;
-        background-color: #FFFFFF;
-        height: 50px;
-        justify-content: space-between;
-        align-items: center;
-        display: flex;
-        border-radius: 20px;
-    }
-
-
+  .cardBurgerg {
+    cursor: pointer;
+    padding: 5px 10px;
+    display: block;
+    width: 200px;
+    background-color: #ffffff;
+    height: 50px;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    border-radius: 20px;
+  }
 }
 
-@media screen and (max-width:480px) {
-    .cardSection {
-        width: 100%;
-        display: block;
-    }
-
-    .phone {
-        width: 100%;
-    }
-
-    .sectionLeft {
-        width: 100%;
-        gap: 15px;
-        display: none;
-        align-items: center;
-    }
-
-    .sectionRight>div {
-        width: 100%;
-    }
-
+@media screen and (max-width: 450px) {
+  .sectionRight {
+    flex-direction: column;
+  }
 }
 
+/* @media screen and (max-width: 480px) {
+  .cardSection {
+    width: 100%;
+    display: block;
+  }
 
-@media screen and (max-width:380px) {
-    .cardSection {
-        width: 100%;
-        display: block;
-    }
-
-    .phone {
-        width: 100%;
-    }
-
-    .sectionRight>a {
-        width: 100%;
-    }
+  .phone {
+    width: 100%;
+  }
+  .sectionRight > div {
+    width: 100%;
+  }
 }
+
+@media screen and (max-width: 380px) {
+  .cardSection {
+    width: 100%;
+    display: block;
+  }
+
+  .phone {
+    width: 100%;
+  }
+
+  .sectionRight > a {
+    width: 100%;
+  }
+} */

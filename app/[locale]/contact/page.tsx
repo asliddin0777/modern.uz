@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, cache } from "react";
 import TopHeader from "../components/global/TopHeader";
 import Header from "../components/global/Header";
 import Categories from "../components/global/Categories";
@@ -20,7 +20,7 @@ const Contact = () => {
 
   useEffect(() => {
     setLoad(true);
-    const fetchData = async () => {
+    const fetchData = cache(async () => {
       try {
         const categories = await axios.get(
           `${process.env.NEXT_PUBLIC_API}/api/categories`
@@ -34,7 +34,7 @@ const Contact = () => {
       } finally {
         setLoad(false);
       }
-    };
+    });
     fetchData();
   }, []);
 

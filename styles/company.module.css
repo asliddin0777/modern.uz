@@ -9,18 +9,18 @@
     width: 100%;
     background: #FFFFFF;
     border-radius: 20px;
-    padding: 19px 28px;
 }
 
 .profileImage {
-    width: 60px;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 100px;
-    font-weight: 700;
-    font-size: 24px;
-    height: 60px;
+    min-height: 190px;
+    max-height: 360px;
+    object-fit: cover;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
 }
 
 
@@ -49,8 +49,17 @@
 
 .companyProfile {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
+}
+
+.vendorTitle {
+    display: flex;
+    width: 100%;
+    padding: 1rem;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .profileSection {
@@ -163,8 +172,8 @@
 }
 
 .companyDescrip {
-    margin-top: 19px;
     font-weight: 700;
+    padding: 1rem;
     font-size: 17px;
     line-height: 150%;
     color: #363636;
@@ -216,6 +225,8 @@
     gap: 1.2%;
     row-gap: 1rem;
 }
+
+
 
 .companyCards h2 {
     font-weight: 700;

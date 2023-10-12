@@ -27,29 +27,45 @@ const Header = ({ data }: IData) => {
   const [load, setLoad] = useState(true)
   useEffect(() => {
     const handleScroll = () => {
+      if (lastScrollPosition > 200) {
       const currentScrollPosition = window.pageYOffset;
-      if (currentScrollPosition > lastScrollPosition && isHeaderVisible) {
-        setIsHeaderVisible(false);
-      } else if (
-        currentScrollPosition < lastScrollPosition &&
-        !isHeaderVisible
-      ) {
-        setIsHeaderVisible(true);
-        // setOpen(false)
+        console.log(lastScrollPosition);
+        if (currentScrollPosition > lastScrollPosition && isHeaderVisible) {
+          setIsHeaderVisible(false);
+        } else if (
+          currentScrollPosition < lastScrollPosition &&
+          !isHeaderVisible
+        ) {
+          setIsHeaderVisible(true);
+        }
+        setLastScrollPosition(currentScrollPosition);
       }
-      setLastScrollPosition(currentScrollPosition);
     };
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isHeaderVisible, lastScrollPosition]);
+  const handleScroll = (event: {
+    preventDefault: Function
+  }) => {
+    event.preventDefault();
+  };
+  useEffect(() => {
+    if (products && products.length > 4) {
+      document.addEventListener('scroll', handleScroll, { passive: false });
+
+      return () => {
+        document.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, []);
 
   const [cookie] = useCookies(["userInfo"]);
   const { userInfo } = cookie;
   const [products, setProducts] = useState<IProduct[]>([])
   const languges: string[] = ["/icons/uz.svg", "/icons/ru.svg"];
-
+  const [liked, setLiked] = useState<number>(0)
   useEffect(() => {
     isBurgerOpen
       ? (document.body.style.overflow = "auto")
@@ -68,6 +84,12 @@ const Header = ({ data }: IData) => {
     const fetchData = async () => {
       try {
         const products = await axios.get<IPage>(`${process.env.NEXT_PUBLIC_API}/api/products`)
+        const liked = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/products/liked`, {
+          headers: {
+            Authorization: userInfo === undefined ? "" : userInfo.userToken
+          }
+        })
+        setLiked(liked.data.length)
         setProducts(products.data.products)
       } catch { } finally {
         () => {
@@ -77,6 +99,25 @@ const Header = ({ data }: IData) => {
     }
     fetchData()
   }, [])
+
+
+function disableScroll() {
+  const handleScroll = (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+  };
+
+  useEffect(() => {
+    document.addEventListener('scroll', handleScroll, { passive: false });
+
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+}
+
+function YourComponent() {
+  disableScroll();
+}
   const [searchTerm, setSearchTerm] = useState('');
   const [foundVal, setFoundVal] = useState<IProduct[]>()
   const handleSearch = (event: {
@@ -85,7 +126,6 @@ const Header = ({ data }: IData) => {
     }
   }) => {
     setSearchTerm(event.target.value);
-    console.log(searchTerm);
   };
   const handleSubmit = (e: {
     preventDefault: Function
@@ -122,13 +162,13 @@ const Header = ({ data }: IData) => {
     <>
       <Burger products={products} isBurgerOpen={isBurgerOpen} setIsBurgerOpen={setIsBurgerOpen} />
       {auth === true && (
-          <Auth
-            setIsAuthOpen={setAuth}
-            fromWhere={fromWhere}
-            isAuthOpen={auth}
-            setFromWhere={setFromWhere}
-          />
-        )}
+        <Auth
+          setIsAuthOpen={setAuth}
+          fromWhere={fromWhere}
+          isAuthOpen={auth}
+          setFromWhere={setFromWhere}
+        />
+      )}
       <header className={!nav ? styles.header : styles.headerNav}
         style={
           isHeaderVisible === true
@@ -143,7 +183,6 @@ const Header = ({ data }: IData) => {
               transition: "0.3s",
             }
         }>
-        
         <div className={styles.container}>
           <Link
             href={"/"}
@@ -183,7 +222,7 @@ const Header = ({ data }: IData) => {
               />
             </button>
           </form>
-          <SearchModal products={foundVal ? foundVal : []} />
+          {/* <SearchModal products={foundVal ? foundVal : []} /> */}
           <div className={styles.contra}>
             <div
               onMouseOver={() => {
@@ -204,7 +243,9 @@ const Header = ({ data }: IData) => {
                     ? {
                       display: "none",
                     }
-                    : {}
+                    : {
+                      marginTop: -16
+                    }
                 }
               >
                 {languges.map((e: string) => {

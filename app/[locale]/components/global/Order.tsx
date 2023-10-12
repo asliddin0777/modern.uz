@@ -27,9 +27,11 @@ const Order = ({ setOrder, order, products, deliveryTo }: Order) => {
   const [userInform] = useCookies(["userInfo"])
   const router = useRouter()
   const path = usePathname()
+  const { push } = useRouter()
   const { aboutUser } = cookie
   const { userInfo } = userInform
   const [auth, setAuth] = useState(false)
+  const [succed, setSucced] = useState(false)
   const [fromWhere, setFromWhere] = useState(1)
   const handlePost = () => {
     if (userInfo) {
@@ -48,12 +50,31 @@ const Order = ({ setOrder, order, products, deliveryTo }: Order) => {
             Authorization: userInfo.userToken
           },
         }).then((res: any) => {
-          console.log(res.data);
+          if(res.data) {
+            console.log(res.data);
+            // products.map(pr => {
+            //   axios.put(
+            //     `${process.env.NEXT_PUBLIC_API}/api/users/basket/remove/${pr.id}`,
+            //     {},
+            //     {
+            //       headers: {
+            //         Authorization: userInfo
+            //           ? userInfo.userToken
+            //           : "",
+            //       },
+            //     }
+            //   ).then((res) => {
+            //     push("/profile")
+            //   })
+            // }
+            // )
+          }
           setCookie("aboutUser", {
             userBooked: products,
             userToken: userInfo ? userInfo.userToken : aboutUser ? res.data.token : ""
           }, { path: "/" })
         })
+        
     } else {
       setAuth(true)
     }
@@ -86,6 +107,9 @@ const Order = ({ setOrder, order, products, deliveryTo }: Order) => {
           </div>
           <button onClick={() => {
             handlePost()
+            if(succed === true) {
+              console.log(succed);
+            }
             setOrder(false);
           }} className={styles.take}>
             Принять

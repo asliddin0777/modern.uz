@@ -1,26 +1,252 @@
 .card {
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    width: 23.725%;
-    height: 331px;
-    border-radius: 20px;
-    justify-content: center;
-    gap: 2px;
-    box-shadow: 0px 1px 10px rgba(162, 162, 162, 0.25);
-    transition: 0.2s;
-    position: relative;
-    cursor: pointer;
-    transition-duration: 1s;
-    transition-timing-function: linear;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  width: 23.725%;
+  height: 331px;
+  border-radius: 20px;
+  justify-content: center;
+  gap: 2px;
+  box-shadow: 0px 1px 10px rgba(162, 162, 162, 0.25);
+  transition: 0.2s;
+  position: relative;
+  cursor: pointer;
+  transition-duration: 1s;
+  transition-timing-function: linear;
 }
-
 
 .card:hover {
-    box-shadow: 0px 1px 17px rgba(228, 183, 23, 0.3);
+  box-shadow: 0px 1px 17px rgba(228, 183, 23, 0.3);
 }
 
-.imageOfCard>img {
+.imageOfCard > img {
+  width: auto;
+  border-radius: 12px;
+  height: auto;
+  /* height: 200px; */
+  border-top-right-radius: 20px;
+  margin-top: -1rem;
+  border-top-left-radius: 20px;
+  width: 100%;
+  /* margin-bottom: auto; */
+  object-fit: cover;
+}
+
+.somevalues {
+  width: 100%;
+  padding: 0 20px;
+}
+
+.card > a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+}
+
+.imageOfCard > h3,
+.imageOfCard > p {
+  text-align: left;
+}
+
+/* .card * {
+    text-align: left !important;
+} */
+
+.like {
+  position: absolute;
+  top: 5%;
+  left: 77%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  border-radius: 100px;
+  align-items: center;
+  transition: 0.3s;
+}
+
+.like:first-child {
+  left: 100%;
+  margin-left: 0.5rem;
+}
+
+.like:hover > svg {
+  fill: #f00;
+}
+
+.card > img {
+  margin: auto;
+  width: 150px;
+  height: auto;
+  max-height: 180px;
+}
+
+.card h4 {
+  color: #d3d3d3;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.cart {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.card h3:last-child {
+  position: relative;
+  font-size: 16px;
+}
+
+.cart * {
+  color: #e4b717;
+}
+
+.chatButton {
+  display: flex;
+  width: 40px;
+  margin-top: -1rem;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background: #e4b717;
+}
+
+.buy {
+  position: absolute;
+  top: 100%;
+  left: 80%;
+  margin-top: -39px;
+  left: 77%;
+  margin-left: -40px;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.buy > button {
+  margin-right: 30px;
+  font-size: 17px;
+  margin-left: -25px;
+  font-weight: 500;
+  color: #000;
+  transition: 0.4s;
+}
+
+.buy > button:hover {
+  color: #e4b717;
+}
+
+.box {
+  top: 100%;
+  margin-top: -35px;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  background-color: #e4b717 !important;
+  transition: 0.2s;
+  margin-left: -0.2rem;
+}
+
+.box:hover {
+  box-shadow: 0px 1px 17px rgba(228, 183, 23, 0.3);
+}
+
+@media screen and (max-width: 1000px) {
+  .card {
+    width: 32.2%;
+    border-radius: 10px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .card {
+    width: 49.1%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .card {
+    width: 100% !important;
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+    justify-content: center;
+    flex-direction: column;
+    height: 280px;
+  }
+
+  .card > a {
+    font-size: 13px;
+    width: auto;
+  }
+
+  .buy {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    right: auto;
+  }
+
+  .card h3:last-child {
+    position: absolute;
+    top: 80%;
+    font-size: 12px;
+  }
+
+  .buy > button {
+    font-size: 14px;
+    /* margin-right: 60px; */
+  }
+
+  .like:first-child {
+    left: 100%;
+    margin-left: 0.5rem;
+    right: auto;
+    padding-right: 10px;
+  }
+
+  .cart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4rem;
+    width: 100%;
+  }
+
+  .card > img {
+    height: 150px;
+  }
+}
+
+
+@media screen and (max-width: 410px) {
+  .card {
+    width: 100% !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0rem !important;
+    justify-content: center;
+    flex-direction: column;
+    height: 280px;
+  }
+}
+
+
+@media screen and (max-width: 350px) {
+  .card {
+    width: 100%;
+  }
+
+  .imageOfCard > img {
     width: auto;
     border-radius: 12px;
     height: auto;
@@ -31,14 +257,14 @@
     width: 100%;
     /* margin-bottom: auto; */
     object-fit: cover;
-}
+  }
 
-.somevalues {
+  .somevalues {
     width: 100%;
     padding: 0 20px;
-}
+  }
 
-.card>a {
+  .card > a {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,18 +272,14 @@
     gap: 1rem;
     width: 100%;
     height: 100%;
-}
+  }
 
-.imageOfCard>h3,
-.imageOfCard>p {
+  .imageOfCard > h3,
+  .imageOfCard > p {
     text-align: left;
-}
+  }
 
-/* .card * {
-    text-align: left !important;
-} */
-
-.like {
+  .like {
     position: absolute;
     top: 5%;
     left: 77%;
@@ -67,48 +289,48 @@
     border-radius: 100px;
     align-items: center;
     transition: 0.3s;
-}
+  }
 
-.like:first-child {
+  .like:first-child {
     left: 100%;
     margin-left: 0.5rem;
-}
+  }
 
-.like:hover>svg {
+  .like:hover > svg {
     fill: #f00;
-}
+  }
 
-.card>img {
+  .card > img {
     margin: auto;
     width: 150px;
     height: auto;
     max-height: 180px;
-}
+  }
 
-.card h4 {
-    color: #D3D3D3;
+  .card h4 {
+    color: #d3d3d3;
     font-weight: 500;
     font-size: 16px;
-}
+  }
 
-.cart {
+  .cart {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 1rem;
     width: 100%;
-}
+  }
 
-.card h3:last-child {
+  .card h3:last-child {
     position: relative;
     font-size: 16px;
-}
+  }
 
-.cart * {
-    color: #E4B717;
-}
+  .cart * {
+    color: #e4b717;
+  }
 
-.buy {
+  .buy {
     position: absolute;
     top: 100%;
     left: 100%;
@@ -119,22 +341,22 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-}
+  }
 
-.buy>button {
+  .buy > button {
     margin-right: 30px;
     font-size: 17px;
-    margin-left: -25px;
+    margin-left: -45px;
     font-weight: 500;
     color: #000;
     transition: 0.4s;
-}
+  }
 
-.buy>button:hover {
-    color: #E4B717;
-}
+  .buy > button:hover {
+    color: #e4b717;
+  }
 
-.box {
+  .box {
     top: 100%;
     margin-top: -35px;
     width: 46px;
@@ -143,210 +365,11 @@
     justify-content: center;
     align-items: center;
     border-radius: 50px;
-    background-color: #E4B717 !important;
+    background-color: #e4b717 !important;
     transition: 0.2s;
-    margin-left: -0.2rem;
-}
+  }
 
-.box:hover {
+  .box:hover {
     box-shadow: 0px 1px 17px rgba(228, 183, 23, 0.3);
-}
-
-@media screen and (max-width: 1000px) {
-    .card {
-        width: 32.2%;
-        border-radius: 10px;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .card {
-        width: 49.1%;
-    }
-}
-
-@media screen and (max-width: 500px) {
-    .card {
-        width: 47%;
-        justify-content: center;
-        flex-direction: column;
-        margin: auto;
-        height: 280px;
-    }
-
-    .card>a {
-        font-size: 13px;
-        width: auto;
-    }
-
-    .buy {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        right: auto;
-    }
-
-    .card h3:last-child {
-        position: absolute;
-        top: 80%;
-        font-size: 12px;
-    }
-
-    .buy>button {
-        font-size: 14px;
-        /* margin-right: 60px; */
-    }
-
-    .like:first-child {
-        left: 100%;
-        margin-left: 0.5rem;
-        right: auto;
-        padding-right: 10px;
-    }
-
-    .cart {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 4rem;
-        width: 100%;
-    }
-
-    .card>img {
-        height: 150px;
-    }
-}
-
-@media screen and (max-width: 350px) {
-    .card{
-        width: 100%;
-    }
-    
-    .imageOfCard>img {
-        width: auto;
-        border-radius: 12px;
-        height: auto;
-        /* height: 200px; */
-        border-top-right-radius: 20px;
-        margin-top: -1rem;
-        border-top-left-radius: 20px;
-        width: 100%;
-        /* margin-bottom: auto; */
-        object-fit: cover;
-    }
-    
-    .somevalues {
-        width: 100%;
-        padding: 0 20px;
-    }
-    
-    .card>a {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
-        gap: 1rem;
-        width: 100%;
-        height: 100%;
-    }
-    
-    .imageOfCard>h3,
-    .imageOfCard>p {
-        text-align: left;
-    }
-    
-    
-    .like {
-        position: absolute;
-        top: 5%;
-        left: 77%;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        border-radius: 100px;
-        align-items: center;
-        transition: 0.3s;
-    }
-    
-    .like:first-child {
-        left: 100%;
-        margin-left: 0.5rem;
-    }
-    
-    .like:hover>svg {
-        fill: #f00;
-    }
-    
-    .card>img {
-        margin: auto;
-        width: 150px;
-        height: auto;
-        max-height: 180px;
-    }
-    
-    .card h4 {
-        color: #D3D3D3;
-        font-weight: 500;
-        font-size: 16px;
-    }
-    
-    .cart {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 1rem;
-        width: 100%;
-    }
-    
-    .card h3:last-child {
-        position: relative;
-        font-size: 16px;
-    }
-    
-    .cart * {
-        color: #E4B717;
-    }
-    
-    .buy {
-        position: absolute;
-        top: 100%;
-        left: 100%;
-        margin-top: -39px;
-        left: 77%;
-        margin-left: -30px;
-        cursor: pointer;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-    }
-    
-    .buy>button {
-        margin-right: 30px;
-        font-size: 17px;
-        margin-left: -45px;
-        font-weight: 500;
-        color: #000;
-        transition: 0.4s;
-    }
-    
-    .buy>button:hover {
-        color: #E4B717;
-    }
-    
-    .box {
-        top: 100%;
-        margin-top: -35px;
-        width: 46px;
-        height: 46px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50px;
-        background-color: #E4B717 !important;
-        transition: 0.2s;
-    }
-    
-    .box:hover {
-        box-shadow: 0px 1px 17px rgba(228, 183, 23, 0.3);
-    }
+  }
 }

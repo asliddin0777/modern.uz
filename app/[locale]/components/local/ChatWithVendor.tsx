@@ -25,7 +25,7 @@ interface ChatHandler {
 
 const CHatWithVendor = ({ setChatListOpener, setIsChatOpen, chat, id, userInfo, selectedProduct }: ChatHandler) => {
     const [messages, setMessages] = useState<IMessage[] | undefined>([])
-    const { push } = useRouter()
+    const { push, back } = useRouter()
     const image: string[] = ["jpg", "png", 'jpeg']
     const video = ['mp4']
     const serverURL = "http://192.168.0.111:3000"
@@ -99,7 +99,7 @@ const CHatWithVendor = ({ setChatListOpener, setIsChatOpen, chat, id, userInfo, 
                         <button
                             onClick={() => {
                                 setIsChatOpen(false)
-                                push("/")
+                                back()
                                 socket.disconnect()
                             }}
                         >

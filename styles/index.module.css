@@ -14,14 +14,17 @@
 }
 
 .profileImage {
-  width: 60px;
+  width: 100%;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  min-height: auto !important;
+  max-height: 190px !important;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 100px;
   font-weight: 700;
   font-size: 24px;
-  height: 60px;
+  object-fit: cover;
 }
 
 .add {
@@ -302,19 +305,31 @@
 
 
 .cards {
-  padding: 19px 31px;
+  padding: 0 !important;
   margin-top: 21px;
-  width: var(--container-width);
+  width: 33% !important;
+  box-shadow: 0px 1px 9px rgba(162, 162, 162, 0.25);
   height: auto;
+  flex-direction: column;
   display: flex;
   background: #ffffff;
   border-radius: 20px;
   justify-content: space-between;
+  transition: 0.4s;
+}
+
+.card__right {
+  padding: 19px 31px;
+}
+
+.cards:hover {
+  box-shadow: 0px 1px 17px rgba(228, 183, 23, 0.3);
 }
 
 .card__title {
   display: flex;
-  align-items: center;
+  align-items: flex-start !important;
+  flex-direction: column !important;
   gap: 20px;
 }
 
@@ -325,15 +340,17 @@
   color: #8a8a8a;
 }
 
-.card__title h1 {
+.card__title h3 {
   font-weight: 700;
   font-size: 20px;
+  padding: 0 10px;
   line-height: 160%;
   color: #363636;
 }
 
 .description {
-  margin-top: 26px;
+  margin-top: 1rem;
+  padding: 0 10px;
 }
 
 .description p {
@@ -352,22 +369,27 @@
 }
 
 .cards__button {
-  margin-left: 200px;
+  /* margin-left: 200px; */
   display: flex;
   gap: 0.5rem;
 }
 
 .cards__button button,
-.cards__button a {
+.cards__button a{
   padding: 10px 20px;
   border: 1px solid #e4b717;
   filter: drop-shadow(0px 1px 17px rgba(228, 183, 23, 0.25));
   border-radius: 50px;
   font-weight: 700;
-  font-size: 18px;
+  /* font-size: 18px; */
+  font-size: 11px !important;
   line-height: 160%;
   color: #e4b717;
   transition: 0.4s ease;
+}
+
+.cards > div {
+  margin-right: auto;
 }
 
 .cards__button a {
@@ -614,19 +636,12 @@
   .carusel__card>div:nth-child(3) {
     display: none;
   }
-
-
-  .cards__button {
-    flex-direction: column;
-  }
-
   .cards__button>button:last-child {
     margin-left: 0;
   }
 
   .card__title {
     flex-direction: column;
-    text-align: center;
   }
 
   .cat {
@@ -639,7 +654,14 @@
     height: 250px;
     width: auto;
   }
-
+  .cards{ 
+    width: 49% !important;
+  }
+  .cards__button button {
+    font-size: 9px !important;
+    margin-right: auto;
+    padding: 8px 15px !important;
+  }
   .addLeft {
     height: 300px;
   }
@@ -682,5 +704,11 @@
   .catTop>img {
     width: 30px;
     height: auto;
+  }
+}
+
+@media screen and (max-width: 560px){
+  .cards {
+    width: 100% !important;
   }
 }

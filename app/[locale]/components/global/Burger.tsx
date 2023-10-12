@@ -229,7 +229,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
                     ></path>
                   </g>
                 </svg>
-                <p>Chats</p>
+                <p>Чаты</p>
               </Link>
             ) : (
               <>
@@ -264,7 +264,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
                       ></path>
                     </g>
                   </svg>
-                  <p>Chats</p>
+                  <p>Чаты</p>
                 </div>
               </>
             )}

@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, cache } from "react";
 import styles from "@/styles/liked.module.css";
 import Categories from "../components/global/Categories";
 import Loader from "../components/local/Loader";
@@ -18,7 +18,7 @@ export default function Liked() {
   const { userInfo } = cookie
   useEffect(() => {
     setLoad(true)
-    const fetchData = async () => {
+    const fetchData = cache(async () => {
       try {
         const categories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`)
         const subCategories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`)
@@ -36,7 +36,7 @@ export default function Liked() {
       } finally {
         setLoad(false)
       }
-    }
+    })
     fetchData()
   }, [])
 
@@ -50,7 +50,7 @@ export default function Liked() {
         })
         const [us] = await axios.all([user])
         setUser(us.data)
-      } finally {}
+      } finally { }
     }
     fetchData()
   }, [refetch])
@@ -74,7 +74,7 @@ export default function Liked() {
                 image={
                   card.media.length
                     ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${card.media[0]?.name}`
-                    : "/icons/bag.svg"
+                    : "/images/noImg.jpg"
                 }
                 title={card.name}
                 price={`${card.price[0].price}`}
@@ -83,7 +83,7 @@ export default function Liked() {
                 setData={setRefetch}
                 card={card}
                 likedObj={likedObj}
-                setLikedObj={()=> {}}
+                setLikedObj={() => { }}
               />
             }) : "sign in"}
             {user.length === 0 && <h4 style={{ textAlign: "center", color: "#888" }}>Вам еще не понравился товар</h4>}
