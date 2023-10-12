@@ -350,6 +350,14 @@
         padding: 10px 12px;
     }
 
+    .card {
+        display: block;
+    }
+
+    .aside {
+        display: flex;
+        align-items: center;
+    }
 
     .menu p {
         font-weight: 450;
@@ -383,9 +391,7 @@
     }
 
     .countButton {
-        margin-top: -40px;
-        margin-left: 20px;
-        position: absolute;
+        margin-top: -20px;
         font-size: 16px;
     }
 
@@ -406,16 +412,6 @@
         font-size: 12px;
     }
 
-    .countButton {
-        margin-top: -40px;
-        position: absolute;
-        font-size: 14px;
-    }
-
-    .countButton {
-        width: 75px;
-        height: 30px;
-    }
 
     .menu label {
         font-weight: 450;
@@ -475,13 +471,6 @@
 
     .countPrice h1 {
         font-size: 15px;
-    }
-
-    .countButton {
-        margin-top: -40px;
-        margin-left: 20px;
-        position: absolute;
-        font-size: 16px;
     }
 
     .menu label {
@@ -544,17 +533,6 @@
         font-size: 12px;
     }
 
-    .countButton {
-        margin-top: -40px;
-        position: absolute;
-        font-size: 14px;
-    }
-
-    .countButton {
-        width: 75px;
-        height: 30px;
-    }
-
     .menu label {
         font-weight: 450;
         font-size: 9px;
@@ -601,17 +579,6 @@
         font-size: 12px;
     }
 
-    .countButton {
-        margin-top: -40px;
-        position: absolute;
-        font-size: 14px;
-    }
-
-    .countButton {
-        width: 75px;
-        height: 30px;
-    }
-
     .menu label {
         font-weight: 450;
         font-size: 9px;
@@ -638,6 +605,10 @@
     .input {
         width: 20px;
         height: 20px;
+    }
+
+    .aside {
+        gap: 1rem;
     }
 
 }
