@@ -65,7 +65,7 @@ const Header = ({ data }: IData) => {
   const { userInfo } = cookie;
   const [products, setProducts] = useState<IProduct[]>([])
   const languges: string[] = ["/icons/uz.svg", "/icons/ru.svg"];
-
+  const [liked, setLiked] = useState<number>(0)
   useEffect(() => {
     isBurgerOpen
       ? (document.body.style.overflow = "auto")
@@ -84,6 +84,12 @@ const Header = ({ data }: IData) => {
     const fetchData = async () => {
       try {
         const products = await axios.get<IPage>(`${process.env.NEXT_PUBLIC_API}/api/products`)
+        const liked = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/products/liked`, {
+          headers: {
+            Authorization: userInfo === undefined ? "" : userInfo.userToken
+          }
+        })
+        setLiked(liked.data.length)
         setProducts(products.data.products)
       } catch { } finally {
         () => {
@@ -120,7 +126,6 @@ function YourComponent() {
     }
   }) => {
     setSearchTerm(event.target.value);
-    console.log(searchTerm);
   };
   const handleSubmit = (e: {
     preventDefault: Function
@@ -217,7 +222,7 @@ function YourComponent() {
               />
             </button>
           </form>
-          <SearchModal products={foundVal ? foundVal : []} />
+          {/* <SearchModal products={foundVal ? foundVal : []} /> */}
           <div className={styles.contra}>
             <div
               onMouseOver={() => {
@@ -238,7 +243,9 @@ function YourComponent() {
                     ? {
                       display: "none",
                     }
-                    : {}
+                    : {
+                      marginTop: -16
+                    }
                 }
               >
                 {languges.map((e: string) => {

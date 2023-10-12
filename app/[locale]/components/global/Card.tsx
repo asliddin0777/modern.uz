@@ -23,6 +23,7 @@ import Success from "../local/Success";
 import AOS, { refresh } from "aos";
 import "aos/dist/aos.css";
 import Error from "../local/Error";
+import socket from "../local/socket";
 
 interface Card {
   price: string;
@@ -51,16 +52,17 @@ const Card = ({
   card,
   setData,
 }: Card) => {
-  const [like, setLike] = useState(false);
   const { push } = useRouter();
   const [fromWhere, setFromWhere] = useState(1);
   const [cookie] = useCookies(["userInfo"]);
   const [auth, setAuth] = useState<boolean>(false);
   const { userInfo } = cookie;
+  const [like, setLike] = useState(card?.likes?.find((id) => id === userInfo?.userId) ? true : false);
   const [addedToCart, setAddedToCart] = useState<boolean>(false);
   const [succed, setSucced] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>("");
   const [error, setErr] = useState<boolean>(false)
+  const [isChatOpen, setIsChatOpen] = useState(false)
   useEffect(() => {
     if (auth === false) {
       document.body.style.overflow = "auto";
@@ -87,11 +89,9 @@ const Card = ({
       setAuth(!auth);
     }
   };
-
   const path = usePathname()
 
-  const category = path.split("/")[1]
-
+  const pathS = path.split("/")[1]
   return (
     <>
       {auth && (
@@ -105,9 +105,11 @@ const Card = ({
       )}
       <Success err={succed} msg={msg} setErr={setSucced} />
       <Error err={error} msg={msg} setErr={setErr} />
-      <div key={String(url)} data-aos="fade-up" className={styles.card}>
+      <div style={pathS === "company" ? {
+        height: 250
+      } : {}} key={String(url)} data-aos="fade-up" className={styles.card}>
         <Link
-          href={`/product/${title}?id=${url}`}
+          href={`/product/${title.split(" ").join("-")}?id=${url}`}
           className={styles.imageOfCard}
         >
           {image !== undefined ? (
@@ -138,6 +140,7 @@ const Card = ({
           className={styles.like}
           onClick={() => {
             if (userInfo && card) {
+              setLike(!like)
               const data = {
                 method: "put",
                 url: sendLike,
@@ -146,9 +149,6 @@ const Card = ({
                 },
               };
               axios(data)
-                .then((res) => {
-                  setData((prev) => !prev);
-                })
                 .catch((err) => console.log(err));
             } else {
               setAuth(!auth);
@@ -156,8 +156,7 @@ const Card = ({
           }}
         >
           {card &&
-            userInfo &&
-            card.likes?.find((id) => id === userInfo.userId) ? (
+            userInfo && like === true ? (
             <svg
               className={styles.like}
               width={35}
@@ -209,7 +208,7 @@ const Card = ({
             </svg>
           )}
         </div>
-        {path.split("/")[1] !== "company" && <div className={styles.buy}>
+        {path.split("/")[1] !== "company" ? <div className={styles.buy}>
           <button onClick={sellBot}>Купить</button>
           <div
             onClick={() => {
@@ -245,6 +244,48 @@ const Card = ({
               width={21}
               height={20.5}
             />
+          </div>
+        </div> : <div style={{
+          left: "95%"
+        }} className={styles.buy}>
+          <div
+            className={styles.chatButton}
+            onClick={() => {
+              socket.connect();
+              if (userInfo !== undefined && card) {
+                setIsChatOpen(!isChatOpen);
+                socket.emit(
+                  "newUser",
+                  JSON.stringify({
+                    id: userInfo.userId,
+                    fullName: `${localStorage.getItem(
+                      "userName"
+                    )} ${localStorage.getItem("lastName")}`,
+                  })
+                );
+                axios
+                  .post(
+                    `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
+                    {
+                      admin: typeof card?.author === "string"?card?.author :card?.author.id,
+                      product: card.id
+                    },
+                    {
+                      headers: {
+                        Authorization: userInfo.userToken,
+                      },
+                    }
+                  )
+                  .then((res) => {
+                    push(`/chats?id=${res.data.id}`)
+                  });
+              } else {
+                setAuth(!auth);
+                setFromWhere(1);
+              }
+            }}
+          >
+            <svg viewBox="0 0 24.00 24.00" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M19.4003 18C19.7837 17.2499 20 16.4002 20 15.5C20 12.4624 17.5376 10 14.5 10C11.4624 10 9 12.4624 9 15.5C9 18.5376 11.4624 21 14.5 21L21 21C21 21 20 20 19.4143 18.0292M18.85 12C18.9484 11.5153 19 11.0137 19 10.5C19 6.35786 15.6421 3 11.5 3C7.35786 3 4 6.35786 4 10.5C4 11.3766 4.15039 12.2181 4.42676 13C5.50098 16.0117 3 18 3 18H9.5" stroke="#ffffff" strokeWidth="0.792" strokeLinecap="round" strokeLinejoin="round"></path></g></svg>
           </div>
         </div>}
       </div>

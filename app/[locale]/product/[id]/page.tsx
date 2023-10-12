@@ -87,6 +87,7 @@ const Detail = ({
   }, []);
   const videoRef = useRef<HTMLVideoElement | any>();
 
+  const [like, setLike] = useState(data?.likes?.find((id) => id === userInfo?.userId) ? true : false)
   if (!load && data) {
     const selectedProduct: IProduct = data
     return (
@@ -217,20 +218,21 @@ const Detail = ({
                         }}
                         onClick={() => {
                           if (userInfo) {
+                            setLike(!like)
                             axios.put<IProduct>(`${process.env.NEXT_PUBLIC_API}/api/products/like/${searchParams.id}`, {}, {
                               headers: {
                                 Authorization: userInfo.userToken
                               }
                             }).then(res => {
-                              // setData(true)
-                              window.location.reload()
+                              console.log(res);
+                              
                             })
                           } else {
                             setAuth(!auth);
                           }
                         }}
                       >
-                        {selectedProduct && userInfo && selectedProduct.likes?.find(id => id === userInfo.userId) ? <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" strokeWidth="0.9120000000000001"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#f00"></path> </g></svg> : <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" strokeWidth="0.9120000000000001"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#ffffff00"></path> </g></svg>}
+                        {like === true ? <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" strokeWidth="0.9120000000000001"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#f00"></path> </g></svg> : <svg className={styles.like} width={35} height={35} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" strokeWidth="0.9120000000000001"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" fill="#ffffff00"></path> </g></svg>}
                       </div>
                     </div>
                     <div className={styles.buy}>

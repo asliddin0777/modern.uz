@@ -14,7 +14,6 @@ import IProduct from "@/interfaces/Product/IProduct";
 import Order from "../components/global/Order";
 
 const Cart = () => {
-
   const [order, setOrder] = useState<boolean>(false);
   const [load, setLoad] = useState(true);
   const [categories, setCategories] = useState<any[] | any>([]);

@@ -4,36 +4,18 @@ import styles from "@/styles/auth.module.css";
 import Image from "next/image";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import Error from "../local/Error";
+import Error from "../../components/local/Error";
 import { usePathname, useRouter } from "next/navigation";
-import Success from "../local/Success";
+import Success from "../../components/local/Success";
 
-
-
-interface Auth {
-  setIsAuthOpen: Function;
-  isAuthOpen: boolean;
-  fromWhere: number
-  setFromWhere: Function
-  fromCat?: boolean
-}
-
-const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere, fromCat }: Auth) => {
-  const { refresh } = useRouter()
+const Auth = () => {
+  const { refresh, push } = useRouter()
   const [queue, setQueue] = useState<number | any>(0);
   const [timer, setTimer] = useState<number>(62);
   const [load, setLoad] = useState<boolean>(true);
   const [data, setData] = useState<any[] | any>([])
   const [error, setError] = useState<string>("")
   const [err, setErr] = useState(false)
-
-  useEffect(() => {
-    if (isAuthOpen === true) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [isAuthOpen]);
 
   const dum = queue === 2.5
 
@@ -45,44 +27,13 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere, fromCat }: A
   }, [dum]);
 
   const path = usePathname()
-
-  const category = path.split("/")[1]
-
-
-  const phoneRef = useRef<HTMLInputElement | any>()
-  const msgPassRef = useRef<HTMLInputElement | any>()
-
-  const passwordRef = useRef<HTMLInputElement | any>()
-  const numberRef = useRef<HTMLInputElement | any>()
   const numRef = useRef<HTMLInputElement | any>()
   const codeRef = useRef<HTMLInputElement | any>()
   const passRef = useRef<HTMLInputElement | any>()
   const passRef2 = useRef<HTMLInputElement | any>()
   const userNameRef = useRef<HTMLInputElement | any>()
   const lastNameRef = useRef<HTMLInputElement | any>()
-  const [cookie, setCookie] = useCookies(['userInfo'])
-  const handleCheckUserAtLogin = () => {
-    if (passwordRef.current.value !== "" && numberRef.current.value !== "") {
-      axios.post(`${process.env.NEXT_PUBLIC_API}/api/users/login`, {
-        phoneNumber: `998${numberRef?.current?.value}`,
-        password: `${passwordRef?.current?.value}`,
-      }, {
-        headers: {
-          "Content-Type": "application/json",
-        }
-      }).then((res: any) => {
-        setCookie("userInfo", {
-          userPhoneNumber: res.data.phoneNumber,
-          userId: res.data.id,
-          userToken: res.data.token,
-        })
-        refresh()
-      }).catch(err => {
-        setError(err.response.data.errors[0].message);
-        setErr(true)
-      })
-    }
-  }
+  const [cookie, setCookie, removeCookie] = useCookies(['userInfo'])
   let gotAfErr = ""
   const handleUserGetCode = () => {
     if (numRef && numRef.current) {
@@ -154,18 +105,20 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere, fromCat }: A
             userPhoneNumber: res.data.phoneNumber,
             userId: res.data.id,
             userToken: res.data.token,
-          })
+          }, {path:"/"})
         }).catch((er) => {
           setError(er.response.data.errors[0].message)
           setErr(!err)
           errr = er.response.data.errors[0].message
         }).finally(() => {
-          console.log("closed");
           if (errr !== "") {
-            setFromWhere(0)
-            setIsAuthOpen(false)
+            console.log("closed");
+            removeCookie("userInfo")
+            setQueue(0)
             passRef.current.value = null
             passRef2.current.value = null
+          } else {
+            push("/")
           }
         })
       } else {
@@ -174,109 +127,17 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere, fromCat }: A
     }
   }
 
-  const [ml, setMl] = useState(0)
-  useEffect(() => {
-    if (window.innerWidth <= 1035) {
-      setMl(-150)
-    }
-    if (window.innerWidth >= 1035) {
-      setMl(0)
-    }
-    if (window.innerWidth <= 800) {
-      setMl(-300)
-    }
-    if (window.innerWidth <= 760) {
-      setMl(-500)
-    }
-    if (window.innerWidth <= 700) {
-      setMl(-420)
-    }
-    if (window.innerWidth <= 540) {
-      setMl(-300)
-    }
-    if (window.innerWidth <= 483) {
-      setMl(-600)
-    }
-    if (window.innerWidth <= 400) {
-      setMl(-580)
-    }
-    if (window.innerWidth <= 374) {
-      setMl(-530)
-    }
-    if (window.innerWidth <= 340) {
-      setMl(-520)
-    }
-  }, [window.innerWidth])
   return (
     <>
-      <div className={isAuthOpen ? styles.authent : styles.dn}>
-        <div style={fromCat && fromCat === true ? {
-          left: path.split("/")[1] === "company" ? "50%" : path !== "/" ? "150%" : "50%",
-          marginLeft: path.split("/")[1] === "company" ? -270 && window.innerWidth > 540 ? -270 : -180 : path !== "/" ? ml : window.innerWidth > 540 ? -270 : -180,
-          width: window.innerWidth <= 540 ? "fit-content" : 532,
-          padding: window.innerWidth <= 540 ? 32 : "auto"
-        } : {}} className={isAuthOpen ? styles.auth : styles.dn}>
-          <div className={styles.close}>
-            <button
-              onClick={() => {
-                setIsAuthOpen(false);
-              }}
-            >
-              <Image
-                src={"/icons/close.svg"}
-                alt="close auth icon"
-                width={21}
-                height={21}
-              />
-            </button>
-          </div>
+      <div className={styles.authent}>
+        <div className={styles.auth}>
           <div className={styles.title}>
             <h3>
-              {fromWhere === 1
-                ? "Авторизация"
-                : fromWhere === 2 ? "Регистрация" : queue === 2 ? "Введите код" : queue === 2.5 ? "Новый пароль" : ""}
+              {queue == 0 ? "Регистрация" :queue === 2 ? "Введите код" : queue === 2.5 ? "Новый пароль" : ""}
             </h3>
           </div>
           <div className={styles.authForm}>
-            {fromWhere === 1 ? (
-              <>
-                <div className={styles.phoneNumber}>
-                  <p>+998</p>
-                  <input
-                    type="text"
-                    maxLength={9}
-                    placeholder="999999999"
-                    required
-                    ref={numberRef}
-                    autoComplete="off"
-                  />
-                </div>
-                <input
-                  type="password"
-                  maxLength={8}
-                  placeholder="Пароль"
-                  required
-                  ref={passwordRef}
-                  autoComplete={"off"}
-                />
-                <button
-                  className={styles.forgotPass}
-                  onClick={() => {
-                    setQueue(2);
-                  }}
-                >
-                  Вы забыли пароль?
-                </button>
-                <button className={styles.enter} onClick={(e) => {
-                  if (passwordRef.current.value && numberRef.current.value) {
-                    handleCheckUserAtLogin()
-                  } else {
-                    setErr(true)
-                    setError("Please fill the blanks")
-                  }
-                }}>Войти</button>
-              </>
-            ) : fromWhere === 2 && queue === 0 ? <>
+            {queue === 0 ? <>
               <div className={styles.phoneNumber}>
                 <p>+998</p>
                 <input
@@ -361,19 +222,10 @@ const Auth = ({ setIsAuthOpen, isAuthOpen, fromWhere, setFromWhere, fromCat }: A
                   }}>{error}</p>}
                 </> : ""}
           </div>
-          {fromWhere === 1 ? <button onClick={() => {
-            setFromWhere(2)
-          }}>Регистрация</button> : fromWhere === 2 && queue === 0 ? <button onClick={() => {
-            setFromWhere(1)
+          {queue === 0 ? <button onClick={() => {
+            push("/auth/login")
           }}>Уже есть аккаунт?</button> : ""}
         </div>
-        <div
-          className={styles.bg}
-          onClick={() => {
-            setIsAuthOpen(false);
-          }}
-        />
-
       </div>
     </>
   );

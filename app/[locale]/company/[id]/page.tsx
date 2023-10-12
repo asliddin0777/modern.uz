@@ -83,8 +83,17 @@ const Company = ({
       fetchData();
     }
   }, [refetch]);
-  const [nav, setNav] = useState<number>(0);
-  const { id }: any = useRouter();
+  const handleScroll = (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+  };
+
+  useEffect(() => {
+    document.addEventListener('scroll', handleScroll, { passive: false });
+
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   function getRandomColor() {
     var r = Math.floor(Math.random() * 256); // Random value between 0 and 255 for red
@@ -95,6 +104,7 @@ const Company = ({
 
     return color;
   }
+  console.log(data);
   if (load === false && data) {
     return (
       <div className={styles.company}>
@@ -102,73 +112,65 @@ const Company = ({
         <div className={styles.container}>
           <section className={styles.companyTitle}>
             <div className={styles.companyProfile}>
-              <div className={styles.profileSection}>
-                {" "}
+              {data.baner && <Image src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${data.baner.name}`} alt="vendor image" width={1000} height={1000}
+                className={styles.profileImage}
+                style={{
+                  background: `${getRandomColor()}`,
+                }}
+              />
+              }
+              <div className={styles.vendorTitle}>
+                <div className={styles.profileSection}>
+                  <div className={styles.profile}>
+                    <h1>
+                      {data && data.name}
+                    </h1>
+                  </div>
+                </div>
                 <div
-                  className={styles.profileImage}
-                  style={{
-                    background: `${getRandomColor()}`,
+                  className={styles.chatButton}
+                  onClick={() => {
+                    if (userInfo !== undefined) {
+                      socket.connect();
+                      socket.emit(
+                        "newUser",
+                        JSON.stringify({
+                          id: userInfo.userId,
+                          fullName: `${localStorage.getItem(
+                            "userName"
+                          )} ${localStorage.getItem("lastName")}`,
+                        })
+                      );
+                      axios
+                        .post(
+                          `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
+                          {
+                            admin: data.products[0].author,
+                          },
+                          {
+                            headers: {
+                              Authorization: userInfo.userToken,
+                            },
+                          }
+                        )
+                        .then((res) => {
+                          setChat(res.data);
+                          push(`/chats?id=${res.data.id}`)
+                        });
+                    } else {
+                      setAuth(!auth);
+                      setFromWhere(2);
+                    }
                   }}
                 >
-                  {data.name[0]}
+                  <p>Написать поставщику</p>
                 </div>
-                <div className={styles.profile}>
-                  <h1>
-                    {data && data.name}
-                  </h1>
-                </div>
-              </div>
-              <div
-                className={styles.chatButton}
-                onClick={() => {
-                  if (userInfo !== undefined) {
-                    socket.connect();
-                    socket.emit(
-                      "newUser",
-                      JSON.stringify({
-                        id: userInfo.userId,
-                        fullName: `${localStorage.getItem(
-                          "userName"
-                        )} ${localStorage.getItem("lastName")}`,
-                      })
-                    );
-                    axios
-                      .post(
-                        `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
-                        {
-                          admin: data.products[0].author,
-                        },
-                        {
-                          headers: {
-                            Authorization: userInfo.userToken,
-                          },
-                        }
-                      )
-                      .then((res) => {
-                        setChat(res.data);
-                        push(`/chats?id=${res.data.id}`)
-                      });
-                  } else {
-                    setAuth(!auth);
-                    setFromWhere(2);
-                  }
-                }}
-              >
-                <Image
-                  src={"/icons/chat.svg"}
-                  alt="chat icon"
-                  width={43}
-                  height={39}
-                />
-                <p>Написать поставщику</p>
               </div>
             </div>
             <div className={styles.companyDescrip}>
               <p>Описание</p>
               <p>
-                {data
-                  ? data.description
-                  : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}
+                {data && data.description}
               </p>
             </div>
           </section>

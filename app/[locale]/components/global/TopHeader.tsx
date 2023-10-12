@@ -55,13 +55,12 @@ const TopHeader = () => {
         </nav>
         <div style={{
           cursor: "pointer"
-        }} onClick={() => { 
-            push("/profile")
+        }} onClick={() => {
+          push("/profile")
         }} className={styles.auth}>
           <Image src={"/icons/user.svg"} width={14} height={18} alt="user icon" />
           <button>Профиль</button>
         </div>
-        {isAuthOpen && <Auth fromWhere={fromWhere} setFromWhere={setFromWhere} isAuthOpen={isAuthOpen} setIsAuthOpen={setIsAuthOpen} />}
       </div>
     );
   } else {
@@ -87,16 +86,13 @@ const TopHeader = () => {
           cursor: "pointer"
         }} className={styles.auth}>
           <button onClick={() => {
-          setIsAuthOpen(true)
-          setFromWhere(1)
-        }} >Войти</button>
+            push("/auth/login")
+          }} >Войти</button>
           <p> | </p>
           <button onClick={() => {
-            setIsAuthOpen(true)
-            setFromWhere(2)
+            push("/auth/register")
           }}>Зарегестрироваться</button>
         </div>
-        {isAuthOpen && <Auth fromWhere={fromWhere} setFromWhere={setFromWhere} isAuthOpen={isAuthOpen} setIsAuthOpen={setIsAuthOpen} />}
       </div>
     }
   }

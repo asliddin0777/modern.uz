@@ -57,7 +57,7 @@ const Home = ({
 
   useEffect(() => {
     setLoad(true);
-    const fetchData = cache( async () => {
+    const fetchData = cache(async () => {
       try {
         const req1 = axios.get<IPage>(
           `${process.env.NEXT_PUBLIC_API}/api/products`
@@ -109,8 +109,8 @@ const Home = ({
           const [product, popular] = await axios.all([prod, pop]);
           setData(product.data);
           setPopularProducts(popular.data);
-        } finally {}
-      }; 
+        } finally { }
+      };
       setRefetch(false);
       refetchData();
     }
@@ -138,6 +138,8 @@ const Home = ({
       return '<span class="' + className + '">' + (index + 1) + "</span>";
     },
   };
+
+  console.log(vendor);
 
   if (load === true) {
     return <Loader />;
@@ -337,106 +339,88 @@ const Home = ({
                     setFromWhere={setFromWhere}
                   />
                 )}
-                {vendor &&
-                  vendor.map((e: any, index: number) => {
-                    if (e) {
-                      return (
-                        <div className={styles.cards} key={e.id}>
-                          <div className={styles.card__left}>
-                            <Link
-                              style={{
-                                color: "#000",
-                              }}
+                <div className={styles.newProductsWrapper}>
+                  {vendor &&
+                    vendor.map((e: any, index: number) => {
+                      if (e) {
+                        return (
+                          <div className={styles.cards} key={e.id}>
+                            <Link style={{
+                              color: "#000",
+                            }}
                               href={`/company/${e.id}`}
-                              as={`/company/${e.name.split(" ").join("-")}?id=${e.id}`}
-                              className={styles.card__title}
-                            >
-                              {/* <Image
-                                src={"/icons/profile.svg"}
-                                height={57}
-                                width={57}
-                                alt="profile"
-                              /> */}
+                              as={`/company/${e.name.split(" ").join("-")}?id=${e.id}`} className={styles.card__left}>
                               <div
-                                className={styles.profileImage}
-                                style={{
-                                  background: `${getRandomColor()}`,
-                                }}
+                                className={styles.card__title}
                               >
-                                {e.name[0]}
+                               
+                                <Image className={styles.profileImage} src={e?.baner ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e?.baner.name}` :"/images/noImg.jpg"} width={1000} height={408} alt="vendor image" />
+                                <div>
+                                  <h3>{e.name}</h3>
+                                </div>
                               </div>
-                              <div>
-                                <h3>{e.name}</h3>
-                              </div>
+                              {e.description && <div className={styles.description}>
+                                <p>Описание</p>
+                                <p>{e.description.substring(0, 150)}{e?.description.length > 150 && "..."}</p>
+                              </div>}
                             </Link>
-                            <div className={styles.description}>
-                              <p>Описание</p>
-                              <p>{e.description}</p>
-                            </div>
-                          </div>
-                          <div className={styles.card__right}>
-                            <div className={styles.cards__button}>
-                              <button
-                                onClick={() => {
-                                  push(`/company/${e.name.split(" ").join("-")}?id=${e.id}`);
-                                }}
-                              >
-                                Посмотреть все товары
-                              </button>
-                              <div
-                                className={styles.chatButton}
-                                onClick={() => {
-                                  socket.connect();
-                                  if (userInfo !== undefined && e) {
-                                    setIsChatOpen(!isChatOpen);
-                                    socket.emit(
-                                      "newUser",
-                                      JSON.stringify({
-                                        id: userInfo.userId,
-                                        fullName: `${localStorage.getItem(
-                                          "userName"
-                                        )} ${localStorage.getItem("lastName")}`,
-                                      })
-                                    );
-                                    axios
-                                      .post(
-                                        `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
-                                        {
-                                          admin: e.admin.id
-                                        },
-                                        {
-                                          headers: {
-                                            Authorization: userInfo.userToken,
+                            <div className={styles.card__right}>
+                              <div className={styles.cards__button}>
+                                <button
+                                  onClick={() => {
+                                    push(`/company/${e.name.split(" ").join("-")}?id=${e.id}`);
+                                  }}
+                                >
+                                  Посмотреть все товары
+                                </button>
+                                <div
+                                  className={styles.chatButton}
+                                  onClick={() => {
+                                    socket.connect();
+                                    if (userInfo !== undefined && e) {
+                                      setIsChatOpen(!isChatOpen);
+                                      socket.emit(
+                                        "newUser",
+                                        JSON.stringify({
+                                          id: userInfo.userId,
+                                          fullName: `${localStorage.getItem(
+                                            "userName"
+                                          )} ${localStorage.getItem("lastName")}`,
+                                        })
+                                      );
+                                      axios
+                                        .post(
+                                          `${process.env.NEXT_PUBLIC_API}/api/chats/new`,
+                                          {
+                                            admin: typeof e.admin === "string" ? e.admin : e.admin.id
                                           },
-                                        }
-                                      )
-                                      .then((res) => {
-                                        push(`/chats?id=${res.data.id}`)
-                                      });
-                                  } else {
-                                    setAuth(!auth);
-                                    setFromWhere(2);
-                                  }
-                                }}
-                              >
-                                <Image
-                                  src={"/icons/chat.svg"}
-                                  alt="chat icon"
-                                  width={43}
-                                  height={39}
-                                />
-                                <p>Написать поставщику</p>
+                                          {
+                                            headers: {
+                                              Authorization: userInfo.userToken,
+                                            },
+                                          }
+                                        )
+                                        .then((res) => {
+                                          push(`/chats?id=${res.data.id}`)
+                                        });
+                                    } else {
+                                      setAuth(!auth);
+                                      setFromWhere(1);
+                                    }
+                                  }}
+                                >
+                                  <svg viewBox="0 0 24.00 24.00" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M19.4003 18C19.7837 17.2499 20 16.4002 20 15.5C20 12.4624 17.5376 10 14.5 10C11.4624 10 9 12.4624 9 15.5C9 18.5376 11.4624 21 14.5 21L21 21C21 21 20 20 19.4143 18.0292M18.85 12C18.9484 11.5153 19 11.0137 19 10.5C19 6.35786 15.6421 3 11.5 3C7.35786 3 4 6.35786 4 10.5C4 11.3766 4.15039 12.2181 4.42676 13C5.50098 16.0117 3 18 3 18H9.5" stroke="#000000" strokeWidth="0.792" strokeLinecap="round" strokeLinejoin="round"></path></g></svg>
+                                </div>
                               </div>
-                            </div>
-                            {auth === true && (
-                              <Auth
-                                setIsAuthOpen={setAuth}
-                                fromWhere={fromWhere}
-                                isAuthOpen={auth}
-                                setFromWhere={setFromWhere}
-                              />
-                            )}
-                            {/* {isChatOpen === true && chat && (
+                              {/* {auth === true && (
+                                <Auth
+                                  setIsAuthOpen={setAuth}
+                                  fromWhere={fromWhere}
+                                  isAuthOpen={auth}
+                                  setFromWhere={setFromWhere}
+                                />
+                              )} */}
+                              {/* {isChatOpen === true && chat && (
                               <ChatWithVendor
                                 id={chat.id}
                                 chat={chat}
@@ -446,11 +430,12 @@ const Home = ({
                                 setIsChatOpen={setIsChatOpen}
                               />
                             )} */}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    }
-                  })}
+                        );
+                      }
+                    })}
+                </div>
               </>
             )}
           </div>

@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
 import CategoryProp from "../../components/local/CategoryProp";
 
-const Page = ({searchParams}: {
+const Page = ({ searchParams }: {
   searchParams: {
     id: string
   }
@@ -50,7 +50,7 @@ const Page = ({searchParams}: {
         setLoad(false);
       });
   }, []);
-  
+
   useEffect(() => {
     setLoad(true);
     axios
@@ -123,46 +123,44 @@ const Page = ({searchParams}: {
       <>
         <div className={styles.container}>
           <Categories categories={categories} subcategories={subCategories} />
-          <div className={styles.phone}>
-            <h1>
-              {Categories ? Categories.name : "Телефоны"}
-            </h1>
-          </div>
+          {Categories && Categories.name &&
+            <div className={styles.phone}>
+              <h1>
+                {Categories.name}
+              </h1>
+            </div>}
           <section className={styles.cardSection}>
-            <div className={styles.cardBurgerg} onClick={cardBurgerHandler}>
-              <h3>Фильтр</h3>
-              <Image
-                src={"/icons/rightArrow.svg"}
-                width={24}
-                height={24}
-                alt="arrow"
-              />
-            </div>
-            {cardBurger && (
-              <CardBurger
-                setCardBurger={setCardBurger}
-                cardBurger={cardBurger}
+            {subcategor && <>
+              <div className={styles.cardBurgerg} onClick={cardBurgerHandler}>
+                <h3>Фильтр</h3>
+              </div>
+              {cardBurger && (
+                <>
+                  <CardBurger
+                    setCardBurger={setCardBurger}
+                    cardBurger={cardBurger}
+                    selectedProps={selectedProps}
+                    setSelectedProps={setSelectedProps}
+                    handlerFilter={handlerFilter}
+                    subcategor={subcategor}
+                  /></>
+              )}
+
+              <CategoryProp
                 selectedProps={selectedProps}
                 setSelectedProps={setSelectedProps}
                 handlerFilter={handlerFilter}
                 subcategor={subcategor}
-              />
-            )}
-
-            <CategoryProp
-              selectedProps={selectedProps}
-              setSelectedProps={setSelectedProps}
-              handlerFilter={handlerFilter}
-              subcategor={subcategor}
-              selectedProduct={selectedProduct}
-            />
+                selectedProduct={selectedProduct}
+              /></>
+            }
 
             <section className={styles.sectionRight}>
               {selectedProduct && selectedProduct.products &&
                 selectedProduct.products.map((e, index: number) => (
                   <Card
                     card={e}
-                    animation="fade-down" 
+                    animation="fade-down"
                     url={e.id}
                     height={300}
                     setData={setData}
