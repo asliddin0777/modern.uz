@@ -77,8 +77,6 @@ const Detail = ({
         setProps(res2.data);
         setCategories(res3.data);
         setSubCategories(res4.data);
-      } catch (err) {
-        console.error(err);
       } finally {
         setLoad(false);
       }
@@ -223,9 +221,6 @@ const Detail = ({
                               headers: {
                                 Authorization: userInfo.userToken
                               }
-                            }).then(res => {
-                              console.log(res);
-                              
                             })
                           } else {
                             setAuth(!auth);

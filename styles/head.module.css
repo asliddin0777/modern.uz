@@ -21,6 +21,7 @@
 .container {
   display: flex;
   align-items: center;
+  position: relative;
   width: var(--container-width);
   justify-content: space-between;
   padding: 10px 0;
@@ -61,7 +62,6 @@
   align-items: center;
   display: flex;
   gap: 0.4rem;
-  position: relative;
   color: #e4b717;
 }
 
@@ -148,7 +148,6 @@
   align-items: center;
   gap: 0.5rem;
 }
-
 .dn {
   opacity: 0;
   width: 0;

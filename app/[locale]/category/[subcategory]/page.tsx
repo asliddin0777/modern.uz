@@ -130,8 +130,8 @@ const Page = ({ searchParams }: {
               </h1>
             </div>}
           <section className={styles.cardSection}>
-            {subcategor && <>
-              <div className={styles.cardBurgerg} onClick={cardBurgerHandler}>
+          {subcategor && <>
+            {/* <div className={styles.cardBurgerg} onClick={cardBurgerHandler}>
                 <h3>Фильтр</h3>
               </div>
               {cardBurger && (
@@ -144,7 +144,7 @@ const Page = ({ searchParams }: {
                     handlerFilter={handlerFilter}
                     subcategor={subcategor}
                   /></>
-              )}
+              )} */}
 
               <CategoryProp
                 selectedProps={selectedProps}

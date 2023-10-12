@@ -74,7 +74,7 @@ const categoryProp = ({
                         setSelectedProps([...selectedProps, v.id]);
                       }}
                     >
-                      <input type="radio" name={p.name} />
+                      <input type="checkbox" name={p.name} />
                       <label>{v.value}</label>
                     </div>
                   </div>

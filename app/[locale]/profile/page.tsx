@@ -95,8 +95,6 @@ const Profile = () => {
       push("/")
     }
   }, []);
-  console.log(orders);
-  console.log(userOrdered);
   if (!load) {
     if (user) {
       return (

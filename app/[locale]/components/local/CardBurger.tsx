@@ -21,8 +21,6 @@ const CardBurger = ({
   handlerFilter,
   subcategor,
 }: card) => {
-
-  const [isOpened, setIsOpened] = useState<boolean>(false);
   const [isSelected, setIsSelected] = useState<number | null>(0);
 
   return (
@@ -47,7 +45,6 @@ const CardBurger = ({
               <div
                 key={p.id}
                 onClick={() => {
-                  setIsOpened(!isOpened);
                   if (isSelected === index) {
                     setIsSelected(null);
                   } else {
@@ -66,9 +63,6 @@ const CardBurger = ({
                   >
                     <p className={styles.operativeTitle}>{p.name} </p>
                     <button
-                      onClick={() => {
-                        setIsOpened(!isOpened);
-                      }}
                     >
                       <Image
                         style={

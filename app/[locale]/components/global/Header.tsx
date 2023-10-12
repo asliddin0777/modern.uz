@@ -29,7 +29,6 @@ const Header = ({ data }: IData) => {
     const handleScroll = () => {
       if (lastScrollPosition > 200) {
         const currentScrollPosition = window.pageYOffset;
-        console.log(lastScrollPosition);
         if (currentScrollPosition > lastScrollPosition && isHeaderVisible) {
           setIsHeaderVisible(false);
         } else if (
@@ -113,7 +112,7 @@ const Header = ({ data }: IData) => {
             },
           }
         );
-        const unreadMsg= await axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user/msgcount`, {
+        const unreadMsg = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user/msgcount`, {
           headers: {
             Authorization: userInfo !== undefined ? userInfo.userToken : ""
           }
@@ -124,7 +123,7 @@ const Header = ({ data }: IData) => {
       } finally { }
     }
     fetchData()
-  })
+  }, [])
 
   function disableScroll() {
     const handleScroll = (event: { preventDefault: () => void; }) => {
@@ -205,7 +204,9 @@ const Header = ({ data }: IData) => {
               transition: "0.3s",
             }
         }>
-        <div className={styles.container}>
+        <div onMouseLeave={() => {
+            setMouseOver(false);
+          }}  className={styles.container}>
           <Link
             href={"/"}
             className={styles.logo}
@@ -250,9 +251,7 @@ const Header = ({ data }: IData) => {
               onMouseOver={() => {
                 setMouseOver(true);
               }}
-              onMouseLeave={() => {
-                setMouseOver(false);
-              }}
+
               className={styles.contraLeft}
             >
               <div className={styles.image}>
@@ -266,7 +265,7 @@ const Header = ({ data }: IData) => {
                       display: "none",
                     }
                     : {
-                      marginTop: -16
+                      marginTop: -23
                     }
                 }
               >

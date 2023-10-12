@@ -86,8 +86,6 @@ const Home = ({
         setPopularProducts(res3.data);
         setVendor(res4.data);
         setSubCategories(res5.data);
-      } catch (err) {
-        console.error(err);
       } finally {
         setLoad(false);
       }
@@ -138,9 +136,6 @@ const Home = ({
       return '<span class="' + className + '">' + (index + 1) + "</span>";
     },
   };
-
-  console.log(vendor);
-
   if (load === true) {
     return <Loader />;
   } else {
@@ -221,7 +216,7 @@ const Home = ({
                             <Link
                               className={styles.categoryItem}
 
-                              href={`/category/${val.name}?=id${val.id}`}
+                              href={`/category/${val.name}?id=${val.id}`}
                             >
                               <div className={styles.categoriesTop} style={val.icon ? { border: "1px solid #4D4D4D" } : { border: 0 }}>
                                 {val.icon ? (
