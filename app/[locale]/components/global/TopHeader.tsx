@@ -3,7 +3,6 @@ import React, { memo, useEffect, useState } from "react";
 import styles from "@/styles/topnav.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import Auth from "./Auth";
 import { useCookies } from "react-cookie";
 import { useRouter } from 'next/navigation'
 import axios from "axios";

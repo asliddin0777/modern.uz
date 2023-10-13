@@ -110,7 +110,7 @@
 }
 
 .sectionRight > div {
-  width: 24%;
+  width: 30%;
 }
 
 .carusel {
@@ -259,7 +259,11 @@
 
   .sectionRight {
     gap: 2%;
+    width: 100%;
     row-gap: 1rem;
+  }
+  .sectionRight > div {
+    width: 32.3%;
   }
 }
 

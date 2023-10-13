@@ -8,7 +8,6 @@ import { usePathname, useRouter } from "next/navigation";
 import axios from "axios";
 import useCookies from "react-cookie/cjs/useCookies";
 import IProduct from "@/interfaces/Product/IProduct";
-import Auth from "./Auth";
 
 interface Order {
   products: {
@@ -76,7 +75,7 @@ const Order = ({ setOrder, order, products, deliveryTo }: Order) => {
         })
         
     } else {
-      setAuth(true)
+      push("/auth/login")
     }
   }
 
@@ -121,7 +120,6 @@ const Order = ({ setOrder, order, products, deliveryTo }: Order) => {
             setOrder(false);
           }}
         />
-        <Auth fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} setIsAuthOpen={setAuth} />
       </div>
     </>
   );

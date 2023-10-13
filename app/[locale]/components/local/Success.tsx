@@ -14,7 +14,9 @@ const Success = ({ msg, setErr, err }: Success) => {
   }, [err])
   return (
     <>
-      <div className={err === true ? styles.success : styles.dn}>
+      <div style={msg === "We will contact you as soon as possible" ? {
+        left: "87%"
+      }: {}} className={err === true ? styles.success : styles.dn}>
         <div className={styles.container}>
           <p>{msg}</p>
         </div>

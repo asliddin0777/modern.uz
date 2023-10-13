@@ -11,7 +11,6 @@ import Loader from "../../components/local/Loader";
 import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../../components/local/socket";
 import IProduct from "@/interfaces/Product/IProduct";
-import Auth from "../../components/global/Auth";
 import StorageButton from "../../components/local/StorageButton";
 import ChatWithVendor from "../../components/local/ChatWithVendor";
 import IChat from "@/interfaces/IChat";
@@ -42,7 +41,6 @@ const Detail = ({
   const [selectedMemory, setSelectedMemory] = useState<string>("");
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
-  const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(1);
   const [cookie] = useCookies(["userInfo"]);
   const [error, setErr] = useState<boolean>(false)
@@ -180,7 +178,6 @@ const Detail = ({
                   order={order}
                   setOrder={setOrder}
                 />
-                {auth === true && <Auth setIsAuthOpen={setAuth} fromWhere={fromWhere} isAuthOpen={auth} setFromWhere={setFromWhere} />}
                 <div className={styles.characterSide}>
                   {
                     data && data?.props.map(prop => {
@@ -223,7 +220,7 @@ const Detail = ({
                               }
                             })
                           } else {
-                            setAuth(!auth);
+                            push("/auth/login")
                           }
                         }}
                       >
@@ -237,7 +234,7 @@ const Detail = ({
                           if (userInfo) {
                             setOrder(true);
                           } else {
-                            setAuth(!auth);
+                            push("/auth/login")
                           }
                         }}
                       >
@@ -265,7 +262,7 @@ const Detail = ({
                               setMsg(err.response.data.errors[0].message)
                             });
                         } else {
-                          setAuth(!auth);
+                          push("/auth/login")
                         }
                       }} className={styles.addCart}>
                         <Image
@@ -295,7 +292,7 @@ const Detail = ({
                             push(`/chats/chat-with-admin?id=${res.data.id}`);
                           })
                         } else {
-                          setAuth(!auth);
+                          push("/auth/login")
                           setFromWhere(2);
                         }
                       }}

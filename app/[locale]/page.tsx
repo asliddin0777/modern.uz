@@ -17,7 +17,6 @@ import Loader from "./components/local/Loader";
 import { IPage } from "@/interfaces/IPage";
 import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../[locale]/components/local/socket";
-import Auth from "./components/global/Auth";
 
 const Home = ({
   searchParams,
@@ -37,7 +36,6 @@ const Home = ({
   const [load, setLoad] = useState<boolean>(true);
   const [likedObj, setLikedObj] = useState<any[] | any>([]);
   const [vendor, setVendor] = useState<any[] | any>([]);
-  const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(1);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [cookie] = useCookies(["userInfo"]);
@@ -326,14 +324,6 @@ const Home = ({
               </>
             ) : (
               <>
-                {auth === true && (
-                  <Auth
-                    setIsAuthOpen={setAuth}
-                    fromWhere={fromWhere}
-                    isAuthOpen={auth}
-                    setFromWhere={setFromWhere}
-                  />
-                )}
                 <div className={styles.newProductsWrapper}>
                   {vendor &&
                     vendor.map((e: any, index: number) => {
@@ -399,32 +389,13 @@ const Home = ({
                                           push(`/chats?id=${res.data.id}`)
                                         });
                                     } else {
-                                      setAuth(!auth);
-                                      setFromWhere(1);
+                                      push("/auth/login")
                                     }
                                   }}
                                 >
                                   <svg viewBox="0 0 24.00 24.00" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M19.4003 18C19.7837 17.2499 20 16.4002 20 15.5C20 12.4624 17.5376 10 14.5 10C11.4624 10 9 12.4624 9 15.5C9 18.5376 11.4624 21 14.5 21L21 21C21 21 20 20 19.4143 18.0292M18.85 12C18.9484 11.5153 19 11.0137 19 10.5C19 6.35786 15.6421 3 11.5 3C7.35786 3 4 6.35786 4 10.5C4 11.3766 4.15039 12.2181 4.42676 13C5.50098 16.0117 3 18 3 18H9.5" stroke="#000000" strokeWidth="0.792" strokeLinecap="round" strokeLinejoin="round"></path></g></svg>
                                 </div>
                               </div>
-                              {/* {auth === true && (
-                                <Auth
-                                  setIsAuthOpen={setAuth}
-                                  fromWhere={fromWhere}
-                                  isAuthOpen={auth}
-                                  setFromWhere={setFromWhere}
-                                />
-                              )} */}
-                              {/* {isChatOpen === true && chat && (
-                              <ChatWithVendor
-                                id={chat.id}
-                                chat={chat}
-                                setChatListOpener={() => { }}
-                                userInfo={userInfo}
-                                selectedProduct={undefined}
-                                setIsChatOpen={setIsChatOpen}
-                              />
-                            )} */}
                             </div>
                           </div>
                         );

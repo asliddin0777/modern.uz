@@ -17,7 +17,6 @@ const Auth = () => {
   const passwordRef = useRef<HTMLInputElement | any>()
   const numberRef = useRef<HTMLInputElement | any>()
   const numRef = useRef<HTMLInputElement | any>()
-  const codeRef = useRef<HTMLInputElement | any>()
   const [cookie, setCookie] = useCookies(['userInfo'])
   const handleCheckUserAtLogin = () => {
     if (passwordRef.current.value !== "" && numberRef.current.value !== "") {
@@ -71,9 +70,17 @@ const Auth = () => {
       setError("Fill the blanks")
     }
   }
+  const {userInfo} = cookie
+  useEffect(()=> {
+    if(userInfo && userInfo.userId) {
+      push("/")      
+    }
+  })
 
   return (
-    <div className={styles.authent}>
+    <>
+    <Error err={err} msg={error} setErr={setErr} />
+      <div className={styles.authent}>
       <div className={styles.auth}>
         <div className={styles.title}>
           <h3>Авторизация</h3>
@@ -116,6 +123,7 @@ const Auth = () => {
         }}>Регистрация</button>
       </div>
     </div>
+    </>
   )
 };
 

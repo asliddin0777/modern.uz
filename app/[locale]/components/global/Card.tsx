@@ -3,7 +3,6 @@ import React, {
   Dispatch,
   SetStateAction,
   memo,
-  useContext,
   useEffect,
   useState,
 } from "react";
@@ -11,16 +10,11 @@ import Image from "next/image";
 import styles from "@/styles/card.module.css";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import likes from "@/public/icons/like2.svg";
-import likeBlue from "@/public/likeBlue.svg";
 import { useCookies } from "react-cookie";
-import { uuid as uuidv4 } from "uuidv4";
 import axios from "axios";
-import Auth from "./Auth";
 import IProduct from "@/interfaces/Product/IProduct";
-import { IPage } from "@/interfaces/IPage";
 import Success from "../local/Success";
-import AOS, { refresh } from "aos";
+import AOS from "aos";
 import "aos/dist/aos.css";
 import Error from "../local/Error";
 import socket from "../local/socket";
@@ -86,7 +80,7 @@ const Card = ({
       setMsg("We will contact you as soon as possible");
       setSucced(!succed);
     } else {
-      setAuth(!auth);
+      push("/auth/login")
     }
   };
   const path = usePathname()
@@ -94,15 +88,6 @@ const Card = ({
   const pathS = path.split("/")[1]
   return (
     <>
-      {auth && (
-        <Auth
-          fromWhere={fromWhere}
-          isAuthOpen={auth}
-          setFromWhere={setFromWhere}
-          setIsAuthOpen={setAuth}
-          fromCat={true}
-        />
-      )}
       <Success err={succed} msg={msg} setErr={setSucced} />
       <Error err={error} msg={msg} setErr={setErr} />
       <div style={pathS === "company" ? {
@@ -151,7 +136,7 @@ const Card = ({
               axios(data)
                 .catch((err) => console.log(err));
             } else {
-              setAuth(!auth);
+              push("/auth/login")
             }
           }}
         >
@@ -233,7 +218,7 @@ const Card = ({
                     setMsg(err.response.data.errors[0].message)
                   });
               } else {
-                setAuth(!auth);
+                push("/auth/login")
               }
             }}
             className={`${styles.box} ${styles.like}`}
@@ -280,8 +265,7 @@ const Card = ({
                     push(`/chats?id=${res.data.id}`)
                   });
               } else {
-                setAuth(!auth);
-                setFromWhere(1);
+                push("/auth/login")
               }
             }}
           >

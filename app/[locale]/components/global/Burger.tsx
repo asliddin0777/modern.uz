@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCookies } from "react-cookie";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import Auth from "./Auth";
 import IProduct from "@/interfaces/Product/IProduct";
 import SearchModal from "./SearchModal";
 
@@ -199,7 +198,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
               if (userInfo) {
                 setAuth(false);
               } else {
-                setAuth(true);
+                push("/auth/login")
               }
             }}
           >
@@ -233,12 +232,6 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
               </Link>
             ) : (
               <>
-                <Auth
-                  fromWhere={fromWhere}
-                  setFromWhere={setFromWhere}
-                  isAuthOpen={auth}
-                  setIsAuthOpen={setAuth}
-                />{" "}
                 <div style={{ cursor: "pointer" }} className={styles.navigateItem}>
                   <svg
                     viewBox="0 0 24.00 24.00"
@@ -286,14 +279,6 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
           setIsBurgerOpen(false);
         }}
       />
-      {isAuthOpen && (
-        <Auth
-          fromWhere={fromWhere}
-          setFromWhere={setFromWhere}
-          isAuthOpen={isAuthOpen}
-          setIsAuthOpen={setIsAuthOpen}
-        />
-      )}
     </div>
   );
 };

@@ -5,12 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import Burger from "./Burger";
 import useCookies from "react-cookie/cjs/useCookies";
-
-import Auth from "./Auth";
 import { IPage } from "@/interfaces/IPage";
 import axios from "axios";
 import IProduct from "@/interfaces/Product/IProduct";
 import SearchModal from "./SearchModal";
+import { useRouter } from "next/navigation";
 interface IData {
   data?: IPage;
 }
@@ -94,36 +93,38 @@ const Header = ({ data }: IData) => {
       }
     }
     fetchData()
-  })
+  }, [])
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const liked = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/products/liked`, {
-          headers: {
-            Authorization: userInfo === undefined ? "" : userInfo.userToken
-          }
-        })
-        const cart = await axios.get(
-          `${process.env.NEXT_PUBLIC_API}/api/users/current`,
-          {
+    if (userInfo) {
+      const fetchData = async () => {
+        try {
+          const liked = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/products/liked`, {
             headers: {
-              Authorization: userInfo === undefined ? "" : userInfo.userToken,
-            },
-          }
-        );
-        const unreadMsg = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user/msgcount`, {
-          headers: {
-            Authorization: userInfo !== undefined ? userInfo.userToken : ""
-          }
-        })
-        setGotMsgs(unreadMsg.data.unreadMsgs)
-        setLiked(liked.data.length)
-        setInCart(cart.data.basket.length)
-      } finally { }
+              Authorization: userInfo === undefined ? "" : userInfo.userToken
+            }
+          })
+          const cart = await axios.get(
+            `${process.env.NEXT_PUBLIC_API}/api/users/current`,
+            {
+              headers: {
+                Authorization: userInfo === undefined ? "" : userInfo.userToken,
+              },
+            }
+          );
+          const unreadMsg = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/chats/user/msgcount`, {
+            headers: {
+              Authorization: userInfo !== undefined ? userInfo.userToken : ""
+            }
+          })
+          setGotMsgs(unreadMsg.data.unreadMsgs)
+          setLiked(liked.data.length)
+          setInCart(cart.data.basket.length)
+        } finally { }
+      }
+      fetchData()
     }
-    fetchData()
-  }, [])
+  })
 
   function disableScroll() {
     const handleScroll = (event: { preventDefault: () => void; }) => {
@@ -148,6 +149,7 @@ const Header = ({ data }: IData) => {
   }) => {
     setSearchTerm(event.target.value);
   };
+  const {push} = useRouter()
   const handleSubmit = (e: {
     preventDefault: Function
   }) => {
@@ -182,14 +184,6 @@ const Header = ({ data }: IData) => {
   return (
     <>
       <Burger products={products} isBurgerOpen={isBurgerOpen} setIsBurgerOpen={setIsBurgerOpen} />
-      {auth === true && (
-        <Auth
-          setIsAuthOpen={setAuth}
-          fromWhere={fromWhere}
-          isAuthOpen={auth}
-          setFromWhere={setFromWhere}
-        />
-      )}
       <header className={!nav ? styles.header : styles.headerNav}
         style={
           isHeaderVisible === true
@@ -205,8 +199,8 @@ const Header = ({ data }: IData) => {
             }
         }>
         <div onMouseLeave={() => {
-            setMouseOver(false);
-          }}  className={styles.container}>
+          setMouseOver(false);
+        }} className={styles.container}>
           <Link
             href={"/"}
             className={styles.logo}
@@ -302,7 +296,7 @@ const Header = ({ data }: IData) => {
                 if (userInfo) {
                   setAuth(false);
                 } else {
-                  setAuth(true);
+                  push("/auth/login")
                 }
               }} className={styles.image}>
                 {auth === false && userInfo ? <>
@@ -328,7 +322,7 @@ const Header = ({ data }: IData) => {
                   if (userInfo) {
                     setAuth(false);
                   } else {
-                    setAuth(true);
+                    push("/auth/login")
                   }
                 }}
                 className={styles.image}
@@ -429,7 +423,7 @@ const Header = ({ data }: IData) => {
                   if (userInfo) {
                     setAuth(false);
                   } else {
-                    setAuth(true);
+                    push("/auth/login")
                   }
                 }}
                 className={styles.image}

@@ -105,7 +105,7 @@ const Auth = () => {
             userPhoneNumber: res.data.phoneNumber,
             userId: res.data.id,
             userToken: res.data.token,
-          }, {path:"/"})
+          }, { path: "/" })
         }).catch((er) => {
           setError(er.response.data.errors[0].message)
           setErr(!err)
@@ -123,17 +123,26 @@ const Auth = () => {
         })
       } else {
         setError("The passwords are not same")
+        // console.log("wefwefwef");
+        setErr(!err)
       }
     }
   }
+  const { userInfo } = cookie
+  useEffect(() => {
+    if (userInfo && userInfo.userId) {
+      push("/")
+    }
+  })
 
   return (
     <>
+      <Error err={err} msg={error} setErr={setErr} />
       <div className={styles.authent}>
         <div className={styles.auth}>
           <div className={styles.title}>
             <h3>
-              {queue == 0 ? "Регистрация" :queue === 2 ? "Введите код" : queue === 2.5 ? "Новый пароль" : ""}
+              {queue == 0 ? "Регистрация" : queue === 2 ? "Введите код" : queue === 2.5 ? "Новый пароль" : ""}
             </h3>
           </div>
           <div className={styles.authForm}>

@@ -12,9 +12,6 @@ import { useRouter } from "next/navigation";
 import IProduct from "@/interfaces/Product/IProduct";
 import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../../components/local/socket";
-import ChatWithVendor from "../../components/local/ChatWithVendor";
-import Auth from "../../components/global/Auth";
-import IChat from "@/interfaces/IChat";
 const Company = ({
   searchParams,
 }: {
@@ -158,8 +155,7 @@ const Company = ({
                           push(`/chats?id=${res.data.id}`)
                         });
                     } else {
-                      setAuth(!auth);
-                      setFromWhere(2);
+                      push("/auth/login")
                     }
                   }}
                 >
@@ -205,14 +201,6 @@ const Company = ({
               })}
           </section>
         </div>
-        {auth === true && (
-          <Auth
-            setIsAuthOpen={setAuth}
-            fromWhere={fromWhere}
-            isAuthOpen={auth}
-            setFromWhere={setFromWhere}
-          />
-        )}
       </div>
     );
   } else {
