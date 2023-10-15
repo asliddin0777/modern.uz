@@ -117,9 +117,6 @@ const Page = ({ searchParams }: {
         setLoad(false);
       });
   };  
-
-  console.log(subcategor);
-
   if (!load && subCategories) {
     return (
       <>

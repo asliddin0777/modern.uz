@@ -6,8 +6,11 @@ import TopHeader from "./components/global/TopHeader";
 import Header from "./components/global/Header";
 import Footer from "./components/global/Footer";
 import Loader from "./components/local/Loader";
-export const metadata = {
-  title: "Home"
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Modern shop uz",
+  description: "Online shop - modern shop uz for selling or buying product online...",
+  icons: "/images/modernshop.jpg"
 }
 export default function RootLayout({ children, params }: any) {
   axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_API}/api`

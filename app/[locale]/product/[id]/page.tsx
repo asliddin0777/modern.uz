@@ -17,6 +17,8 @@ import IChat from "@/interfaces/IChat";
 import Success from "../../components/local/Success";
 import Error from "../../components/local/Error";
 import { useRouter } from "next/navigation";
+import { Metadata } from "next";
+
 const Detail = ({
   searchParams,
 }: {
@@ -24,7 +26,6 @@ const Detail = ({
     id: string;
   };
 }) => {
-
   const [chat, setChat] = useState<IChat>()
   const { push } = useRouter()
   const [controllerC, setControllerC] = useState<number>(0);
@@ -81,10 +82,15 @@ const Detail = ({
     })
     fetchData();
   }, []);
-  const videoRef = useRef<HTMLVideoElement | any>();
 
+  useEffect(() => {
+    if (data) {
+      document.title = `Product - ${data.name}`
+    }
+  }, [data])
+
+  const videoRef = useRef<HTMLVideoElement | any>();
   const [like, setLike] = useState(data?.likes?.find((id) => id === userInfo?.userId) ? true : false)
-  const [hovered, setHovered] = useState(false)
   if (!load && data) {
     const selectedProduct: IProduct = data
     return (

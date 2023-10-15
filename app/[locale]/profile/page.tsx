@@ -311,7 +311,7 @@ const Profile = () => {
                 </section>
                 <section className={styles.order}>
                   <h3 className={styles.orderTitle}>Мои заказы</h3>
-                  {user && user.basket.length > 0 ? (
+                  {user && user.basket.length ? (
                     <>
                       <div className={styles.cardOrder}>
                         <div className={styles.orderNumber}>

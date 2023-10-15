@@ -1,8 +1,12 @@
 import { ReactNode } from "react"
 import axios from "axios"
-export const metadata = {
-    title: "Product"
-}
+import { Metadata } from "next"
+
+
+export const metadata: Metadata = {
+    title: "Product",
+  }
+  
 
 export default function ClientLayout({ children }: {
     children: ReactNode
