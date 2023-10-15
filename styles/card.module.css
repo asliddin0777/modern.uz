@@ -22,7 +22,7 @@
 .imageOfCard > img {
   width: auto;
   border-radius: 12px;
-  height: auto;
+  height: 200px;
   /* height: 200px; */
   border-top-right-radius: 20px;
   margin-top: -1rem;
@@ -184,7 +184,10 @@
     flex-direction: column;
     height: 280px;
   }
-
+  .like > svg {
+    width: 45px !important;
+    height: 45px !important;
+  }
   .card > a {
     font-size: 13px;
     width: auto;

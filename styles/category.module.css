@@ -108,11 +108,6 @@
   row-gap: 0.6rem !important;
   margin-top: 2rem !important;
 }
-
-.sectionRight > div {
-  width: 30%;
-}
-
 .carusel {
   cursor: pointer;
   align-items: center;
@@ -416,7 +411,7 @@
   }
 
   .sectionRight > div {
-    width: 49%;
+    width: 49% !important;
   }
 
   .sectionRight {
@@ -450,6 +445,18 @@
   .sectionRight {
     flex-direction: column;
   }
+  .sectionRight > div {
+    width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .sectionRight {
+    flex-direction: column;
+  }
+  .sectionRight > div {
+    margin-top: 2rem !important;
+}
 }
 
 /* @media screen and (max-width: 480px) {

@@ -116,12 +116,16 @@ const Page = ({ searchParams }: {
       .finally(() => {
         setLoad(false);
       });
-  };
+  };  
 
-  if (!load) {
+  console.log(subcategor);
+
+  if (!load && subCategories) {
     return (
       <>
-        <div className={styles.container}>
+        <div className={styles.container} style={{
+          marginBottom: "3rem"
+        }}>
           <Categories categories={categories} subcategories={subCategories} />
           {Categories && Categories.name &&
             <div className={styles.phone}>
@@ -168,7 +172,7 @@ const Page = ({ searchParams }: {
                     cat={e.subcategory.name}
                     image={
                       e.media.length
-                        ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[1]?.name}`
+                        ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${e.media[0]?.name}`
                         : "/images/noImg.jpg"
                     }
                     title={e.name}
@@ -177,6 +181,7 @@ const Page = ({ searchParams }: {
                     isLiked
                     likedObj={likedObj}
                     setLikedObj={setLikedObj}
+                    subcategor={subcategor}
                   />
                 ))}
             </section>

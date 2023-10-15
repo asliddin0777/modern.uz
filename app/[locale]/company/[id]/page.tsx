@@ -39,7 +39,7 @@ const Company = ({
 
   useEffect(() => {
     setLoad(true);
-    const fetchData = cache(async () => {
+    const fetchData = async () => {
       try {
         const categories = await axios.get(
           `${process.env.NEXT_PUBLIC_API}/api/categories`
@@ -61,25 +61,9 @@ const Company = ({
       } finally {
         setLoad(false);
       }
-    });
+    }
     fetchData();
   }, []);
-  useEffect(() => {
-    setLoad(true);
-    if (refetch) {
-      const fetchData = async () => {
-        try {
-          const data = await axios.get(
-            `${process.env.NEXT_PUBLIC_API}/api/vendors/${searchParams.id}`
-          );
-          setData(data.data);
-        } finally {
-          refresh()
-        }
-      };
-      fetchData();
-    }
-  }, [refetch]);
   const handleScroll = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
   };
@@ -91,17 +75,6 @@ const Company = ({
       document.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  function getRandomColor() {
-    var r = Math.floor(Math.random() * 256); // Random value between 0 and 255 for red
-    var g = Math.floor(Math.random() * 256); // Random value between 0 and 255 for green
-    var b = Math.floor(Math.random() * 256); // Random value between 0 and 255 for blue
-
-    var color = "rgb(" + r + ", " + g + ", " + b + ")";
-
-    return color;
-  }
-  console.log(data);
   if (load === false && data) {
     return (
       <div className={styles.company}>
@@ -111,9 +84,6 @@ const Company = ({
             <div className={styles.companyProfile}>
               {data.baner && <Image src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${data.baner.name}`} alt="vendor image" width={1000} height={1000}
                 className={styles.profileImage}
-                style={{
-                  background: `${getRandomColor()}`,
-                }}
               />
               }
               <div className={styles.vendorTitle}>

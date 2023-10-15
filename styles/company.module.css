@@ -38,9 +38,11 @@
     transition: .4s ease;
   }
   
-  .chatButton:hover {
+.chatButton:hover {
     transform: scale(0.9);
-  }
+    color: #fff;
+    background: #E4B717;
+}
 .company {
     display: flex;
     flex-direction: column;

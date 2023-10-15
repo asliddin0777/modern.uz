@@ -207,7 +207,14 @@
 
 .chatButton:hover {
   transform: scale(0.9);
+  background: #e4b717;
 }
+
+.chatButton:hover>svg>g>path {
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
 
 .cat>h4 {
   color: #8a8a8a;
@@ -374,8 +381,7 @@
   gap: 0.5rem;
 }
 
-.cards__button button,
-.cards__button a{
+.cards__button button {
   padding: 10px 20px;
   border: 1px solid #e4b717;
   filter: drop-shadow(0px 1px 17px rgba(228, 183, 23, 0.25));
@@ -398,9 +404,10 @@
   background-color: #e4b717;
 }
 
-.cards__button button:hover,
-.cards__button a:hover {
+.cards__button button:hover {
   transform: scale(0.9);
+  background: #e4b717;
+  color: #fff;
 }
 
 

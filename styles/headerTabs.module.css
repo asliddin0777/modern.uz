@@ -18,7 +18,14 @@
     line-height: 160%;
     color: #8A8A8A;
     background: none;
+    transition: 0.3s;
 }
+
+.tabs > button:hover {
+    background: #E4B717;
+    color: #fff !important;
+    border: 1px solid #E4B717 !important;
+} 
 
 .headerTabs > h1 {
     text-align: center !important;

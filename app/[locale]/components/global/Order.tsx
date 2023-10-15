@@ -21,7 +21,6 @@ interface Order {
 }
 
 const Order = ({ setOrder, order, products, deliveryTo }: Order) => {
-  console.log(products);
   const [cookie, setCookie] = useCookies(["aboutUser"])
   const [userInform] = useCookies(["userInfo"])
   const router = useRouter()
@@ -50,7 +49,6 @@ const Order = ({ setOrder, order, products, deliveryTo }: Order) => {
           },
         }).then((res: any) => {
           if(res.data) {
-            console.log(res.data);
             // products.map(pr => {
             //   axios.put(
             //     `${process.env.NEXT_PUBLIC_API}/api/users/basket/remove/${pr.id}`,
@@ -106,9 +104,6 @@ const Order = ({ setOrder, order, products, deliveryTo }: Order) => {
           </div>
           <button onClick={() => {
             handlePost()
-            if(succed === true) {
-              console.log(succed);
-            }
             setOrder(false);
           }} className={styles.take}>
             Принять
