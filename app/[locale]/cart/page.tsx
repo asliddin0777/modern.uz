@@ -150,7 +150,9 @@ if (!load) {
       </div>
       <Error err={error} msg={err} setErr={setError} />
       {cart && cart.length && totalPrice !== undefined ? (
-        <section className={styles.DeliverySection}>
+        <section style={{
+          marginBottom: "4rem"
+        }} className={styles.DeliverySection}>
           <section className={styles.sectionLeft}>
             {cart && cart.length &&
               cart.map((card: any, index: number) => {
