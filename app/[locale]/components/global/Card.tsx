@@ -151,7 +151,6 @@ const Card = ({
                   },
                 };
                 axios(data)
-                  .catch((err) => console.log(err));
               } else {
                 push("/auth/login")
               }

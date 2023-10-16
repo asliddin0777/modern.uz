@@ -46,7 +46,6 @@ const Auth = () => {
             "Content-Type": "application/json"
           }
         }).catch(err => {
-          console.log(err);
           setError(err.response.data.errors[0].message)
           setErr(true)
           gotAfErr = err.response.data.errors[0].message
@@ -58,6 +57,9 @@ const Auth = () => {
           sessionStorage.setItem("userPhoneNumber", `998${numRef.current.value}`)
           numRef.current.value = null
         })
+      } else {
+        setError("Please enter number")
+        setErr(true)
       }
     } else {
       setError("Fill the blanks")
@@ -83,7 +85,7 @@ const Auth = () => {
           setError("")
           setQueue(2.5)
           codeRef.current.value = null
-        }).catch(err => console.log(err))
+        })
       }
     }
   }
@@ -112,7 +114,6 @@ const Auth = () => {
           errr = er.response.data.errors[0].message
         }).finally(() => {
           if (errr !== "") {
-            console.log("closed");
             removeCookie("userInfo")
             setQueue(0)
             passRef.current.value = null
@@ -123,7 +124,6 @@ const Auth = () => {
         })
       } else {
         setError("The passwords are not same")
-        // console.log("wefwefwef");
         setErr(!err)
       }
     }

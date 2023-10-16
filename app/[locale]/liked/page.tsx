@@ -31,8 +31,6 @@ export default function Liked() {
         setCategories(res1.data)
         setSubCategories(res2.data)
         setUser(us.data)
-      } catch (err) {
-        console.log(err);
       } finally {
         setLoad(false)
       }

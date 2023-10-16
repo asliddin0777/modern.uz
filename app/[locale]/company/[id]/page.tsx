@@ -81,7 +81,6 @@ const Company = ({
       document.title = `Vendor - ${data.name}`
     }
   },[data])
-  console.log(data);
   if (load === false && data) {
     return (
       <div className={styles.company}>

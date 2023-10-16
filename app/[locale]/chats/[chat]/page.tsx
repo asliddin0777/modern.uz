@@ -46,12 +46,14 @@ const Page = ({ searchParams }: {
       }))
     }).finally(() => setLoad(false))
   }, [])
+  useEffect(()=> {
+    if(chatWith && chatWith.admin) {
+      document.title = `Chat - ${chatWith.admin.email.split("@")[0]}`
+    }
+  }, [chatWith])
   if (chats && load === false) {
     return (
       <>
-        <Head  >
-          <title>eqwfhugqwufweyf</title>
-        </Head>
         <div className={styles.chat}>
           <div className={styles.right}>
             <div onClick={() => {

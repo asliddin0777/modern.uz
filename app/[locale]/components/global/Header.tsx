@@ -149,7 +149,7 @@ const Header = ({ data }: IData) => {
   }) => {
     setSearchTerm(event.target.value);
   };
-  const {push} = useRouter()
+  const { push } = useRouter()
   const handleSubmit = (e: {
     preventDefault: Function
   }) => {
@@ -281,12 +281,12 @@ const Header = ({ data }: IData) => {
             <div className={styles.contraRight}>
               <div className={styles.image}>
                 <Link href={"tel: + 998 93 059 59 37"}>
-                <Image
-                  src={"/icons/call.svg"}
-                  alt="language icon"
-                  width={20}
-                  height={20}
-                /></Link>
+                  <Image
+                    src={"/icons/call.svg"}
+                    alt="language icon"
+                    width={20}
+                    height={20}
+                  /></Link>
               </div>
               <Link href={"tel: + 998 93 059 59 37"} className={styles.call}>
                 + 998 93 059 59 37

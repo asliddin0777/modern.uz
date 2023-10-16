@@ -37,7 +37,6 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
     }
   }) => {
     setSearchTerm(event.target.value);
-    console.log(searchTerm);
   };
   const handleSubmit = (e: {
     preventDefault: Function

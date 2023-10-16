@@ -352,6 +352,7 @@
 
     .card {
         display: block;
+        height: fit-content;
     }
 
     .aside {

@@ -37,7 +37,6 @@ const SendMessage = ({chat, selectedProduct, userInfo}: IProps) => {
             file: { buffer: e.target.files[0], type: e.target.files[0].type, originalName: e.target.files[0].name, },
         }
         socket.emit('recieveMsg', msg)
-        console.log(msg);
     }
     return (
         <form onSubmit={handleSubmit} className={styles.sendMessage}>

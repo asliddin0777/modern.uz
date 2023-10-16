@@ -1,11 +1,9 @@
 .bg {
-  position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
   background: rgba(18, 18, 18, 0.65);
-  z-index: 100000;
 }
 
 .dn {
@@ -21,17 +19,14 @@
   left: 0;
   top: 0;
   margin-top: auto;
-  position: fixed;
-  z-index: 10000;
+  margin-bottom: -1rem;
 }
 
 .auth {
   display: flex;
   background: #fff;
   gap: 1rem;
-  position: absolute;
   border-radius: 20px;
-  z-index: 100000000;
   flex-direction: column;
   top: 10rem;
   /* height: 500px; */
