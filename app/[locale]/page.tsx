@@ -248,7 +248,7 @@ const Home = ({
                           </div>
                         </>
                       ) : (
-                        data?.products?.map((e: any, index: number) => {
+                        data?.products?.slice(0, 8).map((e: any, index: number) => {
                           return (
                             <Card
                               setData={setRefetch}
@@ -274,8 +274,10 @@ const Home = ({
                         })
                       )}
                     </div>
-                    {data && data.products.length > 9 && (
-                      <button className={styles.loadMore}>
+                    {data && data.products.length > 8 && (
+                      <button onClick={()=> {
+                        push("/product")
+                      }} className={styles.loadMore}>
                         Посмотреть больше
                       </button>
                     )}
@@ -283,7 +285,7 @@ const Home = ({
                       <h3>Популярные продукты</h3>
                       <div className={styles.newProductsWrapper}>
                         {popularProducts &&
-                          popularProducts.products?.map(
+                          popularProducts.products?.slice(0, 8).map(
                             (card: any, index: number) => {
                               return (
                                 <Card
@@ -311,8 +313,10 @@ const Home = ({
                           )}
                       </div>
                       {popularProducts &&
-                        popularProducts.products.length > 9 && (
-                          <button className={styles.loadMore}>
+                        popularProducts.products.length > 8 && (
+                          <button onClick={()=> {
+                            push("/product")
+                          }} className={styles.loadMore}>
                             Посмотреть больше
                           </button>
                         )}
