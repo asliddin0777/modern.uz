@@ -91,28 +91,6 @@ const Home = ({
     fetchData();
   }, []);
   useEffect(() => {
-    if (refetch === true) {
-      setData({ page: 1, products: [], totalCount: 3 });
-      setPopularProducts({});
-      const refetchData = async () => {
-        try {
-          const prod = axios.get<IPage>(
-            `${process.env.NEXT_PUBLIC_API}/api/products`
-          );
-          const pop = axios.get(
-            `${process.env.NEXT_PUBLIC_API}/api/products?popularProducts=true`
-          );
-          const [product, popular] = await axios.all([prod, pop]);
-          setData(product.data);
-          setPopularProducts(popular.data);
-        } finally { }
-      };
-      setRefetch(false);
-      refetchData();
-    }
-  }, [refetch]);
-
-  useEffect(() => {
     document.body.offsetWidth < 680 && document.body.offsetWidth > 460
       ? setSlidesPerView(3)
       : document.body.offsetWidth < 460
@@ -316,7 +294,7 @@ const Home = ({
                       {popularProducts &&
                         popularProducts.products.length > 8 && (
                           <button onClick={()=> {
-                            push("/product")
+                            push("/product?id=popular")
                           }} className={styles.loadMore}>
                             Посмотреть больше
                           </button>
