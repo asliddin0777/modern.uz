@@ -134,6 +134,7 @@ const Home = ({
       return '<span class="' + className + '">' + (index + 1) + "</span>";
     },
   };
+  console.log(vendor);
   if (load === true) {
     return <Loader />;
   } else {

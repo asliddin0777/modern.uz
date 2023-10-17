@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { cache } from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import IProduct from "@/interfaces/Product/IProduct";
@@ -16,6 +16,22 @@ const Page = () => {
 
   useEffect(() => {
     setLoad(true);
+    const fetchData = cache(async () => {
+      try {
+        const req2 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`);
+        const req1 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`);
+        const [res1, res2] = await axios.all([req1, req2]);
+        setSubCategories(res1.data);
+        setCategories(res2.data);
+      } finally {
+        setLoad(false);
+      }
+    });
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    setLoad(true);
     axios
       .get(`${process.env.NEXT_PUBLIC_API}/api/products`)
       .then((res: any) => {
@@ -29,7 +45,6 @@ const Page = () => {
   return (
     <div>
       <Categories categories={categories} subcategories={subCategories} />
-
       <div className={styles.container}>
         <section className={styles.companyCards}>
           {data &&
