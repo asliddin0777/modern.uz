@@ -36,9 +36,15 @@
 
 @media screen and (max-width:412px) {
     .tabs {
-        flex-direction: column;
+        flex-direction: row;
     }
     .tabs > button {
-        width: 180px;
+        width: 100px;
+        font-size: 12px;
+        padding: 8px 0;
+
+        text-align: center;
     }
+
+
 }

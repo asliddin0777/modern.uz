@@ -183,6 +183,7 @@ const Header = ({ data }: IData) => {
   }, []);
   return (
     <>
+      <SearchModal mt={nav} searchTerm={searchTerm} setProducts={setProducts} products={foundVal ? foundVal : []} />
       <Burger products={products} isBurgerOpen={isBurgerOpen} setIsBurgerOpen={setIsBurgerOpen} />
       <header className={!nav ? styles.header : styles.headerNav}
         style={
@@ -239,7 +240,7 @@ const Header = ({ data }: IData) => {
               />
             </button>
           </form>
-          {/* <SearchModal products={foundVal ? foundVal : []} /> */}
+
           <div className={styles.contra}>
             <div
               onMouseOver={() => {

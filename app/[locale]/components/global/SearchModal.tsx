@@ -6,32 +6,31 @@ import Image from "next/image"
 interface ISearch {
     products: IProduct[]
     entity?: string
+    setProducts: React.Dispatch<React.SetStateAction<IProduct[]>> | undefined
+    searchTerm: string
+    mt: boolean
 }
 
-const SearchModal = ({ products, entity }: ISearch) => {
+const SearchModal = ({ products, entity, setProducts, searchTerm, mt }: ISearch) => {
     const [scrolled, setScrolled] = useState(false);
-    const handleScroll = () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        if (scrollTop > 0) {
-            setScrolled(true);
-        } else {
-            setScrolled(false);
-        }
-    };
 
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+    // useEffect(()=> {
+    //     if(mt === true && products.length) {
+    //         document.body.style.overflow = "hidden"
+    //     } else {
+    //         document.body.style.overflow = ""
+    //     }
+    // }, [mt])
+
     return (
-        <div className={entity === "burger" ? styles.searchModalbur: products.length === 0 || scrolled === true ? styles.dn : styles.searchModal}>
+        <div style={mt === true ? {
+            marginTop: -10
+        }: {}} className={entity === "burger" ? styles.searchModalbur : products.length === 0 ? styles.dn : styles.searchModal}>
             <div className={styles.wrapper}>
                 {products.map(pro => {
                     return <Link key={pro.id} href={`/product/${pro.name}?id=${pro.id}`} className={styles.product}>
                         <div className={styles.leftSide}>
-                            <Image src={pro.media.length ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${pro.media[0].name}` : "/images/no-image.png"} width={300} height={300} alt={pro.name} />
+                            <Image src={pro.media.length ? `${process.env.NEXT_PUBLIC_IMAGE_API}/${pro.media[0].name}` : "/images/no-image.png"} className={pro.media.length ? "" : styles.noImg} width={300} height={300} alt={pro.name} />
                         </div>
                         <div className={styles.rightSide}>
                             <h3>{pro.name}</h3>

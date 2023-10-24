@@ -18,7 +18,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
   const [auth, setAuth] = useState<boolean>(false);
   const [fromWhere, setFromWhere] = useState<number>(0);
-  const {push} = useRouter()
+  const { push } = useRouter()
   const closed = !isAuthOpen;
 
   const [cookie] = useCookies(["userInfo"]);
@@ -76,7 +76,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
         >
           Modern
         </h2>
-        <form className={styles.search}>
+        <form style={{
+          visibility: "hidden"
+        }} className={styles.search}>
           <input value={searchTerm} onChange={handleSearch} autoComplete="off" type="text" placeholder="Поиск" />
           <button onClick={handleSubmit}>
             <Image
@@ -90,9 +92,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
             />
           </button>
         </form>
-        <SearchModal products={foundVal ? foundVal : []} entity={"burger"} />
+        {/* <SearchModal products={foundVal ? foundVal : []} entity={"burger"} /> */}
         <div className={styles.navigation}>
-          <div onClick={()=> {
+          <div onClick={() => {
             push("/")
           }} className={styles.navigateItem}>
             <Image
@@ -103,8 +105,8 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
             />
             <Link href="/">Главная</Link>
           </div>
-          <div onClick={()=> {
-            push("/cart")
+          <div onClick={() => {
+            userInfo ? push("/cart") : push("/auth/login")
           }} className={styles.navigateItem}>
             <Image
               src={"/icons/basket.svg"}
@@ -116,8 +118,8 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
               Корзина
             </Link>
           </div>
-          <div onClick={()=> {
-            userInfo && push("/profile")
+          <div onClick={() => {
+            userInfo ? push("/profile") : push("/auth/login")
           }} className={styles.navigateItem}>
             <Image
               src={"/icons/userimage.svg"}
@@ -130,8 +132,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
                 <button
                   style={{ color: "#000", fontSize: 16 }}
                   onClick={() => {
-                    setIsAuthOpen(true);
-                    setFromWhere(1);
+                    push("/auth/login")
                   }}
                 >
                   Войти
@@ -148,8 +149,9 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
               </div>
             )}
           </div>
-          <div onClick={()=> {
-            push("/liked")
+          <div onClick={() => {
+            userInfo ? push("/liked") : push("/auth/login")
+
           }} className={styles.navigateItem}>
             <Image
               src={"/icons/heart.svg"}
@@ -159,7 +161,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
             />
             <Link href="/liked">Избранные</Link>
           </div>
-          <div onClick={()=> {
+          <div onClick={() => {
             push("/delivery")
           }} className={styles.navigateItem}>
             <Image
@@ -170,7 +172,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
             />
             <Link href="/delivery">Доставка</Link>
           </div>
-          <div onClick={()=> {
+          <div onClick={() => {
             push("/aboutUs")
           }} className={styles.navigateItem}>
             <Image
@@ -181,7 +183,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
             />
             <Link href="/aboutUs">О нас</Link>
           </div>
-          <div onClick={()=> {
+          <div onClick={() => {
             push("/contact")
           }} className={styles.navigateItem}>
             <Image

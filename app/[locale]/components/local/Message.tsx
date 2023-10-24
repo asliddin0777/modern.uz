@@ -65,7 +65,6 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
   }
 
   useEffect(() => {
-   
     socket.on(`sendMessage-${chat.id}`, sendMessage)
     return () => {
       socket.off(`sendMessage-${chat.id}`, sendMessage)
