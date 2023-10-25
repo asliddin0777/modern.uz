@@ -307,7 +307,7 @@ const Home = ({
               </>
             ) : (
               <>
-                <div className={styles.newProductsWrapper}>
+                <div className={styles.vendorsWrapper}>
                   {vendor &&
                     vendor.map((e: any, index: number) => {
                       if (e) {

@@ -85,21 +85,28 @@
     .container {
         width: fit-content;
         display: flex;
-        flex-direction: column;
+        /* flex-direction: column; */
         gap: 1rem;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 630px) {
+    .footer {
+        padding: 1rem;
+    }
+    .container {
+        flex-wrap: wrap;
     }
     .center {
         flex-direction: column;
-        gap: 1rem;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        width: fit-content;
+        gap: 0.5rem;
+        margin: auto;
     }
-    .last {
-        justify-content: center;
-        align-items: center;
+    .center > ul {
+        width: fit-content;
+        margin: auto;
     }
 }

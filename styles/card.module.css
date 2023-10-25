@@ -181,19 +181,44 @@
     justify-content: center;
     flex-direction: column;
     height: 280px !important;
+    margin-top: 1rem;
+  }
+
+  .card > a {
+    justify-content: space-between;
+  }
+  
+  .buy > button {
+    display: none;
+  }
+
+  .somevalues {
+    justify-content: center;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cart > h3 {
+    margin-top: 1.25rem;
   }
 
   .imageOfCard > img {
-    height: 140px;
-    border-radius: 10px;
+    height: 180px;
+    /* border-radius: 10px; */
+    object-fit: cover;
   }
 
   .card > a {
     gap: 0;
+    height: 100%;
+    object-fit: cover;
   }
 
   .buy {
-    margin-left: -1.5rem;
+    /* margin-left: -1.5rem; */
+    margin-top: -1.5rem;
+    left: 100%;
     gap: 0;
   }
 
@@ -277,135 +302,3 @@
 }
 
 
-@media screen and (max-width: 350px) {
-  .card {
-    width: 100%;
-  }
-
-  .imageOfCard > img {
-    width: auto;
-    border-radius: 12px;
-    height: auto;
-    /* height: 200px; */
-    border-top-right-radius: 20px;
-    margin-top: -1rem;
-    border-top-left-radius: 20px;
-    width: 100%;
-    /* margin-bottom: auto; */
-    object-fit: cover;
-  }
-
-  .somevalues {
-    width: 100%;
-    padding: 0 20px;
-  }
-
-  .card > a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    gap: 1rem;
-    width: 100%;
-    height: 100%;
-  }
-
-  .imageOfCard > h3,
-  .imageOfCard > p {
-    text-align: left;
-  }
-
-  .like {
-    position: absolute;
-    top: 5%;
-    left: 77%;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    border-radius: 100px;
-    align-items: center;
-    transition: 0.3s;
-  }
-
-  .like:first-child {
-    left: 100%;
-    margin-left: 0.5rem;
-  }
-
-  .like:hover > svg {
-    fill: #f00;
-  }
-
-  .card > img {
-    margin: auto;
-    width: 150px;
-    height: auto;
-    max-height: 180px;
-  }
-
-  .card h4 {
-    color: #d3d3d3;
-    font-weight: 500;
-    font-size: 16px;
-  }
-
-  .cart {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-    width: 100%;
-  }
-
-  .card h3:last-child {
-    position: relative;
-    font-size: 16px;
-  }
-
-  .cart * {
-    color: #e4b717;
-  }
-
-  .buy {
-    position: absolute;
-    top: 100%;
-    left: 100%;
-    margin-top: -39px;
-    left: 77%;
-    margin-left: -30px;
-    cursor: pointer;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-
-  .buy > button {
-    margin-right: 30px;
-    font-size: 17px;
-    margin-left: -45px;
-    font-weight: 500;
-    color: #000;
-    transition: 0.4s;
-  }
-
-  .buy > button:hover {
-    color: #e4b717;
-  }
-
-  .box {
-    top: 100%;
-    margin-top: -35px;
-    width: 46px;
-    height: 46px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50px;
-    background-color: #e4b717 !important;
-    transition: 0.2s;
-  }
-
-  .box:hover {
-    box-shadow: 0px 1px 17px rgba(228, 183, 23, 0.3);
-  }
-}
