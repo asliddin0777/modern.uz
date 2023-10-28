@@ -49,6 +49,10 @@ button {
   color: #E4B717 !important;
 }
 
+.swiper-wrapper {
+  padding: 0 0.5%;
+}
+
 .swiper-button-next {
   left: auto !important;
 }

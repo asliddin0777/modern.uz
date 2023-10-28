@@ -74,23 +74,37 @@
   margin: 10px 0;
   width: 100%;
   background: #fff;
+  position: relative;
   border-radius: 15px;
   color: #4D4D4D;
 }
 
 .categoryItem>h3 {
   font-size: 17px !important;
+  z-index: 2;
+  color: #e4b717;
+  margin-top: 8rem;
 }
 
 .categoryItem>.categoriesTop {
-  display: flex;
+  display: flex;  
   justify-content: center;
   align-items: center;
-  height: 110px;
-  width: auto;
-  border-radius: 1000px;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+  position: absolute;
+  border-radius: 10px;
+  border: none !important;
   /* border: 1px solid ; */
 
+}
+
+.categoriesTop > img {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  object-fit: cover;
 }
 
 .categoriesTop h5 {

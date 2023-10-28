@@ -55,7 +55,7 @@ const Home = ({
 
   useEffect(() => {
     setLoad(true);
-    const fetchData = cache(async () => {
+    const fetchData = async () => {
       try {
         const req1 = axios.get<IPage>(
           `${process.env.NEXT_PUBLIC_API}/api/products`
@@ -87,7 +87,7 @@ const Home = ({
       } finally {
         setLoad(false);
       }
-    })
+    }
     fetchData();
   }, []);
   useEffect(() => {
