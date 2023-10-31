@@ -7,7 +7,7 @@ import Image from "next/image";
 const Footer = () => {
   return (
     <footer style={{
-      marginTop: 76
+      marginTop: 120
     }} className={styles.footer}>
       <div className={styles.container}>
         <Link href={"/"} className={styles.logo}>
