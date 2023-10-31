@@ -22,7 +22,7 @@ const Page = ({ searchParams }: {
 
   useEffect(() => {
     setLoad(true);
-    const fetchData = cache(async () => {
+    const fetchData = async () => {
       try {
         const req2 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`);
         const req1 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`);
@@ -34,7 +34,7 @@ const Page = ({ searchParams }: {
       } finally {
         setLoad(false);
       }
-    });
+    };
     fetchData();
   }, []);
 

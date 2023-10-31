@@ -22,7 +22,7 @@ const Company = () => {
   const { push } = useRouter()
   useEffect(() => {
     setLoad(true);
-    const fetchData = cache(async () => {
+    const fetchData = async () => {
       try {
         const categories = await axios.get(
           `${process.env.NEXT_PUBLIC_API}/api/categories`
@@ -44,7 +44,7 @@ const Company = () => {
       } finally {
         setLoad(false);
       }
-    });
+    };
     fetchData();
   }, []);
   const [data, setData] = useState<object[] | any>([]);

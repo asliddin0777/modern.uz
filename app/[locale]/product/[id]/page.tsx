@@ -52,7 +52,7 @@ const Detail = ({
       : (document.body.style.overflow = "hidden");
   }, [order]);
   useEffect(() => {
-    const fetchData = cache(async () => {
+    const fetchData = async () => {
       try {
         const req1 = await axios.get<IProduct>(
           `${process.env.NEXT_PUBLIC_API}/api/products/${searchParams.id}`
@@ -79,7 +79,7 @@ const Detail = ({
       } finally {
         setLoad(false);
       }
-    })
+    }
     fetchData();
   }, []);
 

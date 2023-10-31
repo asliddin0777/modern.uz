@@ -18,7 +18,7 @@ export default function Liked() {
   const { userInfo } = cookie
   useEffect(() => {
     setLoad(true)
-    const fetchData = cache(async () => {
+    const fetchData = async () => {
       try {
         const categories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/categories`)
         const subCategories = await axios.get(`${process.env.NEXT_PUBLIC_API}/api/subcategories`)
@@ -34,7 +34,7 @@ export default function Liked() {
       } finally {
         setLoad(false)
       }
-    })
+    }
     fetchData()
   }, [])
 

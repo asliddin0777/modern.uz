@@ -59,7 +59,7 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
                       className={styles.selectItem}
                       key={e.id}
                     >
-                      <Link href={`/category/${e.name}?id=${e.id}`}>
+                      <Link href={`/category/${e.name.split(" ").join("-")}?id=${e.id}`}>
                         {e.name}
                       </Link>
                     </li>
