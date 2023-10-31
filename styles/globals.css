@@ -15,13 +15,13 @@
 }
 
 html {
-  min-height: 100% !important;
-  max-height: fit-content;
+  min-height: 100vh !important;
+  max-height: 100% !important;
 }
 
 body, #__next {
   background: #FAF8F8;
-  max-height: fit-content;
+  max-height: 100% !important;
   --form-control-color: #E4B71;
   accent-color: #E4B717;
   min-height: 100vh;
