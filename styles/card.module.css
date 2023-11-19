@@ -4,6 +4,7 @@
   background: #fff;
   width: 23.725%;
   height: 331px;
+  overflow: hidden;
   border-radius: 20px;
   justify-content: center;
   gap: 2px;
@@ -20,13 +21,9 @@
 }
 
 .imageOfCard > img {
-  width: auto;
-  border-radius: 12px;
   height: 200px;
   /* height: 200px; */
-  border-top-right-radius: 20px;
   margin-top: -1rem;
-  border-top-left-radius: 20px;
   width: 100%;
   /* margin-bottom: auto; */
   object-fit: cover;
@@ -294,7 +291,7 @@
     height: 230px !important;
   }
   .imageOfCard > img {
-    height: 100px;
+    height: 140px;
   }
   .like {
     left: 70%;

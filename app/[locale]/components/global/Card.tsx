@@ -118,8 +118,8 @@ const Card = ({
               <Image
                 src={image}
                 alt="products image"
-                width={width}
-                height={height}
+                width={1000}
+                height={1000}
               />
             ) : (
               <h1>No Image</h1>

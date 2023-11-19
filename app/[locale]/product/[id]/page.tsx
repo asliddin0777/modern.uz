@@ -129,8 +129,8 @@ const Detail = ({
                         borderRadius: 15,
                       }}
                       alt="iphone 14"
-                      width={353}
-                      height={460}
+                      width={653}
+                      height={760}
                     />
                   </button>
                   <div className={styles.imagesToSelect}>
@@ -162,8 +162,8 @@ const Detail = ({
                                 ? selectedProduct.name
                                 : "another phone image"
                             }
-                            width={71}
-                            height={84.5}
+                            width={200}
+                            height={240.5}
                           />
                         </div>
                       );

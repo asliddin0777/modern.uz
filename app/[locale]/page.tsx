@@ -149,8 +149,8 @@ const Home = ({
                               <Image
                                 src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${e.image.name}`}
                                 alt="iphone image"
-                                width={308}
-                                height={410}
+                                width={1308}
+                                height={1410}
                               />
                               <div className={styles.controller}>
                                 {[1, 2, 3, 4].map((j: number) => {
@@ -200,8 +200,8 @@ const Home = ({
                                   <Image
 
                                     src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${val.icon?.name}`}
-                                    width={52}
-                                    height={51}
+                                    width={500}
+                                    height={500}
                                     alt="home icon"
                                   />
                                 ) : (

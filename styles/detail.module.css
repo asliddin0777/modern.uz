@@ -44,14 +44,13 @@
   background: #fff;
   border-radius: 20px;
   width: 100%;
-  padding: 1.5rem;
   height: 350px;
 }
 
 .selectedImage > img {
-  width: 353px;
-  height: 100%;
-  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
   margin: auto;
 }
 
@@ -65,7 +64,6 @@
 
 .imageToSelect {
   display: flex;
-  padding: 25px 20px;
   justify-content: center;
   background: #fff;
   border-radius: 20px;
@@ -73,6 +71,7 @@
   height: 120px;
   cursor: pointer;
 }
+
 .characterInfo {
   display: flex !important;
   height: fit-content !important;
@@ -385,9 +384,10 @@
 }
 
 .imageToSelect > img {
-  width: 70px;
+  width: 100%;
   border-radius: 10px;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
 .info {
