@@ -26,37 +26,13 @@ const Page = ({ searchParams }: {
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [data, setData] = useState(false)
-
-
-  const cardBurgerHandler = () => {
-    setCardBurger(!cardBurger);
-  };
-
   const pathname = usePathname();
-
-
   useEffect(() => {
     setLoad(true);
     axios
       .get(`${process.env.NEXT_PUBLIC_API}/api/products`, {
         params: {
-          category: pathname.split("/")[pathname.split("/").length - 0],
-        },
-      })
-      .then((res: any) => {
-        setSelectedProduct(res.data);
-      })
-      .finally(() => {
-        setLoad(false);
-      });
-  }, []);
-
-  useEffect(() => {
-    setLoad(true);
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API}/api/products`, {
-        params: {
-          category: pathname.split("/")[pathname.split("/").length - 0],
+          category: searchParams.id,
         },
       })
       .then((res: any) => {
@@ -66,7 +42,6 @@ const Page = ({ searchParams }: {
         setLoad(false);
       });
   }, [data]);
-
 
   useEffect(() => {
     setLoad(true);
@@ -81,6 +56,8 @@ const Page = ({ searchParams }: {
         setLoad(false);
       });
   }, []);
+
+  console.clear()
 
   useEffect(() => {
     setLoad(true);
@@ -116,7 +93,7 @@ const Page = ({ searchParams }: {
       .finally(() => {
         setLoad(false);
       });
-  };  
+  };
   if (!load && subCategories) {
     return (
       <>
@@ -131,8 +108,8 @@ const Page = ({ searchParams }: {
               </h1>
             </div>}
           <section className={styles.cardSection}>
-          {subcategor && <>
-            {/* <div className={styles.cardBurgerg} onClick={cardBurgerHandler}>
+            {subcategor && <>
+              {/* <div className={styles.cardBurgerg} onClick={cardBurgerHandler}>
                 <h3>Фильтр</h3>
               </div>
               {cardBurger && (
