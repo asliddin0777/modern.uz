@@ -662,8 +662,4 @@
   .imagesToSelect {
     gap: 1rem;
   }
-  .imageToSelect > img {
-    width: 50px;
-    height: auto;
-  }
 }
