@@ -205,13 +205,13 @@ const Detail = ({
                       {selectedProduct &&
                         <div className={styles.costP} key={`${selectedProduct.id}${Math.random}`}>
                           <h3>{selectedProduct.price[0].price} сум</h3>
-                          <h4
+                          {selectedProduct.price[0].oldPrice && <h4
                             style={{
                               textDecoration: "line-through",
                             }}
                           >
                             {selectedProduct.price[0].oldPrice} сум
-                          </h4>
+                          </h4>}
                         </div>}
                       <div
                         className={styles.like}
