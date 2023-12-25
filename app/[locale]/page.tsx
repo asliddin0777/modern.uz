@@ -190,9 +190,9 @@ const Home = ({
                             className={styles.categoriesSlide}
                           >
                             <Link
-                              className={styles.categoryItem}
+                              className={styles.categoryItem} 
 
-                              href={`/category/${val.name}?id=${val.id}`}
+                              href={`/category/${val.name.split(" ").join("-")}?id=${val.id}`}
                             >
                               <div className={styles.categoriesTop} style={val.icon ? { border: "1px solid #4D4D4D" } : { border: 0 }}>
                                 {val.icon ? (

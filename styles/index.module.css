@@ -19,7 +19,7 @@
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   min-height: auto !important;
-  max-height: 190px !important;
+  max-height: 230px !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -559,7 +559,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1.25%;
-  margin-bottom: 5rem;
 }
 
 
@@ -641,7 +640,9 @@
     width: 95%;
     /* font-size: 15px; */
     text-align: center;
-
+  }
+  .home {
+    margin-bottom: 3rem !important;
   }
 }
 
