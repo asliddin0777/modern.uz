@@ -122,7 +122,7 @@ const Card = ({
                 height={1000}
               />
             ) : (
-              <h1>No Image</h1>
+              <h1>Rasm topilmadi</h1>
             )}
             <div className={styles.somevalues}>
               <h3
@@ -210,7 +210,7 @@ const Card = ({
             )}
           </div>
           {path.split("/")[1] !== "company" ? <div className={styles.buy}>
-            <button onClick={sellBot}>Купить</button>
+            <button onClick={sellBot}>Sotib olish</button>
             <div
               onClick={() => {
                 if (userInfo) {

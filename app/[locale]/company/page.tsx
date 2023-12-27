@@ -107,7 +107,7 @@ const Company = () => {
                           push(`/company/${e.name.split(" ")[0]}?id=${e.id}`);
                         }}
                       >
-                        Посмотреть все товары
+                        Barcha mahsulotlarni ko'rish
                       </button></div></div>
                 </div>
               );

@@ -29,11 +29,21 @@
     width: var(--container-width);
     padding: 10px 0;
     margin: 0 auto;
+    max-height: fit-content;
+    min-height: 60vh;
+}
+
+.profileLeft {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-height: 100vh;
 }
 
 .profileCard {
     width: 280px;
-    height: 170px;
+    height: fit-content;
     background: #FFFFFF;
     border-radius: 20px;
 }
@@ -103,12 +113,18 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    background: rgb(255, 34, 34);
     font-weight: 700;
     font-size: 18px;
     line-height: 160%;
     color: #8A8A8A;
+    margin-top: auto;
     gap: 15px;
     transition: .5s ease-in-out;
+}
+
+.profileClose > p {
+    color: #fff;
 }
 
 .profileUpload {

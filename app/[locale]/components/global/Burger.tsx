@@ -115,7 +115,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
               height={22}
             />
             <Link href="/cart" locale="ru">
-              Корзина
+              Savat
             </Link>
           </div>
           <div onClick={() => {
@@ -135,7 +135,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
                     push("/auth/login")
                   }}
                 >
-                  Войти
+                  Kirish
                 </button>
               </div>
             ) : (
@@ -145,7 +145,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
                   push("/profile");
                 }}
               >
-                <button style={{ color: "#000", fontSize: 16 }}>Профиль</button>
+                <button style={{ color: "#000", fontSize: 16 }}>Profil</button>
               </div>
             )}
           </div>
@@ -159,7 +159,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
               width={22}
               height={22}
             />
-            <Link href="/liked">Избранные</Link>
+            <Link href="/liked">Saqlanganlar</Link>
           </div>
           <div onClick={() => {
             push("/delivery")
@@ -170,7 +170,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
               width={25}
               height={25}
             />
-            <Link href="/delivery">Доставка</Link>
+            <Link href="/delivery">Yetkazib berish</Link>
           </div>
           <div onClick={() => {
             push("/aboutUs")
@@ -181,7 +181,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
               width={25}
               height={25}
             />
-            <Link href="/aboutUs">О нас</Link>
+            <Link href="/aboutUs">Biz haqimizda</Link>
           </div>
           <div onClick={() => {
             push("/contact")
@@ -192,7 +192,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
               width={22}
               height={22}
             />
-            <Link href="/contact">Контакты</Link>
+            <Link href="/contact">Biz bilan bog'lanish</Link>
           </div>
           <div
             onClick={() => {
@@ -229,7 +229,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
                     ></path>
                   </g>
                 </svg>
-                <p>Чаты</p>
+                <p>Chatlar</p>
               </Link>
             ) : (
               <>
@@ -258,7 +258,7 @@ const Burger = ({ setIsBurgerOpen, isBurgerOpen, products }: Burger) => {
                       ></path>
                     </g>
                   </svg>
-                  <p>Чаты</p>
+                  <p>Chatlar</p>
                 </div>
               </>
             )}

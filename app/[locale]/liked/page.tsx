@@ -58,7 +58,7 @@ export default function Liked() {
       <div className={styles.liked}>
         <Categories categories={categories} subcategories={subCategories} />
         <div className={styles.Favorites}>
-          <h1 style={{ fontSize: 20, fontWeight: 700 }}>Избранное</h1>
+          <h1 style={{ fontSize: 20, fontWeight: 700 }}>Saqlanganlar</h1>
         </div>
         <section className={styles.likedSection}>
           <div className={styles.newProductsWrapper}>
@@ -84,7 +84,7 @@ export default function Liked() {
                 setLikedObj={() => { }}
               />
             }) : "sign in"}
-            {user.length === 0 && <h4 style={{ textAlign: "center", color: "#888" }}>Вам еще не понравился товар</h4>}
+            {user.length === 0 && <h4 style={{ textAlign: "center", color: "#888" }}>Siz mahsulot hali saqlamadingiz</h4>}
           </div>
         </section>
       </div>

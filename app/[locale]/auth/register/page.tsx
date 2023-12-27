@@ -142,7 +142,7 @@ const Auth = () => {
         <div className={styles.auth}>
           <div className={styles.title}>
             <h3>
-              {queue == 0 ? "Регистрация" : queue === 2 ? "Введите код" : queue === 2.5 ? "Новый пароль" : ""}
+              {queue == 0 ? "Ro'yhatdan o'tish" : queue === 2 ? "Parolni kiriting" : queue === 2.5 ? "Yangi parol" : ""}
             </h3>
           </div>
           <div className={styles.authForm}>
@@ -163,20 +163,20 @@ const Auth = () => {
               }}>{error}</p>}
               <button onClick={() => {
                 handleUserGetCode()
-              }} className={styles.enter}>Подтвердить</button>
+              }} className={styles.enter}>Tasdiqlash</button>
             </> : queue === 2 ?
               <>
                 <input
                   type="text"
                   maxLength={4}
-                  placeholder="Код"
+                  placeholder="Kod"
                   required
                   ref={codeRef}
                   autoComplete="off"
                 />
                 <button onClick={() => {
                   handleUserRegister()
-                }} className={styles.enter}>Подтвердить</button>
+                }} className={styles.enter}>Tasdiqlash</button>
                 <p onClick={() => {
                   timer <= 0 ? setTimer(60) : ""
                 }} style={timer <= 0 ? {
@@ -186,13 +186,13 @@ const Auth = () => {
                 } : {
                   textAlign: "center",
                   cursor: "pointer"
-                }}>Запросить еще раз ( 0 : {timer <= 0 ? 0 : timer} )</p>
+                }}>Qaytadan yuborish ( 0 : {timer <= 0 ? 0 : timer} )</p>
               </> : queue === 2.5 ?
                 <>
                   <input
                     type="text"
                     maxLength={15}
-                    placeholder="Имя"
+                    placeholder="Ism"
                     required
                     ref={userNameRef}
                     autoComplete="off"
@@ -200,7 +200,7 @@ const Auth = () => {
                   <input
                     type="text"
                     maxLength={20}
-                    placeholder="Фамилия"
+                    placeholder="Familiya"
                     required
                     ref={lastNameRef}
                     autoComplete="off"
@@ -209,7 +209,7 @@ const Auth = () => {
                     type="password"
                     minLength={8}
                     maxLength={36}
-                    placeholder="Новый пароль"
+                    placeholder="Yangi parol"
                     required
                     ref={passRef}
                     autoComplete="off"
@@ -218,14 +218,14 @@ const Auth = () => {
                     type="password"
                     minLength={8}
                     maxLength={36}
-                    placeholder="Подтвердите пароль"
+                    placeholder="Parolni takrorlang"
                     required
                     ref={passRef2}
                     autoComplete="off"
                   />
                   <button onClick={() => {
                     handleCreatePassword()
-                  }} className={styles.enter}>Подтвердить</button>
+                  }} className={styles.enter}>Tasdiqlash</button>
                   {err === true && <p style={{
                     color: "#f00"
                   }}>{error}</p>}
@@ -233,7 +233,7 @@ const Auth = () => {
           </div>
           {queue === 0 ? <button onClick={() => {
             push("/auth/login")
-          }}>Уже есть аккаунт?</button> : ""}
+          }}>Akauntingiz bormi?</button> : ""}
         </div>
       </div>
     </>

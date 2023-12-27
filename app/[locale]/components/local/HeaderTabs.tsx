@@ -20,7 +20,7 @@ const HeaderTabs = ({ buttonColor, setButtonColor }: Tabs) => {
               : { borderColor: "#E4B717", color: "#E4B717" }
           }
         >
-          Продукты
+          Maxsulotlar
         </button>
         <button
           style={
@@ -32,7 +32,7 @@ const HeaderTabs = ({ buttonColor, setButtonColor }: Tabs) => {
             setButtonColor(1);
           }}
         >
-          Заводы
+          Zavodlar
         </button>
       </div>
     </div>

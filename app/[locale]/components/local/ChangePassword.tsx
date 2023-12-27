@@ -69,7 +69,7 @@ const ChanchePassword = ({ setIsChangePassOpen, userInfo }: ChangePass) => {
           {!queue ? (
             <form onSubmit={handleSubmit} action={"#"} autoComplete="off">
               <div className={styles.ChangeInput}>
-                <p>Новый пароль</p>
+                <p>Yangi parol</p>
                 <input
                   type="password"
                   maxLength={8}
@@ -80,7 +80,7 @@ const ChanchePassword = ({ setIsChangePassOpen, userInfo }: ChangePass) => {
                 />
               </div>
               <div className={styles.ChangeInput}>
-                <p>Подтвердите пароль</p>
+                <p>Parolni tasdiqlang</p>
                 <input
                   type="password"
                   maxLength={8}
@@ -90,7 +90,7 @@ const ChanchePassword = ({ setIsChangePassOpen, userInfo }: ChangePass) => {
                   autoComplete="false"
                 />
               </div>
-              <button className={styles.Changebutton}>Подтвердить</button>
+              <button className={styles.Changebutton}>Tasdiqlash</button>
             </form>
           ) : null}
           <button

@@ -34,7 +34,7 @@ const SearchModal = ({ products, entity, setProducts, searchTerm, mt }: ISearch)
                         </div>
                         <div className={styles.rightSide}>
                             <h3>{pro.name}</h3>
-                            <button>Посмотреть больше</button>
+                            <button>Koʻproq koʻrish</button>
                         </div>
                     </Link>
                 })}

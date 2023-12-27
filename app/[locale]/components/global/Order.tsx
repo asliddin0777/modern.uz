@@ -99,14 +99,14 @@ const Order = ({ setOrder, order, products, deliveryTo }: Order) => {
                 height={164}
               />
             </div>
-            <h3>Заявка принята</h3>
-            <p>В ближайшее время мы с вами свяжемся</p>
+            <h3>Ariza qabul qilindi</h3>
+            <p>Tez orada siz bilan bog'lanamiz</p>
           </div>
           <button onClick={() => {
             handlePost()
             setOrder(false);
           }} className={styles.take}>
-            Принять
+            Qabul qilish
           </button>
         </div>
         <div

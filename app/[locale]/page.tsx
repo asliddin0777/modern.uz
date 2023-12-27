@@ -53,6 +53,8 @@ const Home = ({
     return color;
   }
 
+  console.log(categories);
+
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
@@ -99,6 +101,7 @@ const Home = ({
   }, []);
 
   useEffect(() => {
+    document.title = "Modern shop uz"
     document.body.offsetWidth < 680 && document.body.offsetWidth > 460
       ? setSlidesPerView(3)
       : document.body.offsetWidth < 460
@@ -167,14 +170,14 @@ const Home = ({
                       })}
                   </Swiper>
                 </div>
-                {categories && (
+                {categories && categories.length > 0 && (
                   <div className={styles.categories}>
                     <h3
                       style={{
                         fontSize: 23,
                       }}
                     >
-                      Категории для вас
+                      Siz uchun kategoriyalar
                     </h3>
                     <Swiper
                       spaceBetween={20}
@@ -204,7 +207,7 @@ const Home = ({
                                     alt="home icon"
                                   />
                                 ) : (
-                                  <h5>Нет изображения</h5>
+                                  <h5>Rasm topilmadi</h5>
                                 )}
                               </div>
                               <h3>{val.name}</h3>
@@ -217,7 +220,7 @@ const Home = ({
                 )}
                 {data && data.products.length ? (
                   <section className={styles.newProducts}>
-                    <h3>Новые продукты</h3>
+                    <h3>Yangi mahsulotlar</h3>
                     <div className={styles.newProductsWrapper}>
                       {refetch === true ? (
                         <>
@@ -256,11 +259,11 @@ const Home = ({
                       <button onClick={()=> {
                         push("/product")
                       }} className={styles.loadMore}>
-                        Посмотреть больше
+                        Koʻproq koʻrish
                       </button>
                     )}
                     <section className={styles.newProducts}>
-                      <h3>Популярные продукты</h3>
+                      <h3>Ommabop mahsulotlar</h3>
                       <div className={styles.newProductsWrapper}>
                         {popularProducts &&
                           popularProducts.products?.slice(0, 8).map(
@@ -295,7 +298,7 @@ const Home = ({
                           <button onClick={()=> {
                             push("/product?id=popular")
                           }} className={styles.loadMore}>
-                            Посмотреть больше
+                            Koʻproq koʻrish
                           </button>
                         )}
                     </section>
@@ -327,7 +330,7 @@ const Home = ({
                                 </div>
                               </div>
                               {e.description && <div className={styles.description}>
-                                <p>Описание</p>
+                                <p>Tavsif</p>
                                 <p>{e.description.substring(0, 150)}{e?.description.length > 150 && "..."}</p>
                               </div>}
                             </Link>
@@ -338,7 +341,7 @@ const Home = ({
                                     push(`/company/${e.name.split(" ").join("-")}?id=${e.id}`);
                                   }}
                                 >
-                                  Посмотреть все товары
+                                  Barcha mahsulotlarini ko'rish
                                 </button>
                                 <div
                                   className={styles.chatButton}

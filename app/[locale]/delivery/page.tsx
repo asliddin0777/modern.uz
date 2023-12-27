@@ -17,7 +17,7 @@ const Delivery = () => {
         </Head> */}
       <main className={styles.delivery}>
         <div className={styles.container}>
-          <h2>Доставка</h2>
+          <h2>Yetkazib berish</h2>
           <div className={styles.article}>
             <div className={styles.deliver}>
               <Image
@@ -28,7 +28,7 @@ const Delivery = () => {
               />
             </div>
             <div className={styles.articleTitle}>
-              <h3>Заголовок текст</h3>
+              <h3>Sarlavha</h3>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                 do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -66,7 +66,7 @@ const Delivery = () => {
                   className={styles.quest}
                 >
                   <div className={styles.questTop}>
-                    <h3>Генеральный партнер выставки</h3>
+                    <h3>Ko'rgazmaning bosh hamkori</h3>
                     <button
                       onClick={() => {
                         setIsOpened(!isOpened);

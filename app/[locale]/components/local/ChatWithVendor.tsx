@@ -95,7 +95,7 @@ const CHatWithVendor = ({ setChatListOpener, setIsChatOpen, chat, id, userInfo, 
                         }} className={styles.arrowLeft}>
                             <Image src={"/icons/arrowLeft.png"} width={20} height={20} alt="arrow left" />
                         </button>
-                        <h3>Поставщик</h3>
+                        <h3>Yetkazib beruvchi</h3>
                         <button
                             onClick={() => {
                                 setIsChatOpen(false)

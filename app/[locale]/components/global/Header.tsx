@@ -227,7 +227,7 @@ const Header = ({ data }: IData) => {
             </span>
           </Link>
           <form className={styles.search}>
-            <input value={searchTerm} onChange={handleSearch} autoComplete="off" type="text" placeholder="Поиск" />
+            <input value={searchTerm} onChange={handleSearch} autoComplete="off" type="text" placeholder="Qidirish" />
             <button onClick={handleSubmit}>
               <Image
                 style={{

@@ -83,7 +83,7 @@ const Auth = () => {
       <div className={styles.authent}>
       <div className={styles.auth}>
         <div className={styles.title}>
-          <h3>Авторизация</h3>
+          <h3>Kirish</h3>
         </div>
         <div className={styles.authForm}>
           <div className={styles.phoneNumber}>
@@ -107,20 +107,20 @@ const Auth = () => {
           />
           <button
             className={styles.forgotPass}>
-            Вы забыли пароль?
+            Parolni qayta tiklash?
           </button>
           <button className={styles.enter} onClick={(e) => {
             if (passwordRef.current.value && numberRef.current.value) {
               handleCheckUserAtLogin()
             } else {
               setErr(true)
-              setError("Please fill the blanks")
+              setError("Malumotlarni to'ldiring")
             }
-          }}>Войти</button>
+          }}>Kirish</button>
         </div>
         <button onClick={() => {
           push("/auth/register")
-        }}>Регистрация</button>
+        }}>Ro'yhatdan o'tish</button>
       </div>
     </div>
     </>

@@ -103,7 +103,7 @@ const Profile = () => {
             <ChangePassword userInfo={userInfo} setIsChangePassOpen={setIsChangePassOpen} />
           )}
           <div className={styles.profileTitle}>
-            <h1 style={{ fontSize: 20, fontWeight: 700 }}>Профиль</h1>
+            <h1 style={{ fontSize: 20, fontWeight: 700 }}>Profil</h1>
             <div
               className={styles.profileBurger}
               onClick={ProfileBurgerHandler}
@@ -149,7 +149,7 @@ const Profile = () => {
                         height={21}
                         alt="user"
                       />
-                      <p>Личные данные</p>
+                      <p>Shaxsiy ma'lumotlar</p>
                     </div>
                     <div
                       className={styles.profileOrder}
@@ -173,8 +173,9 @@ const Profile = () => {
                         height={21}
                         alt="book"
                       />
-                      <p>Мои заказы</p>
+                      <p>Zakazlarim</p>
                     </div>
+                  </div>
                     <div
                       className={styles.profileClose}
                       onClick={() => {
@@ -189,9 +190,8 @@ const Profile = () => {
                         height={19}
                         alt="close"
                       />
-                      <p>Выйти</p>
+                      <p>Hisobdan chiqish</p>
                     </div>
-                  </div>
                 </section>
                 <section className={styles.profileRight}>
                   <div
@@ -205,7 +205,7 @@ const Profile = () => {
                   <div className={styles.inputSection}>
                     <div className={styles.input}>
                       <div>
-                        <p>Имя</p>
+                        <p>Ism</p>
                         <input
                           disabled
                           value={user?.fullName.split(" ")[0]}
@@ -213,7 +213,7 @@ const Profile = () => {
                         />
                       </div>
                       <div>
-                        <p>Фамилия</p>
+                        <p>Familiya</p>
                         <input
                           disabled
                           value={
@@ -225,7 +225,7 @@ const Profile = () => {
                     </div>
                     <div className={styles.input}>
                       <div>
-                        <p>Номер телефона</p>
+                        <p>Telefon raqami</p>
                         <input
                           disabled
                           value={`+${user?.phoneNumber}`}
@@ -236,7 +236,7 @@ const Profile = () => {
                     </div>
                   </div>
                   <div className={styles.profileButton}>
-                    <button onClick={AuthOpen}>Изменить пароль</button>
+                    <button onClick={AuthOpen}>Parolni o'zgartirish</button>
                   </div>
                 </section>
               </section>
@@ -267,7 +267,7 @@ const Profile = () => {
                         height={21}
                         alt="user"
                       />
-                      <p>Личные данные</p>
+                      <p>Shaxsiy ma'lumotlar</p>
                     </div>
                     <div
                       className={styles.profileOrder}
@@ -290,8 +290,9 @@ const Profile = () => {
                         height={21}
                         alt="book"
                       />
-                      <p>Мои заказы</p>
+                      <p>Zakazlarim</p>
                     </div>
+                  </div>
                     <div
                       className={styles.profileClose}
                       onClick={() => {
@@ -305,19 +306,18 @@ const Profile = () => {
                         height={19}
                         alt="close"
                       />
-                      <p>Выйти</p>
+                      <p>Hisobdan chiqish</p>
                     </div>
-                  </div>
                 </section>
                 <section className={styles.order}>
-                  <h3 className={styles.orderTitle}>Мои заказы</h3>
+                  <h3 className={styles.orderTitle}>Zakazlarim</h3>
                   {user && user.basket.length ? (
                     <>
                       <div className={styles.cardOrder}>
                         <div className={styles.orderNumber}>
-                          <p>Товары</p>
+                          <p>Tovarlar</p>
                           <div className={styles.orderButton}>
-                            <p>Статус: На рассмотрении</p>
+                            <p>Status: Ko'rilmoqda</p>
                             <button>Заказ № {orders}</button>
                           </div>
                         </div>
@@ -347,12 +347,12 @@ const Profile = () => {
                                         <h3>{pd.productId.name}</h3>
                                         <div className={styles.const}>
                                           <div className={styles.constTag}>
-                                            <p>Кол-во:</p>
+                                            <p>Sanog'i:</p>
                                             <p>{pd.qty} </p>
                                           </div>
                                           <div className={styles.priceTitle}>
-                                            <p>Стоимость:</p>
-                                            <p>{pd.price} сум</p>
+                                            <p>Narxi:</p>
+                                            <p>{pd.price} so'm</p>
                                           </div>
                                         </div>
                                       </div>
@@ -362,7 +362,7 @@ const Profile = () => {
                               })
                             }
                             <div className={styles.totalPrice}>
-                              <p>Итого: <span> {userOrdered?.total} сум</span></p>
+                              <p>Umumiy: <span> {userOrdered?.total} so'm</span></p>
                             </div>
                           </div>
                         </div>
@@ -372,7 +372,7 @@ const Profile = () => {
                     <>
                       {" "}
                       <h1 style={{ textAlign: "center" }}>
-                        You don't have products
+                        Mahsulot topilmadi
                       </h1>
                     </>
                   )}

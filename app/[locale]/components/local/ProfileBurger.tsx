@@ -33,7 +33,7 @@ const ProfileBurger = ({ buttonColor, setButtonColor, setUser }: Button) => {
               height={21}
               alt="user"
             />
-            <p>Личные данные</p>
+            <p>Shaxsiy ma'lumotlar</p>
           </div>
           <div
             className={styles.profileOrder}
@@ -53,7 +53,7 @@ const ProfileBurger = ({ buttonColor, setButtonColor, setUser }: Button) => {
               height={21}
               alt="book"
             />
-            <p>Мои заказы</p>
+            <p>Mening buyurtmalarim</p>
           </div>
         </div>
         <div onClick={()=> {
@@ -61,7 +61,7 @@ const ProfileBurger = ({ buttonColor, setButtonColor, setUser }: Button) => {
           push("/")
         }} className={styles.profileClose}>
           <Image src={"icons/logout.svg"} width={19} height={19} alt="close" />
-          <p>Выйти</p>
+          <p>Hisobdan chiqish</p>
         </div>
       </div>
     </div>

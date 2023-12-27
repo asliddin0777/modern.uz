@@ -59,7 +59,7 @@ const Page = ({ searchParams }: {
             <div onClick={() => {
               push("/chats")
             }} className={styles.userTop}>
-              <h3>Сообщения</h3>
+              <h3>Xabarlar</h3>
             </div>
             <div className={styles.chatWith}>
               {chats && chats.map((e: any) => {
@@ -91,11 +91,11 @@ const Page = ({ searchParams }: {
               <Message chat={chatWith} userInfo={userInfo} setIsChatOpen={setChat} setChatListOpener={setChatListOpener} />
             : <p style={{
               margin: "auto"
-            }}>Выберите чат, чтобы начать общение</p>}
+            }}>Suhbatni boshlash uchun chatni tanlang</p>}
           </div>
           <div className={chatListOpener ? styles.chats : styles.dn}>
             <div className={styles.userTop}>
-              <h3>Сообщения</h3>
+              <h3>Xabarlar</h3>
               <button
                 onClick={() => {
                  search.delete()

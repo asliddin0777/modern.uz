@@ -146,7 +146,7 @@ if (!load) {
     <div className={styles.delivery}>
       <Categories categories={categories} subcategories={subCategories} />
       <div className={styles.cart}>
-        <h1 style={{ fontSize: 20, fontWeight: 700 }}>Корзина</h1>
+        <h1 style={{ fontSize: 20, fontWeight: 700 }}>Savat</h1>
       </div>
       <Error err={error} msg={err} setErr={setError} />
       {cart && cart.length && totalPrice !== undefined ? (
@@ -165,7 +165,7 @@ if (!load) {
                       alt="img"
                     /> : <p onClick={() => {
                       push(`/product/${card.name}?id=${card.id}`)
-                    }}>НЕТ ИЗОБРАЖЕНИЯ</p>}
+                    }}>Rasm topilmadi</p>}
                       <div onClick={() => {
                         push(`/product/${card.name}?id=${card.id}`)
                       }} className={styles.menu}>
@@ -188,7 +188,7 @@ if (!load) {
                             color: "#363636",
                           }}
                         >
-                          Кол-во:
+                          Sanog'i:
                         </p>
                         <div className={styles.countButton}>
                           <CouterV2 setAllPrice={setPrice} totals={totals} id={card.id} setTotals={setTotals} prices={card.price} />
@@ -225,7 +225,7 @@ if (!load) {
                             height={16}
                             alt="remove"
                           />
-                          <p>Удалить</p>
+                          <p>O'chirish</p>
                         </div>
                       </div>
                     </div>
@@ -235,7 +235,7 @@ if (!load) {
           </section>
           <section className={styles.right}>
             <div className={styles.allPrice}>
-              <h1>Ваш заказ</h1>
+              <h1>Buyurtmangiz</h1>
               <div
                 style={{
                   display: "flex",
@@ -244,8 +244,8 @@ if (!load) {
                   marginTop: 5,
                 }}
               >
-                <label>Доставка:</label>
-                <p>Текст</p>
+                <label>Yetkazish:</label>
+                <p>Matn</p>
               </div>
 
               <div
@@ -256,10 +256,10 @@ if (!load) {
                   marginTop: 30,
                 }}
               >
-                <label>Итого:</label>
+                <label>Umimiy:</label>
                 <h3>{
                   total
-                } сум</h3>
+                } so'm</h3>
               </div>
 
               <button
@@ -267,14 +267,14 @@ if (!load) {
                   setOrder(true);
                 }}
               >
-                Заказать
+                Buyurtma berish
               </button>
             </div>
           </section>
           {order && <Order order={order} setOrder={setOrder} products={totals} deliveryTo={""} />}
         </section>
       ) : (
-        <h2 style={{ textAlign: "center" }}>Вы еще ничего не заказали</h2>
+        <h2 style={{ textAlign: "center" }}>Siz hali hech narsa buyurtma qilmagansiz</h2>
       )}
     </div>
   );

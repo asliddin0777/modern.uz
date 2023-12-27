@@ -35,7 +35,7 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
       <div className={styles.chat}>
         <div className={styles.right}>
           <div className={styles.userTop}>
-            <h3>Сообщения</h3>
+            <h3>Xabarlar</h3>
           </div>
           <div className={styles.chatWith}>
             {chats.map((e: any) => {
@@ -85,12 +85,12 @@ const Chat = ({ setIsChatOpen, selectedProduct }: Chat) => {
                 />
               </button>
             </div>
-            <p style={{margin: "auto"}}>Select a chat to start messaging</p>
+            <p style={{margin: "auto"}}>Xabar yozishni boshlash uchun suhbatni tanlang</p>
           </> : <Message selectedProduct={selectedProduct!} chat={selectedChat} userInfo={userInfo} setIsChatOpen={setIsChatOpen} setChatListOpener={setChatListOpener} />}
         </div>
         <div className={chatListOpener ? styles.chats : styles.dn}>
           <div className={styles.userTop}>
-            <h3>Сообщения</h3>
+            <h3>Xabarlar</h3>
             <button
               onClick={() => {
                 setIsChatOpen(false);

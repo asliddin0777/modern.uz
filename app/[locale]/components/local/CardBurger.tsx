@@ -68,8 +68,8 @@ const CardBurger = ({
                         style={
                           isSelected !== index
                             ? {
-                                transform: "rotate(-180deg)",
-                              }
+                              transform: "rotate(-180deg)",
+                            }
                             : {}
                         }
                         src={"/toparrow.svg"}
@@ -99,7 +99,7 @@ const CardBurger = ({
               </div>
             ))}
             <button onClick={handlerFilter} className={styles.apply}>
-              Apply
+              Yuborish
             </button>
           </>
         ) : (

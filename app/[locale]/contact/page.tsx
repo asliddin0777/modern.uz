@@ -14,9 +14,6 @@ const Contact = () => {
   const [categories, setCategories] = useState<any[] | any>([]);
   const [subCategories, setSubCategories] = useState<any[] | any>([]);
   const [load, setLoad] = useState<boolean>(true);
-  const [succed, setSucced] = useState<boolean>(false);
-  const [msg, setMsg] = useState<string>("");
-  const [inputLabel, setInputLabel] = useState(true);
 
   useEffect(() => {
     setLoad(true);
@@ -40,15 +37,15 @@ const Contact = () => {
 
   const phoneObj = [
     {
-      title: "Номер завода",
+      title: "Zavod raqami",
       number: "+998 93 059 59 37",
     },
     {
-      title: "Доставка номер",
+      title: "Yetkazib beruvchi raqami",
       number: "+998 93 059 59 37",
     },
     {
-      title: "Колл-центр номер",
+      title: "Call-markaz raqami",
       number: "+998 93 059 59 37",
     },
   ];
@@ -72,12 +69,12 @@ const Contact = () => {
   return (
     <div className={styles.container}>
       <div className={styles.contactTitle}>
-        <h3>Контакты</h3>
+        <h3>Kontaktlar</h3>
       </div>
       <div className={styles.contact}>
         <div className={styles.connection}>
           <div className={styles.contactCard}>
-            <h3>Номера телефонов для связи:</h3>
+            <h3>Aloqa uchun telefon raqamlari:</h3>
             <div className={styles.phone}>
               {phoneObj.map(({ title, number }, index: number) => {
                 return (
@@ -98,14 +95,14 @@ const Contact = () => {
             </div>
           </div>
           <div className={styles.contactCard}>
-            <h3>Почта для связи:</h3>
+            <h3>Aloqa elektron pochtasi:</h3>
             <div className={styles.phone}>
               <Icons />
             </div>
           </div>
         </div>
         <form id="form" className={styles.contactForm} onSubmit={Submit}>
-          <h3>Написать обращение</h3>
+          <h3>So'rov yozish</h3>
           <div className={styles.contactInput}>
             <div className={styles.inputContainer}>
               <input
@@ -145,7 +142,7 @@ const Contact = () => {
           <button
             onSubmit={Submit}
           >
-            Отправить
+            Jo'natish
           </button>
         </form>
       </div>

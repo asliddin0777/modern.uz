@@ -77,8 +77,10 @@ const Company = ({
   }, []);
 
   useEffect(()=> {
-    if (data) {
+    if (data && data.name) {
       document.title = `Vendor - ${data.name}`
+    } else {
+      document.title = 'Vendor'
     }
   },[data])
   if (load === false && data) {
@@ -135,12 +137,12 @@ const Company = ({
                     }
                   }}
                 >
-                  <p>Написать поставщику</p>
+                  <p>Yetkazib beruvchiga yozish</p>
                 </div>
               </div>
             </div>
             <div className={styles.companyDescrip}>
-              <p>Описание</p>
+              <p>Tavsif</p>
               <p>
                 {data && data.description}
               </p>

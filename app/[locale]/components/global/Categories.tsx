@@ -29,7 +29,7 @@ const Categories = ({ categories, subcategories }: ISelectCategory) => {
                 }}
                 className={!isCategoryOpen ? styles.categ : styles.close}
               >
-                <h3>Все категории</h3>
+                <h3>Barcha kategoriyalar</h3>
                 <Image
                   src={
                     !isCategoryOpen

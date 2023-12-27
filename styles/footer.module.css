@@ -21,8 +21,9 @@
 .logo {
     text-transform: uppercase;
     color: #E4B717 !important;
-    font-size: 35px !important;
+    font-size: 1.2rem !important;
     font-weight: 700;
+    width: 250px;
 }
 
 .center {

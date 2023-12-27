@@ -82,7 +82,7 @@ const categoryProp = ({
               </div>
             ))}
             <button onClick={handlerFilter} className={styles.apply}>
-              Apply
+              Yuborish
             </button>
           </>
         ) : (
