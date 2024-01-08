@@ -11,7 +11,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
 import Loader from "./components/local/Loader";
 import { IPage } from "@/interfaces/IPage";
@@ -42,16 +42,9 @@ const Home = ({
   const { userInfo } = cookie;
 
   const [refetch, setRefetch] = useState(false);
-
-  function getRandomColor() {
-    var r = Math.floor(Math.random() * 256); // Random value between 0 and 255 for red
-    var g = Math.floor(Math.random() * 256); // Random value between 0 and 255 for green
-    var b = Math.floor(Math.random() * 256); // Random value between 0 and 255 for blue
-
-    var color = "rgb(" + r + ", " + g + ", " + b + ")";
-
-    return color;
-  }
+  useEffect(()=> {
+    push("/ru")
+  }, [])
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
