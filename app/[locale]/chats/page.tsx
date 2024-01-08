@@ -34,6 +34,7 @@ const Page = ({searchParams}: {
       }
     })
   }, [])
+  console.clear()
   return (
     <>
       <Head  >
@@ -46,26 +47,28 @@ const Page = ({searchParams}: {
           </div>
           <div className={styles.chatWith}>
             {chats && chats.map((e: any) => {
-              return (
-                <div onClick={() => {
-                  socket.emit("chatSelected", e)
-                  push(`/chats/${e.admin?.email.split("@")[0]}?id=${e.id}`)
-                  setSelectedChat(e)
-                }} key={e.id} className={styles.eachChat}>
-                  <Image
-                    src={"/icons/userimage.jpg"}
-                    alt="user image"
-                    style={{
-                      borderRadius: 100
-                    }}
-                    width={50}
-                    height={50}
-                  />
-                  <div className={styles.chatWithWhom}>
-                    <h4>{e.admin?.email}</h4>
+              if (e.admin) {
+                return (
+                  <div onClick={() => {
+                    socket.emit("chatSelected", e)
+                    push(`/chats/${e.admin?.email.split("@")[0]}?id=${e.id}`)
+                    setSelectedChat(e)
+                  }} key={e.id} className={styles.eachChat}>
+                    <Image
+                      src={"/icons/userimage.jpg"}
+                      alt="user image"
+                      style={{
+                        borderRadius: 100
+                      }}
+                      width={50}
+                      height={50}
+                    />
+                    <div className={styles.chatWithWhom}>
+                      <h4>{e.admin?.email}</h4>
+                    </div>
                   </div>
-                </div>
-              );
+                );
+              }
             })}
           </div>
         </div>

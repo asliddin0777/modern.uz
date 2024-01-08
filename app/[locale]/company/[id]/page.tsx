@@ -83,6 +83,7 @@ const Company = ({
       document.title = 'Vendor'
     }
   },[data])
+  console.log(data);
   if (load === false && data) {
     return (
       <div className={styles.company}>

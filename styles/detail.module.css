@@ -191,7 +191,8 @@
 }
 
 .buy > button {
-  padding: 12px 85px;
+  padding: 12px 20px;
+  width: 80%;
   font-size: 18px;
   color: #e4b717;
   border: 1px solid #e4b717;
@@ -236,7 +237,7 @@
   align-items: center;
   margin-top: 1rem;
   border-radius: 20px;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   background: #fff;
   gap: 1rem;

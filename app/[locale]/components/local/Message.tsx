@@ -41,11 +41,6 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
       behavior: "smooth"
     });
   })
-  // useEffect(() => {
-  //   endRef.current.scrollIntoView({
-  //     behavior: "smooth"
-  //   });
-  // })
 
   const sendMessage = (msg: any) => {
    
@@ -70,7 +65,7 @@ const Message = ({ setChatListOpener, setIsChatOpen, chat, userInfo, selectedPro
       socket.off(`sendMessage-${chat.id}`, sendMessage)
     }
   }, [chat, setMessages])
-
+  console.clear()
   return (
     <>
       <div className={styles.top}>

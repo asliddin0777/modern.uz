@@ -52,9 +52,6 @@ const Home = ({
 
     return color;
   }
-
-  console.log(categories);
-
   useEffect(() => {
     setLoad(true);
     const fetchData = async () => {
@@ -68,7 +65,6 @@ const Home = ({
           `${process.env.NEXT_PUBLIC_API}/api/products?popularProducts=true`
         );
         const req5 = axios.get(`${process.env.NEXT_PUBLIC_API}/api/vendors`);
-        // const [vendor]
         const req6 = await axios.get(
           `${process.env.NEXT_PUBLIC_API}/api/subcategories`
         );
@@ -93,15 +89,7 @@ const Home = ({
     fetchData();
   }, []);
   useEffect(() => {
-    document.body.offsetWidth < 680 && document.body.offsetWidth > 460
-      ? setSlidesPerView(3)
-      : document.body.offsetWidth < 460
-        ? setSlidesPerView(2)
-        : setSlidesPerView(4);
-  }, []);
-
-  useEffect(() => {
-    document.title = "Modern shop uz"
+    document.title = "Modern shop"
     document.body.offsetWidth < 680 && document.body.offsetWidth > 460
       ? setSlidesPerView(3)
       : document.body.offsetWidth < 460
@@ -115,6 +103,8 @@ const Home = ({
       return '<span class="' + className + '">' + (index + 1) + "</span>";
     },
   };
+
+  console.log(vendor);
   if (load === true) {
     return <Loader />;
   } else {
@@ -180,7 +170,7 @@ const Home = ({
                       Siz uchun kategoriyalar
                     </h3>
                     <Swiper
-                      spaceBetween={20}
+                      spaceBetween={0}
                       slidesPerView={slidesPerView}
                       className={styles.swiperL}
                       modules={[Navigation]}
@@ -211,6 +201,7 @@ const Home = ({
                                 )}
                               </div>
                               <h3>{val.name}</h3>
+                              <div className={styles.categoryItemBlur} />
                             </Link>
                           </SwiperSlide>
                         );
@@ -312,7 +303,7 @@ const Home = ({
                 <div className={styles.vendorsWrapper}>
                   {vendor &&
                     vendor.map((e: any, index: number) => {
-                      if (e) {
+                      if (e && e.products && e.products.length) {
                         return (
                           <div className={styles.cards} key={e.id}>
                             <Link style={{

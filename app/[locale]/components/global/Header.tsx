@@ -242,7 +242,7 @@ const Header = ({ data }: IData) => {
           </form>
 
           <div className={styles.contra}>
-            <div
+            {/* <div
               onMouseOver={() => {
                 setMouseOver(true);
               }}
@@ -278,7 +278,7 @@ const Header = ({ data }: IData) => {
                   );
                 })}
               </div>
-            </div>
+            </div> */}
             <div className={styles.contraRight}>
               <div className={styles.image}>
                 <Link href={"tel: + 998 93 059 59 37"}>

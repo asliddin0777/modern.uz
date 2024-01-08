@@ -40,7 +40,7 @@ const SendMessage = ({chat, selectedProduct, userInfo}: IProps) => {
     }
     return (
         <form onSubmit={handleSubmit} className={styles.sendMessage}>
-            <input value={message} onChange={(text) => setMesage(text.target.value.trimStart())} type="text" placeholder="Напишите сообщение..." />
+            <input value={message} onChange={(text) => setMesage(text.target.value.trimStart())} type="text" placeholder="Xabar yozing..." />
             <label>
                 <Image
                     src={"/icons/sendImg.svg"}

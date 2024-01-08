@@ -8,16 +8,16 @@
   border-radius: 20px;
   justify-content: center;
   gap: 2px;
-  box-shadow: 0px 1px 10px rgba(162, 162, 162, 0.25);
   transition: 0.2s;
   position: relative;
   cursor: pointer;
   transition-duration: 1s;
-  transition-timing-function: linear;
+  transition-timing-function: 2s   linear;
 }
 
 .card:hover {
-  box-shadow: 0px 1px 17px rgba(228, 183, 23, 0.3);
+  box-shadow: 0px 1px 10px rgba(162, 162, 162, 0.25);
+
 }
 
 .imageOfCard > img {
@@ -121,7 +121,7 @@
   left: 80%;
   margin-top: -39px;
   left: 77%;
-  margin-left: -40px;
+  margin-left: -50px;
   cursor: pointer;
   display: flex;
   justify-content: flex-end;
@@ -178,7 +178,7 @@
     justify-content: center;
     flex-direction: column;
     height: 280px !important;
-    margin-top: 1rem;
+    margin-top: 0rem !important;
   }
 
   .card > a {
@@ -290,10 +290,22 @@
     height: 230px !important;
   }
   .imageOfCard > img {
-    height: 140px;
+    height: 60% !important;
+    margin-top: 0;
   }
   .like {
     left: 70%;
+  }
+  .somevalues {
+    margin-top: 0rem !important;
+    padding: 0 0.5rem !important;
+    height: 38% !important;
+  }
+  .somevalues > h3 {
+    margin-top: 0.5rem;
+  }
+  .cart > h3 {
+    margin-top: 0.5rem;
   }
 }
 
