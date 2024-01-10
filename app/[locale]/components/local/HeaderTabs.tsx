@@ -32,7 +32,7 @@ const HeaderTabs = ({ buttonColor, setButtonColor }: Tabs) => {
             setButtonColor(1);
           }}
         >
-          Zavodlar
+          Ishlab chiqaruvchilar
         </button>
       </div>
     </div>

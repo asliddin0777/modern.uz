@@ -14,8 +14,6 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import IProduct from "@/interfaces/Product/IProduct";
 import Success from "../local/Success";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import Error from "../local/Error";
 import socket from "../local/socket";
 
@@ -78,11 +76,6 @@ const Card = ({
   }, [auth]);
 
   const sendLike = `${process.env.NEXT_PUBLIC_API}/api/products/like/${card?.id}`;
-
-  useEffect(() => {
-    AOS.init();
-    AOS.refresh();
-  }, []);
 
   const sellBot = () => {
     if (userInfo) {

@@ -17,6 +17,7 @@ import Loader from "./components/local/Loader";
 import { IPage } from "@/interfaces/IPage";
 import useCookies from "react-cookie/cjs/useCookies";
 import socket from "../[locale]/components/local/socket";
+import IProduct from "@/interfaces/Product/IProduct";
 
 const Home = ({
   searchParams,
@@ -27,7 +28,8 @@ const Home = ({
 }) => {
   const [buttonColor, setButtonColor] = useState<number>(0);
   const [slidesPerView, setSlidesPerView] = useState<number>(4);
-  const [data, setData] = useState<IPage>();
+  const [otherProducts, setOtherProducts] = useState<number>(5)
+  const [data, setData] = useState<IProduct[]>();
   const [popularProducts, setPopularProducts] = useState<any[] | any>([]);
   const [slides, setSlides] = useState<any[] | any>([]);
   const { push } = useRouter();
@@ -39,8 +41,8 @@ const Home = ({
   const [fromWhere, setFromWhere] = useState<number>(1);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [cookie] = useCookies(["userInfo"]);
+  const [vendorProducts, setVendorProducts] = useState<IProduct[]>()
   const { userInfo } = cookie;
-
   const [refetch, setRefetch] = useState(false);
   useEffect(()=> {
     push("/ru")
@@ -69,10 +71,12 @@ const Home = ({
           req5,
           req6,
         ]);
-        setData(res.data);
+        const modernshopsProducts = res.data.products.filter((pr:any) => pr.vendorId.id === "658d025cef78e0ba1452b007")
+        setVendorProducts(modernshopsProducts);
+        setData(res.data.products.filter((pr:any)=> pr.vendorId.id !== "658d025cef78e0ba1452b007"));
         setCategories(res1.data);
         setSlides(res2.data);
-        setPopularProducts(res3.data);
+        setPopularProducts(res3.data.products.filter((pr: any) => pr.vendorId.id === "658d025cef78e0ba1452b007"));
         setVendor(res4.data);
         setSubCategories(res5.data);
       } finally {
@@ -83,11 +87,21 @@ const Home = ({
   }, []);
   useEffect(() => {
     document.title = "Modern shop"
-    document.body.offsetWidth < 680 && document.body.offsetWidth > 460
-      ? setSlidesPerView(3)
-      : document.body.offsetWidth < 460
-        ? setSlidesPerView(2)
-        : setSlidesPerView(4);
+    // document.body.offsetWidth < 680 && document.body.offsetWidth > 460
+    //   ? setSlidesPerView(3)
+    //   : document.body.offsetWidth < 460
+    //     ? setSlidesPerView(2)
+    //     : setSlidesPerView(4);
+      if (document.body.offsetWidth < 680 && document.body.offsetWidth > 460) {
+        setSlidesPerView(3)
+        setOtherProducts(4)
+      } else if (document.body.offsetWidth < 460) {
+        setSlidesPerView(2)
+        setOtherProducts(2)
+      } else {
+        setSlidesPerView(4)
+        setOtherProducts(5)
+      }
   }, []);
 
   const pagination: object = {
@@ -202,7 +216,57 @@ const Home = ({
                     </Swiper>
                   </div>
                 )}
-                {data && data.products.length ? (
+                {data && data.length > 0 && (
+                  <div className={styles.categories}>
+                    <h3
+                      style={{
+                        fontSize: 23,
+                      }}
+                    >
+                      Boshqa mahsulotlar
+                    </h3>
+                    <Swiper
+                      spaceBetween={0}
+                      slidesPerView={otherProducts}
+                      className={styles.swiperL}
+                      modules={[Navigation]}
+                      navigation={true}
+                    >
+                      {data.map((val: any) => {
+                        console.log(val.media);
+                        return (
+                          <SwiperSlide
+                            key={val.id}
+                            className={styles.categoriesSlide}
+                          >
+                            <Link
+                              className={styles.categoryItem} 
+
+                              href={`/product/${val.name.split(" ").join("-")}?id=${val.id}`}
+                            >
+                              <div className={styles.categoriesTop} style={val.media ? { border: "1px solid #4D4D4D" } : { border: 0 }}>
+                                {val.media ? (
+                                  <Image
+
+                                    src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${val.media[0]?.name}`}
+                                    width={500}
+                                    height={500}
+                                    alt="home icon"
+                                  />
+                                ) : (
+                                  <h5>Rasm topilmadi</h5>
+                                )}
+                              </div>
+                              <h3>{val.name}</h3>
+                              <div className={styles.categoryItemBlur} />
+                            </Link>
+                          </SwiperSlide>
+                        );
+                      })}
+                    </Swiper>
+                  </div>
+                )}
+                {data ? (
                   <section className={styles.newProducts}>
                     <h3>Yangi mahsulotlar</h3>
                     <div className={styles.newProductsWrapper}>
@@ -213,7 +277,7 @@ const Home = ({
                           </div>
                         </>
                       ) : (
-                        data?.products?.slice(0, 8).map((e: any, index: number) => {
+                        vendorProducts?.slice(0, 8).map((e: any, index: number) => {
                           return (
                             <Card
                               setData={setRefetch}
@@ -239,7 +303,7 @@ const Home = ({
                         })
                       )}
                     </div>
-                    {data && data.products.length > 8 && (
+                    {vendorProducts && vendorProducts.length > 8 && (
                       <button onClick={()=> {
                         push("/product")
                       }} className={styles.loadMore}>
@@ -250,7 +314,7 @@ const Home = ({
                       <h3>Ommabop mahsulotlar</h3>
                       <div className={styles.newProductsWrapper}>
                         {popularProducts &&
-                          popularProducts.products?.slice(0, 8).map(
+                          popularProducts?.slice(0, 8).map(
                             (card: any, index: number) => {
                               return (
                                 <Card
@@ -278,7 +342,7 @@ const Home = ({
                           )}
                       </div>
                       {popularProducts &&
-                        popularProducts.products.length > 8 && (
+                        popularProducts.length > 8 && (
                           <button onClick={()=> {
                             push("/product?id=popular")
                           }} className={styles.loadMore}>
