@@ -5,8 +5,8 @@ import Header from "./components/global/Header";
 import Footer from "./components/global/Footer";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Modern Shop",
-  description: "Online shop - Modern Shop uz, ",
+  title: "Modern shop uz",
+  description: "Online shop - Modern Shop uz",
   icons: "/images/modernshop.jpg"
 }
 

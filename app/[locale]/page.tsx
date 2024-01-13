@@ -1,5 +1,5 @@
 "use client";
-import styles from "@/styles/index.module.css";
+import styles from "@/styles/main.module.css";
 import Categories from "./components/global/Categories";
 import Image from "next/image";
 import Card from "./components/global/Card";
@@ -86,12 +86,7 @@ const Home = ({
     fetchData();
   }, []);
   useEffect(() => {
-    document.title = "Modern shop"
-    // document.body.offsetWidth < 680 && document.body.offsetWidth > 460
-    //   ? setSlidesPerView(3)
-    //   : document.body.offsetWidth < 460
-    //     ? setSlidesPerView(2)
-    //     : setSlidesPerView(4);
+    document.title = "Modern shop uz"
       if (document.body.offsetWidth < 680 && document.body.offsetWidth > 460) {
         setSlidesPerView(3)
         setOtherProducts(4)
@@ -111,7 +106,7 @@ const Home = ({
     },
   };
 
-  console.log(vendor);
+  console.log(data);
   if (load === true) {
     return <Loader />;
   } else {
@@ -131,6 +126,7 @@ const Home = ({
                     pagination={pagination}
                     modules={[Pagination]}
                     className={styles.add}
+                    spaceBetween={0}
                   >
                     {slides &&
                       slides.map((e: any) => {
@@ -221,9 +217,16 @@ const Home = ({
                     <h3
                       style={{
                         fontSize: 23,
+                        display: "flex",
+                        justifyContent: "space-between"
                       }}
                     >
                       Boshqa mahsulotlar
+                    <Link style={{
+                      fontSize: 16,
+                      fontWeight: "500",
+                      color: "#888"
+                    }} href={"/product"}>Koʻproq koʻrish</Link>
                     </h3>
                     <Swiper
                       spaceBetween={0}
@@ -233,7 +236,6 @@ const Home = ({
                       navigation={true}
                     >
                       {data.map((val: any) => {
-                        console.log(val.media);
                         return (
                           <SwiperSlide
                             key={val.id}
@@ -245,9 +247,8 @@ const Home = ({
                               href={`/product/${val.name.split(" ").join("-")}?id=${val.id}`}
                             >
                               <div className={styles.categoriesTop} style={val.media ? { border: "1px solid #4D4D4D" } : { border: 0 }}>
-                                {val.media ? (
+                                {val.media && val.media[0] ? (
                                   <Image
-
                                     src={`${process.env.NEXT_PUBLIC_IMAGE_API}/${val.media[0]?.name}`}
                                     width={500}
                                     height={500}
