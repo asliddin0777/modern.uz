@@ -34,14 +34,20 @@
     line-height: 160% !important;
 }
 
+@media screen and (max-width: 500px) {
+    .tabs > button {
+        font-size: 0.7rem;
+    }
+}
+
 @media screen and (max-width:412px) {
     .tabs {
         flex-direction: row;
     }
     .tabs > button {
-        width: 100px;
+        width: fit-content;
         font-size: 12px;
-        padding: 8px 0;
+        padding: 8px 1rem;
 
         text-align: center;
     }

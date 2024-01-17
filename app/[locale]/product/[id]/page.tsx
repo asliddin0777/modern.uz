@@ -16,12 +16,12 @@ import IChat from "@/interfaces/IChat";
 import Success from "../../components/local/Success";
 import Error from "../../components/local/Error";
 import { useRouter } from "next/navigation";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
-import 'swiper/react';
+
+import { Pagination } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css';
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import 'swiper/css/pagination';
+
 const Detail = ({
   searchParams,
 }: {
@@ -31,7 +31,6 @@ const Detail = ({
 }) => {
   const [chat, setChat] = useState<IChat>()
   const { push } = useRouter()
-  const [controllerC, setControllerC] = useState<number>(0);
   const [controllerM, setControllerM] = useState<number>(0);
   const [order, setOrder] = useState<boolean>(false);
   const [load, setLoad] = useState<boolean>(true);
@@ -332,6 +331,25 @@ const Detail = ({
                 </div>
               </section>
             ) : null}
+            <Swiper
+              slidesPerView={3}
+              spaceBetween={30}
+              pagination={{
+                clickable: true,
+              }}
+              modules={[Pagination]}
+              className="mySwiper"
+            >
+              <SwiperSlide>Slide 1</SwiperSlide>
+              <SwiperSlide>Slide 2</SwiperSlide>
+              <SwiperSlide>Slide 3</SwiperSlide>
+              <SwiperSlide>Slide 4</SwiperSlide>
+              <SwiperSlide>Slide 5</SwiperSlide>
+              <SwiperSlide>Slide 6</SwiperSlide>
+              <SwiperSlide>Slide 7</SwiperSlide>
+              <SwiperSlide>Slide 8</SwiperSlide>
+              <SwiperSlide>Slide 9</SwiperSlide>
+            </Swiper>
             <section className={styles.detailSelected}>
               <>
                 <h3>Tavsif</h3>

@@ -170,7 +170,7 @@ const Home = ({
                         fontSize: 23,
                       }}
                     >
-                      Siz uchun kategoriyalar
+                      Kategoriyalar
                     </h3>
                     <Swiper
                       spaceBetween={0}
@@ -269,7 +269,7 @@ const Home = ({
                 )}
                 {data ? (
                   <section className={styles.newProducts}>
-                    <h3>Yangi mahsulotlar</h3>
+                    {vendorProducts && vendorProducts.length > 0 ? <h3>Yangi mahsulotlar</h3> : ""}
                     <div className={styles.newProductsWrapper}>
                       {refetch === true ? (
                         <>
@@ -278,7 +278,7 @@ const Home = ({
                           </div>
                         </>
                       ) : (
-                        vendorProducts?.slice(0, 8).map((e: any, index: number) => {
+                        vendorProducts?.slice(0, 4).map((e: any, index: number) => {
                           return (
                             <Card
                               setData={setRefetch}
@@ -304,15 +304,8 @@ const Home = ({
                         })
                       )}
                     </div>
-                    {vendorProducts && vendorProducts.length > 8 && (
-                      <button onClick={()=> {
-                        push("/product")
-                      }} className={styles.loadMore}>
-                        Koʻproq koʻrish
-                      </button>
-                    )}
                     <section className={styles.newProducts}>
-                      <h3>Ommabop mahsulotlar</h3>
+                      {popularProducts.length > 0 && <h3>Ommabop mahsulotlar</h3>}
                       <div className={styles.newProductsWrapper}>
                         {popularProducts &&
                           popularProducts?.slice(0, 8).map(
