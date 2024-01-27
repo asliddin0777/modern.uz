@@ -11,7 +11,7 @@ import Head from "next/head";
 import IChat from "@/interfaces/IChat";
 import Loader from "../../components/local/Loader";
 import {useSearchParams} from "next/navigation"
-import { usePathname } from "next-intl/client";
+import { usePathname } from "next/navigation";
 const Page = ({ searchParams }: {
   searchParams: {
     id: string
